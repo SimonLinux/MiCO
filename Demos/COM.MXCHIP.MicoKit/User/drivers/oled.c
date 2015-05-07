@@ -29,9 +29,9 @@ operation
 extern const mico_spi_device_t micokit_spi_oled;
   
 uint8_t spi_tx_buffer = 0;
-mico_spi_message_segment_t oled_spi_msg = {
-  &spi_tx_buffer, NULL, 0
-};
+//mico_spi_message_segment_t oled_spi_msg = {
+//  &spi_tx_buffer, NULL, 0
+//};
 
 //OLED的显存
 //存放格式如下.
@@ -69,6 +69,9 @@ void OLED_WR_Byte(u8 dat,u8 cmd)
 {
   OSStatus err = kUnknownErr;
   
+  platform_spi_message_segment_t oled_spi_msg =
+            { &dat,            NULL,       (unsigned long) 1 };
+  
   u8 i;			  
   if(cmd)
     OLED_DC_Set();
@@ -87,8 +90,8 @@ void OLED_WR_Byte(u8 dat,u8 cmd)
 //    dat<<=1;   
 //  }
 
-  *((uint8_t*)oled_spi_msg.tx_buffer) = dat;
- oled_spi_msg.length = 1;
+ // *((uint8_t*)oled_spi_msg.tx_buffer) = dat;
+// oled_spi_msg.length = 1;
   err = MicoSpiTransfer(&micokit_spi_oled, &oled_spi_msg, 1);
   
  // OLED_CS_Set();
@@ -278,11 +281,16 @@ void OLED_Init(void)
 //  MicoGpioInitialize( (mico_gpio_t)USER_SPI_CS, OUTPUT_PUSH_PULL );
 //  
 //  OLED_CS_Set();
+  
+    OSStatus err = kUnknownErr;
+  err = MicoSpiInitialize(&micokit_spi_oled);
+  
+  MicoGpioInitialize( (mico_gpio_t)USER_SPI_DC, OUTPUT_PUSH_PULL );
+    
   OLED_DC_Clr();
   OLED_RST_Clr();
   
-  OSStatus err = kUnknownErr;
-  err = MicoSpiInitialize(&micokit_spi_oled);
+
   
   OLED_RST_Set();
   delay_ms(100);

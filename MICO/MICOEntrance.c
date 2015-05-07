@@ -433,7 +433,7 @@ int application_start(void)
     err = MICOStartApplication( context );
     require_noerr( err, exit );
 
-    //_ConnectToAP( context );
+    _ConnectToAP( context );
   }
 
   mico_log("Free memory %d bytes", MicoGetMemoryInfo()->free_memory) ; 

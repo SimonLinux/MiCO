@@ -42,7 +42,7 @@
 #include "wlan_platform_common.h"
 
 #ifdef USE_MiCOKit_EXT
-#include "rgb_led.h"
+//#include "rgb_led.h"
 #endif
 
 /******************************************************
@@ -256,6 +256,22 @@ const mico_spi_device_t mico_spi_flash =
 };
 #endif
 
+const platform_adc_t platform_adc_peripherals[] =
+{
+ // [MICO_ADC_1] = NULL,
+  [MICO_ADC_1] = {ADC1, ADC_Channel_4, RCC_APB2Periph_ADC1, 1, (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_9]},
+  [MICO_ADC_2] = {ADC1, ADC_Channel_1, RCC_APB2Periph_ADC1, 1, (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_24]},
+};
+
+const mico_spi_device_t micokit_spi_oled =
+{
+    .port        = MICO_SPI_1,
+    .chip_select = MICO_GPIO_14,
+    .speed       = 20000000,
+    .mode        = (SPI_CLOCK_RISING_EDGE | SPI_CLOCK_IDLE_HIGH | SPI_USE_DMA | SPI_MSB_FIRST),
+    .bits        = 8
+};
+
 /* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c
 */
 const platform_gpio_t wifi_control_pins[] =
@@ -367,7 +383,7 @@ void init_platform( void )
   MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );
   MicoGpioOutputLow( Arduino_D9 );
   
-  hsb_led_open( 0, 0, 0 );
+  //hsb_led_open( 0, 0, 0 );
 
 #endif
 

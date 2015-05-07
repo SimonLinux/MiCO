@@ -73,6 +73,7 @@ extern const platform_adc_t        platform_adc_peripherals[];
 extern const platform_i2c_t        platform_i2c_peripherals[];
 extern const platform_pwm_t        platform_pwm_peripherals[];
 extern const platform_spi_t        platform_spi_peripherals[];
+extern platform_spi_driver_t       platform_spi_drivers[];
 extern const platform_uart_t       platform_uart_peripherals[];
 extern platform_uart_driver_t      platform_uart_drivers[];
 extern WEAK platform_spi_slave_driver_t platform_spi_slave_drivers[];
@@ -330,22 +331,15 @@ OSStatus MicoSpiInitialize( const mico_spi_device_t* spi )
   config.mode        = spi->mode;
   config.bits        = spi->bits;
   
-  return (OSStatus) platform_spi_init( &platform_spi_peripherals[spi->port], &config );
+  return (OSStatus) platform_spi_init( &platform_spi_drivers[spi->port], &platform_spi_peripherals[spi->port], &config );
 }
 
 OSStatus MicoSpiFinalize( const mico_spi_device_t* spi )
 {
-  platform_spi_config_t config;
-
   if ( spi->port >= MICO_SPI_NONE )
     return kUnsupportedErr;
   
-  config.chip_select = &platform_gpio_pins[spi->chip_select];
-  config.speed       = spi->speed;
-  config.mode        = spi->mode;
-  config.bits        = spi->bits;
-  
-  return (OSStatus) platform_spi_init( &platform_spi_peripherals[spi->port], &config );
+  return (OSStatus) platform_spi_deinit( &platform_spi_drivers[spi->port] );
 }
 
 OSStatus MicoSpiTransfer( const mico_spi_device_t* spi, const mico_spi_message_segment_t* segments, uint16_t number_of_segments )
@@ -360,7 +354,7 @@ OSStatus MicoSpiTransfer( const mico_spi_device_t* spi, const mico_spi_message_s
   config.mode        = spi->mode;
   config.bits        = spi->bits;
   
-  return (OSStatus) platform_spi_transfer( &platform_spi_peripherals[spi->port], &config, segments, number_of_segments );
+  return (OSStatus) platform_spi_transfer( &platform_spi_drivers[spi->port], &config, segments, number_of_segments );
 }
 
 OSStatus MicoSpiSlaveInitialize( mico_spi_t spi, const mico_spi_slave_config_t* config )
@@ -487,7 +481,7 @@ OSStatus MicoFlashErase( mico_flash_t flash, uint32_t StartAddress, uint32_t End
 {
   OSStatus err = kNoErr;
   
-  if( platform_flash_drivers->initialized == false )
+  if( platform_flash_drivers[flash].initialized == false )
   {
     err =  platform_flash_init( &platform_flash_drivers[flash], &platform_flash_peripherals[flash] );
     require_noerr( err, exit );
@@ -502,7 +496,7 @@ OSStatus MicoFlashWrite(mico_flash_t flash, volatile uint32_t* FlashAddress, uin
 {
   OSStatus err = kNoErr;
   
-  if( platform_flash_drivers->initialized == false )
+  if( platform_flash_drivers[flash].initialized == false )
   {
     err =  platform_flash_init( &platform_flash_drivers[flash], &platform_flash_peripherals[flash] );
     require_noerr( err, exit );
@@ -517,7 +511,7 @@ OSStatus MicoFlashRead(mico_flash_t flash, volatile uint32_t* FlashAddress, uint
 {
   OSStatus err = kNoErr;
   
-  if( platform_flash_drivers->initialized == false )
+  if( platform_flash_drivers[flash].initialized == false )
   {
     err =  platform_flash_init( &platform_flash_drivers[flash], &platform_flash_peripherals[flash] );
     require_noerr( err, exit );
@@ -532,7 +526,7 @@ OSStatus MicoFlashFinalize( mico_flash_t flash )
 {
   OSStatus err = kNoErr;
   
-  if( platform_flash_drivers->initialized == false )
+  if( platform_flash_drivers[flash].initialized == false )
   {
     err =  platform_flash_init( &platform_flash_drivers[flash], &platform_flash_peripherals[flash] );
     require_noerr( err, exit );

@@ -13,6 +13,9 @@
   <project>
     <path>$WS_DIR$\COM.WECHAT.SPP\EWARM\COM.WECHAT.SPP.ewp</path>
   </project>
+  <project>
+    <path>$WS_DIR$\COM.MXCHIP.MicoKit\EWARM\COM.MXCHIP.MicoKit.ewp</path>
+  </project>
   <batchBuild/>
 </workspace>
 

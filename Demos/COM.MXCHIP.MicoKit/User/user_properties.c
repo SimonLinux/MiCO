@@ -55,6 +55,11 @@ user_context_t g_user_context = {
   .config.dev_manufacturer = DEFAULT_MANUFACTURER,
   .config.dev_manufacturer_len = 6,
   .status.user_config_need_update = false,
+  
+  .config.rgb_led_sw = false,
+  .config.rgb_led_hues = 0,
+  .config.rgb_led_saturation = 100,
+  .config.rgb_led_brightness = 50,
 };
 
 /*******************************************************************************

@@ -112,9 +112,9 @@ OSStatus user_modules_init(void)
   // init OLED
   OLED_Init();
   OLED_Clear();
-  OLED_ShowString(20,0,(uint8_t*)DEV_KIT_MANUFACTURER);
-  OLED_ShowString(20,3,(uint8_t*)DEV_KIT_NAME);
-  OLED_ShowString(16,6,"Starting...");
+  OLED_ShowString(0,0,(uint8_t*)DEV_KIT_MANUFACTURER);
+  OLED_ShowString(0,3,(uint8_t*)DEV_KIT_NAME);
+  OLED_ShowString(0,6,"Starting...");
   
   // init Light sensor(ADC)
   light_sensor_init();
@@ -136,8 +136,8 @@ void user_modules_tests(void)
   if(system_work_state_changed){  // work mode => test mode
     // set OLED
     OLED_Clear();
-    OLED_ShowString(20,0,(uint8_t*)DEV_KIT_MANUFACTURER);
-    OLED_ShowString(20,3,(uint8_t*)DEV_KIT_NAME);
+    OLED_ShowString(0,0,(uint8_t*)DEV_KIT_MANUFACTURER);
+    OLED_ShowString(0,3,(uint8_t*)DEV_KIT_NAME);
     OLED_ShowString(0,6,(uint8_t*)"                ");   // clean line3
       
     // rgb led state init
@@ -165,8 +165,8 @@ void user_modules_tests(void)
   if( MICOKIT_EXT_TEST_OLED == micokit_ext_test_module_pre){
     oled_test_print_line_cnt = 0;
     OLED_Clear();
-    OLED_ShowString(20,0,(uint8_t*)DEV_KIT_MANUFACTURER);
-    OLED_ShowString(20,3,(uint8_t*)DEV_KIT_NAME);
+    OLED_ShowString(0,0,(uint8_t*)DEV_KIT_MANUFACTURER);
+    OLED_ShowString(0,3,(uint8_t*)DEV_KIT_NAME);
   }
   
   switch(micokit_ext_test_module_cur){
@@ -184,15 +184,15 @@ void user_modules_tests(void)
         oled_test_print_line_cnt++;
       }
       else if(1 == oled_test_print_line_cnt){
-        OLED_ShowString(20,0,(uint8_t*)DEV_KIT_MANUFACTURER);
+        OLED_ShowString(0,0,(uint8_t*)DEV_KIT_MANUFACTURER);
         oled_test_print_line_cnt++;
       }
       else if(2 == oled_test_print_line_cnt){
-        OLED_ShowString(20,3,(uint8_t*)DEV_KIT_NAME);
+        OLED_ShowString(0,3,(uint8_t*)DEV_KIT_NAME);
         oled_test_print_line_cnt++;
       }
       else if(3 == oled_test_print_line_cnt){
-        OLED_ShowString(16,6,"TEST:[OLED]");
+        OLED_ShowString(0,6,"TEST:[OLED]");
         oled_test_print_line_cnt = 0;
       }
       break;
@@ -200,7 +200,7 @@ void user_modules_tests(void)
   case MICOKIT_EXT_TEST_RGB_LED:
     {
       OLED_ShowString(0,6,(uint8_t*)"                ");   // clean line3
-      OLED_ShowString(16,6,"TEST:[RGB_LED]");
+      OLED_ShowString(0,6,"TEST:[RGB_LED]");
       
       // RGB_LED test, R->G->B
       hsb2rgb_led_open(rgb_led_test_color_value,100,50);
@@ -214,7 +214,7 @@ void user_modules_tests(void)
   case MICOKIT_EXT_TEST_DC_MOTOR:
     {
       OLED_ShowString(0,6,(uint8_t*)"                ");   // clean line3
-      OLED_ShowString(16,6,"TEST:[MOTOR]");
+      OLED_ShowString(0,6,"TEST:[MOTOR]");
       
       // DC Motor test
       dc_motor_set(1);

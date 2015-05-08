@@ -165,8 +165,8 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
   if(system_work_state_changed){  // test mode => work mode
     // clean OLED
     OLED_Clear();
-    OLED_ShowString(20,0,(uint8_t*)DEV_KIT_MANUFACTURER);
-    OLED_ShowString(20,3,(uint8_t*)DEV_KIT_NAME);
+    OLED_ShowString(0,0,(uint8_t*)DEV_KIT_MANUFACTURER);
+    OLED_ShowString(0,3,(uint8_t*)DEV_KIT_NAME);
     OLED_ShowString(0,6,"                ");  // clean line3
     
     // close RGB LED
@@ -177,7 +177,7 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
     
     system_work_state_changed = false;
   }
-  OLED_ShowString(5,6,(uint8_t*)temp_hum_str);
+  OLED_ShowString(0,6,(uint8_t*)temp_hum_str);
 }
 
 /* user main function, called by AppFramework after FogCloud connected.

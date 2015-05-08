@@ -31,7 +31,7 @@
 
 // default device settings
 #define DEFAULT_LOGIN_ID                 "admin"
-#define DEFAULT_DEV_PASSWD               "admin"
+#define DEFAULT_DEV_PASSWD               "12345678"
    
 // default device info
 #define DEFAULT_DEVICE_ID                "none"

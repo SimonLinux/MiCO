@@ -41,9 +41,6 @@
 #include "spi_flash_platform_interface.h"
 #include "wlan_platform_common.h"
 
-#ifdef USE_MiCOKit_EXT
-//#include "rgb_led.h"
-#endif
 
 /******************************************************
 *                      Macros
@@ -244,7 +241,6 @@ const platform_flash_t platform_flash_peripherals[] =
 platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
 
 
-
 #if defined ( USE_MICO_SPI_FLASH )
 const mico_spi_device_t mico_spi_flash =
 {
@@ -256,13 +252,8 @@ const mico_spi_device_t mico_spi_flash =
 };
 #endif
 
-const platform_adc_t platform_adc_peripherals[] =
-{
- // [MICO_ADC_1] = NULL,
-  [MICO_ADC_1] = {ADC1, ADC_Channel_4, RCC_APB2Periph_ADC1, 1, (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_9]},
-  [MICO_ADC_2] = {ADC1, ADC_Channel_1, RCC_APB2Periph_ADC1, 1, (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_24]},
-};
-
+#ifdef USE_MiCOKit_EXT
+/* SPI5 for OLED */
 const mico_spi_device_t micokit_spi_oled =
 {
     .port        = MICO_SPI_1,
@@ -270,6 +261,27 @@ const mico_spi_device_t micokit_spi_oled =
     .speed       = 20000000,
     .mode        = (SPI_CLOCK_RISING_EDGE | SPI_CLOCK_IDLE_HIGH | SPI_USE_DMA | SPI_MSB_FIRST),
     .bits        = 8
+};
+#endif
+
+//------------------------------------ ADC -------------------------------------
+const platform_adc_t platform_adc_peripherals[] =
+{
+  // [MICO_ADC_1] = NULL,
+  [MICO_ADC_1] = {
+    .port = ADC1,
+    . channel = ADC_Channel_4,
+    .adc_peripheral_clock = RCC_APB2Periph_ADC1, 
+    .rank = 1, 
+    .pin = (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_9]
+  },
+  [MICO_ADC_2] = {
+    .port = ADC1,
+    .channel = ADC_Channel_1,
+    .adc_peripheral_clock = RCC_APB2Periph_ADC1,
+    .rank = 1, 
+    .pin = (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_24]
+  }
 };
 
 /* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c
@@ -367,12 +379,13 @@ static void _button_EL_Timeout_handler( void* arg )
   PlatformEasyLinkButtonLongPressedCallback();
 }
 
+//-------------------------------- Platform init -------------------------------
 void init_platform( void )
 {
    MicoGpioInitialize( (mico_gpio_t)MICO_SYS_LED, OUTPUT_PUSH_PULL );
    MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
-   MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );
-   MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
+   //MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );
+   //MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
   
    //  Initialise EasyLink buttons
    MicoGpioInitialize( (mico_gpio_t)EasyLink_BUTTON, INPUT_HIGH_IMPEDANCE );
@@ -383,8 +396,6 @@ void init_platform( void )
   MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );
   MicoGpioOutputLow( Arduino_D9 );
   
-  //hsb_led_open( 0, 0, 0 );
-
 #endif
 
    MicoFlashInitialize( MICO_SPI_FLASH );
@@ -394,8 +405,8 @@ void init_platform_bootloader( void )
 {
   MicoGpioInitialize( (mico_gpio_t)MICO_SYS_LED, OUTPUT_PUSH_PULL );
   MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
-  MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );
-  MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
+  //MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );
+  //MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
   
   MicoGpioInitialize((mico_gpio_t)BOOT_SEL, INPUT_PULL_UP);
   MicoGpioInitialize((mico_gpio_t)MFG_SEL, INPUT_HIGH_IMPEDANCE);
@@ -406,6 +417,8 @@ void init_platform_bootloader( void )
 #endif
 }
 
+
+//-------------------------------- LED operation -------------------------------
 void MicoSysLed(bool onoff)
 {
     if (onoff) {
@@ -415,15 +428,18 @@ void MicoSysLed(bool onoff)
     }
 }
 
+// Only one led on board, so reuse system led as RF led.
 void MicoRfLed(bool onoff)
 {
     if (onoff) {
-        MicoGpioOutputLow( (mico_gpio_t)MICO_RF_LED );
+        MicoSysLed(true);
     } else {
-        MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
+        MicoSysLed(false);
     }
 }
 
+
+//--------------------------------- MFG MODOE ----------------------------------
 bool MicoShouldEnterMFGMode(void)
 {
   return false;
@@ -434,6 +450,7 @@ bool MicoShouldEnterMFGMode(void)
     return false;
 }
 
+//--------------------------------- BOOTLOADER MODOE ---------------------------
 bool MicoShouldEnterBootloader(void)
 {
   if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false /*&& MicoGpioInputGet((mico_gpio_t)MFG_SEL)==true*/)
@@ -441,4 +458,3 @@ bool MicoShouldEnterBootloader(void)
   else
     return false;
 }
-

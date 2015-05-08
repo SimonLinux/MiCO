@@ -148,7 +148,7 @@ json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext )
   char name[50], *tempString;
   OTA_Versions_t versions;
   char rfVersion[50];
-  char *rfVer = NULL, *rfVerTemp = NULL;
+//  char *rfVer = NULL, *rfVerTemp = NULL;
   json_object *sectors, *sector, *subMenuSectors, *subMenuSector, *mainObject = NULL;
 
   MicoGetRfVer( rfVersion, 50 );

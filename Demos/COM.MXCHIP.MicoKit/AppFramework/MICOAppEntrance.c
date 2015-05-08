@@ -94,12 +94,13 @@ OSStatus MICOStartApplication( mico_Context_t * const mico_context )
     
   require_action(mico_context, exit, err = kParamErr);
     
+  // LED on when Wi-Fi connected.
+  MicoSysLed(false);
+    
   /* Bonjour for service searching */
   if(mico_context->flashContentInRam.micoSystemConfig.bonjourEnable == true) {
     MICOStartBonjourService( Station, mico_context );
   }
-  
-  MicoRfLed(false);
   
   /* start cloud service */
 #if (MICO_CLOUD_TYPE == CLOUD_FOGCLOUD)

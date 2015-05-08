@@ -96,14 +96,14 @@ static void _user_key2_timeout_handler( void* arg )
 
 void user_key1_init(void)
 {
-   MicoGpioInitialize( (mico_gpio_t)USER_KEY1, INPUT_PULL_UP );
+   MicoGpioInitialize( (mico_gpio_t)USER_KEY1, INPUT_HIGH_IMPEDANCE );
    mico_init_timer(&_user_key1_timer, user_key1_long_press_timeout, _user_key1_timeout_handler, NULL);
    MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY1, IRQ_TRIGGER_BOTH_EDGES, _user_key1_irq_handler, NULL );
 }
 
 void user_key2_init(void)
 {
-   MicoGpioInitialize( (mico_gpio_t)USER_KEY2, INPUT_PULL_UP );
+   MicoGpioInitialize( (mico_gpio_t)USER_KEY2, INPUT_HIGH_IMPEDANCE );
    mico_init_timer(&_user_key2_timer, user_key2_long_press_timeout, _user_key2_timeout_handler, NULL);
    MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY2, IRQ_TRIGGER_BOTH_EDGES, _user_key2_irq_handler, NULL );
 }

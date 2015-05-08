@@ -385,6 +385,12 @@
         </file>
       </group>
       <file>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_config.h</name>
       </file>
       <file>
@@ -599,7 +605,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICOPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
@@ -970,6 +976,9 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_spi.c</name>
+          <configuration>
+            <name>MiCOKit-3288</name>
+          </configuration>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_uart.c</name>

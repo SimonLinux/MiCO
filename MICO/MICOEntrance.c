@@ -44,6 +44,10 @@
 #include "WAC/MFi_WAC.h"
 #include "StringUtils.h"
 
+#ifdef USE_MiCOKit_EXT
+  #include "micokit_ext.h"   // extension board operation by user.
+#endif
+
 #if defined (CONFIG_MODE_EASYLINK) || defined (CONFIG_MODE_EASYLINK_WITH_SOFTAP)
 #include "EasyLink/EasyLink.h"
 #endif
@@ -331,6 +335,10 @@ int application_start(void)
     mico_mfg_test(context);
   }
   
+#ifdef USE_MiCOKit_EXT
+  micokit_ext_init();  // init modules on extension board
+#endif
+  
   /*Read current time from RTC.*/
   if( MicoRtcGetTime(&time) == kNoErr ){
     currentTime.tm_sec = time.sec;
@@ -426,8 +434,8 @@ int application_start(void)
       require_noerr_action( err, exit, mico_log("ERROR: Unable to start the local server thread.") );
     }
 
-    err =  MICOStartNTPClient(context);
-    require_noerr_action( err, exit, mico_log("ERROR: Unable to start the NTP client thread.") );
+    //err =  MICOStartNTPClient(context);
+    //require_noerr_action( err, exit, mico_log("ERROR: Unable to start the NTP client thread.") );
 
     /*Start mico application*/
     err = MICOStartApplication( context );

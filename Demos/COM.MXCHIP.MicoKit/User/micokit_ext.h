@@ -27,6 +27,7 @@
 #include "drivers/oled.h"
 #include "drivers/bme280_user.h"
 #include "drivers/DHT11.h"
+#include "drivers/temp_hum_sensor.h"
 #include "drivers/light_sensor.h"
 #include "drivers/infrared_reflective.h"
 #include "drivers/dc_motor.h"

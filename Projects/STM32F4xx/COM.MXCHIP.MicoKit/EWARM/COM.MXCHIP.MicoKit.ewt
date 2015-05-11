@@ -378,6 +378,12 @@
           <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\rgb_led.h</name>
         </file>
         <file>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\temp_hum_sensor.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\temp_hum_sensor.h</name>
+        </file>
+        <file>
           <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\uart.c</name>
         </file>
         <file>

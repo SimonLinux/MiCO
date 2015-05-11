@@ -182,7 +182,9 @@ void MicoFogCloudMainThread(void *arg)
   OSStatus err = kUnknownErr;
   mico_Context_t *inContext = (mico_Context_t *)arg;
   
+#ifndef DISABLE_FOGCLOUD_OTA_CHECK
   MVDOTARequestData_t devOTARequestData;
+#endif
  // MVDActivateRequestData_t devDefaultActivateData;
   
   // wait for station on
@@ -218,6 +220,7 @@ void MicoFogCloudMainThread(void *arg)
      }
   
   /* check OTA when wifi on */
+#ifndef DISABLE_FOGCLOUD_OTA_CHECK
   fogcloud_log(DEFAULT_MicoFogCloud_OTA_CHECK_MSG_2MCU);
   memset((void*)&devOTARequestData, 0, sizeof(devOTARequestData));
   strncpy(devOTARequestData.loginId,
@@ -257,6 +260,7 @@ void MicoFogCloudMainThread(void *arg)
   else{
     fogcloud_log(DEFAULT_MicoFogCloud_OTA_DOWNLOAD_FAILED_MSG_2MCU);
   }
+#endif   // DISABLE_FOGCLOUD_OTA_CHECK
   
   /* activate when wifi on */
 /*  while(false == inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated){

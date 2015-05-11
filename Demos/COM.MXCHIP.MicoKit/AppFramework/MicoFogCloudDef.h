@@ -44,6 +44,9 @@
 
 #define FOGCLOUD_CONFIG_SERVER_PORT       8001    // fogcloud config server port
 
+// disalbe FogCloud OTA check when system start
+//#define DISABLE_FOGCLOUD_OTA_CHECK
+
 
 /*******************************************************************************
  * STRUCTURES

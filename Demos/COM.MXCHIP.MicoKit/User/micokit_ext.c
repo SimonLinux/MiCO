@@ -86,7 +86,7 @@ OSStatus user_modules_init(void)
   user_key1_init();
   user_key2_init();
   
-  err = kNoErr;
+  err = temp_hum_sensor_init();
   
   return err;
 }

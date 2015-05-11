@@ -1,29 +1,26 @@
 /**
 ******************************************************************************
-* @file    Hal_hemp_hum.c
-* @author  jason
-* @Tel     18938045680
-* @QQ      570526723 
-* @version V2.0
-* @date    12/05/2014
-* @brief   1¡ê?¡Á¡§¨°¦Ì??¨¨?¨º????¨¹¨¦¨¨¡À?¡¤?¡ã??¡§??
-2¡ê?¡Á¡§¨°¦Ì?a¡¤¡é1¡è??1?¨®|¨¦¨¬¡êohttp://wenjieteam.taobao.com/
+* @file    DHT11.c
+* @author  Eshen Wang
+* @version V1.0.0
+* @date    1-May-2015
+* @brief   dc motor operation. 
 ******************************************************************************
-* @copy
+* @attention
 *
-* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-* WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-* TIME. AS A RESULT, jason SHALL NOT BE HELD LIABLE FOR ANY
+* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDATAG CUSTOMERS
+* WITH CODATAG INFORMATION REGARDATAG THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+* TIME. AS A RESULT, MXCHIP Inc. SHALL NOT BE HELD LIABLE FOR ANY
 * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
 * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-* CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+* CODATAG INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
 *
-* <h2><center>&copy; COPYRIGHT 2014 jason</center></h2>
+* <h2><center>&copy; COPYRIGHT 2014 MXCHIP Inc.</center></h2>
+******************************************************************************
 */ 
 
 #include "DHT11.h"
 #include "MICO.h"
-#include "stm32f4xx_tim.h"
 
 /*------------------------------ delay function ------------------------------*/
 

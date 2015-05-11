@@ -389,10 +389,10 @@ mfg_test_start:
   {
     sprintf(str, "%s OLED\r\n", OLED_MFG_TEST_PREFIX);
     mf_printf(str);
-    mico_thread_msleep(500);
+    mico_thread_msleep(300);
     
     mf_printf(mfg_test_oled_test_string);
-    mico_thread_msleep(500);
+    mico_thread_msleep(300);
   }
   OLED_Clear();
   
@@ -407,7 +407,7 @@ mfg_test_start:
     if(rgb_led_hue >= 360){
       rgb_led_hue = 0;
     }
-    mico_thread_msleep(500);
+    mico_thread_msleep(300);
   }
   hsb2rgb_led_open(0, 0, 0);
   

@@ -56,7 +56,7 @@
 #define MICO_PROPERTIES_NOTIFY_INTERVAL_MS  1000
 
 /*User provided configurations*/
-#define CONFIGURATION_VERSION               0x00000001 // if default configuration is changed, update this number
+#define CONFIGURATION_VERSION               0x00000002 // if default configuration is changed, update this number
 
    
 #endif  // __USER_CONFIG_H_

@@ -35,16 +35,9 @@
 #define DEV_KIT_MANUFACTURER    "MXCHIP"
 #define DEV_KIT_NAME            "MiCOKit3288"
 
-typedef enum  {
-  MICO_KIT_WORK_MODE = 0,
-  MICO_KIT_TEST_MODE
-}micokit_system_work_mode_t;
-
-
 OSStatus micokit_ext_init(void);    // MicoKit extension board init
 
 OSStatus user_modules_init(void);   // init modules on MicoKit extension board
-void user_modules_tests(void);      // test modules on MicoKit extension board
 
 
 #endif  // __MICOKIT_EXT_H_

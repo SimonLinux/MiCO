@@ -139,9 +139,6 @@ OSStatus user_fogcloud_msg_handler(mico_Context_t* mico_context,
 
 //---------------------------- User work function ------------------------------
 
-extern micokit_system_work_mode_t micokit_system_work_state_cur;
-extern volatile bool system_work_state_changed;
-
 //--- show actions for user, such as OLED, RGB_LED, DC_Motor
 void system_state_display( mico_Context_t * const mico_context, user_context_t *user_context)
 {
@@ -161,23 +158,6 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
              user_context->status.temperature, user_context->status.humidity);
     sprintf(temp_hum_str, "T: %dC  H: %d%%", user_context->status.temperature, user_context->status.humidity);
   }
-  
-  if(system_work_state_changed){  // test mode => work mode
-    // clean OLED
-    OLED_Clear();
-    OLED_ShowString(0,0,(uint8_t*)DEV_KIT_MANUFACTURER);
-    OLED_ShowString(0,3,(uint8_t*)DEV_KIT_NAME);
-    OLED_ShowString(0,6,"                ");  // clean line3
-    
-    // close RGB LED
-    hsb2rgb_led_open(0,0,0);
-    
-    // stop DC Motor
-    dc_motor_set(0);
-    
-    system_work_state_changed = false;
-  }
-  OLED_ShowString(0,6,(uint8_t*)temp_hum_str);
 }
 
 /* user main function, called by AppFramework after FogCloud connected.
@@ -204,24 +184,12 @@ OSStatus user_main( mico_Context_t * const mico_context )
     // check every 1 seconds
     mico_thread_sleep(1);
     
-    if(MICO_KIT_WORK_MODE == micokit_system_work_state_cur){
-      
-      // system work state show on OLED
-      system_state_display(mico_context, &g_user_context);
-      
-      /* save user settings into flash */
-      //err = user_settings_update(mico_context, &g_user_context);
-      //require_noerr_action( err, exit, user_log("ERROR: user_settings_update err=%d.", err) );
-      
-    }
-    else if(MICO_KIT_TEST_MODE  == micokit_system_work_state_cur) {
-      
-      // test all modules on micokit extersion board
-      user_modules_tests();
-      
-    }
-    else{
-    }
+    // system work state show on OLED
+    system_state_display(mico_context, &g_user_context);
+    
+    /* save user settings into flash */
+    //err = user_settings_update(mico_context, &g_user_context);
+    //require_noerr_action( err, exit, user_log("ERROR: user_settings_update err=%d.", err) );
   }
   
 exit:

@@ -25,81 +25,34 @@
 #define micokit_ext_log(M, ...) custom_log("MICOKIT_EXT", M, ##__VA_ARGS__)
 #define micokit_ext_log_trace() custom_log_trace("MICOKIT_EXT")
 
-#define MICOKIT_EXT_TEST_START                0
-#define MICOKIT_EXT_TEST_OLED                 1
-#define MICOKIT_EXT_TEST_RGB_LED              2
-#define MICOKIT_EXT_TEST_DC_MOTOR             3
-#define MICOKIT_EXT_TEST_END                  4   // max module num +1
-
-micokit_system_work_mode_t micokit_system_work_state_cur = MICO_KIT_WORK_MODE;
-volatile bool system_work_state_changed = false;
-
-static uint8_t  micokit_ext_test_module_cur = MICOKIT_EXT_TEST_START;
-static uint8_t  micokit_ext_test_module_pre = MICOKIT_EXT_TEST_START;
-static int rgb_led_test_color_value = 0;
-
-static uint8_t oled_test_print_line_cnt = 0;
-
-
 extern mico_semaphore_t      mfg_test_state_change_sem;
-
 
 //---------------------------- user modules functions --------------------------
 
-// Key1 clicked callback: enter work mode (exit from test mode)
+// Key1 clicked callback
 void user_key1_clicked_callback(void)
 {
-  if(MICO_KIT_TEST_MODE == micokit_system_work_state_cur){
-    micokit_system_work_state_cur = MICO_KIT_WORK_MODE;
-    system_work_state_changed = true;
-  }
-  else{
-  }
-  
   return;
 }
 
-// Key1 long pressed callback: enter test mode
+// Key1 long pressed callback
 void user_key1_long_pressed_callback(void)
 {
-  if(MICO_KIT_WORK_MODE == micokit_system_work_state_cur){
-    micokit_ext_test_module_cur = MICOKIT_EXT_TEST_START;
-    micokit_ext_test_module_pre = MICOKIT_EXT_TEST_START;
-    micokit_system_work_state_cur = MICO_KIT_TEST_MODE;
-    system_work_state_changed = true;
-  }
-  else{
-  }
-  
   return;
 }
 
 // Key2 clicked callback:  change test module in test mode
 void user_key2_clicked_callback(void)
 {
-//  if(MICO_KIT_TEST_MODE == micokit_system_work_state_cur){
-//    micokit_ext_test_module_pre = micokit_ext_test_module_cur;
-//    micokit_ext_test_module_cur = (micokit_ext_test_module_cur+1)%(MICOKIT_EXT_TEST_END);
-//  }
-//  else{
-//    dc_motor_set(0);  // stop DC Motor in work mode
-//  }
-  
   if(NULL != mfg_test_state_change_sem){
-    mico_rtos_set_semaphore(&mfg_test_state_change_sem);  // test next module
+    mico_rtos_set_semaphore(&mfg_test_state_change_sem);  // start next module
   }
   return;
 }
 
-// Key2 long pressed callback: reset device info from FogCloud
+// Key2 long pressed callback(use for enter MFG MODE when reset)
 void user_key2_long_pressed_callback(void)
 {
-  if(MICO_KIT_WORK_MODE == micokit_system_work_state_cur){
-    // set cloud reset flag
-  }
-  else{
-  }
-  
   return;
 }
 
@@ -136,102 +89,6 @@ OSStatus user_modules_init(void)
   err = kNoErr;
   
   return err;
-}
-
-void user_modules_tests(void)
-{
-  if(system_work_state_changed){  // work mode => test mode
-    // set OLED
-    OLED_Clear();
-    OLED_ShowString(0,0,(uint8_t*)DEV_KIT_MANUFACTURER);
-    OLED_ShowString(0,3,(uint8_t*)DEV_KIT_NAME);
-    OLED_ShowString(0,6,(uint8_t*)"                ");   // clean line3
-      
-    // rgb led state init
-    rgb_led_test_color_value = 0;
-    oled_test_print_line_cnt = 0;
-    hsb2rgb_led_open(0,0,0);
-    
-    // dc motor stop
-    dc_motor_set(0);
-    
-    system_work_state_changed = false;
-  }
-  
-  // stop previous DC Motor test
-  if( MICOKIT_EXT_TEST_DC_MOTOR == micokit_ext_test_module_pre){
-    dc_motor_set(0);
-  }
-  
-  // stop previous RGB LED test
-  if( MICOKIT_EXT_TEST_RGB_LED == micokit_ext_test_module_pre){
-    hsb2rgb_led_open(0,0,0);
-  }
-  
-  // stop previous OLED test
-  if( MICOKIT_EXT_TEST_OLED == micokit_ext_test_module_pre){
-    oled_test_print_line_cnt = 0;
-    OLED_Clear();
-    OLED_ShowString(0,0,(uint8_t*)DEV_KIT_MANUFACTURER);
-    OLED_ShowString(0,3,(uint8_t*)DEV_KIT_NAME);
-  }
-  
-  switch(micokit_ext_test_module_cur){
-  case MICOKIT_EXT_TEST_START:
-    {
-      OLED_ShowString(0,6,(uint8_t*)"                ");   // clean line3
-      OLED_ShowString(0,6,"TEST: Press Key2");
-      break;
-    }
-  case MICOKIT_EXT_TEST_OLED:
-    {
-      // OLED test
-      if(0 == oled_test_print_line_cnt){
-        OLED_Clear();
-        oled_test_print_line_cnt++;
-      }
-      else if(1 == oled_test_print_line_cnt){
-        OLED_ShowString(0,0,(uint8_t*)DEV_KIT_MANUFACTURER);
-        oled_test_print_line_cnt++;
-      }
-      else if(2 == oled_test_print_line_cnt){
-        OLED_ShowString(0,3,(uint8_t*)DEV_KIT_NAME);
-        oled_test_print_line_cnt++;
-      }
-      else if(3 == oled_test_print_line_cnt){
-        OLED_ShowString(0,6,"TEST:[OLED]");
-        oled_test_print_line_cnt = 0;
-      }
-      break;
-    }
-  case MICOKIT_EXT_TEST_RGB_LED:
-    {
-      OLED_ShowString(0,6,(uint8_t*)"                ");   // clean line3
-      OLED_ShowString(0,6,"TEST:[RGB_LED]");
-      
-      // RGB_LED test, R->G->B
-      hsb2rgb_led_open(rgb_led_test_color_value,100,50);
-      rgb_led_test_color_value += 120;
-      if(rgb_led_test_color_value >= 360){
-        rgb_led_test_color_value = 0;
-      }
-      
-      break;
-    }
-  case MICOKIT_EXT_TEST_DC_MOTOR:
-    {
-      OLED_ShowString(0,6,(uint8_t*)"                ");   // clean line3
-      OLED_ShowString(0,6,"TEST:[MOTOR]");
-      
-      // DC Motor test
-      dc_motor_set(1);
-      break;
-    }
-  default:
-    {
-      break;
-    }
-  } 
 }
 
 OSStatus micokit_ext_init(void)

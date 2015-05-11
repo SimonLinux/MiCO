@@ -436,8 +436,8 @@ mfg_test_start:
     else{
       err = bme280_data_readout(&bme280_temp, &bme280_press, &bme280_hum);
       if(kNoErr == err){
-        sprintf(str, "%s BME280\r\nT: %dC\r\nH: %d%%\r\nP: %6.3fkPa", OLED_MFG_TEST_PREFIX,
-                bme280_temp/100, bme280_hum/1024, (float)bme280_press/1000);
+        sprintf(str, "%s BME280\r\nT: %3.1fC\r\nH: %3.1f%%\r\nP: %5.2fkPa", OLED_MFG_TEST_PREFIX,
+                (float)bme280_temp/100, (float)bme280_hum/1024, (float)bme280_press/1000);
         mf_printf(str);
       }
       else{

@@ -72,7 +72,7 @@ void OLED_WR_Byte(u8 dat,u8 cmd)
   platform_spi_message_segment_t oled_spi_msg =
             { &dat,            NULL,       (unsigned long) 1 };
   
-  u8 i;			  
+//  u8 i;			  
   if(cmd)
     OLED_DC_Set();
   else 
@@ -196,10 +196,19 @@ void OLED_ShowString(u8 x,u8 y,u8 *chr)
 {
   unsigned char j=0;
   while (chr[j]!='\0')
-  {		OLED_ShowChar(x,y,chr[j]);
-  x+=8;
-  if(x>120){x=0;y+=2;}
-  j++;
+  {	
+    // add for CR/LF
+    if( ('\r' == chr[j]) && ('\n' == chr[j+1]) ){
+      x = 0;
+      y += 2;
+      j += 2;
+      continue;
+    }
+    
+    OLED_ShowChar(x,y,chr[j]);
+    x+=8;
+    if(x>120){x=0;y+=2;}
+    j++;
   }
 }
 //ÏÔÊ¾ºº×Ö
@@ -282,7 +291,7 @@ void OLED_Init(void)
 //  
 //  OLED_CS_Set();
   
-    OSStatus err = kUnknownErr;
+  OSStatus err = kUnknownErr;
   err = MicoSpiInitialize(&micokit_spi_oled);
   
   MicoGpioInitialize( (mico_gpio_t)USER_SPI_DC, OUTPUT_PUSH_PULL );

@@ -41,6 +41,9 @@ static int rgb_led_test_color_value = 0;
 static uint8_t oled_test_print_line_cnt = 0;
 
 
+extern mico_semaphore_t      mfg_test_state_change_sem;
+
+
 //---------------------------- user modules functions --------------------------
 
 // Key1 clicked callback: enter work mode (exit from test mode)
@@ -74,12 +77,16 @@ void user_key1_long_pressed_callback(void)
 // Key2 clicked callback:  change test module in test mode
 void user_key2_clicked_callback(void)
 {
-  if(MICO_KIT_TEST_MODE == micokit_system_work_state_cur){
-    micokit_ext_test_module_pre = micokit_ext_test_module_cur;
-    micokit_ext_test_module_cur = (micokit_ext_test_module_cur+1)%(MICOKIT_EXT_TEST_END);
-  }
-  else{
-    dc_motor_set(0);  // stop DC Motor in work mode
+//  if(MICO_KIT_TEST_MODE == micokit_system_work_state_cur){
+//    micokit_ext_test_module_pre = micokit_ext_test_module_cur;
+//    micokit_ext_test_module_cur = (micokit_ext_test_module_cur+1)%(MICOKIT_EXT_TEST_END);
+//  }
+//  else{
+//    dc_motor_set(0);  // stop DC Motor in work mode
+//  }
+  
+  if(NULL != mfg_test_state_change_sem){
+    mico_rtos_set_semaphore(&mfg_test_state_change_sem);  // test next module
   }
   return;
 }

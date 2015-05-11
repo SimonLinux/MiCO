@@ -592,6 +592,10 @@ OSStatus bme280_sensor_deinit(void)
 {
   OSStatus err = kUnknownErr;
   s32 com_rslt = BME280_ERROR;
+  
+  err = MicoI2cFinalize(&user_i2c_device);
+  require_noerr_action( err, exit, bme280_user_log("BME280_ERROR: MicoI2cFinalize err = %d.", err));
+  
   /*********************** START DE-INITIALIZATION ************************/
   /*	For de-initialization it is required to set the mode of
   *	the sensor as "SLEEP"
@@ -605,5 +609,7 @@ OSStatus bme280_sensor_deinit(void)
   if(0 == com_rslt){
     err = kNoErr;
   }
+  
+exit:
   return err;
 }

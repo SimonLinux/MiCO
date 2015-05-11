@@ -312,6 +312,11 @@ int application_start(void)
 #ifdef MICO_CLI_ENABLE
   MicoCliInit();
 #endif
+  
+#ifdef USE_MiCOKit_EXT
+  micokit_ext_init();  // init modules on extension board
+#endif
+  
   MicoSysLed(true);
   mico_log("Free memory %d bytes", MicoGetMemoryInfo()->free_memory); 
   micoWlanGetIPStatus(&para, Station);
@@ -334,10 +339,6 @@ int application_start(void)
     mico_log( "Enter MFG mode by MFG button" );
     mico_mfg_test(context);
   }
-  
-#ifdef USE_MiCOKit_EXT
-  micokit_ext_init();  // init modules on extension board
-#endif
   
   /*Read current time from RTC.*/
   if( MicoRtcGetTime(&time) == kNoErr ){

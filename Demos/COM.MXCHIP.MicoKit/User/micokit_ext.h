@@ -25,6 +25,7 @@
 #include "drivers/rgb_led.h"
 #include "drivers/hsb2rgb_led.h"
 #include "drivers/oled.h"
+#include "drivers/bme280_user.h"
 #include "drivers/DHT11.h"
 #include "drivers/light_sensor.h"
 #include "drivers/infrared_reflective.h"

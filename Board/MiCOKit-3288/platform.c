@@ -41,6 +41,9 @@
 #include "spi_flash_platform_interface.h"
 #include "wlan_platform_common.h"
 
+#ifdef USE_MiCOKit_EXT
+  #include "micokit_ext.h"   // extension board operation by user.
+#endif
 
 /******************************************************
 *                      Macros
@@ -395,7 +398,6 @@ void init_platform( void )
 #ifdef USE_MiCOKit_EXT
   MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );
   MicoGpioOutputLow( Arduino_D9 );
-  
 #endif
 
    MicoFlashInitialize( MICO_SPI_FLASH );
@@ -442,12 +444,14 @@ void MicoRfLed(bool onoff)
 //--------------------------------- MFG MODOE ----------------------------------
 bool MicoShouldEnterMFGMode(void)
 {
-  return false;
-  
-  if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false)
-    return true;
-  else
-    return false;
+#ifdef USE_MiCOKit_EXT 
+  if(MicoGpioInputGet((mico_gpio_t)USER_KEY2) == false)   // holding key2 and press reset key to enter mfg_test
+#else
+    if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false)
+#endif
+      return true;
+    else
+      return false;
 }
 
 //--------------------------------- BOOTLOADER MODOE ---------------------------

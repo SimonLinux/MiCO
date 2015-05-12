@@ -145,20 +145,17 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
   // display H/T on OLED
   char temp_hum_str[16] = {'\0'};
   
-  //OLED_Init();   // in case spi flash is wrote
-  MicoGpioInitialize( (mico_gpio_t)USER_SPI_DC, OUTPUT_PUSH_PULL );
-  OLED_ShowString(0,6,(uint8_t*)"                 ");   // clean line3
+  MicoGpioInitialize( (mico_gpio_t)USER_SPI_DC, OUTPUT_PUSH_PULL );  // in case spi flash is wrote
+
   if(!mico_context->appStatus.isWifiConnected){
-    strncpy(temp_hum_str, "Conn Wi-Fi...", strlen("Conn Wi-Fi..."));
+    snprintf(temp_hum_str, 16, "%s", "Conn Wi-Fi...   ");
   }
   else if(!mico_context->appStatus.fogcloudStatus.isCloudConnected){
-    strncpy(temp_hum_str, "Conn FogCloud..", strlen("Conn FogCloud.."));
+    snprintf(temp_hum_str, 16, "%s", "Conn FogCloud... ");
   }
   else{
     // temperature/humidity display on OLED
-    //user_log("DHT11: T=%d, H=%d",
-    //         user_context->status.temperature, user_context->status.humidity);
-    sprintf(temp_hum_str, "T: %2dC H: %2d%%", user_context->status.temperature, user_context->status.humidity);
+    snprintf(temp_hum_str, 16, "T: %2dC  H: %2d%%  ", user_context->status.temperature, user_context->status.humidity);
   }
   OLED_ShowString(0, 6, (uint8_t*)temp_hum_str);
 }

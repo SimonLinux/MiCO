@@ -198,19 +198,23 @@ void OLED_ShowString(u8 x,u8 y,u8 *chr)
   while (chr[j]!='\0')
   {	
     // add for CR/LF
-    if( ('\r' == chr[j]) && ('\n' == chr[j+1]) ){
+    if( ('\r' == chr[j]) && ('\n' == chr[j+1]) ){  // user set next line
       x = 0;
       y += 2;
       j += 2;
-      continue;
     }
-    
-    OLED_ShowChar(x,y,chr[j]);
-    x+=8;
-    if(x>120){x=0;y+=2;}
-    j++;
+    else{
+      OLED_ShowChar(x,y,chr[j]);
+      x += 8;
+      if( (x>120) && (('\r' != chr[j+1]) || ('\n' != chr[j+2])) ){  // auto next line
+        x = 0;
+        y += 2;
+      }
+      j++;
+    }
   }
 }
+
 //ÏÔÊ¾ºº×Ö
 void OLED_ShowCHinese(u8 x,u8 y,u8 no)
 {      			    

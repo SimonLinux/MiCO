@@ -31,8 +31,8 @@
 #define USER_KEY1                       MICO_GPIO_31
 #define USER_KEY2                       MICO_GPIO_29
    
-#define user_key1_long_press_timeout    3000  /**< user key1 button long pressed for 3 seconds. */
-#define user_key2_long_press_timeout    3000  /**< user key2 button long pressed for 3 seconds. */
+#define user_key1_long_press_timeout    5000  /**< user key1 button long pressed for 5 seconds. */
+#define user_key2_long_press_timeout    5000  /**< user key2 button long pressed for 5 seconds. */
 
 //------------------------------ user interfaces -------------------------------
 

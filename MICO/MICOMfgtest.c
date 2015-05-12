@@ -330,12 +330,10 @@ mico_semaphore_t      mfg_test_state_change_sem = NULL;
 void mico_notify_WifiScanCompleteHandler( ScanResult *pApList, void * inContext )
 {
     char str[64] = {'\0'};
-    
-    memset(str, '\0', 64);
-    sprintf(str, "%s Wi-Fi\r\nSSID :\r\n%15s\r\nPower:%9d", OLED_MFG_TEST_PREFIX,
-            pApList->ApList[0].ssid, pApList->ApList[0].ApPower);
+    pApList->ApList[0].ssid[10] = '\0';  // truncate first 10 char
+    sprintf(str, "%s Wi-Fi\r\nScan AP:\r\nssid :%10s\r\npower:%10d", OLED_MFG_TEST_PREFIX,
+             pApList->ApList[0].ssid, pApList->ApList[0].ApPower);
     mf_printf(str);
-    //mico_rtos_set_semaphore(&mfg_test_state_change_sem);  // test next module
 }
 
 void mico_mfg_test(mico_Context_t *inContext)
@@ -374,16 +372,6 @@ mfg_test_start:
   mf_printf(str);
   mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER); 
   
-  // Wi-Fi test
-  wlan_get_mac_address(mac);
-  sprintf(str, "%s Wi-Fi\r\nMAC:\r\n    %02X%02X%02X%02X%02X%02X", OLED_MFG_TEST_PREFIX,
-          mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-  mf_printf(str);
-  mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER);
-  
-  micoWlanStartScan();
-  mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER);
-  
   // OLED test
   while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
   {
@@ -411,16 +399,29 @@ mfg_test_start:
   }
   hsb2rgb_led_open(0, 0, 0);
   
+  // Infrared sensor test
+  while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
+  { 
+    // get infrared sensor data
+    infrared_ret = infrared_reflective_read(&infrared_reflective_data);
+    if(0 == infrared_ret){ 
+      sprintf(str, "%s Infrared\r\nInfrared: %d", OLED_MFG_TEST_PREFIX,
+              infrared_reflective_data);
+      mf_printf(str);
+    }
+    mico_thread_msleep(500);
+  }
+  
   // DC Motor test
-  sprintf(str, "%s DC Motor\r\nRun:\r\n     on : 1s\r\n     off: 1s", OLED_MFG_TEST_PREFIX);
+  sprintf(str, "%s DC Motor\r\nRun:\r\n     on : 500ms\r\n     off: 500ms", OLED_MFG_TEST_PREFIX);
   mf_printf(str);
   
   while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
   {
     dc_motor_set(1);
-    mico_thread_sleep(1);
+    mico_thread_msleep(500);
     dc_motor_set(0);
-    mico_thread_sleep(1);
+    mico_thread_msleep(500);
   }
   dc_motor_set(0);
   
@@ -457,7 +458,7 @@ mfg_test_start:
               temp_data, hum_data);
       mf_printf(str);
     }
-    mico_thread_sleep(1);
+    mico_thread_sleep(1);   // DHT11 must >= 1s
   }
   
   // Light sensor test
@@ -472,23 +473,22 @@ mfg_test_start:
     mico_thread_msleep(500);
   }
   
-  // Infrared sensor test
-  while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
-  { 
-    // get infrared sensor data
-    infrared_ret = infrared_reflective_read(&infrared_reflective_data);
-    if(0 == infrared_ret){ 
-      sprintf(str, "%s Infrared\r\nInfrared: %d", OLED_MFG_TEST_PREFIX,
-              infrared_reflective_data);
-      mf_printf(str);
-    }
-    mico_thread_msleep(500);
-  }
-  
   // BMX055
   
   // APDS9930
   
+    
+  // Wi-Fi test
+  wlan_get_mac_address(mac);
+  sprintf(str, "%s Wi-Fi\r\nMAC:\r\n    %02X%02X%02X%02X%02X%02X", OLED_MFG_TEST_PREFIX,
+          mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  mf_printf(str);
+  mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER);
+  
+  micoWlanStartScan();
+  mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER);
+  
+  // test done
   sprintf(str, "%s done\r\nRetry: \r\n      Press key2", OLED_MFG_TEST_PREFIX);
   mf_printf(str);
   mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER);

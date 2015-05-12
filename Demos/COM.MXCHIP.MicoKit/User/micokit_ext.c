@@ -60,6 +60,7 @@ void user_key2_long_pressed_callback(void)
 OSStatus user_modules_init(void)
 {
   OSStatus err = kUnknownErr;
+  char oled_show_line[16] = {'\0'};   // max char each line
   
   // init DC Motor(GPIO)
   dc_motor_init();
@@ -72,9 +73,12 @@ OSStatus user_modules_init(void)
   // init OLED
   OLED_Init();
   OLED_Clear();
-  OLED_ShowString(0,0,(uint8_t*)DEV_KIT_MANUFACTURER);
-  OLED_ShowString(0,3,(uint8_t*)DEV_KIT_NAME);
-  OLED_ShowString(0,6,"Starting...");
+  snprintf(oled_show_line, 16, "%s", (uint8_t*)DEV_KIT_MANUFACTURER);
+  OLED_ShowString(0,0,(uint8_t*)oled_show_line);
+  memset(oled_show_line, '\0', 16);
+  snprintf(oled_show_line, 16, "%s", (uint8_t*)DEV_KIT_NAME);
+  OLED_ShowString(0,3,(uint8_t*)oled_show_line);
+  OLED_ShowString(0,6,"Starting...     ");
   
   // init Light sensor(ADC)
   light_sensor_init();

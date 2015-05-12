@@ -362,8 +362,7 @@ int application_start(void)
       context->flashContentInRam.micoSystemConfig.configured == unConfigured){
     mico_log("Empty configuration. Starting configuration mode...");
     
-    OLED_ShowString(0,6,(uint8_t*)"                ");   // clean line3
-    OLED_ShowString(0,6,"EasyLink...");
+    OLED_ShowString(0,6,"EasyLink...     ");
 
 #if (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK) || (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK_WITH_SOFTAP)
   err = startEasyLink( context );
@@ -419,8 +418,7 @@ int application_start(void)
   else{
     mico_log("Available configuration. Starting Wi-Fi connection...");
     
-    OLED_ShowString(0,6,(uint8_t*)"                ");   // clean line3
-    OLED_ShowString(0,6,"Conn Wi-Fi...");
+    OLED_ShowString(0,6,"Conn Wi-Fi...   ");
     
     err = MICOAddNotification( mico_notify_WiFI_PARA_CHANGED, (void *)micoNotify_WiFIParaChangedHandler );
     require_noerr( err, exit ); 

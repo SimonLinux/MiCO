@@ -37,7 +37,7 @@ WEAK OSStatus user_main( mico_Context_t * const mico_context )
 /* default user_main callback function, this may be override by user. */
 WEAK void userRestoreDefault_callback(mico_Context_t *mico_context)
 {
-  app_log("INFO: call default userRestoreDefault_callback, do nothing!");
+  //app_log("INFO: call default userRestoreDefault_callback, do nothing!");  // log in ISR may cause error
 }
 
 /* user main thread created by MICO APP thread */

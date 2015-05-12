@@ -45,7 +45,7 @@ extern user_context_t g_user_context;
  */
 void userRestoreDefault_callback(mico_Context_t *mico_context)
 {
-  user_log("INFO: restore user configuration.");
+  //user_log("INFO: restore user configuration.");
   //userParams_RestoreDefault(mico_context, &g_user_context);
 }
 

@@ -148,10 +148,15 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
   MicoGpioInitialize( (mico_gpio_t)USER_SPI_DC, OUTPUT_PUSH_PULL );  // in case spi flash is wrote
 
   if(!mico_context->appStatus.isWifiConnected){
-    snprintf(temp_hum_str, 16, "%s", "Conn Wi-Fi...   ");
+    snprintf(temp_hum_str, 16, "Conn %s", mico_context->flashContentInRam.micoSystemConfig.ssid);
   }
   else if(!mico_context->appStatus.fogcloudStatus.isCloudConnected){
-    snprintf(temp_hum_str, 16, "%s", "Conn FogCloud... ");
+    if(mico_context->flashContentInRam.appConfig.fogcloudConfig.isActivated){
+      snprintf(temp_hum_str, 16, "%s", "Conn FogCloud... ");
+    }
+    else{
+      snprintf(temp_hum_str, 16, "%s", "Wait activate...");
+    }
   }
   else{
     // temperature/humidity display on OLED

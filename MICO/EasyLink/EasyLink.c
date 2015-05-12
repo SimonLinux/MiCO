@@ -40,6 +40,10 @@
 
 #include "EasyLink.h"
 #include "SoftAp/EasyLinkSoftAP.h"
+
+#ifdef USE_MiCOKit_EXT
+  #include "micokit_ext.h"   // extension board operation by user.
+#endif
   
 // EasyLink HTTP messages
 #define kEasyLinkURLAuth          "/auth-setup"
@@ -264,6 +268,9 @@ exit:
 static void _easylinkConnectWiFi( mico_Context_t * const inContext)
 {
   easylink_log_trace();
+#ifdef USE_MiCOKit_EXT
+  char oled_show_line[16] = {'\0'};
+#endif
   network_InitTypeDef_adv_st wNetConfig;
   memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_adv_st));
   
@@ -282,6 +289,10 @@ static void _easylinkConnectWiFi( mico_Context_t * const inContext)
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
   micoWlanStartAdv(&wNetConfig);
   easylink_log("connect to %s.....", wNetConfig.ap_info.ssid);
+#ifdef USE_MiCOKit_EXT 
+  snprintf(oled_show_line, 16, "Conn %s", wNetConfig.ap_info.ssid);
+  OLED_ShowString(0, 6, (uint8_t*)oled_show_line);
+#endif
 }
 
 static void _easylinkStartSoftAp( mico_Context_t * const inContext)
@@ -294,6 +305,9 @@ static void _easylinkStartSoftAp( mico_Context_t * const inContext)
 static void _easylinkConnectWiFi_fast( mico_Context_t * const inContext)
 {
   easylink_log_trace();
+#ifdef USE_MiCOKit_EXT
+  char oled_show_line[16] = {'\0'};
+#endif
   network_InitTypeDef_adv_st wNetConfig;
   memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_adv_st));
 
@@ -314,6 +328,10 @@ static void _easylinkConnectWiFi_fast( mico_Context_t * const inContext)
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
   micoWlanStartAdv(&wNetConfig);
   easylink_log("Connect to %s.....\r\n", wNetConfig.ap_info.ssid);
+#ifdef USE_MiCOKit_EXT
+  snprintf(oled_show_line, 16, "Conn %s", wNetConfig.ap_info.ssid);
+  OLED_ShowString(0, 6, (uint8_t*)oled_show_line);
+#endif
 }
 
 OSStatus _connectFTCServer( mico_Context_t * const inContext, int *fd)
@@ -324,8 +342,17 @@ OSStatus _connectFTCServer( mico_Context_t * const inContext, int *fd)
   const char  *json_str;
   char host[16] = {0};
   
+#ifdef USE_MiCOKit_EXT
+  char oled_show_line[16] = {'\0'};
+#endif
+  
   size_t      httpResponseLen = 0;
 
+#ifdef USE_MiCOKit_EXT
+  snprintf(oled_show_line, 16, "Conn FTC server.");
+  OLED_ShowString(0, 6, (uint8_t*)oled_show_line);
+#endif
+  
   *fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   addr.s_ip = inContext->flashContentInRam.micoSystemConfig.easylinkServerIP; 
   addr.s_port = FTC_PORT;  
@@ -334,6 +361,11 @@ OSStatus _connectFTCServer( mico_Context_t * const inContext, int *fd)
 
   easylink_log("Connect to FTC server success, fd: %d", *fd);
 
+#ifdef USE_MiCOKit_EXT
+  snprintf(oled_show_line, 16, "FTC server OK. ");
+  OLED_ShowString(0, 6, (uint8_t*)oled_show_line);
+#endif
+  
   easylink_report = ConfigCreateReportJsonMessage( inContext );
   require( easylink_report, exit );
 

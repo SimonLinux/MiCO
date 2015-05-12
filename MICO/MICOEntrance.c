@@ -238,6 +238,11 @@ void _ConnectToAP( mico_Context_t * const inContext)
 {
   mico_log_trace();
   network_InitTypeDef_adv_st wNetConfig;
+#ifdef USE_MiCOKit_EXT
+  char oled_show_line[16] = {'\0'};
+  snprintf(oled_show_line, 16, "Conn %s", inContext->flashContentInRam.micoSystemConfig.ssid);
+  OLED_ShowString(0, 6, (uint8_t*)oled_show_line);
+#endif
   mico_log("connect to %s.....", inContext->flashContentInRam.micoSystemConfig.ssid);
   memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_adv_st));
   
@@ -362,7 +367,9 @@ int application_start(void)
       context->flashContentInRam.micoSystemConfig.configured == unConfigured){
     mico_log("Empty configuration. Starting configuration mode...");
     
+#ifdef USE_MiCOKit_EXT  
     OLED_ShowString(0,6,"EasyLink...     ");
+#endif
 
 #if (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK) || (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK_WITH_SOFTAP)
   err = startEasyLink( context );
@@ -417,9 +424,9 @@ int application_start(void)
 
   else{
     mico_log("Available configuration. Starting Wi-Fi connection...");
-    
+#ifdef USE_MiCOKit_EXT    
     OLED_ShowString(0,6,"Conn Wi-Fi...   ");
-    
+#endif   
     err = MICOAddNotification( mico_notify_WiFI_PARA_CHANGED, (void *)micoNotify_WiFIParaChangedHandler );
     require_noerr( err, exit ); 
 

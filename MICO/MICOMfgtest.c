@@ -321,11 +321,11 @@ static size_t _uart_get_one_packet(uint8_t* inBuf, int inBufLen)
 
 #elif (MFG_FUNCTION == 3)   // MicoKit MFG TEST
 
-#define mfg_test_oled_test_string    "abcdefghijklmnop123456789012345612345678901234561234567890123456"
+#ifdef USE_MiCOKit_EXT
 
+#define mfg_test_oled_test_string    "abcdefghijklmnop123456789012345612345678901234561234567890123456"
 extern void wlan_get_mac_address(char *mac);
 
-#ifdef USE_MiCOKit_EXT
 mico_semaphore_t      mfg_test_state_change_sem = NULL;
 void mico_notify_WifiScanCompleteHandler( ScanResult *pApList, void * inContext )
 {

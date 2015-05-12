@@ -428,7 +428,7 @@ mfg_test_start:
   // BME280 test
   while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
   {
-    bme280_sensor_deinit();
+    //bme280_sensor_deinit();
     err = bme280_sensor_init();
     if(kNoErr != err){
       sprintf(str, "%s BME280\r\nMoule error!", OLED_MFG_TEST_PREFIX);

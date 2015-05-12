@@ -599,7 +599,7 @@ OSStatus platform_i2c_transfer( const platform_i2c_t* i2c, const platform_i2c_co
     require_noerr(err, exit);
 #else  
     err = i2c_transfer_message_no_dma( i2c, config, &messages[ i ] );
-    require_noerr(err, exit);
+    require_noerr_quiet(err, exit);
 #endif
   }
 
@@ -691,7 +691,7 @@ static OSStatus i2c_tx_no_dma( const platform_i2c_t* i2c, const platform_i2c_con
 
     /* Send data */
     err = i2c_address_device( i2c, config, message->retries, I2C_Direction_Transmitter );
-    require_noerr(err, exit);
+    require_noerr_quiet(err, exit);
 
     for ( i = 0; i < message->tx_length; i++ )
     {

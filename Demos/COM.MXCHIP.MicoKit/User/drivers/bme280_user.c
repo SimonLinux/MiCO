@@ -477,6 +477,7 @@ OSStatus bme280_sensor_init(void)
  // u8 v_stand_by_time_u8 = BME280_INIT_VALUE;  //  The variable used to assign the standby time
   
   // I2C init
+  MicoI2cFinalize(&user_i2c_device);   // in case error
   err = MicoI2cInitialize(&user_i2c_device);
   require_noerr_action( err, exit, bme280_user_log("BME280_ERROR: MicoI2cInitialize err = %d.", err) );
   if( false == MicoI2cProbeDevice(&user_i2c_device, 5) ){

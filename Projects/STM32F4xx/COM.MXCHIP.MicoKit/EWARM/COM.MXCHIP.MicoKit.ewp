@@ -2940,6 +2940,7 @@
               <name>CCDefines</name>
               <state>USE_STDPERIPH_DRIVER</state>
               <state>HSE_VALUE=16000000</state>
+              <state>DEBUG</state>
             </option>
             <option>
               <name>CCPreprocFile</name>

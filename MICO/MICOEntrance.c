@@ -320,7 +320,7 @@ int application_start(void)
   
 #ifdef USE_MiCOKit_EXT
   err = micokit_ext_init();  // init modules on extension board
-  require_noerr( err, exit ); 
+  //require_noerr( err, exit ); 
 #endif
   
   MicoSysLed(true);

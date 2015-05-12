@@ -41,8 +41,10 @@
 #include "spi_flash_platform_interface.h"
 #include "wlan_platform_common.h"
 
-#ifdef USE_MiCOKit_EXT
-  #include "micokit_ext.h"   // extension board operation by user.
+#ifndef BOOTLOADER
+  #ifdef USE_MiCOKit_EXT
+    #include "micokit_ext.h"   // extension board operation by user.
+  #endif
 #endif
 
 /******************************************************
@@ -445,7 +447,7 @@ void MicoRfLed(bool onoff)
 bool MicoShouldEnterMFGMode(void)
 {
 #ifdef USE_MiCOKit_EXT 
-  if(MicoGpioInputGet((mico_gpio_t)USER_KEY2) == false)   // holding key2 and press reset key to enter mfg_test
+  if(MicoGpioInputGet((mico_gpio_t)Arduino_D5) == false)   // holding key2 and press reset key to enter mfg_test
 #else
     if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false)
 #endif

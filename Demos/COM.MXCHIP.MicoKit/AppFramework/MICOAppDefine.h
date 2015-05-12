@@ -53,7 +53,7 @@
 
 /* Wi-Fi configuration mode */
 #ifndef MICO_CONFIG_MODE
-  #define MICO_CONFIG_MODE CONFIG_MODE_EASYLINK
+  #define MICO_CONFIG_MODE CONFIG_MODE_EASYLINK_WITH_SOFTAP
 #endif
 
 /* Define MICO cloud type */

@@ -93,6 +93,7 @@ void OLED_WR_Byte(u8 dat,u8 cmd)
  // *((uint8_t*)oled_spi_msg.tx_buffer) = dat;
 // oled_spi_msg.length = 1;
   err = MicoSpiTransfer(&micokit_spi_oled, &oled_spi_msg, 1);
+  UNUSED_PARAMETER(err);
   
  // OLED_CS_Set();
   OLED_DC_Set();   	  
@@ -297,6 +298,7 @@ void OLED_Init(void)
   
   OSStatus err = kUnknownErr;
   err = MicoSpiInitialize(&micokit_spi_oled);
+  UNUSED_PARAMETER(err);
   
   MicoGpioInitialize( (mico_gpio_t)USER_SPI_DC, OUTPUT_PUSH_PULL );
     

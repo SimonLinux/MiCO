@@ -171,13 +171,27 @@ typedef enum
 #define USE_MiCOKit_EXT
 
 #ifdef USE_MiCOKit_EXT
+//------------------------- MicoKit-EXT board pin define -----------------------
 #define MICO_I2C_CP         (MICO_I2C_1)
 #define MICO_DC_MOTOR       (Arduino_D9)
 
 #define USE_RGB_LED_DRIVER_P9813
-#define RGB_LED_P9813_CIN   (MICO_GPIO_10)
-#define RGB_LED_P9813_DIN   (MICO_GPIO_11)
+#define RGB_LED_P9813_CIN   (Arduino_SCL)
+#define RGB_LED_P9813_DIN   (Arduino_SDA)
 
+#define MICO_EXT_I2C_BME280          (MICO_I2C_1)
+#define MICO_EXT_DHT11               (Arduino_D8)
+
+#define MICO_EXT_KEY1                (Arduino_D4)
+#define MICO_EXT_KEY2                (Arduino_D5)
+
+#define MICO_EXT_OLED_SPI_SCK        (Arduino_SCK)       
+#define MICO_EXT_OLED_SPI_DIN        (Arduino_SI)  
+#define MICO_EXT_OLED_SPI_DC         (Arduino_SO)  
+#define MICO_EXT_OLED_SPI_CS         (Arduino_CS)
+
+#define MICO_EXT_ADC_LIGHT           (MICO_ADC_1)
+#define MICO_EXT_ADC_INFRARED        (MICO_ADC_2)
 
 #else
 #define MICO_I2C_CP         (MICO_I2C_NONE)
@@ -188,14 +202,7 @@ typedef enum
 #define RGB_LED_G           (MICO_GPIO_NONE)
 #define RGB_LED_B           (MICO_GPIO_NONE)
 
-
 #endif //USE_MiCOKit_EXT
-
-
-#define P9813_CIN              MICO_GPIO_10    // CLK
-#define P9813_DIN              MICO_GPIO_11    // DIN
-
-
 
 
 #ifdef __cplusplus

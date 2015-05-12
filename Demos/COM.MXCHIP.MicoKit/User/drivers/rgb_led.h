@@ -26,8 +26,9 @@
 #include "MICOPlatform.h"
 
 //-------------------- P9813 pin defines ---------------------------
-#define P9813_CIN              MICO_GPIO_10    // CLK
-#define P9813_DIN              MICO_GPIO_11    // DIN
+//    EXT-BOARD FUNC  <------->  BASE-BOARD PIN
+#define P9813_CIN              RGB_LED_P9813_CIN    // CLK
+#define P9813_DIN              RGB_LED_P9813_DIN    // DIN
 
 #define P9813_CIN_Clr()        MicoGpioOutputLow(P9813_CIN)  
 #define P9813_CIN_Set()        MicoGpioOutputHigh(P9813_CIN)

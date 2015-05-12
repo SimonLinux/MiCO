@@ -28,7 +28,8 @@
 //---------------------------------- PIN DEFINES -------------------------------
 
 // data pin
-#define DHT11_DATA             MICO_GPIO_6  // PA11
+//   EXT-BOARD FUNC  <------->  BASE-BOARD PIN
+#define DHT11_DATA             MICO_EXT_DHT11  // PA11
 
 // Set GPIO Direction
 #define DHT11_IO_IN()          MicoGpioInitialize( (mico_gpio_t)DHT11_DATA, INPUT_PULL_UP );										 

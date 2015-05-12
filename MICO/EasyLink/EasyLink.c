@@ -297,6 +297,11 @@ static void _easylinkConnectWiFi( mico_Context_t * const inContext)
 
 static void _easylinkStartSoftAp( mico_Context_t * const inContext)
 {
+#ifdef USE_MiCOKit_EXT 
+  char oled_show_line[16] = {'\0'};
+  snprintf(oled_show_line, 16, "%s", "SoftAP Mode...");
+  OLED_ShowString(0, 6, (uint8_t*)oled_show_line);
+#endif
   startEasyLinkSoftAP( inContext);
 }
 

@@ -28,7 +28,7 @@
 #define s32 int32_t
 #define u32 uint32_t
 
-#define BME280_I2C_DEVICE    MICO_I2C_1
+#define BME280_I2C_DEVICE    MICO_EXT_I2C_BME280
 
 OSStatus bme280_sensor_init(void);
 OSStatus bme280_data_readout(s32 *v_actual_temp_s32, u32 *v_actual_press_u32, u32 *v_actual_humity_u32);

@@ -736,20 +736,7 @@ const struct mico_service_t  service_table[] = {
         .event = &(property_event),
         .hasMeta = false
       },
-      [1] = {
-        .type = "public.map.property.reserved",          // this is just a placeholder
-        .value = &(g_user_context.status.light_sensor_data),  // temp use, no use
-        .value_len = &int_len,
-        .format = MICO_PROP_TYPE_INT,
-        .perms = (MICO_PROP_PERMS_RO),
-        .get = light_sensor_data_get,   // temp use, no use
-        .set = NULL,
-        .notify_check = NULL,
-        .arg = &g_user_context,   // no use
-        .event = NULL,
-        .hasMeta = false
-      },
-      [2] = {NULL}
+      [1] = {NULL}
     }
   },
   [3] = {

@@ -232,10 +232,8 @@ typedef struct
 typedef struct
 {
     platform_flash_t*          peripheral;
-    bool                       initialized;
-#ifndef NO_MICO_RTOS
+    volatile bool              initialized;
     mico_mutex_t               flash_mutex;
-#endif
 } platform_flash_driver_t;
 
 

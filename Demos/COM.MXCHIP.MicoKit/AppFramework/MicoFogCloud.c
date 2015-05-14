@@ -26,7 +26,7 @@ operation
 
 #include "MicoFogCloud.h"
 #include "fogcloud.h"
-#include "EasyCloudUtils.h"
+#include "FogCloudUtils.h"
 
 #define fogcloud_log(M, ...) custom_log("MicoFogCloud", M, ##__VA_ARGS__)
 #define fogcloud_log_trace() custom_log_trace("MicoFogCloud")
@@ -111,16 +111,16 @@ OSStatus easycloud_reset_cloud_info(mico_Context_t * const context)
     /* cloud context init */
     err = fogCloudInit(inContext);
     if(kNoErr == err){
-      fogcloud_log("[MicoFogCloud]Device EasyCloud context init [OK]");
+      fogcloud_log("[MicoFogCloud]Device FogCloud context init [OK]");
     }
     else{
-      fogcloud_log("[MicoFogCloud]Device EasyCloud context init [FAILED]");
+      fogcloud_log("[MicoFogCloud]Device FogCloud context init [FAILED]");
       retry_cnt++;
       continue;
     }
     
     /* cloud info reset */
-    fogcloud_log("[MicoFogCloud]Device reset EasyCloud info try[%d] ...", retry_cnt);
+    fogcloud_log("[MicoFogCloud]Device reset FogCloud info try[%d] ...", retry_cnt);
     memset((void*)&devDefaultResetData, 0, sizeof(devDefaultResetData));
     strncpy(devDefaultResetData.loginId,
             inContext->flashContentInRam.appConfig.fogcloudConfig.loginId,
@@ -133,10 +133,10 @@ OSStatus easycloud_reset_cloud_info(mico_Context_t * const context)
             MAX_SIZE_USER_TOKEN);
     err = fogCloudResetCloudDevInfo(inContext, devDefaultResetData);
     if(kNoErr == err){
-      fogcloud_log("[MicoFogCloud]Device reset EasyCloud info [OK]");
+      fogcloud_log("[MicoFogCloud]Device reset FogCloud info [OK]");
     }
     else{
-      fogcloud_log("[MicoFogCloud]Device reset EasyCloud info [FAILED]");
+      fogcloud_log("[MicoFogCloud]Device reset FogCloud info [FAILED]");
       retry_cnt++;
     }
     
@@ -150,9 +150,9 @@ void MicoFogCloudDevCloudInfoResetThread(void *arg)
   OSStatus err = kUnknownErr;
   mico_Context_t *inContext = (mico_Context_t *)arg;
   
-  // stop EasyCloud service first
+  // stop FogCloud service first
   err = fogCloudStop(inContext);
-  require_noerr_action( err, exit, fogcloud_log("ERROR: stop EasyCloud service failed!") );
+  require_noerr_action( err, exit, fogcloud_log("ERROR: stop FogCloud service failed!") );
       
   err = easycloud_reset_cloud_info(inContext);
   if(kNoErr == err){
@@ -194,7 +194,7 @@ void MicoFogCloudMainThread(void *arg)
   /* check reset cloud info */
   if((inContext->flashContentInRam.appConfig.fogcloudConfig.needCloudReset) && 
      (inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated)){
-       // start a thread to reset device info on EasyCloud
+       // start a thread to reset device info on FogCloud
        mico_rtos_init_semaphore(&_reset_cloud_info_sem, 1);
        mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "MicoFogCloudDevReset", 
                                MicoFogCloudDevCloudInfoResetThread, 0x800, 
@@ -294,7 +294,7 @@ void MicoFogCloudMainThread(void *arg)
   fogcloud_log("device already activated.");
 */
   
-  /* start EasyCloud service */
+  /* start FogCloud service */
   err = fogCloudStart(inContext);
   require_noerr_action(err, exit, 
                        fogcloud_log("ERROR: MicoFogCloudCloudInterfaceStart failed!") );

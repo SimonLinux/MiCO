@@ -26,7 +26,7 @@
 
 #include "MICODefine.h"
 #include "MicoFogCloudDef.h"
-#include "EasyCloudUtils.h"
+#include "FogCloudUtils.h"
 
 /*******************************************************************************
  * DEFINES

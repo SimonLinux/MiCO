@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    EasyCloudUtils.h 
+  * @file    FogCloudUtils.h 
   * @author  Eshen.Wang
   * @version V1.0.0
   * @date    29-Nov-2014
@@ -21,8 +21,8 @@
   ******************************************************************************
   */ 
 
-#ifndef __EASYCLOUD_UTILS_H__
-#define __EASYCLOUD_UTILS_H__
+#ifndef __FOGCLOUD_UTILS_H__
+#define __FOGCLOUD_UTILS_H__
 
 //#include <stdarg.h>
 #include "Common.h"
@@ -85,7 +85,7 @@
 #define ECS_kMIMEType_TLV8                  "application/x-tlv8" // 8-bit type, 8-bit length, N-byte value.
 #define ECS_kMIMEType_Pairing_TLV8          "application/pairing+tlv8" // 8-bit type, 8-bit length, N-byte value.
 #define ECS_kMIMEType_MXCHIP_OTA            "application/ota-stream"
-#define ECS_kMIMEType_EASYCLOUD_OTA         "application/octet-stream"  // EasyCloud
+#define ECS_kMIMEType_FOGCLOUD_OTA         "application/octet-stream"  // FogCloud
 
 #define ECS_kTransferrEncodingType_CHUNKED  "chunked"
 
@@ -227,5 +227,5 @@ char* ECS_DataToHexStringLowercase( const uint8_t *inBuf, size_t inBufLen );
 char* ECS_str_replace(char *dst, const char *src, const unsigned int srcLen, char *old_str, char *new_str);
 
 
-#endif // __EASYCLOUD_UTILS_H__
+#endif // __FOGCLOUD_UTILS_H__
 

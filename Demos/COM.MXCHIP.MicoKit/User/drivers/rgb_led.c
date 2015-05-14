@@ -30,10 +30,7 @@ static void P9813_write_frame(uint32_t data)
 { 
   uint8_t i;        
   uint32_t f_data = data;
-  rgb_led_log("P9813_write_frame = %X", f_data);
-    
-  //P9813_CIN_Clr();
-  //P9813_DIN_Clr();
+  //rgb_led_log("P9813_write_frame = %X", f_data);
   
   for(i=0; i<32; i++){
     P9813_CIN_Clr();

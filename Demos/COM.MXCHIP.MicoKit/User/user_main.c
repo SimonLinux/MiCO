@@ -20,7 +20,6 @@
   */ 
 
 #include "MICODefine.h"
-#include "user_main.h"
 #include "MicoFogCloud.h"
 #include "fogcloud_msg_dispatch.h"
 

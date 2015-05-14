@@ -24,7 +24,7 @@
 #include "MICODefine.h"
 
 #include "fogcloud.h"   
-#include "EasyCloudService.h"
+#include "FogCloudService.h"
 
 
 #define cloud_if_log(M, ...) custom_log("FOGCLOUD_IF", M, ##__VA_ARGS__)
@@ -67,7 +67,7 @@ void cloudServiceStatusChangedHandler(void* context, easycloud_service_status_t 
 {
   mico_Context_t *inContext = (mico_Context_t*)context;
 
-  if (EASYCLOUD_CONNECTED == serviceStateInfo.state){
+  if (FOGCLOUD_CONNECTED == serviceStateInfo.state){
     cloud_if_log("cloud service connected!");
     inContext->appStatus.fogcloudStatus.isCloudConnected = true;
     if(NULL != _fogcloud_connect_sem){
@@ -88,9 +88,9 @@ OSStatus fogCloudPrintVersion(void)
   int cloudServiceLibVersion = 0;
   cloud_if_log("fogCloudPrintVersion");
   
-  cloudServiceLibVersion = EasyCloudServiceVersion(&easyCloudContext);
+  cloudServiceLibVersion = FogCloudServiceVersion(&easyCloudContext);
   UNUSED_PARAMETER(cloudServiceLibVersion);
-  cloud_if_log("EasyCloud library version: v%d.%d.%d", 
+  cloud_if_log("FogCloud library version: v%d.%d.%d", 
                (cloudServiceLibVersion & 0x00FF0000) >> 16,
                (cloudServiceLibVersion & 0x0000FF00) >> 8,
                (cloudServiceLibVersion & 0x000000FF));
@@ -124,15 +124,15 @@ OSStatus fogCloudInit(mico_Context_t* const inContext)
   strncpy(easyCloudContext.service_status.device_name, 
           DEFAULT_DEVICE_NAME, MAX_SIZE_DEVICE_NAME);
   
-  cloudServiceLibVersion = EasyCloudServiceVersion(&easyCloudContext);
+  cloudServiceLibVersion = FogCloudServiceVersion(&easyCloudContext);
   UNUSED_PARAMETER(cloudServiceLibVersion);
-  cloud_if_log("EasyCloud library version: %d.%d.%d", 
+  cloud_if_log("FogCloud library version: %d.%d.%d", 
                (cloudServiceLibVersion & 0x00FF0000) >> 16,
                (cloudServiceLibVersion & 0x0000FF00) >> 8,
                (cloudServiceLibVersion & 0x000000FF));
   
-  err = EasyCloudServiceInit(&easyCloudContext);
-  require_noerr_action( err, exit, cloud_if_log("ERROR: EasyCloud service init failed.") );
+  err = FogCloudServiceInit(&easyCloudContext);
+  require_noerr_action( err, exit, cloud_if_log("ERROR: FogCloud service init failed.") );
   return kNoErr;
   
 exit:
@@ -149,8 +149,8 @@ OSStatus fogCloudStart(mico_Context_t* const inContext)
   }
   
   // start cloud service
-  err = EasyCloudServiceStart(&easyCloudContext);
-  require_noerr_action( err, exit, cloud_if_log("ERROR: EasyCloud service start failed.") );
+  err = FogCloudServiceStart(&easyCloudContext);
+  require_noerr_action( err, exit, cloud_if_log("ERROR: FogCloud service start failed.") );
   return kNoErr;
   
 exit:
@@ -159,10 +159,10 @@ exit:
 
 easycloud_service_state_t fogCloudGetState(void)
 {
-  easycloud_service_state_t service_running_state = EASYCLOUD_STOPPED;
+  easycloud_service_state_t service_running_state = FOGCLOUD_STOPPED;
   
   cloud_if_log("fogCloudGetState");
-  service_running_state = EasyCloudServiceState(&easyCloudContext);
+  service_running_state = FogCloudServiceState(&easyCloudContext);
   return service_running_state;
 }
 
@@ -172,7 +172,7 @@ OSStatus fogCloudSend(unsigned char *inBuf, unsigned int inBufLen)
   OSStatus err = kUnknownErr;
 
   cloud_if_log("MVD => Cloud[publish]:[%d]=%.*s", inBufLen, inBufLen, inBuf);
-  err = EasyCloudPublish(&easyCloudContext, inBuf, inBufLen);
+  err = FogCloudPublish(&easyCloudContext, inBuf, inBufLen);
   require_noerr_action( err, exit, cloud_if_log("ERROR: fogCloudSend failed! err=%d", err) );
   return kNoErr;
   
@@ -186,7 +186,7 @@ OSStatus fogCloudSendto(const char* topic, unsigned char *inBuf, unsigned int in
   OSStatus err = kUnknownErr;
 
   cloud_if_log("MVD => Cloud[%s]:[%d]=%.*s", topic, inBufLen, inBufLen, inBuf);
-  err = EasyCloudPublishto(&easyCloudContext, topic, inBuf, inBufLen);
+  err = FogCloudPublishto(&easyCloudContext, topic, inBuf, inBufLen);
   require_noerr_action( err, exit, cloud_if_log("ERROR: fogCloudSendto failed! err=%d", err) );
   return kNoErr;
   
@@ -200,7 +200,7 @@ OSStatus fogCloudSendtoChannel(const char* channel, unsigned char *inBuf, unsign
   OSStatus err = kUnknownErr;
 
   cloud_if_log("MVD => Cloud[%s]:[%d]=%.*s", channel, inBufLen, inBufLen, inBuf);
-  err = EasyCloudPublishtoChannel(&easyCloudContext, channel, inBuf, inBufLen);
+  err = FogCloudPublishtoChannel(&easyCloudContext, channel, inBuf, inBufLen);
   require_noerr_action( err, exit, cloud_if_log("ERROR: fogCloudSendtoChannel failed! err=%d", err) );
   return kNoErr;
   
@@ -248,7 +248,7 @@ OSStatus fogCloudDevActivate(mico_Context_t* const inContext,
           devActivateRequestData.user_token, MAX_SIZE_USER_TOKEN);
     
   // activate request
-  err = EasyCloudActivate(&easyCloudContext);
+  err = FogCloudActivate(&easyCloudContext);
   require_noerr_action(err, exit, 
                        cloud_if_log("ERROR: fogCloudDevActivate failed! err=%d", err) );
   
@@ -283,12 +283,12 @@ OSStatus fogCloudDevAuthorize(mico_Context_t* const inContext,
 {
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;
-  easycloud_service_state_t cloudServiceState = EASYCLOUD_STOPPED;
+  easycloud_service_state_t cloudServiceState = FOGCLOUD_STOPPED;
   
   cloud_if_log("Device authorize...");
 
-  cloudServiceState = EasyCloudServiceState(&easyCloudContext);
-  if (EASYCLOUD_STOPPED == cloudServiceState){
+  cloudServiceState = FogCloudServiceState(&easyCloudContext);
+  if (FOGCLOUD_STOPPED == cloudServiceState){
     return kStateErr;
   }
   
@@ -311,7 +311,7 @@ OSStatus fogCloudDevAuthorize(mico_Context_t* const inContext,
   strncpy(easyCloudContext.service_config_info.userToken, 
           devAuthorizeReqData.user_token, MAX_SIZE_USER_TOKEN);
   
-  err = EasyCloudAuthorize(&easyCloudContext);
+  err = FogCloudAuthorize(&easyCloudContext);
   require_noerr_action( err, exit, cloud_if_log("ERROR: authorize failed! err=%d", err) );
   return kNoErr;
   
@@ -349,8 +349,8 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   
   //get latest rom version, file_path, md5
   cloud_if_log("fogCloudDevFirmwareUpdate: get latest rom version from server ...");
-  err = EasyCloudGetLatestRomVersion(&easyCloudContext);
-  require_noerr_action( err, exit, cloud_if_log("ERROR: EasyCloudGetLatestRomVersion failed! err=%d", err) );
+  err = FogCloudGetLatestRomVersion(&easyCloudContext);
+  require_noerr_action( err, exit, cloud_if_log("ERROR: FogCloudGetLatestRomVersion failed! err=%d", err) );
   
   //FW version compare
   cloud_if_log("currnt_version=%s", inContext->flashContentInRam.appConfig.fogcloudConfig.romVersion);
@@ -370,9 +370,9 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
                easyCloudContext.service_status.latestRomVersion);
   
   //get rom data
-  err = EasyCloudGetRomData(&easyCloudContext, ota_flash_params);
+  err = FogCloudGetRomData(&easyCloudContext, ota_flash_params);
   require_noerr_action( err, exit, 
-                       cloud_if_log("ERROR: EasyCloudGetRomData failed! err=%d", err) );
+                       cloud_if_log("ERROR: FogCloudGetRomData failed! err=%d", err) );
   
   //update rom version in flash
   cloud_if_log("fogCloudDevFirmwareUpdate: return rom version && file size.");
@@ -411,8 +411,8 @@ OSStatus fogCloudResetCloudDevInfo(mico_Context_t* const inContext,
   }
   cloud_if_log("fogCloudResetCloudDevInfo: loginId/devPasswd ok!");
   
-  err = EasyCloudDeviceReset(&easyCloudContext);
-  require_noerr_action( err, exit, cloud_if_log("ERROR: EasyCloudDeviceReset failed! err=%d", err) );
+  err = FogCloudDeviceReset(&easyCloudContext);
+  require_noerr_action( err, exit, cloud_if_log("ERROR: FogCloudDeviceReset failed! err=%d", err) );
   
   inContext->appStatus.fogcloudStatus.isActivated = false;
   
@@ -436,9 +436,9 @@ OSStatus fogCloudStop(mico_Context_t* const inContext)
   OSStatus err = kUnknownErr;
   
   cloud_if_log("fogCloudStop");
-  err = EasyCloudServiceStop(&easyCloudContext);
+  err = FogCloudServiceStop(&easyCloudContext);
   require_noerr_action( err, exit, 
-                       cloud_if_log("ERROR: EasyCloudServiceStop err=%d.", err) );
+                       cloud_if_log("ERROR: FogCloudServiceStop err=%d.", err) );
   return kNoErr;
   
 exit:
@@ -451,9 +451,9 @@ OSStatus fogCloudDeinit(mico_Context_t* const inContext)
   OSStatus err = kUnknownErr;
   
   cloud_if_log("fogCloudDeinit");
-  err = EasyCloudServiceDeInit(&easyCloudContext);
+  err = FogCloudServiceDeInit(&easyCloudContext);
   require_noerr_action( err, exit, 
-                       cloud_if_log("ERROR: EasyCloudServiceDeInit err=%d.", err) );
+                       cloud_if_log("ERROR: FogCloudServiceDeInit err=%d.", err) );
   return kNoErr;
   
 exit:

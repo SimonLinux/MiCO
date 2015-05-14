@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
-* @file    EasyCloudServiceDef.h 
+* @file    FogCloudServiceDef.h 
 * @author  Eshen Wang
 * @version V0.2.0
 * @date    23-Nov-2014
-* @brief   This header contains the public defines for EasyCloud service. 
+* @brief   This header contains the public defines for FogCloud service. 
   operation
 ******************************************************************************
 * @attention
@@ -21,8 +21,8 @@
 */ 
 
 
-#ifndef __EASYEASYCLOUD_SERVICE_DEF_H_
-#define __EASYEASYCLOUD_SERVICE_DEF_H_
+#ifndef __EASYFOGCLOUD_SERVICE_DEF_H_
+#define __EASYFOGCLOUD_SERVICE_DEF_H_
 
 #include "Common.h"
 
@@ -72,10 +72,10 @@
  ******************************************************************************/
 
 typedef enum {
-  EASYCLOUD_STOPPED = 1,      //service stopped
-  EASYCLOUD_STARTED = 2,      //service start up
-  EASYCLOUD_CONNECTED = 3,    //service work ok
-  EASYCLOUD_DISCONNECTED = 4  //service diconnected from server
+  FOGCLOUD_STOPPED = 1,      //service stopped
+  FOGCLOUD_STARTED = 2,      //service start up
+  FOGCLOUD_CONNECTED = 3,    //service work ok
+  FOGCLOUD_DISCONNECTED = 4  //service diconnected from server
 } easycloud_service_state_t;
 
 typedef struct _easycloud_service_status_t {

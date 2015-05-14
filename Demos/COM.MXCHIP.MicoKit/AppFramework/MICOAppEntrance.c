@@ -22,7 +22,6 @@
 #include "MICODefine.h"
 #include "MICOAppDefine.h"
 #include "MicoFogCloud.h"
-#include "user_main.h"
 
 #define app_log(M, ...) custom_log("APP", M, ##__VA_ARGS__)
 #define app_log_trace() custom_log_trace("APP")

@@ -1,6 +1,15 @@
 ================================================================================
+¡¾2015.05.14¡¿
+[Name]   : MicoFogCloudService
+[version]: v1.0.0
+
+[Changlog]:
+    1. change name "EasyCloud" => "FogCloud", version 1.0.0;
+    2. fix some bugs.
+
+================================================================================
 ¡¾2015.03.26¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.3.6
 
 [Changlog]:
@@ -9,7 +18,7 @@
 
 ================================================================================
 ¡¾2015.03.23¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.3.6[test]
 
 [Changlog]:
@@ -18,7 +27,7 @@
 
 ================================================================================
 ¡¾2015.03.20¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.3.5[test]
 
 [Changlog]:
@@ -26,7 +35,7 @@
 
 ================================================================================
 ¡¾2015.03.17¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.3.5
 
 [Changlog]:
@@ -35,7 +44,7 @@
 
 ================================================================================
 ¡¾2015.03.03¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.3.4
 
 [Changlog]:
@@ -43,7 +52,7 @@
 
 ================================================================================
 ¡¾2015.02.27¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.3.3
 
 [Changlog]:
@@ -51,7 +60,7 @@
 
 ================================================================================
 ¡¾2015.02.15¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.3.2
 
 [Changlog]:
@@ -62,16 +71,16 @@
 
 ================================================================================
 ¡¾2015.02.10¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.3.1
 
 [Changlog]:
-    1. fix EasyCloudServiceStop bug£»
-    2. fix EasyCloud connect status change bug.
+    1. fix FogCloudServiceStop bug£»
+    2. fix FogCloud connect status change bug.
 
 ================================================================================
 ¡¾2015.02.05¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.3.0
 
 [Changlog]:
@@ -80,48 +89,48 @@
 
 ================================================================================
 ¡¾2015.02.02¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.2.9
 
 [Changlog]:
-    1. add HTTPUtils functions into EasyCloudUtils.c with prefix "ECS_";
+    1. add HTTPUtils functions into FogCloudUtils.c with prefix "ECS_";
     2. set OTA socket connect timeout shorter(timeout 10s, retry 10 times).
 
 ================================================================================
 ¡¾2015.01.28¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.2.8
 
 [Changlog]:
     1. add breakpoint transmission function for OTA && download file from server;
-    2. connect EasyCloud faster.
+    2. connect FogCloud faster.
 
 ================================================================================
 ¡¾2015.01.21¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.2.7
 
 [Changlog]:
     1. fix messge publish error: publish message quickly may case system halt.
     2. add API to send msg to sub-level topic, msg will be published to topic:
        "device_id/out/<channel>"
-       OSStatus EasyCloudPublishtoChannel(easycloud_service_context_t* const context, 
+       OSStatus FogCloudPublishtoChannel(easycloud_service_context_t* const context, 
                             const char* channel, 
                             const unsigned char *msg, unsigned int msgLen);
 
 ================================================================================
 ¡¾2014.12.30¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.2.5
 
 [Changlog]:
     1. fix spell error for var "EasycCloudServiceState", changed to 
        "easycloud_service_state_t".
-    2. fix return bug for functions: EasyCloudGetLatestRomVersion.
+    2. fix return bug for functions: FogCloudGetLatestRomVersion.
 
 ================================================================================
 ¡¾2014.12.26¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.2.4
 
 [Changlog]:
@@ -132,7 +141,7 @@
 
 ================================================================================
 ¡¾2014.12.23¡¿
-[Name]   : MicoEasyCloudService
+[Name]   : MicoFogCloudService
 [version]: v0.2.3
 
 [Changlog]:
@@ -141,16 +150,16 @@
      
   2. API changes:
      add API: 
-     // the same as EasyCloudUpload
-     OSStatus EasyCloudPublish(easycloud_service_context_t* const context, 
+     // the same as FogCloudUpload
+     OSStatus FogCloudPublish(easycloud_service_context_t* const context, 
                           const unsigned char *msg, unsigned int msgLen);
      // send message to the specified topic
-     OSStatus EasyCloudPublishto(easycloud_service_context_t* const context, 
+     OSStatus FogCloudPublishto(easycloud_service_context_t* const context, 
                             const char* topic, 
                             const unsigned char *msg, unsigned int msgLen);
 
-     remvoe(replace it with EasyCloudPublish):
-     OSStatus EasyCloudUpload(easycloud_service_context_t* const context, 
+     remvoe(replace it with FogCloudPublish):
+     OSStatus FogCloudUpload(easycloud_service_context_t* const context, 
                           const unsigned char *msg, unsigned int msgLen);
 
 ================================================================================

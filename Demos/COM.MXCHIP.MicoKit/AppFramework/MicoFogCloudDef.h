@@ -23,7 +23,7 @@
 #ifndef __MICO_FOGCLOUD_DEF_H_
 #define __MICO_FOGCLOUD_DEF_H_
 
-#include "EasyCloudServiceDef.h"
+#include "FogCloudServiceDef.h"
 
 /*******************************************************************************
  * DEFINES

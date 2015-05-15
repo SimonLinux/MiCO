@@ -117,8 +117,7 @@ static void OpenLED_RGB(float *color)
   uint8_t green = (uint8_t)(color[1]);
   uint8_t red = (uint8_t)(color[0]);
   
-  //hsb2rgb_led_log("OpenLED_RGB: color[0]=%f, color[1]=%f, color[2]=%f.", color[0], color[1], color[2]);
-  hsb2rgb_led_log("OpenLED_RGB: red=%d, green=%d, blue=%d.", red, green, blue);
+  //hsb2rgb_led_log("OpenLED_RGB: red=%d, green=%d, blue=%d.", red, green, blue);
   
   rgb_led_init();
   rgb_led_open(red, green, blue);

@@ -303,9 +303,6 @@
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\properties.h</name>
       </file>
-      <configuration>
-        <name>MiCOKit-3288</name>
-      </configuration>
     </group>
     <group>
       <name>User</name>
@@ -392,9 +389,6 @@
         <file>
           <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\uart.h</name>
         </file>
-        <configuration>
-          <name>MiCOKit-3288</name>
-        </configuration>
       </group>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.c</name>
@@ -614,7 +608,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MICOPlatform.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
@@ -633,6 +627,9 @@
     <name>Library</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_debug.a</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_release.a</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\Library\MICOConfig.c</name>

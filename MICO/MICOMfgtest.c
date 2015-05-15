@@ -431,7 +431,7 @@ mfg_test_start:
     //bme280_sensor_deinit();
     err = bme280_sensor_init();
     if(kNoErr != err){
-      sprintf(str, "%s BME280\r\nMoule error!", OLED_MFG_TEST_PREFIX);
+      sprintf(str, "%s BME280\r\nMoule not found!", OLED_MFG_TEST_PREFIX);
       mf_printf(str);
     }
     else{
@@ -503,17 +503,3 @@ exit:
 #endif
 
 /* MFG test demo END */
-
-
-
-
-
-
-
-
-
-
-
-
-
-

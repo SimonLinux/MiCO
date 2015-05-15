@@ -3247,7 +3247,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MICOPlatform.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
@@ -3266,6 +3266,12 @@
     <name>Library</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_debug.a</name>
+      <excluded>
+        <configuration>MiCOKit-3288</configuration>
+      </excluded>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_release.a</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\Library\MICOConfig.c</name>

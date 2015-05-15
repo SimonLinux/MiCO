@@ -324,9 +324,11 @@ static size_t _uart_get_one_packet(uint8_t* inBuf, int inBufLen)
 #ifdef USE_MiCOKit_EXT
 
 #define mfg_test_oled_test_string    "abcdefghijklmnop123456789012345612345678901234561234567890123456"
-extern void wlan_get_mac_address(char *mac);
-
 mico_semaphore_t      mfg_test_state_change_sem = NULL;
+volatile int16_t      mfg_test_module_number = 0;
+extern void wlan_get_mac_address(char *mac);
+volatile bool scanap_done = false;
+
 void mico_notify_WifiScanCompleteHandler( ScanResult *pApList, void * inContext )
 {
     char str[64] = {'\0'};
@@ -334,6 +336,7 @@ void mico_notify_WifiScanCompleteHandler( ScanResult *pApList, void * inContext 
     sprintf(str, "%s Wi-Fi\r\nScan AP:\r\nssid :%10s\r\npower:%10d", OLED_MFG_TEST_PREFIX,
              pApList->ApList[0].ssid, pApList->ApList[0].ApPower);
     mf_printf(str);
+    scanap_done = true;
 }
 
 void mico_mfg_test(mico_Context_t *inContext)
@@ -345,8 +348,8 @@ void mico_mfg_test(mico_Context_t *inContext)
   int rgb_led_hue = 0;
   
   uint8_t dht11_ret = 0;
-  uint8_t temp_data = 0;
-  uint8_t hum_data = 0;
+  uint8_t dht11_temp_data = 0;
+  uint8_t dht11_hum_data = 0;
   
   int light_ret = 0;
   uint16_t light_sensor_data = 0;
@@ -362,138 +365,151 @@ void mico_mfg_test(mico_Context_t *inContext)
   
   mico_rtos_init_semaphore(&mfg_test_state_change_sem, 1); 
   err = MICOAddNotification( mico_notify_WIFI_SCAN_COMPLETED, (void *)mico_notify_WifiScanCompleteHandler );
-  require_noerr( err, exit ); 
-
-mfg_test_start:
+  require_noerr( err, exit );
   
-  // mfg mode start
-  wlan_get_mac_address(mac);
-  sprintf(str, "%s\r\nStart:\r\n%s", "TEST MODE", "     Press Key2");
-  mf_printf(str);
-  mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER); 
-  
-  // OLED test
-  while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
-  {
-    sprintf(str, "%s OLED\r\n", OLED_MFG_TEST_PREFIX);
-    mf_printf(str);
-    mico_thread_msleep(300);
-    
-    mf_printf(mfg_test_oled_test_string);
-    mico_thread_msleep(300);
-  }
-  OLED_Clear();
-  
-  // RGB_LED test
-  sprintf(str, "%s RGB LED\r\nBlink: \r\n      R=>G=>B", OLED_MFG_TEST_PREFIX);
-  mf_printf(str);
-  
-  while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
-  {
-    hsb2rgb_led_open(rgb_led_hue, 100, 50);
-    rgb_led_hue += 120;
-    if(rgb_led_hue >= 360){
-      rgb_led_hue = 0;
-    }
-    mico_thread_msleep(300);
-  }
-  hsb2rgb_led_open(0, 0, 0);
-  
-  // Infrared sensor test
-  while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
-  { 
-    // get infrared sensor data
-    infrared_ret = infrared_reflective_read(&infrared_reflective_data);
-    if(0 == infrared_ret){ 
-      sprintf(str, "%s Infrared\r\nInfrared: %d", OLED_MFG_TEST_PREFIX,
-              infrared_reflective_data);
-      mf_printf(str);
-    }
-    mico_thread_msleep(500);
-  }
-  
-  // DC Motor test
-  sprintf(str, "%s DC Motor\r\nRun:\r\n     on : 500ms\r\n     off: 500ms", OLED_MFG_TEST_PREFIX);
-  mf_printf(str);
-  
-  while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
-  {
-    dc_motor_set(1);
-    mico_thread_msleep(500);
-    dc_motor_set(0);
-    mico_thread_msleep(500);
-  }
-  dc_motor_set(0);
-  
-  // BME280 test
-  while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
-  {
-    //bme280_sensor_deinit();
-    err = bme280_sensor_init();
-    if(kNoErr != err){
-      sprintf(str, "%s BME280\r\nMoule not found!", OLED_MFG_TEST_PREFIX);
-      mf_printf(str);
-    }
-    else{
-      err = bme280_data_readout(&bme280_temp, &bme280_press, &bme280_hum);
-      if(kNoErr == err){
-        sprintf(str, "%s BME280\r\nT: %3.1fC\r\nH: %3.1f%%\r\nP: %5.2fkPa", OLED_MFG_TEST_PREFIX,
-                (float)bme280_temp/100, (float)bme280_hum/1024, (float)bme280_press/1000);
+  while(1){
+    switch(mfg_test_module_number){
+    case 0:  // mfg mode start
+      {
+        sprintf(str, "%s\r\nStart:\r\n%s\r\n%s", "TEST MODE", "  next: Key2", "  prev: Key1");
         mf_printf(str);
+        while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER));
+        break;
       }
-      else{
-        sprintf(str, "%s BME280\r\nRead error!", OLED_MFG_TEST_PREFIX);
+    case 1:  // OLED
+      {
+        while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
+        {
+          sprintf(str, "%s OLED\r\n", OLED_MFG_TEST_PREFIX);
+          mf_printf(str);
+          mico_thread_msleep(300);
+          
+          mf_printf(mfg_test_oled_test_string);
+          mico_thread_msleep(300);
+        }
+        OLED_Clear();
+        break;
+      }
+    case 2:  // RGB_LED
+      {
+        sprintf(str, "%s RGB LED\r\nBlink: \r\n      R=>G=>B", OLED_MFG_TEST_PREFIX);
         mf_printf(str);
+        
+        while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
+        {
+          hsb2rgb_led_open(rgb_led_hue, 100, 50);
+          rgb_led_hue += 120;
+          if(rgb_led_hue >= 360){
+            rgb_led_hue = 0;
+          }
+          mico_thread_msleep(300);
+        }
+        hsb2rgb_led_open(0, 0, 0);
+        break;
       }
+    case 3: // infrared sensor
+      {
+        while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
+        {
+          infrared_ret = infrared_reflective_read(&infrared_reflective_data);
+          if(0 == infrared_ret){ 
+            sprintf(str, "%s Infrared\r\nInfrared: %d", OLED_MFG_TEST_PREFIX,
+                    infrared_reflective_data);
+            mf_printf(str);
+          }
+          mico_thread_msleep(300);
+        }
+        break;
+      }
+    case 4: // DC Motor
+      {
+        sprintf(str, "%s DC Motor\r\nRun:\r\n     on : 500ms\r\n     off: 500ms", OLED_MFG_TEST_PREFIX);
+        mf_printf(str);
+        
+        while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
+        {
+          dc_motor_set(1);
+          mico_thread_msleep(500);
+          dc_motor_set(0);
+          mico_thread_msleep(500);
+        }
+        dc_motor_set(0);
+        break;
+      }
+    case 5: // BME280
+      {
+        while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
+        {
+          err = bme280_sensor_init();
+          if(kNoErr != err){
+            sprintf(str, "%s BME280\r\nMoule not found!", OLED_MFG_TEST_PREFIX);
+            mf_printf(str);
+            // goto next mdoule
+            mfg_test_module_number = (mfg_test_module_number+1)%(MFG_TEST_MAX_MODULE_NUM+1);
+            break;
+          }
+          else{
+            err = bme280_data_readout(&bme280_temp, &bme280_press, &bme280_hum);
+            if(kNoErr == err){
+              sprintf(str, "%s BME280\r\nT: %3.1fC\r\nH: %3.1f%%\r\nP: %5.2fkPa", OLED_MFG_TEST_PREFIX,
+                      (float)bme280_temp/100, (float)bme280_hum/1024, (float)bme280_press/1000);
+              mf_printf(str);
+            }
+            else{
+              sprintf(str, "%s BME280\r\nRead error!", OLED_MFG_TEST_PREFIX);
+              mf_printf(str);
+            }
+          }
+          mico_thread_msleep(500);
+        }
+        break;
+      }
+    case 6: // DHT11
+      {
+        while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
+        {
+          dht11_ret = DHT11_Read_Data(&dht11_temp_data, &dht11_hum_data);
+          if(0 == dht11_ret){
+            sprintf(str, "%s DHT11\r\nT: %3.1fC\r\nH: %3.1f%%", OLED_MFG_TEST_PREFIX,
+                    (float)dht11_temp_data, (float)dht11_hum_data);
+            mf_printf(str);
+          }
+          mico_thread_sleep(1);   // DHT11 must >= 1s
+        }
+        break;
+      }
+    case 7:   // Light sensor
+      {
+        while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
+        {
+          light_ret = light_sensor_read(&light_sensor_data);
+          if(0 == light_ret){
+            sprintf(str, "%s Light\r\nLight: %d", OLED_MFG_TEST_PREFIX,
+                    light_sensor_data);
+            mf_printf(str);
+          }
+          mico_thread_msleep(300);
+        }
+        break;
+      }
+    case 8: // wifi
+      {
+        wlan_get_mac_address(mac);
+        sprintf(str, "%s Wi-Fi\r\nMAC:\r\n    %02X%02X%02X%02X%02X%02X", OLED_MFG_TEST_PREFIX,
+                mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+        mf_printf(str);
+        //mico_thread_msleep(500);
+        
+        scanap_done = false;
+        micoWlanStartScan();
+        while((!scanap_done) || (kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER)));
+        break;
+      }
+    default:
+      goto exit;  // error
+      break;
     }
-    mico_thread_msleep(500);
   }
-    
-  // DHT11 test
-  while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
-  {
-    dht11_ret = DHT11_Read_Data(&temp_data, &hum_data);
-    if(0 == dht11_ret){
-      sprintf(str, "%s DHT11\r\nT: %dC\r\nH: %d%%", OLED_MFG_TEST_PREFIX,
-              temp_data, hum_data);
-      mf_printf(str);
-    }
-    mico_thread_sleep(1);   // DHT11 must >= 1s
-  }
-  
-  // Light sensor test
-  while(kNoErr != mico_rtos_get_semaphore(&mfg_test_state_change_sem, 0))
-  {
-    light_ret = light_sensor_read(&light_sensor_data);
-    if(0 == light_ret){
-      sprintf(str, "%s Light\r\nLight: %d", OLED_MFG_TEST_PREFIX,
-              light_sensor_data);
-      mf_printf(str);
-    }
-    mico_thread_msleep(500);
-  }
-  
-  // BMX055
-  
-  // APDS9930
-  
-    
-  // Wi-Fi test
-  wlan_get_mac_address(mac);
-  sprintf(str, "%s Wi-Fi\r\nMAC:\r\n    %02X%02X%02X%02X%02X%02X", OLED_MFG_TEST_PREFIX,
-          mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-  mf_printf(str);
-  mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER);
-  
-  micoWlanStartScan();
-  mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER);
-  
-  // test done
-  sprintf(str, "%s done\r\nRetry: \r\n      Press key2", OLED_MFG_TEST_PREFIX);
-  mf_printf(str);
-  mico_rtos_get_semaphore(&mfg_test_state_change_sem, MICO_WAIT_FOREVER);
-  
-  goto mfg_test_start;
   
 exit:
   mico_thread_sleep(MICO_NEVER_TIMEOUT);

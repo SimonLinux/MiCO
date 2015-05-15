@@ -26,12 +26,22 @@
 #define micokit_ext_log_trace() custom_log_trace("MICOKIT_EXT")
 
 extern mico_semaphore_t      mfg_test_state_change_sem;
+extern volatile int16_t      mfg_test_module_number;
 
 //---------------------------- user modules functions --------------------------
 
-// Key1 clicked callback
+// Key1 clicked callback:  previous test module in test mode
 void user_key1_clicked_callback(void)
 {
+  if(NULL != mfg_test_state_change_sem){
+    if( 0 < mfg_test_module_number){
+      mfg_test_module_number = (mfg_test_module_number - 1)%(MFG_TEST_MAX_MODULE_NUM+1);
+    }
+    else{
+      mfg_test_module_number = MFG_TEST_MAX_MODULE_NUM;
+    }
+    mico_rtos_set_semaphore(&mfg_test_state_change_sem);  // go back to previous module
+  }
   return;
 }
 
@@ -41,10 +51,11 @@ void user_key1_long_pressed_callback(void)
   return;
 }
 
-// Key2 clicked callback:  change test module in test mode
+// Key2 clicked callback:  next test module in test mode
 void user_key2_clicked_callback(void)
 {
   if(NULL != mfg_test_state_change_sem){
+    mfg_test_module_number = (mfg_test_module_number+1)%(MFG_TEST_MAX_MODULE_NUM+1);
     mico_rtos_set_semaphore(&mfg_test_state_change_sem);  // start next module
   }
   return;

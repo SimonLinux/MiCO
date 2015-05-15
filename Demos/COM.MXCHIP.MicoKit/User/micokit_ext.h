@@ -36,6 +36,8 @@
 #define DEV_KIT_MANUFACTURER    "MXCHIP"
 #define DEV_KIT_NAME            "MiCOKit3288"
 
+#define MFG_TEST_MAX_MODULE_NUM      8
+
 OSStatus micokit_ext_init(void);    // MicoKit extension board init
 
 OSStatus user_modules_init(void);   // init modules on MicoKit extension board

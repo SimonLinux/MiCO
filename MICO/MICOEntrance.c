@@ -108,6 +108,7 @@ USED void PlatformEasyLinkButtonLongPressedCallback(void)
 
   mico_log("PlatformEasyLinkButtonLongPressedCallback");
   MICORestoreDefault(context);
+  needsUpdate = true;
   context->micoStatus.sys_state = eState_Software_Reset;
   require(context->micoStatus.sys_state_change_sem, exit);
   mico_rtos_set_semaphore(&context->micoStatus.sys_state_change_sem);

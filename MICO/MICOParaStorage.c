@@ -46,10 +46,10 @@ __weak void appRestoreDefault_callback(mico_Context_t *inContext)
 OSStatus MICORestoreDefault(mico_Context_t *inContext)
 { 
   OSStatus err = kNoErr;
-  uint32_t paraStartAddress, paraEndAddress;
- 
-  paraStartAddress = PARA_START_ADDRESS;
-  paraEndAddress = PARA_END_ADDRESS;
+//  uint32_t paraStartAddress, paraEndAddress;
+// 
+//  paraStartAddress = PARA_START_ADDRESS;
+//  paraEndAddress = PARA_END_ADDRESS;
 
   /*wlan configration is not need to change to a default state, use easylink to do that*/
   memset(&inContext->flashContentInRam, 0x0, sizeof(inContext->flashContentInRam));
@@ -65,16 +65,16 @@ OSStatus MICORestoreDefault(mico_Context_t *inContext)
   /*Application's default configuration*/
   appRestoreDefault_callback(inContext);
 
-  err = MicoFlashInitialize(MICO_FLASH_FOR_PARA);
-  require_noerr(err, exit);
-  err = MicoFlashErase(MICO_FLASH_FOR_PARA, paraStartAddress, paraEndAddress);
-  require_noerr(err, exit);
-  err = MicoFlashWrite(MICO_FLASH_FOR_PARA, &paraStartAddress, (void *)inContext, sizeof(flash_content_t));
-  require_noerr(err, exit);
-  err = MicoFlashFinalize(MICO_FLASH_FOR_PARA);
-  require_noerr(err, exit);
+//  err = MicoFlashInitialize(MICO_FLASH_FOR_PARA);
+//  require_noerr(err, exit);
+//  err = MicoFlashErase(MICO_FLASH_FOR_PARA, paraStartAddress, paraEndAddress);
+//  require_noerr(err, exit);
+//  err = MicoFlashWrite(MICO_FLASH_FOR_PARA, &paraStartAddress, (void *)inContext, sizeof(flash_content_t));
+//  require_noerr(err, exit);
+//  err = MicoFlashFinalize(MICO_FLASH_FOR_PARA);
+//  require_noerr(err, exit);
 
-exit:
+//exit:
   return err;
 }
 

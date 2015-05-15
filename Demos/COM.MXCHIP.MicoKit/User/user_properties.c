@@ -23,12 +23,7 @@
 #include "properties.h"
 #include "user_properties.h"
 
-#include "drivers/hsb2rgb_led.h"
-#include "drivers/uart.h"
-#include "drivers/light_sensor.h"
-#include "drivers/infrared_reflective.h"
-#include "drivers/dc_motor.h"
-#include "drivers/temp_hum_sensor.h"
+#include "micokit_ext.h"
 
 #define properties_user_log(M, ...) custom_log("DEV_PROPERTIES_USER", M, ##__VA_ARGS__)
 #define properties_user_log_trace() custom_log_trace("DEV_PROPERTIES_USER")

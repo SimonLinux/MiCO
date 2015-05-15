@@ -28,8 +28,8 @@
 #define APP_INFO                           "MicoKit3288 Demo based on MICO OS"
 
 #define FIRMWARE_REVISION                  "MICO_KIT3288_1_0"
-#define SERIAL_NUMBER                      "20150420"
-#define PROTOCOL                           "com.mxchip.micokit3288"
+#define SERIAL_NUMBER                      "20150515"
+#define PROTOCOL                           "com.mxchip.micokit"
 
 /* product type */
 #define PRODUCT_ID                         "d64f517c"

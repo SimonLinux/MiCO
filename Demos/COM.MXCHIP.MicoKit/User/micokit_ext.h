@@ -32,6 +32,7 @@
 #include "drivers/infrared_reflective.h"
 #include "drivers/dc_motor.h"
 #include "drivers/keys.h"
+#include "drivers/uart.h"
 
 #define DEV_KIT_MANUFACTURER    "MXCHIP"
 #define DEV_KIT_NAME            "MiCOKit3288"

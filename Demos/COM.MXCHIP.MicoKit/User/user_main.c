@@ -24,7 +24,6 @@
 #include "fogcloud_msg_dispatch.h"
 
 #include "user_properties.h"
-#include "user_params_storage.h"
 #include "micokit_ext.h"
 
 #define user_log(M, ...) custom_log("USER", M, ##__VA_ARGS__)
@@ -35,7 +34,7 @@
  */
 // device services &&¡¡properties table
 extern struct mico_service_t  service_table[];
-// user params
+// user context
 extern user_context_t g_user_context;
 
 
@@ -45,7 +44,6 @@ extern user_context_t g_user_context;
 void userRestoreDefault_callback(mico_Context_t *mico_context)
 {
   //user_log("INFO: restore user configuration.");
-  //userParams_RestoreDefault(mico_context, &g_user_context);
 }
 
 /* FogCloud message receive callback: handle cloud messages here
@@ -83,59 +81,6 @@ OSStatus user_fogcloud_msg_handler(mico_Context_t* mico_context,
   return err;
 }
 
-//-------------------------- User params storage function ----------------------
-
-//OSStatus user_settings_recovery(mico_Context_t *mico_context, user_context_t *user_context)
-//{
-//  OSStatus err = kNoErr;
-//  
-//  /* read user context config from flash */
-//  if(NULL == user_context->config_mutex){
-//    err = mico_rtos_init_mutex(&user_context->config_mutex);
-//    require_noerr_action( err, exit, user_log("ERROR: mico_rtos_init_mutex (user_context->config_mutex) err=%d.", err) );
-//  }
-//  err = userParams_Read(mico_context, user_context);
-//  require_noerr_action( err, exit, user_log("ERROR: userParams_Read err=%d.", err) );
-//  
-//  /* reset user context status */
-//  user_context->status.user_config_need_update = false;
-//  user_context->status.light_sensor_data = 0;
-//  user_context->status.uart_rx_data_len = 0;
-//  
-//  /* set initial state of user modules */ 
-//  // RGB LED
-//  hsb2rgb_led_open(user_context->config.rgb_led_hues,
-//                   user_context->config.rgb_led_saturation,
-//                   user_context->config.rgb_led_brightness);
-//  
-//  // DC Motor
-//  dc_motor_set(user_context->config.dc_motor_switch);
-//  
-//exit:  
-//  return err;
-//}
-//
-//OSStatus user_settings_update(mico_Context_t *mico_context, user_context_t *user_context)
-//{
-//  OSStatus err = kUnknownErr;
-//  
-//  if(user_context->status.user_config_need_update){
-//    err = userParams_Update(mico_context, user_context);
-//    if(kNoErr == err){
-//      user_context->status.user_config_need_update = false;
-//    }
-//    else{
-//      user_log("ERROR: userParams_Update err = %d.", err);
-//    }
-//  }
-//  else{
-//    err = kNoErr;
-//  }
-//  
-//  return err;
-//}
-
-
 //---------------------------- User work function ------------------------------
 
 //--- show actions for user, such as OLED, RGB_LED, DC_Motor
@@ -171,10 +116,6 @@ OSStatus user_main( mico_Context_t * const mico_context )
   user_log_trace();
   OSStatus err = kUnknownErr;
   
-  /* recovery user settings from flash && set initail state of user modules */
-  //err = user_settings_recovery(mico_context, &g_user_context);
-  //require_noerr_action( err, exit, user_log("ERROR: user_settings_recovery err=%d.", err) );
-  
 #if (MICO_CLOUD_TYPE != CLOUD_DISABLED)
   /* start properties notify task */
   err = mico_start_properties_notify(mico_context, service_table, 
@@ -190,10 +131,6 @@ OSStatus user_main( mico_Context_t * const mico_context )
     
     // system work state show on OLED
     system_state_display(mico_context, &g_user_context);
-    
-    /* save user settings into flash */
-    //err = user_settings_update(mico_context, &g_user_context);
-    //require_noerr_action( err, exit, user_log("ERROR: user_settings_update err=%d.", err) );
   }
   
 exit:

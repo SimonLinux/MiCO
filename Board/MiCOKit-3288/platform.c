@@ -446,20 +446,19 @@ void MicoRfLed(bool onoff)
 //--------------------------------- MFG MODOE ----------------------------------
 bool MicoShouldEnterMFGMode(void)
 {
-#ifdef USE_MiCOKit_EXT 
-  if(MicoGpioInputGet((mico_gpio_t)Arduino_D5) == false)   // holding key2 and press reset key to enter mfg_test
-#else
-    if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false)
-#endif
-      return true;
-    else
-      return false;
+  if( (MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false) ||
+     (MicoGpioInputGet((mico_gpio_t)Arduino_D5) == false) ){
+       return true;
+     }
+  else{
+    return false;
+  }
 }
 
 //--------------------------------- BOOTLOADER MODOE ---------------------------
 bool MicoShouldEnterBootloader(void)
 {
-  if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false /*&& MicoGpioInputGet((mico_gpio_t)MFG_SEL)==true*/)
+  if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==true)
     return true;
   else
     return false;

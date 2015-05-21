@@ -33,9 +33,9 @@
 #define PROTOCOL                           "com.mxchip.fog"
 
 /* product type */
-// NOTE: here is a test product for EMW3288, create a new product on fogcloud developper center and replace it.
-#define PRODUCT_ID                         "d64f517c"
-#define PRODUCT_KEY                        "e935ef56-1d03-4432-9524-8d4a691a26ec"
+// NOTE: use your own product id/key create in FogCloud developper center(www.easylink.io).
+#define PRODUCT_ID                        "062bfffc"
+#define PRODUCT_KEY                       "3cd53e02-5739-4b5a-a5e8-62fefb787598"
 
 #define DEFAULT_ROM_VERSION                "v1.0.0"
 #define DEFAULT_DEVICE_NAME                "MicoFog"      // device name upload to cloud

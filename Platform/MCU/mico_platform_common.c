@@ -37,8 +37,10 @@
 #include "platform_config.h"
 #include "platformLogging.h"
 
+#ifndef BOOTLOADER
 #ifdef USE_MiCOKit_EXT
 #include "micokit_ext.h"   // extension board operation by user.
+#endif
 #endif
 
 /******************************************************
@@ -113,8 +115,10 @@ OSStatus mico_platform_init( void )
   platform_filesystem_init();
 #endif
   
+#ifndef BOOTLOADER
 #ifdef USE_MiCOKit_EXT
   micokit_ext_init();
+#endif
 #endif
   
   return kNoErr;

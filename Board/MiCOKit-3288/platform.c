@@ -41,9 +41,9 @@
 #include "spi_flash_platform_interface.h"
 #include "wlan_platform_common.h"
 
-//#ifdef USE_MiCOKit_EXT
-//#include "rgb_led.h"
-//#endif
+#ifdef USE_MiCOKit_EXT
+  #include "rgb_led.h"
+#endif
 
 /******************************************************
 *                      Macros
@@ -406,6 +406,9 @@ void init_platform_bootloader( void )
 #ifdef USE_MiCOKit_EXT
   MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );
   MicoGpioOutputLow( Arduino_D9 );
+  
+  rgb_led_init();
+  rgb_led_open(0, 0, 0);
 #endif
 }
 

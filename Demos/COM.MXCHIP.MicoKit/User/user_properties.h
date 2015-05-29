@@ -29,7 +29,7 @@
  ******************************************************************************/
 #define MAX_DEVICE_NAME_SIZE            16
 #define MAX_DEVICE_MANUFACTURER_SIZE    16
-#define MAX_USER_UART_BUF_SIZE          512
+#define MAX_USER_UART_BUF_SIZE          32 // for OLED display
  
 /*******************************************************************************
  * USER CONTEXT
@@ -40,8 +40,8 @@ typedef struct _user_config_t {
   // dev_info
   char dev_name[MAX_DEVICE_NAME_SIZE+1];
   uint32_t dev_name_len; 
-  char dev_manufacturer[MAX_DEVICE_MANUFACTURER_SIZE+1];
-  uint32_t dev_manufacturer_len;
+  //char dev_manufacturer[MAX_DEVICE_MANUFACTURER_SIZE+1];
+  //uint32_t dev_manufacturer_len;
   
   // rgb led
   bool rgb_led_sw;
@@ -56,7 +56,8 @@ typedef struct _user_config_t {
 
 // user module status
 typedef struct _user_status_t {
-  bool user_config_need_update;               // if set, user context config need to write back to flash.
+//  bool user_config_need_update;               // if set, user context config need to write back to flash.
+  int32_t oled_keep_s;   // oled keep current display info time(s)
   
   //  light sensor (ADC1_4)
   int light_sensor_data;

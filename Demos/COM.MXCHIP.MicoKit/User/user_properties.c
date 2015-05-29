@@ -47,9 +47,10 @@ bool property_event = true;    // all event value is true.
 user_context_t g_user_context = {
   .config.dev_name = DEFAULT_DEVICE_NAME,
   .config.dev_name_len = 11,
-  .config.dev_manufacturer = DEFAULT_MANUFACTURER,
-  .config.dev_manufacturer_len = 6,
-  .status.user_config_need_update = false,
+//  .config.dev_manufacturer = DEFAULT_MANUFACTURER,
+//  .config.dev_manufacturer_len = 6,
+//  .status.user_config_need_update = false,
+  .status.oled_keep_s = 0,    // oled display keep time(ms), 0 means no keep
   
   .config.rgb_led_sw = false,
   .config.rgb_led_hues = 0,
@@ -382,10 +383,13 @@ int uart_data_recv(struct mico_prop_t *prop, void *arg, void *val, uint32_t *val
 {
   int ret = 0;  
   uint32_t recv_len = 0;
+  //char string_display_on_oled[33] = {'\0'};
   
-  if((NULL == prop) || (NULL == val)){
+  if((NULL == prop) || (NULL == val) || (NULL == arg)){
     return -1;
   }
+  
+  //user_context_t *uct = (user_context_t*)arg;
   
   // recv data from uart
   memset(val, '\0', prop->maxStringLen);
@@ -403,16 +407,19 @@ int uart_data_recv(struct mico_prop_t *prop, void *arg, void *val, uint32_t *val
   return ret;
 }
 
-// set function: send data to uart
+// set function: send data to uart && OLED
 int uart_data_send(struct mico_prop_t *prop, void *arg, void *val, uint32_t val_len)
 {
   int ret = 0;
   OSStatus err = kUnknownErr;
   uint32_t send_len = 0;
+  char string_display_on_oled[MAX_USER_UART_BUF_SIZE+1] = {'\0'};
   
-  if(NULL == prop){
+  if((NULL == prop) || (NULL == arg)){
     return -1;
   }
+  
+  user_context_t *uct = (user_context_t*)arg;
   
   // send data
   send_len = ((val_len > prop->maxStringLen) ? prop->maxStringLen : val_len);
@@ -422,8 +429,19 @@ int uart_data_send(struct mico_prop_t *prop, void *arg, void *val, uint32_t val_
     ret = 0;  // set ok
   }
   else{
-   ret = -1;
+    properties_user_log("ERROR: uart_data_send, err=%d.", err);
+    ret = -1; // set failed
   }
+  
+  // display string on OLED (max_len=32bytes)
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)"Recv Data:      ");
+  memset(string_display_on_oled, ' ', MAX_USER_UART_BUF_SIZE+1);
+  //snprintf(string_display_on_oled, 33, "%-32s", (uint8_t*)val);
+  memcpy(string_display_on_oled, (uint8_t*)val, send_len);
+  string_display_on_oled[MAX_USER_UART_BUF_SIZE] = '\0';
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)string_display_on_oled);
+  ret = 0;  // set always ok
+  uct->status.oled_keep_s = 3;   // display 3s
   
   return ret;
 }
@@ -632,21 +650,21 @@ const struct mico_service_t  service_table[] = {
         .hasMeta = false,                   // no max/min/step
         .maxStringLen = MAX_DEVICE_NAME_SIZE,  // max length of device name string
       },
-      [1] = {
-        .type = "public.map.property.manufacturer",  // device manufacturer uuid
-        .value = &(g_user_context.config.dev_manufacturer),
-        .value_len = &(g_user_context.config.dev_manufacturer_len),
-        .format = MICO_PROP_TYPE_STRING,
-        .perms = MICO_PROP_PERMS_RO,
-        .get = string_get,                  // get string func to get manufacturer
-        .set = NULL      ,                  // set sring func to change manufacturer
-        .notify_check = NULL,               // not notifiable
-        .arg = &(g_user_context.config.dev_manufacturer),
-        .event = NULL,                      // not notifiable
-        .hasMeta = false, 
-        .maxStringLen = MAX_DEVICE_MANUFACTURER_SIZE,  // max length of device manufacturer
-      },
-      [2] = {NULL}                          // end flag
+//      [1] = {
+//        .type = "public.map.property.manufacturer",  // device manufacturer uuid
+//        .value = &(g_user_context.config.dev_manufacturer),
+//        .value_len = &(g_user_context.config.dev_manufacturer_len),
+//        .format = MICO_PROP_TYPE_STRING,
+//        .perms = MICO_PROP_PERMS_RO,
+//        .get = string_get,                  // get string func to get manufacturer
+//        .set = NULL      ,                  // set sring func to change manufacturer
+//        .notify_check = NULL,               // not notifiable
+//        .arg = &(g_user_context.config.dev_manufacturer),
+//        .event = NULL,                      // not notifiable
+//        .hasMeta = false, 
+//        .maxStringLen = MAX_DEVICE_MANUFACTURER_SIZE,  // max length of device manufacturer
+//      },
+      [1] = {NULL}                          // end flag
     }
   },
   [1] = {

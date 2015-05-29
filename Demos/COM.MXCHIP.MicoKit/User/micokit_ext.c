@@ -72,7 +72,7 @@ void user_key2_long_pressed_callback(void)
 OSStatus user_modules_init(void)
 {
   OSStatus err = kUnknownErr;
-  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW] = {'\0'};   // max char each line
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};   // max char each line
   
   // init DC Motor(GPIO)
   dc_motor_init();
@@ -85,10 +85,10 @@ OSStatus user_modules_init(void)
   // init OLED
   OLED_Init();
   OLED_Clear();
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", (uint8_t*)DEV_KIT_NAME);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)DEV_KIT_NAME);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_1, (uint8_t*)oled_show_line);
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", (uint8_t*)"MiCO            ");
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"MiCO            ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)"   Starting... ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)"                ");

@@ -87,14 +87,14 @@ void ConfigWillStart( mico_Context_t * const inContext )
   config_delegate_log_trace();
   (void)(inContext); 
 #ifdef USE_MiCOKit_EXT
-  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW] = {'\0'};
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
 #endif
     /*Led trigger*/
   mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL, _led_EL_Timeout_handler, NULL);
   mico_start_timer(&_Led_EL_timer);
 #ifdef USE_MiCOKit_EXT
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", (uint8_t*)"Config...       ");
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Config...       ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Wait for      ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    ssid/key    ");
@@ -107,15 +107,15 @@ void ConfigWillStop( mico_Context_t * const inContext )
   (void)(inContext); 
   config_delegate_log_trace();
 #ifdef USE_MiCOKit_EXT
-  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW] = {'\0'};
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
 #endif
 
   mico_stop_timer(&_Led_EL_timer);
   mico_deinit_timer( &_Led_EL_timer );
   MicoGpioOutputLow((mico_gpio_t)MICO_SYS_LED);
 #ifdef USE_MiCOKit_EXT
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", (uint8_t*)"Config          ");
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Config          ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "    Stop        ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
@@ -128,7 +128,7 @@ void ConfigAirkissIsSuccess( mico_Context_t * const inContext )
   (void)(inContext); 
   config_delegate_log_trace();
   #ifdef USE_MiCOKit_EXT
-  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW] = {'\0'};
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
 #endif
 
   mico_stop_timer(&_Led_EL_timer);
@@ -136,14 +136,14 @@ void ConfigAirkissIsSuccess( mico_Context_t * const inContext )
   mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL_AFTER_EASYLINK, _led_EL_Timeout_handler, NULL);
   mico_start_timer(&_Led_EL_timer);
 #ifdef USE_MiCOKit_EXT
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", (uint8_t*)"Airkiss got     ");
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Airkiss got     ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "ssid:%s", inContext->flashContentInRam.micoSystemConfig.ssid);
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inContext->flashContentInRam.micoSystemConfig.ssid);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)oled_show_line);
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "key:%s", inContext->flashContentInRam.micoSystemConfig.user_key);
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inContext->flashContentInRam.micoSystemConfig.user_key);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
   return;
@@ -154,7 +154,7 @@ void ConfigEasyLinkIsSuccess( mico_Context_t * const inContext )
   (void)(inContext); 
   config_delegate_log_trace();
 #ifdef USE_MiCOKit_EXT
-  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW] = {'\0'};
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
 #endif
 
   mico_stop_timer(&_Led_EL_timer);
@@ -162,14 +162,14 @@ void ConfigEasyLinkIsSuccess( mico_Context_t * const inContext )
   mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL_AFTER_EASYLINK, _led_EL_Timeout_handler, NULL);
   mico_start_timer(&_Led_EL_timer);
 #ifdef USE_MiCOKit_EXT
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", (uint8_t*)"EasyLink got    ");
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"EasyLink got    ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "ssid:%s", inContext->flashContentInRam.micoSystemConfig.ssid);
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inContext->flashContentInRam.micoSystemConfig.ssid);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)oled_show_line);
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "key:%s", inContext->flashContentInRam.micoSystemConfig.user_key);
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inContext->flashContentInRam.micoSystemConfig.user_key);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
   return;
@@ -178,17 +178,17 @@ void ConfigEasyLinkIsSuccess( mico_Context_t * const inContext )
 void ConfigSoftApWillStart(mico_Context_t * const inContext )
 {
 #ifdef USE_MiCOKit_EXT
-  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW] = {'\0'};
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
 #endif
   mico_stop_timer(&_Led_EL_timer);
   mico_deinit_timer( &_Led_EL_timer );
   mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL_AFTER_EASYLINK, _led_EL_Timeout_handler, NULL);
   mico_start_timer(&_Led_EL_timer);
 #ifdef USE_MiCOKit_EXT
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", "SoftAP...       ");
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", "SoftAP...       ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, " EasyLink_%c%c%c%c%c%c", 
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, " EasyLink_%c%c%c%c%c%c", 
            inContext->micoStatus.mac[9],  inContext->micoStatus.mac[10],
            inContext->micoStatus.mac[12], inContext->micoStatus.mac[13],
            inContext->micoStatus.mac[15], inContext->micoStatus.mac[16] );
@@ -218,17 +218,17 @@ json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext )
   json_object *sectors, *sector, *subMenuSectors, *subMenuSector, *mainObject = NULL;
   
 #ifdef USE_MiCOKit_EXT
-  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW] = {'\0'};
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
   char server_ip[16] = {0};
 
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", (uint8_t*)"FTC...          ");
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"FTC...          ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "IP:%s", inet_ntoa(server_ip,inContext->flashContentInRam.micoSystemConfig.easylinkServerIP));
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inet_ntoa(server_ip,inContext->flashContentInRam.micoSystemConfig.easylinkServerIP));
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)oled_show_line);
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", (uint8_t*)"Config upload...");
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", (uint8_t*)"Config upload...");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
 
@@ -468,17 +468,17 @@ OSStatus ConfigIncommingJsonMessage( const char *input, mico_Context_t * const i
   config_delegate_log_trace();
   
 #ifdef USE_MiCOKit_EXT
-  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW] = {'\0'};
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
   char server_ip[16] = {0};
   
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", (uint8_t*)"FTC...          ");
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"FTC...          ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "IP:%s", inet_ntoa(server_ip,inContext->flashContentInRam.micoSystemConfig.easylinkServerIP));
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inet_ntoa(server_ip,inContext->flashContentInRam.micoSystemConfig.easylinkServerIP));
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)oled_show_line);
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", (uint8_t*)"Config set      ");
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", (uint8_t*)"Config set...   ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
 

@@ -266,6 +266,8 @@ int light_sensor_data_get(struct mico_prop_t *prop, void *arg, void *val, uint32
   // get light sensor data
   ret = light_sensor_read(&light_sensor_data);
   if(0 == ret){  // get data succeed
+    // unit conversion (test)
+    light_sensor_data = 4095 - light_sensor_data;
     *((uint16_t*)val) = light_sensor_data;
     *val_len = sizeof(light_sensor_data);
   }
@@ -336,8 +338,10 @@ int infrared_reflective_data_get(struct mico_prop_t *prop, void *arg, void *val,
   // get infrared sensor data
   ret = infrared_reflective_read(&infrared_reflective_data);
   if(0 == ret){  // get data succeed
+    // uint conversion (test)
+    infrared_reflective_data = 4095 - infrared_reflective_data;
     *((uint16_t*)val) = infrared_reflective_data;
-    *val_len = sizeof(infrared_reflective_data);
+    *val_len = sizeof(infrared_reflective_data); 
   }
   
   return ret;

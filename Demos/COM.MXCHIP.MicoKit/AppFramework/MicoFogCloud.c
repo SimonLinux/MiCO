@@ -191,6 +191,7 @@ void MicoFogCloudMainThread(void *arg)
   fogcloud_log("MicoFogCloud start, wait for Wi-Fi...");
   while(kNoErr != mico_rtos_get_semaphore(&_wifi_station_on_sem, MICO_WAIT_FOREVER));
   
+#ifdef ENABLE_FOGCLOUD_DEVICE_RESET
   /* check reset cloud info */
   if((inContext->flashContentInRam.appConfig.fogcloudConfig.needCloudReset) && 
      (inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated)){
@@ -218,6 +219,7 @@ void MicoFogCloudMainThread(void *arg)
          fogcloud_log("MicoFogCloud Cloud reset failed!");
        }
      }
+#endif  // ENABLE_FOGCLOUD_DEVICE_RESET
   
   /* check OTA when wifi on */
 #ifndef DISABLE_FOGCLOUD_OTA_CHECK
@@ -263,11 +265,10 @@ void MicoFogCloudMainThread(void *arg)
 #endif   // DISABLE_FOGCLOUD_OTA_CHECK
   
   /* activate when wifi on */
-/*  while(false == inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated){
+#ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
+  while(false == inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated){
     // auto activate, using default login_id/dev_pass/user_token
     fogcloud_log(DEFAULT_MicoFogCloud_DEV_ACTIVATE_START_MSG_2MCU);
-    //    MicoFogCloudDevInterfaceSend(DEFAULT_MicoFogCloud_DEV_ACTIVATE_START_MSG_2MCU, 
-    //                        strlen(DEFAULT_MicoFogCloud_DEV_ACTIVATE_START_MSG_2MCU));
     memset((void*)&devDefaultActivateData, 0, sizeof(devDefaultActivateData));
     strncpy(devDefaultActivateData.loginId,
             inContext->flashContentInRam.appConfig.fogcloudConfig.loginId,
@@ -276,23 +277,19 @@ void MicoFogCloudMainThread(void *arg)
             inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd,
             MAX_SIZE_DEV_PASSWD);
     strncpy(devDefaultActivateData.user_token,
-            inContext->micoStatus.mac,
+            inContext->micoStatus.mac,   // use MAC as default user_token
             MAX_SIZE_USER_TOKEN);
     err = fogCloudDevActivate(inContext, devDefaultActivateData);
     if(kNoErr == err){
       fogcloud_log("device activate success!");
-      //      MicoFogCloudDevInterfaceSend(DEFAULT_MicoFogCloud_DEV_ACTIVATE_OK_MSG_2MCU, 
-      //                          strlen(DEFAULT_MicoFogCloud_DEV_ACTIVATE_OK_MSG_2MCU));
     }
     else{
       fogcloud_log("device activate failed, err = %d, retry in %d s ...", err, 1);
-      //      MicoFogCloudDevInterfaceSend(DEFAULT_MicoFogCloud_DEV_ACTIVATE_FAILED_MSG_2MCU, 
-      //                          strlen(DEFAULT_MicoFogCloud_DEV_ACTIVATE_FAILED_MSG_2MCU));
     }
     mico_thread_sleep(1);
   }
   fogcloud_log("device already activated.");
-*/
+#endif  // ENABLE_FOGCLOUD_AUTO_ACTIVATE
   
   /* start FogCloud service */
   err = fogCloudStart(inContext);
@@ -307,7 +304,7 @@ void MicoFogCloudMainThread(void *arg)
   while(1){
     mico_thread_sleep(1);
     if(inContext->appStatus.fogcloudStatus.isCloudConnected){
-      set_RF_LED_cloud_connected(inContext);
+      set_RF_LED_cloud_connected(inContext);  // toggle LED
     }
     else{
       set_RF_LED_cloud_disconnected(inContext);
@@ -327,12 +324,14 @@ exit:
 // reset default value
 void MicoFogCloudRestoreDefault(mico_Context_t* const context)
 {
+#ifdef ENABLE_FOGCLOUD_DEVICE_RESET
   bool need_reset = false;
   
   // save reset flag
   if(context->appStatus.fogcloudStatus.isActivated){
     need_reset = true;
   }
+#endif
   
   // reset all MicoFogCloud config params
   memset((void*)&(context->flashContentInRam.appConfig.fogcloudConfig), 
@@ -346,7 +345,8 @@ void MicoFogCloudRestoreDefault(mico_Context_t* const context)
   sprintf(context->flashContentInRam.appConfig.fogcloudConfig.loginId, DEFAULT_LOGIN_ID);
   sprintf(context->flashContentInRam.appConfig.fogcloudConfig.devPasswd, DEFAULT_DEV_PASSWD);
   sprintf(context->flashContentInRam.appConfig.fogcloudConfig.userToken, context->micoStatus.mac);
-  
+ 
+#ifdef ENABLE_FOGCLOUD_DEVICE_RESET
   // set reset flag for next startup
   if(need_reset){
     context->flashContentInRam.appConfig.fogcloudConfig.needCloudReset = true;
@@ -355,6 +355,7 @@ void MicoFogCloudRestoreDefault(mico_Context_t* const context)
   else{
     context->flashContentInRam.appConfig.fogcloudConfig.needCloudReset = false;
   }
+#endif
 }
 
 OSStatus MicoStartFogCloudService(mico_Context_t* const inContext)

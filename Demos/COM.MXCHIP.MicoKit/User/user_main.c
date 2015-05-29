@@ -86,25 +86,35 @@ OSStatus user_fogcloud_msg_handler(mico_Context_t* mico_context,
 //--- show actions for user, such as OLED, RGB_LED, DC_Motor
 void system_state_display( mico_Context_t * const mico_context, user_context_t *user_context)
 {
-  // display H/T on OLED
-  char temp_hum_str[16] = {'\0'};
+  // update 2~4 lines on OLED
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW] = {'\0'};
 
   if(!mico_context->appStatus.isWifiConnected){
-    snprintf(temp_hum_str, 16, "Conn %s", mico_context->flashContentInRam.micoSystemConfig.ssid);
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "Wi-Fi           ");
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Connecting... ");
+    memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
+    snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "%s", mico_context->flashContentInRam.micoSystemConfig.ssid);
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
   }
   else if(!mico_context->appStatus.fogcloudStatus.isCloudConnected){
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "FogCloud        ");
     if(mico_context->flashContentInRam.appConfig.fogcloudConfig.isActivated){
-      snprintf(temp_hum_str, 16, "%s", "Conn FogCloud... ");
+      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Connecting... ");
+      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
     }
     else{
-      snprintf(temp_hum_str, 16, "%s", "Wait activate...");
+      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Awaiting      ");
+      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    activation..");
     }
   }
   else{
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "System          ");
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Running...    ");
     // temperature/humidity display on OLED
-    snprintf(temp_hum_str, 16, "T: %2dC  H: %2d%%  ", user_context->status.temperature, user_context->status.humidity);
+    memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW);
+    snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW, "T: %2dC  H: %2d%%  ", user_context->status.temperature, user_context->status.humidity);
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
   }
-  OLED_ShowString(0, 6, (uint8_t*)temp_hum_str);
 }
 
 /* user main function, called by AppFramework after FogCloud connected.

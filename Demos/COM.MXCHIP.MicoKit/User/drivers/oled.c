@@ -357,8 +357,7 @@ void OLED_Init(void)
   OLED_WR_Byte(0xAF,OLED_CMD); /*display ON*/ 
   OLED_Clear();
   OLED_Set_Pos(0,0); 	
-}  
-
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////

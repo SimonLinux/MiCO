@@ -39,7 +39,7 @@
 
 //--------------------------- MicoKit-EXT board info ---------------------------
 #define DEV_KIT_MANUFACTURER    "MXCHIP"
-#define DEV_KIT_NAME            "MiCOKit3288"
+#define DEV_KIT_NAME            "MiCOKit-3288"
 
 #define MFG_TEST_MAX_MODULE_NUM      8
 

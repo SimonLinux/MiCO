@@ -47,6 +47,12 @@
 // disalbe FogCloud OTA check when system start
 //#define DISABLE_FOGCLOUD_OTA_CHECK
 
+// enalbe FogCloud auto activate(user_token=MAC) function
+//#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
+
+// enable cloud reset function when restore default
+//#define ENABLE_FOGCLOUD_DEVICE_RESET
+
 
 /*******************************************************************************
  * STRUCTURES
@@ -64,9 +70,9 @@ typedef struct _fogcloud_config_t
   char              loginId[MAX_SIZE_LOGIN_ID];          // not used for wechat dev
   char              devPasswd[MAX_SIZE_DEV_PASSWD];      // not used for wechat dev
   char              userToken[MAX_SIZE_USER_TOKEN];      // use MAC addr instead for wechat
-  
-  /* reset flag */
+#ifdef ENABLE_FOGCLOUD_DEVICE_RESET  
   bool              needCloudReset;                     // need reset cloud when set
+#endif
 } fogcloud_config_t;
 
 /* device status */

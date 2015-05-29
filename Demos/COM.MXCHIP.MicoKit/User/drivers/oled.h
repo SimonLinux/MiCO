@@ -78,6 +78,17 @@
 #define OLED_CMD  0	//写命令
 #define OLED_DATA 1	//写数据
 
+//-------------------------------- display define ------------------------------
+// for 8*16 char can only display 4 rows, 16 chars each row.
+#define OLED_DISPLAY_ROW_1    0    // yellow
+#define OLED_DISPLAY_ROW_2    2    // blue
+#define OLED_DISPLAY_ROW_3    4    // blue
+#define OLED_DISPLAY_ROW_4    6    // blue
+
+#define OLED_DISPLAY_COLUMN_START    0    // colloum from left pos 0
+
+#define OLED_DISPLAY_MAX_CHAR_PER_ROW    16   // max 16 chars each row
+
 
 //OLED控制用函数
 void OLED_WR_Byte(u8 dat,u8 cmd);	    
@@ -102,6 +113,7 @@ void delay_us(u32 nus);
 void OLED_Init(void);
 void OLED_Clear(void);
 void OLED_ShowString(u8 x,u8 y, u8 *p);
+
 
 #endif  
 	 

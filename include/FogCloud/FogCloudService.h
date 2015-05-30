@@ -27,7 +27,7 @@
 #include "FogCloudUtils.h"
 
 /*******************************************************************************
- *                              INTERFACES
+ * INTERFACES
  ******************************************************************************/
 
 OSStatus FogCloudServiceInit(easycloud_service_context_t* const context);
@@ -60,4 +60,4 @@ OSStatus FogCloudServiceDeInit(easycloud_service_context_t* const context);
 
 int FogCloudServiceVersion(easycloud_service_context_t* const context);
 
-#endif  // __FOGCLOUD_SERVICE_H_
+#endif

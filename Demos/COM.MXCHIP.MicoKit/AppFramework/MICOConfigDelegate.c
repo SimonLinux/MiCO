@@ -38,13 +38,7 @@
 #define config_delegate_log_trace() custom_log_trace("Config Delegate")
 
 static mico_timer_t _Led_EL_timer;
-//static mico_timer_t _Led_RF_timer;
-//
-//static void _led_RF_Timeout_handler( void* arg )
-//{
-//  (void)(arg);
-//  MicoGpioOutputTrigger((mico_gpio_t)MICO_RF_LED);
-//}
+static void _led_EL_Timeout_handler( void* arg );
 
 void wait_for_wifi_info_delegate(mico_Context_t * const inContext)
 {
@@ -90,6 +84,10 @@ void OTAWillStart( mico_Context_t * const inContext )
   char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
 #endif
 
+  /*Led trigger*/
+  mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL, _led_EL_Timeout_handler, NULL);
+  mico_start_timer(&_Led_EL_timer);
+  
 #ifdef USE_MiCOKit_EXT
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"OTA...          ");
@@ -108,6 +106,11 @@ void OTAFailed( mico_Context_t * const inContext )
   char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
 #endif
 
+  // led stop
+  mico_stop_timer(&_Led_EL_timer);
+  mico_deinit_timer( &_Led_EL_timer );
+  MicoSysLed(true);
+  
 #ifdef USE_MiCOKit_EXT
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"OTA...          ");
@@ -125,6 +128,11 @@ void OTASuccess( mico_Context_t * const inContext )
 #ifdef USE_MiCOKit_EXT
   char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
 #endif
+  
+  // led stop
+  mico_stop_timer(&_Led_EL_timer);
+  mico_deinit_timer( &_Led_EL_timer );
+  MicoSysLed(true);
 
 #ifdef USE_MiCOKit_EXT
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);

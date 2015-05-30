@@ -637,10 +637,10 @@
     <group>
       <name>FogCloud</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4_debug.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4f_debug.a</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4_release.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4f_release.a</name>
       </file>
     </group>
     <file>
@@ -704,7 +704,7 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MicoDefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>

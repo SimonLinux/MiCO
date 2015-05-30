@@ -1,4 +1,12 @@
 ================================================================================
+¡¾2015.05.30¡¿
+[Name]   : FogCloud
+[version]: v1.0.2
+
+[Changlog]:
+    1. not check md5 for ota download, just do it before bootloader do real update.
+
+================================================================================
 ¡¾2015.05.22¡¿
 [Name]   : FogCloud
 [version]: v1.0.1

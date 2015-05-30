@@ -93,6 +93,8 @@ OSStatus MICOStartApplication( mico_Context_t * const mico_context )
     
   require_action(mico_context, exit, err = kParamErr);
     
+  app_log("Application version: %s", mico_context->flashContentInRam.appConfig.fogcloudConfig.romVersion);
+  
   // LED on when Wi-Fi connected.
   MicoSysLed(false);
     

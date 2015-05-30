@@ -458,7 +458,6 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
   
   OTASuccess(inContext);
-  
   return kNoErr;
   
 exit:

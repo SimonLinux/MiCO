@@ -32,7 +32,7 @@
 #define SERIAL_NUMBER                      "20150515"
 #define PROTOCOL                           "com.mxchip.micokit"
 
-#define OTA_TEST
+//#define OTA_TEST
 /* product type */
 #ifdef OTA_TEST
 #define PRODUCT_ID                         "6be15e13"

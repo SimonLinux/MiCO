@@ -25,14 +25,14 @@
 #include "MICODefine.h"
 
 /*******************************************************************************
- * DEFINES
+ *                                 DEFINES
  ******************************************************************************/
 #define MAX_DEVICE_NAME_SIZE            16
-#define MAX_DEVICE_MANUFACTURER_SIZE    16
 #define MAX_USER_UART_BUF_SIZE          32 // for OLED display
  
+
 /*******************************************************************************
- * USER CONTEXT
+ *                               USER CONTEXT
  ******************************************************************************/
 
 // user module config params in flash
@@ -40,8 +40,6 @@ typedef struct _user_config_t {
   // dev_info
   char dev_name[MAX_DEVICE_NAME_SIZE+1];
   uint32_t dev_name_len; 
-  //char dev_manufacturer[MAX_DEVICE_MANUFACTURER_SIZE+1];
-  //uint32_t dev_manufacturer_len;
   
   // rgb led
   bool rgb_led_sw;
@@ -51,7 +49,6 @@ typedef struct _user_config_t {
   
   // DC Motor
   int  dc_motor_switch;   // 0: off;  others: on, for later use
- 
 }user_config_t;
 
 // user module status
@@ -83,4 +80,4 @@ typedef struct _user_context_t {
   user_status_t status;                       // running status
 }user_context_t;
 
-#endif // __MICO_DEVICE_PROPERTIES_USER_H_
+#endif  // __MICO_DEVICE_PROPERTIES_USER_H_

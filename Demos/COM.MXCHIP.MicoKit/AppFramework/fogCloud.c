@@ -34,6 +34,10 @@
 static easycloud_service_context_t easyCloudContext;
 extern mico_semaphore_t _fogcloud_connect_sem;
 
+extern void OTAWillStart( mico_Context_t * const inContext );
+extern void OTASuccess( mico_Context_t * const inContext );
+extern void OTAFailed( mico_Context_t * const inContext );
+
 //extern void  set_RF_LED_cloud_connected     ( mico_Context_t * const inContext );
 //extern void  set_RF_LED_cloud_disconnected  ( mico_Context_t * const inContext );
 
@@ -369,6 +373,8 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   cloud_if_log("fogCloudDevFirmwareUpdate: new firmware[%s] found on server, downloading ...",
                easyCloudContext.service_status.latestRomVersion);
   
+  OTAWillStart(inContext);
+  
   //get rom data
   err = FogCloudGetRomData(&easyCloudContext, ota_flash_params);
   require_noerr_action( err, exit, 
@@ -386,9 +392,12 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   MICOUpdateConfiguration(inContext);
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
   
+  OTASuccess(inContext);
+  
   return kNoErr;
   
 exit:
+  OTAFailed(inContext);
   return err;
 }
 

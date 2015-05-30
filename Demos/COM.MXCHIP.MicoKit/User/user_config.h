@@ -22,8 +22,9 @@
 #ifndef __USER_CONFIG_H_
 #define __USER_CONFIG_H_
 
+
 /*******************************************************************************
- *                             APP INFO
+ *                              APP INFO
  ******************************************************************************/
 #define APP_INFO                           "MicoKit3288 Demo based on MICO OS"
 
@@ -31,13 +32,20 @@
 #define SERIAL_NUMBER                      "20150515"
 #define PROTOCOL                           "com.mxchip.micokit"
 
+#define OTA_TEST
 /* product type */
+#ifdef OTA_TEST
+#define PRODUCT_ID                         "6be15e13"
+#define PRODUCT_KEY                        "87618cf2-29ea-4ad8-b51b-96e0f489643d"
+#else
 #define PRODUCT_ID                         "d64f517c"
 #define PRODUCT_KEY                        "e935ef56-1d03-4432-9524-8d4a691a26ec"
+#endif
 
 #define DEFAULT_ROM_VERSION                "v1.0.0"
 #define DEFAULT_DEVICE_NAME                "MiCOKit-3288"  // device name upload to cloud
 #define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
+
 
 /*******************************************************************************
  *                             CONNECTING
@@ -47,6 +55,7 @@
 
 /* MICO cloud service type */
 #define MICO_CLOUD_TYPE                    CLOUD_FOGCLOUD
+
 
 /*******************************************************************************
  *                             RESOURCES

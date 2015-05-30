@@ -46,6 +46,61 @@ static mico_timer_t _Led_EL_timer;
 //  MicoGpioOutputTrigger((mico_gpio_t)MICO_RF_LED);
 //}
 
+
+void OTAWillStart( mico_Context_t * const inContext )
+{
+  //config_delegate_log_trace();
+  (void)(inContext); 
+#ifdef USE_MiCOKit_EXT
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
+#endif
+
+#ifdef USE_MiCOKit_EXT
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"OTA...          ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  wait about    ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    3 minutes...");
+#endif
+  return;
+}
+
+void OTAFailed( mico_Context_t * const inContext )
+{
+  //config_delegate_log_trace();
+  (void)(inContext); 
+#ifdef USE_MiCOKit_EXT
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
+#endif
+
+#ifdef USE_MiCOKit_EXT
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"OTA...          ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  failed!       ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
+#endif
+  return;
+}
+
+void OTASuccess( mico_Context_t * const inContext )
+{
+  //config_delegate_log_trace();
+  (void)(inContext); 
+#ifdef USE_MiCOKit_EXT
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
+#endif
+
+#ifdef USE_MiCOKit_EXT
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"OTA...          ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  success!      ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "  reboot...     ");
+#endif
+  return;
+}
+
 void set_RF_LED_cloud_connected( mico_Context_t * const inContext )
 {
   config_delegate_log_trace();

@@ -270,8 +270,8 @@ void notify_thread(void* arg)
   require_action(p_notify_thread_data, exit, err = kParamErr);
   
    // wait semaphore for cloud connection
-  mico_fogcloud_waitfor_connect(p_notify_thread_data->context, MICO_WAIT_FOREVER);  // block to wait fogcloud connect
-  msg_dispatch_log("Cloud connected, do notify task.");
+  //mico_fogcloud_waitfor_connect(p_notify_thread_data->context, MICO_WAIT_FOREVER);  // block to wait fogcloud connect
+  //msg_dispatch_log("Cloud connected, do notify task.");
   
   while(1){
     if(p_notify_thread_data->context->appStatus.fogcloudStatus.isCloudConnected){

@@ -26,36 +26,29 @@
 #include "FogCloudServiceDef.h"
 
 /*******************************************************************************
- * DEFINES
+ *                                DEFINES
  ******************************************************************************/
 
 // default device settings
 #define DEFAULT_LOGIN_ID                 "admin"
-#define DEFAULT_DEV_PASSWD               "12345678"
+#define DEFAULT_DEV_PASSWD               "88888888"
    
 // default device info
-#define DEFAULT_DEVICE_ID                "none"
-#define DEFAULT_DEVICE_KEY               "none"
+#define DEFAULT_DEVICE_ID                "null"
+#define DEFAULT_DEVICE_KEY               "null"
 
-#define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0x500
-
-/* MQTT topic sub-level, device_id/out/status */
-#define PUBLISH_TOPIC_CHANNEL_STATUS     "status"
-
+#define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0x800
 #define FOGCLOUD_CONFIG_SERVER_PORT       8001    // fogcloud config server port
 
 // disalbe FogCloud OTA check when system start
 //#define DISABLE_FOGCLOUD_OTA_CHECK
 
-// enalbe FogCloud auto activate(user_token=MAC) function
+// enalbe FogCloud auto activate function (user_token=MAC)
 //#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
-
-// enable cloud reset function when restore default
-//#define ENABLE_FOGCLOUD_DEVICE_RESET
 
 
 /*******************************************************************************
- * STRUCTURES
+ *                               STRUCTURES
  ******************************************************************************/
 
 /* device configurations stored in flash */
@@ -70,15 +63,12 @@ typedef struct _fogcloud_config_t
   char              loginId[MAX_SIZE_LOGIN_ID];          // not used for wechat dev
   char              devPasswd[MAX_SIZE_DEV_PASSWD];      // not used for wechat dev
   char              userToken[MAX_SIZE_USER_TOKEN];      // use MAC addr instead for wechat
-#ifdef ENABLE_FOGCLOUD_DEVICE_RESET  
-  bool              needCloudReset;                     // need reset cloud when set
-#endif
 } fogcloud_config_t;
 
 /* device status */
 typedef struct _fogcloud_status_t
 {
-  bool isActivated;                     // device activate status in ram
+  bool              isActivated;        // device activate status in ram
   bool              isCloudConnected;   // cloud service connect status
   uint64_t          RecvRomFileSize;    // return OTA data size for bootTable.length, 0 means not need to update
 } fogcloud_status_t;
@@ -89,9 +79,9 @@ typedef struct _fogcloud_context_t {
 } fogcloud_context_t;
 
 typedef struct _get_state_req_data_t {
-char loginId[MAX_SIZE_LOGIN_ID];
-char devPasswd[MAX_SIZE_DEV_PASSWD];
-char user_token[MAX_SIZE_USER_TOKEN];
+  char              loginId[MAX_SIZE_LOGIN_ID];
+  char              devPasswd[MAX_SIZE_DEV_PASSWD];
+  char              user_token[MAX_SIZE_USER_TOKEN];
 } MVDGetStateRequestData_t;
 
-#endif
+#endif  // __MICO_FOGCLOUD_DEF_H_

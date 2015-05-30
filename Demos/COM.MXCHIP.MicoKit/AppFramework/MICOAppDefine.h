@@ -27,6 +27,7 @@
 #include "MicoFogCloudDef.h"
 #include "user_config.h"
 
+
 /*******************************************************************************
  *                            DEFAULT SETTING
  ******************************************************************************/
@@ -36,7 +37,7 @@
 #endif
 
 #ifndef FIRMWARE_REVISION
-  #define FIRMWARE_REVISION   "MICO_KIT_1_0"
+  #define FIRMWARE_REVISION   "MiCOKit_1_0"
 #endif
 
 #ifndef MANUFACTURER
@@ -44,7 +45,7 @@
 #endif
 
 #ifndef SERIAL_NUMBER
-  #define SERIAL_NUMBER       "20150408"
+  #define SERIAL_NUMBER       "20150530"
 #endif
 
 #ifndef PROTOCOL
@@ -53,13 +54,13 @@
 
 /* Wi-Fi configuration mode */
 #ifndef MICO_CONFIG_MODE
-  #define MICO_CONFIG_MODE CONFIG_MODE_EASYLINK_WITH_SOFTAP
+  #define MICO_CONFIG_MODE     CONFIG_MODE_EASYLINK_WITH_SOFTAP
 #endif
 
 /* Define MICO cloud type */
-#define CLOUD_DISABLED                         (0)
-#define CLOUD_FOGCLOUD                         (1)
-#define CLOUD_ALINK                            (2)
+#define CLOUD_DISABLED       (0)
+#define CLOUD_FOGCLOUD       (1)
+#define CLOUD_ALINK          (2)
     
 /* MICO cloud service type */
 #ifndef MICO_CLOUD_TYPE
@@ -67,20 +68,20 @@
 #endif
 
 #ifndef STACK_SIZE_USER_MAIN_THREAD
-  #define STACK_SIZE_USER_MAIN_THREAD           0x800
+  #define STACK_SIZE_USER_MAIN_THREAD    0x800
 #endif
 
 /*User provided configurations*/
 #ifndef CONFIGURATION_VERSION
-  #define CONFIGURATION_VERSION                 0x00000001 // if default configuration is changed, update this number
+  #define CONFIGURATION_VERSION          0x00000001 // if default configuration is changed, update this number
 #endif
 
 #ifndef BONJOUR_SERVICE_PORT
-  #define BONJOUR_SERVICE_PORT                  8080
+  #define BONJOUR_SERVICE_PORT           8080
 #endif
 
 #ifndef BONJOUR_SERVICE
-  #define BONJOUR_SERVICE                      "_easylink._tcp.local."
+  #define BONJOUR_SERVICE                "_easylink._tcp.local."
 #endif
 
 /* product id/key check */
@@ -93,8 +94,9 @@
 #endif
 
 #ifndef DEFAULT_ROM_VERSION
-  #define DEFAULT_ROM_VERSION                 "v1.0.0"
+  #define DEFAULT_ROM_VERSION            "v1.0.0"
 #endif
+
 
 /*******************************************************************************
  *                              APP CONTEXT
@@ -103,16 +105,16 @@
 /* Application's configuration stores in flash */
 typedef struct
 {
-  uint32_t          configDataVer;           // config param update number
-  uint32_t          bonjourServicePort;      // for bonjour service port
+  uint32_t          configDataVer;        // config param update number
+  uint32_t          bonjourServicePort;   // for bonjour service port
 
-  fogcloud_config_t fogcloudConfig;          // fogcloud settings
+  fogcloud_config_t fogcloudConfig;       // fogcloud settings
 } application_config_t;
 
 /* Running status */
 typedef struct _current_app_status_t {
-  bool isWifiConnected;                     // wifi station connect status
-  fogcloud_status_t fogcloudStatus;         // fogcloud status
+  bool              isWifiConnected;      // wifi station connect status
+  fogcloud_status_t fogcloudStatus;       // fogcloud status
 } current_app_status_t;
 
-#endif
+#endif  // __MICOAPPDEFINE_H

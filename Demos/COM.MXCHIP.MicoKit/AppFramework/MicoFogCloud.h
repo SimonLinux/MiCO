@@ -28,24 +28,24 @@
 #include "MicoFogCloudDef.h"
 #include "FogCloudUtils.h"
 
-/*******************************************************************************
- * DEFINES
- ******************************************************************************/
 
 /*******************************************************************************
- * USER INTERFACES
+ *                                DEFINES
  ******************************************************************************/
 
-/***** init *****/
 
+/*******************************************************************************
+ *                            USER INTERFACES
+ ******************************************************************************/
+
+/*----------------------------------- init -----------------------------------*/
 // init FogCloud
 OSStatus MicoStartFogCloudService(mico_Context_t* const inContext);
 // restore default config for FogCloud
 void MicoFogCloudRestoreDefault(mico_Context_t* const context);
 
 
-/***** get MicoFogCloud state *****/
-
+/*-------------------------- get MicoFogCloud state --------------------------*/
 // device activate state
 bool MicoFogCloudIsActivated(mico_Context_t* const context);
 // cloud connect state
@@ -53,7 +53,7 @@ bool MicoFogCloudIsConnect(mico_Context_t* const context);
 
 void mico_fogcloud_waitfor_connect(mico_Context_t* const context, uint32_t timeout_ms);
 
-/****** send && recv message ******/
+/*--------------------------- send && recv message ---------------------------*/
 // Module <=> Cloud
 OSStatus MicoFogCloudMsgSend(mico_Context_t* const context, const char* topic,
                              unsigned char *inBuf, unsigned int inBufLen);
@@ -61,8 +61,7 @@ OSStatus MicoFogCloudMsgSend(mico_Context_t* const context, const char* topic,
 //OSStatus MicoFogCloudMsgRecv(mico_Context_t* const context, void *fogcloudMsg.
 //                             int *timeout_ms);
 
-/* device control */
-
+/*------------------------------ device control ------------------------------*/
 //activate
 OSStatus MicoFogCloudActivate(mico_Context_t* const context, 
                               MVDActivateRequestData_t activateData);
@@ -81,7 +80,7 @@ OSStatus MicoFogCloudGetState(mico_Context_t* const context,
                               void* outDevState);
 
 /*******************************************************************************
-* INTERNAL FUNCTIONS
+*                              INTERNAL FUNCTIONS
 *******************************************************************************/
 
 // override by user in user_main.c
@@ -89,4 +88,4 @@ WEAK OSStatus user_fogcloud_msg_handler(mico_Context_t* context,
                                         const char* topic, const unsigned int topicLen,
                                         unsigned char *inBuf, unsigned int inBufLen);
 
-#endif
+#endif  // __MICO_FOGCLOUD_H_

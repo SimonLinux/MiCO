@@ -29,7 +29,7 @@
 
 
 /*******************************************************************************
-* DEFINES && STRUCTURES
+*                          DEFINES && STRUCTURES
 ******************************************************************************/
 
 // notify list node
@@ -44,8 +44,9 @@ typedef struct _mico_prop_notify_node_t{
 volatile bool notify_list_inited = false;
 mico_prop_notify_node_t *g_notify_list = NULL;
 
+
 /*******************************************************************************
-* FUNCTIONS
+*                                FUNCTIONS
 *******************************************************************************/
 
 int notify_check_default(struct mico_prop_t *prop, void *arg, void *val, uint32_t *val_len)

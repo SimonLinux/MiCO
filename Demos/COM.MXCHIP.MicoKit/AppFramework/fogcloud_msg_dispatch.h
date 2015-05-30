@@ -25,6 +25,10 @@
 #include "MICODefine.h"
 #include "properties.h"
 
+
+/*******************************************************************************
+ *                                DEFINES
+ ******************************************************************************/
 // recv topic
 #define FOGCLOUD_MSG_TOPIC_IN            "/in"
 #define FOGCLOUD_MSG_TOPIC_OUT           "/out"
@@ -40,7 +44,9 @@
 #define MSG_PROP_READ                    1
 #define MSG_PROP_WROTE                   2
 
-
+/*******************************************************************************
+ *                                STRUCTURES
+ ******************************************************************************/
 // msg data
 typedef struct _mico_fogcloud_msg_t{
   const char *topic;
@@ -49,6 +55,10 @@ typedef struct _mico_fogcloud_msg_t{
   unsigned int data_len;
 }mico_fogcloud_msg_t;
 
+
+/*******************************************************************************
+ *                                FUNCTIONS
+ ******************************************************************************/
 // handle cloud msg here, for example: send to USART or echo to cloud
 OSStatus mico_fogcloud_msg_dispatch(mico_Context_t* context, struct mico_service_t service_table[],
                                     mico_fogcloud_msg_t *cloud_msg, int* ret_status);

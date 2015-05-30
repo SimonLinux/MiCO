@@ -94,7 +94,8 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
       OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "Wi-Fi           ");
       OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "   Connecting...");
       memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-      snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", mico_context->flashContentInRam.micoSystemConfig.ssid);
+      snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", 
+               mico_context->flashContentInRam.micoSystemConfig.ssid);
       OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
     }
     else if(!mico_context->appStatus.fogcloudStatus.isCloudConnected){
@@ -113,7 +114,8 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
       OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "    Running...  ");
       // temperature/humidity display on OLED
       memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-      snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "T: %2dC  H: %2d%%  ", user_context->status.temperature, user_context->status.humidity);
+      snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "T: %2dC  H: %2d%%  ", 
+               user_context->status.temperature, user_context->status.humidity);
       OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
     }
   }
@@ -126,6 +128,8 @@ OSStatus user_main( mico_Context_t * const mico_context )
   user_log_trace();
   OSStatus err = kUnknownErr;
   
+  user_log("User main start...");
+  
 #if (MICO_CLOUD_TYPE != CLOUD_DISABLED)
   /* start properties notify task */
   err = mico_start_properties_notify(mico_context, service_table, 
@@ -135,6 +139,8 @@ OSStatus user_main( mico_Context_t * const mico_context )
 #endif
   
   while(1){
+    
+    user_log("User main loop...");
     
     // check every 1 seconds
     mico_thread_sleep(1);

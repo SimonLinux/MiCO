@@ -28,10 +28,10 @@
 #define properties_user_log(M, ...) custom_log("DEV_PROPERTIES_USER", M, ##__VA_ARGS__)
 #define properties_user_log_trace() custom_log_trace("DEV_PROPERTIES_USER")
 
-/*******************************************************************************
-* VARIABLES
-*******************************************************************************/
 
+/*******************************************************************************
+*                               VARIABLES
+*******************************************************************************/
 // length of system data type (fixed)
 uint32_t bool_len = sizeof(bool);
 uint32_t int_len = sizeof(int);
@@ -57,6 +57,7 @@ user_context_t g_user_context = {
   .config.rgb_led_saturation = 100,
   .config.rgb_led_brightness = 50,
 };
+
 
 /*******************************************************************************
  * DESCRIPTION: get/set/notify_check function defined for each property.
@@ -304,26 +305,6 @@ int notify_check_light_sensor_data(struct mico_prop_t *prop, void *arg, void *va
   
   return ret;
 }
-
-//// get function of adc data notify event flag 
-//int event_status_get(struct mico_prop_t *prop, void *arg, void *val, uint32_t *val_len)
-//{
-//  // get event value
-//  *(bool*)val = *((bool*)prop->value);
-//  *val_len = *(prop->value_len);
-//  
-//  return 0;  // get ok
-//}
-//
-//// set function of adc data notify event flag 
-//int event_status_set(struct mico_prop_t *prop, void *arg, void *val, uint32_t val_len)
-//{
-//  // set event value
-//  *((bool*)prop->value) = *((bool*)val);
-//  *(prop->value_len) = val_len;
-//  
-//  return 0;  // get ok
-//}
 
 /*------------------------------------------------------------------------------
  *                     MODULE: infrared reflective sensor
@@ -633,6 +614,7 @@ int notify_check_humidity(struct mico_prop_t *prop, void *arg, void *val, uint32
   return ret;
 }
 
+
 /*******************************************************************************
  * service_table: list all serivices && properties for the device
  ******************************************************************************/
@@ -654,20 +636,6 @@ const struct mico_service_t  service_table[] = {
         .hasMeta = false,                   // no max/min/step
         .maxStringLen = MAX_DEVICE_NAME_SIZE,  // max length of device name string
       },
-//      [1] = {
-//        .type = "public.map.property.manufacturer",  // device manufacturer uuid
-//        .value = &(g_user_context.config.dev_manufacturer),
-//        .value_len = &(g_user_context.config.dev_manufacturer_len),
-//        .format = MICO_PROP_TYPE_STRING,
-//        .perms = MICO_PROP_PERMS_RO,
-//        .get = string_get,                  // get string func to get manufacturer
-//        .set = NULL      ,                  // set sring func to change manufacturer
-//        .notify_check = NULL,               // not notifiable
-//        .arg = &(g_user_context.config.dev_manufacturer),
-//        .event = NULL,                      // not notifiable
-//        .hasMeta = false, 
-//        .maxStringLen = MAX_DEVICE_MANUFACTURER_SIZE,  // max length of device manufacturer
-//      },
       [1] = {NULL}                          // end flag
     }
   },

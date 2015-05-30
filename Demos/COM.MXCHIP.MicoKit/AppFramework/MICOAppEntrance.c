@@ -29,7 +29,7 @@
 /* default user_main callback function, this must be override by user. */
 WEAK OSStatus user_main( mico_Context_t * const mico_context )
 {
-  app_log("ERROR: user_main undefined!");
+  //app_log("ERROR: user_main undefined!");
   return kNotHandledErr;
 }
 
@@ -47,8 +47,8 @@ void user_main_thread(void* arg)
   
 #if (MICO_CLOUD_TYPE != CLOUD_DISABLED)
   // wait semaphore for cloud connection
-  //mico_fogcloud_waitfor_connect(mico_context, MICO_WAIT_FOREVER);  // block to wait fogcloud connect
-  //app_log("Cloud connected, do user_main function.");
+  mico_fogcloud_waitfor_connect(mico_context, MICO_WAIT_FOREVER);  // block to wait fogcloud connect
+  app_log("Cloud connected, do user_main function.");
 #endif
   
   // loop in user mian function && must not return
@@ -103,8 +103,8 @@ OSStatus MICOStartApplication( mico_Context_t * const mico_context )
   
   /* start cloud service */
 #if (MICO_CLOUD_TYPE == CLOUD_FOGCLOUD)
-  err = MicoStartFogCloudService( mico_context );
   app_log("MICO CloudService: FogCloud.");
+  err = MicoStartFogCloudService( mico_context );
   require_noerr_action( err, exit, app_log("ERROR: Unable to start FogCloud service.") );
 #elif (MICO_CLOUD_TYPE == CLOUD_ALINK)
   app_log("MICO CloudService: Alink.");

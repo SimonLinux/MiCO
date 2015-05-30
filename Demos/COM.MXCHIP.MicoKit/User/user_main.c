@@ -139,9 +139,6 @@ OSStatus user_main( mico_Context_t * const mico_context )
 #endif
   
   while(1){
-    
-    user_log("User main loop...");
-    
     // check every 1 seconds
     mico_thread_sleep(1);
     

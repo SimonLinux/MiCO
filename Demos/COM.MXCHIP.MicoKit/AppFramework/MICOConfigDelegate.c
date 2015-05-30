@@ -46,6 +46,41 @@ static mico_timer_t _Led_EL_timer;
 //  MicoGpioOutputTrigger((mico_gpio_t)MICO_RF_LED);
 //}
 
+void wait_for_wifi_info_delegate(mico_Context_t * const inContext)
+{
+  //config_delegate_log_trace();
+#ifdef USE_MiCOKit_EXT
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
+#endif
+  
+#ifdef USE_MiCOKit_EXT
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "Wi-Fi           ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "   Connecting...");
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", 
+           inContext->flashContentInRam.micoSystemConfig.ssid);
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
+#endif
+  return;
+}
+
+void fogcloud_working_info_delegate(mico_Context_t * const inContext)
+{
+    //config_delegate_log_trace();
+#ifdef USE_MiCOKit_EXT
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "FogCloud        ");
+  if(inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated){
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "   Connecting...");
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
+  }
+  else{
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "   Awaiting     ");
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    activation..");
+  }
+#endif
+  return;
+}
+
 
 void OTAWillStart( mico_Context_t * const inContext )
 {
@@ -283,7 +318,7 @@ json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext )
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inet_ntoa(server_ip,inContext->flashContentInRam.micoSystemConfig.easylinkServerIP));
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)oled_show_line);
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", (uint8_t*)"Config upload...");
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", (uint8_t*)"config upload...");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
 
@@ -533,7 +568,7 @@ OSStatus ConfigIncommingJsonMessage( const char *input, mico_Context_t * const i
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inet_ntoa(server_ip,inContext->flashContentInRam.micoSystemConfig.easylinkServerIP));
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)oled_show_line);
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", (uint8_t*)"Config set...   ");
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", (uint8_t*)"config set...");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
 

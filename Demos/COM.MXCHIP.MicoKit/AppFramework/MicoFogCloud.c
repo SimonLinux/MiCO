@@ -55,9 +55,11 @@ mico_semaphore_t _fogcloud_connect_sem = NULL;
  *                                  FUNCTIONS
  ******************************************************************************/
 extern OSStatus MicoStartFogCloudConfigServer ( mico_Context_t * const inContext );
-extern void  set_RF_LED_cloud_connected     ( mico_Context_t * const inContext );
-extern void  set_RF_LED_cloud_disconnected  ( mico_Context_t * const inContext );
-
+extern void set_RF_LED_cloud_connected     ( mico_Context_t * const inContext );
+extern void set_RF_LED_cloud_disconnected  ( mico_Context_t * const inContext );
+extern void wait_for_wifi_info_delegate( mico_Context_t * const inContext );
+extern void fogcloud_working_info_delegate( mico_Context_t * const inContext );
+  
 // override by user in user_main.c
 WEAK OSStatus user_fogcloud_msg_handler(mico_Context_t* context, 
                             const char* topic, const unsigned int topicLen,
@@ -106,6 +108,7 @@ void MicoFogCloudMainThread(void *arg)
 #endif
   
   /* wait for station on */
+  wait_for_wifi_info_delegate(inContext);
   fogcloud_log("MicoFogCloud start, wait for Wi-Fi...");
   while(kNoErr != mico_rtos_get_semaphore(&_wifi_station_on_sem, MICO_WAIT_FOREVER));
   
@@ -126,7 +129,7 @@ void MicoFogCloudMainThread(void *arg)
   if(kNoErr == err){
     if(inContext->appStatus.fogcloudStatus.RecvRomFileSize > 0){
       fogcloud_log(DEFAULT_MicoFogCloud_OTA_UPDATE_MSG_2MCU);
-      // set bootloader to reboot && update app fw
+      // set bootloader to reboot && update app firmware
       mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
       memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
       inContext->flashContentInRam.bootTable.length = inContext->appStatus.fogcloudStatus.RecvRomFileSize;
@@ -188,6 +191,8 @@ void MicoFogCloudMainThread(void *arg)
   err = MicoStartFogCloudConfigServer( inContext);
   require_noerr_action(err, exit, 
                        fogcloud_log("ERROR: start FogCloud configServer failed!") );
+  
+  fogcloud_working_info_delegate(inContext);
   
   while(1){
     mico_thread_sleep(1);

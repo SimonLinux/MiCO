@@ -38,7 +38,7 @@
 #define fogcloud_config_log_trace() custom_log_trace("FogCloud_ConfigServer")
 
 #define STACK_SIZE_FOGCLOUD_CONFIG_SERVER_THREAD   0x300
-#define STACK_SIZE_FOGCLOUD_CONFIG_CLIENT_THREAD   0x800
+#define STACK_SIZE_FOGCLOUD_CONFIG_CLIENT_THREAD   0xD00
 
 #define kCONFIGURLDevState               "/dev-state"
 #define kCONFIGURLDevActivate            "/dev-activate"
@@ -46,7 +46,6 @@
 #define kCONFIGURLResetCloudDevInfo      "/dev-cloud_reset"
 #define kCONFIGURLDevFWUpdate            "/dev-fw_update"
 
-extern OSStatus ConfigIncommingJsonMessage( const char *input, mico_Context_t * const inContext );
 extern json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext );
 extern OSStatus getMVDActivateRequestData(const char *input, MVDActivateRequestData_t *activateData);
 extern OSStatus getMVDAuthorizeRequestData(const char *input, MVDAuthorizeRequestData_t *authorizeData);
@@ -104,7 +103,7 @@ void fogCloudConfigServer_listener_thread(void *inContext)
       if (j > 0) {
         inet_ntoa(ip_address, addr.s_ip );
         fogcloud_config_log("fogCloud Config Client %s:%d connected, fd: %d", ip_address, addr.s_port, j);
-        err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "fogcloud_config_client", 
+        err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "fogcloud_configclient", 
                                       localConfig_thread, STACK_SIZE_FOGCLOUD_CONFIG_CLIENT_THREAD, &j);
       }
     }

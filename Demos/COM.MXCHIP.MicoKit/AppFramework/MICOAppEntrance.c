@@ -48,7 +48,7 @@ void user_main_thread(void* arg)
 #if (MICO_CLOUD_TYPE != CLOUD_DISABLED)
   // wait semaphore for cloud connection
   mico_fogcloud_waitfor_connect(mico_context, MICO_WAIT_FOREVER);  // block to wait fogcloud connect
-  app_log("Cloud connected, do user_main function.");
+  app_log("Cloud connected, call user_main function.");
 #endif
   
   // loop in user mian function && must not return

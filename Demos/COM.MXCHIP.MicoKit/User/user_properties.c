@@ -419,7 +419,7 @@ int uart_data_send(struct mico_prop_t *prop, void *arg, void *val, uint32_t val_
   }
   
   // display string on OLED (max_len=32bytes)
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)"Recv Data:      ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)"Recv msg:       ");
   memset(string_display_on_oled, ' ', MAX_USER_UART_BUF_SIZE+1);
   //snprintf(string_display_on_oled, 33, "%-32s", (uint8_t*)val);
   memcpy(string_display_on_oled, (uint8_t*)val, send_len);

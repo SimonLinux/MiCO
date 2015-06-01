@@ -46,11 +46,17 @@
 //         OLED PIN  <---------->  EXT-BOARD PIN
 #ifdef USE_MiCOKit_EXT
   #include "micokit_ext_def.h"
-  #define OLED_SPI_DEVICE           MICO_EXT_OLED_SPI_DEVICE
+  #define OLED_SPI_PORT             MICO_EXT_OLED_SPI_PORT
   #define OLED_SPI_SCK              MICO_EXT_OLED_SPI_SCK
   #define OLED_SPI_DIN              MICO_EXT_OLED_SPI_DIN
   #define OLED_SPI_DC               MICO_EXT_OLED_SPI_DC
   #define OLED_SPI_CS               MICO_EXT_OLED_SPI_CS
+#else
+  #define OLED_SPI_PORT             MICO_SPI_NONE
+  #define OLED_SPI_SCK              MICO_GPIO_NONE
+  #define OLED_SPI_DIN              MICO_GPIO_NONE
+  #define OLED_SPI_DC               MICO_GPIO_NONE
+  #define OLED_SPI_CS               MICO_GPIO_NONE
 #endif
 
 //----------------- OLED PIN ----------------  	

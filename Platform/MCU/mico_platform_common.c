@@ -37,10 +37,8 @@
 #include "platform_config.h"
 #include "platformLogging.h"
 
-#ifndef BOOTLOADER
 #ifdef USE_MiCOKit_EXT
 #include "micokit_ext.h"   // extension board operation by user.
-#endif
 #endif
 
 /******************************************************
@@ -115,10 +113,8 @@ OSStatus mico_platform_init( void )
   platform_filesystem_init();
 #endif
   
-#ifndef BOOTLOADER
 #ifdef USE_MiCOKit_EXT
   micokit_ext_init();
-#endif
 #endif
   
   return kNoErr;
@@ -351,7 +347,6 @@ OSStatus MicoSpiInitialize( const mico_spi_device_t* spi )
   err = platform_spi_init( &platform_spi_drivers[spi->port], &platform_spi_peripherals[spi->port], &config );
   mico_rtos_unlock_mutex( &platform_spi_drivers[spi->port].spi_mutex );
 
-exit:
   return err;
 }
 
@@ -361,6 +356,9 @@ OSStatus MicoSpiFinalize( const mico_spi_device_t* spi )
 
   if ( spi->port >= MICO_SPI_NONE )
     return kUnsupportedErr;
+
+  if( platform_spi_drivers[spi->port].spi_mutex == NULL)
+    mico_rtos_init_mutex( &platform_spi_drivers[spi->port].spi_mutex );
   
   mico_rtos_lock_mutex( &platform_spi_drivers[spi->port].spi_mutex );
   err = platform_spi_deinit( &platform_spi_drivers[spi->port] );
@@ -377,12 +375,16 @@ OSStatus MicoSpiTransfer( const mico_spi_device_t* spi, const mico_spi_message_s
   if ( spi->port >= MICO_SPI_NONE )
     return kUnsupportedErr;
   
+  if( platform_spi_drivers[spi->port].spi_mutex == NULL)
+    mico_rtos_init_mutex( &platform_spi_drivers[spi->port].spi_mutex );
+  
   config.chip_select = &platform_gpio_pins[spi->chip_select];
   config.speed       = spi->speed;
   config.mode        = spi->mode;
   config.bits        = spi->bits;
   
   mico_rtos_lock_mutex( &platform_spi_drivers[spi->port].spi_mutex );
+  err = platform_spi_init( &platform_spi_drivers[spi->port], &platform_spi_peripherals[spi->port], &config );
   err = platform_spi_transfer( &platform_spi_drivers[spi->port], &config, segments, number_of_segments );
   mico_rtos_unlock_mutex( &platform_spi_drivers[spi->port].spi_mutex );
 

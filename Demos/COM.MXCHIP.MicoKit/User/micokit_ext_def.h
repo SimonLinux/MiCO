@@ -25,7 +25,7 @@
 #include "MICOPlatform.h"
 
 //-------------------------- MicoKit-EXT board pin define ----------------------
-#define MICO_EXT_OLED_SPI_DEVICE     (MICO_SPI_1)
+#define MICO_EXT_OLED_SPI_PORT       (MICO_SPI_1)
 #define MICO_EXT_OLED_SPI_SCK        (Arduino_SCK)       
 #define MICO_EXT_OLED_SPI_DIN        (Arduino_SI)  
 #define MICO_EXT_OLED_SPI_DC         (Arduino_SO)  

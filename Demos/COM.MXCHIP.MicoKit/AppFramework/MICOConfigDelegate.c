@@ -25,6 +25,7 @@
 #include "MICOConfigMenu.h"
 #include "JSON-C/json.h"
 #include "StringUtils.h"
+#include "MicoFogCloud.h"
 
 #ifdef USE_MiCOKit_EXT
 #include "micokit_ext.h"   // extension board operation by user.
@@ -244,6 +245,9 @@ void ConfigAirkissIsSuccess( mico_Context_t * const inContext )
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inContext->flashContentInRam.micoSystemConfig.user_key);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
+  
+  // restore fogcloud config
+  MicoFogCloudRestoreDefault(inContext);
   return;
 }
 
@@ -270,6 +274,9 @@ void ConfigEasyLinkIsSuccess( mico_Context_t * const inContext )
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inContext->flashContentInRam.micoSystemConfig.user_key);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
+  
+  // restore fogcloud config
+  MicoFogCloudRestoreDefault(inContext);
   return;
 }
 

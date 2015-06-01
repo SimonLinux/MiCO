@@ -35,14 +35,9 @@ operation
 /*******************************************************************************
  *                                  DEFINES
  ******************************************************************************/
-#ifndef DISABLE_FOGCLOUD_OTA_CHECK
-// OTA status log
-  #define DEFAULT_MicoFogCloud_OTA_CHECK_MSG_2MCU             "[MicoFogCloud]OTA: Checking ...\r\n"
-  #define DEFAULT_MicoFogCloud_OTA_UPDATE_MSG_2MCU            "[MicoFogCloud]OTA: Update && reboot ...\r\n"
-  #define DEFAULT_MicoFogCloud_OTA_UP_TO_DATE_MSG_2MCU        "[MicoFogCloud]OTA: Up-to-date\r\n"
-  #define DEFAULT_MicoFogCloud_OTA_DOWNLOAD_FAILED_MSG_2MCU   "[MicoFogCloud]OTA: Download failed\r\n"
+#ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
+  #define MAX_AUTO_ACTIVATE_RETRY_COUNTS    5
 #endif
-
 
 /*******************************************************************************
  *                                  VARIABLES
@@ -94,27 +89,14 @@ void mvdNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inConte
   return;
 }
 
-void MicoFogCloudMainThread(void *arg)
+#ifndef DISABLE_FOGCLOUD_OTA_CHECK
+void fogcloud_ota_thread(void *arg)
 {
   OSStatus err = kUnknownErr;
+  MVDOTARequestData_t devOTARequestData;
   mico_Context_t *inContext = (mico_Context_t *)arg;
   
-#ifndef DISABLE_FOGCLOUD_OTA_CHECK
-  MVDOTARequestData_t devOTARequestData;
-#endif
-  
-#ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
-  MVDActivateRequestData_t devDefaultActivateData;
-#endif
-  
-  /* wait for station on */
-  wait_for_wifi_info_delegate(inContext);
-  fogcloud_log("MicoFogCloud start, wait for Wi-Fi...");
-  while(kNoErr != mico_rtos_get_semaphore(&_wifi_station_on_sem, MICO_WAIT_FOREVER));
-  
-#ifndef DISABLE_FOGCLOUD_OTA_CHECK
-  /* check OTA when wifi on */
-  fogcloud_log(DEFAULT_MicoFogCloud_OTA_CHECK_MSG_2MCU);
+  fogcloud_log("OTA: downloading firmware from server...");
   memset((void*)&devOTARequestData, 0, sizeof(devOTARequestData));
   strncpy(devOTARequestData.loginId,
           inContext->flashContentInRam.appConfig.fogcloudConfig.loginId,
@@ -123,12 +105,12 @@ void MicoFogCloudMainThread(void *arg)
           inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd,
           MAX_SIZE_DEV_PASSWD);
   strncpy(devOTARequestData.user_token,
-          inContext->micoStatus.mac,
+          inContext->flashContentInRam.appConfig.fogcloudConfig.userToken,
           MAX_SIZE_USER_TOKEN);
   err = fogCloudDevFirmwareUpdate(inContext, devOTARequestData);
   if(kNoErr == err){
     if(inContext->appStatus.fogcloudStatus.RecvRomFileSize > 0){
-      fogcloud_log(DEFAULT_MicoFogCloud_OTA_UPDATE_MSG_2MCU);
+      fogcloud_log("OTA: firmware download success, system will reboot && update...");
       // set bootloader to reboot && update app firmware
       mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
       memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
@@ -147,17 +129,53 @@ void MicoFogCloudMainThread(void *arg)
       mico_thread_sleep(MICO_WAIT_FOREVER);
     }
     else{
-      fogcloud_log(DEFAULT_MicoFogCloud_OTA_UP_TO_DATE_MSG_2MCU);
+      fogcloud_log("OTA: firmware is up-to-date!");
     }
   }
   else{
-    fogcloud_log(DEFAULT_MicoFogCloud_OTA_DOWNLOAD_FAILED_MSG_2MCU);
+    fogcloud_log("OTA: firmware download failed, err=%d", err);
   }
+  
+  fogcloud_log("fogcloud_ota_thread exit err=%d.", err);
+  mico_rtos_delete_thread(NULL);
+  return;
+}
 #endif   // DISABLE_FOGCLOUD_OTA_CHECK
+
+void fogcloud_main_thread(void *arg)
+{
+  OSStatus err = kUnknownErr;
+  mico_Context_t *inContext = (mico_Context_t *)arg;
   
 #ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
+  MVDActivateRequestData_t devDefaultActivateData;
+  uint32_t auto_activate_retry_cnt = MAX_AUTO_ACTIVATE_RETRY_COUNTS;
+#endif
+  
+  /* wait for station on */
+  wait_for_wifi_info_delegate(inContext);
+  fogcloud_log("MicoFogCloud start, wait for Wi-Fi...");
+  while(kNoErr != mico_rtos_get_semaphore(&_wifi_station_on_sem, MICO_WAIT_FOREVER));
+  
+  /* start FogCloud service */
+  err = fogCloudStart(inContext);
+  require_noerr_action(err, exit, 
+                       fogcloud_log("ERROR: MicoFogCloudCloudInterfaceStart failed!") );
+  
+  /* start configServer for fogcloud (server for activate/authorize/reset/ota cmd from user APP) */
+  err = MicoStartFogCloudConfigServer( inContext);
+  require_noerr_action(err, exit, 
+                       fogcloud_log("ERROR: start FogCloud configServer failed!") );
+  
+  fogcloud_working_info_delegate(inContext);
+  
+ #ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
   /* activate when wifi on */
   while(false == inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated){
+    if(0 == auto_activate_retry_cnt){
+      fogcloud_log("device auto activate failed.");
+      break;
+    }
     // auto activate, using default login_id/dev_pass/user_token
     fogcloud_log("device activate start...");
     memset((void*)&devDefaultActivateData, 0, sizeof(devDefaultActivateData));
@@ -175,24 +193,26 @@ void MicoFogCloudMainThread(void *arg)
       fogcloud_log("device activate success!");
     }
     else{
-      fogcloud_log("device activate failed, err = %d, retry in %d s ...", err, 1);
+      auto_activate_retry_cnt--;
+      fogcloud_log("device auto activate failed, err = %d, will retry in 3s ...", err);
     }
-    mico_thread_sleep(1);
+    mico_thread_sleep(3);
   }
-  fogcloud_log("device already activated.");
+  fogcloud_log("device is already activated.");
 #endif  // ENABLE_FOGCLOUD_AUTO_ACTIVATE
   
-  /* start FogCloud service */
-  err = fogCloudStart(inContext);
-  require_noerr_action(err, exit, 
-                       fogcloud_log("ERROR: MicoFogCloudCloudInterfaceStart failed!") );
-  
-  /* start configServer for fogcloud (server for activate/authorize/reset/ota cmd from user APP) */
-  err = MicoStartFogCloudConfigServer( inContext);
-  require_noerr_action(err, exit, 
-                       fogcloud_log("ERROR: start FogCloud configServer failed!") );
-  
-  fogcloud_working_info_delegate(inContext);
+#ifndef DISABLE_FOGCLOUD_OTA_CHECK
+  /* OTA check just device activated */
+  if(inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated){
+    // start ota thread
+    err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "fogcloud_ota", 
+                                  fogcloud_ota_thread, STACK_SIZE_FOGCLOUD_OTA_THREAD, 
+                                  inContext);
+    if(kNoErr != err){
+      fogcloud_log("ERROR: start FogCloud OTA thread failed, err=%d.", err);
+    }
+  }
+#endif  // DISABLE_FOGCLOUD_OTA_CHECK
   
   while(1){
     mico_thread_sleep(1);
@@ -205,7 +225,7 @@ void MicoFogCloudMainThread(void *arg)
   }
   
 exit:
-  fogcloud_log("[MicoFogCloud]MicoFogCloudMainThread exit err=%d.", err);
+  fogcloud_log("fogcloud_main_thread exit err=%d.", err);
   mico_rtos_delete_thread(NULL);
   return;
 }
@@ -264,7 +284,7 @@ OSStatus MicoStartFogCloudService(mico_Context_t* const inContext)
   
   // start MicoFogCloud main thread (dev reset && ota check, then start fogcloud service)
   err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "fogcloud_main", 
-                                MicoFogCloudMainThread, STACK_SIZE_FOGCLOUD_MAIN_THREAD, 
+                                fogcloud_main_thread, STACK_SIZE_FOGCLOUD_MAIN_THREAD, 
                                 inContext );
   
 exit:

@@ -270,6 +270,8 @@ OSStatus fogCloudDevActivate(mico_Context_t* const inContext,
           easyCloudContext.service_config_info.loginId, MAX_SIZE_LOGIN_ID);
   strncpy(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd,
           easyCloudContext.service_config_info.devPasswd, MAX_SIZE_DEV_PASSWD);
+  strncpy(inContext->flashContentInRam.appConfig.fogcloudConfig.userToken,
+          easyCloudContext.service_config_info.userToken, MAX_SIZE_USER_TOKEN);
     
   err = MICOUpdateConfiguration(inContext);
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
@@ -347,8 +349,6 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   uint32_t updateStartAddress = 0;
   uint32_t readLength = 0;
   uint32_t i = 0, size = 0;
-
-  cloud_if_log("fogCloudDevFirmwareUpdate: start ...");
   
   // login_id/dev_passwd ok ?
   if((0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId, 

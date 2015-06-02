@@ -34,47 +34,13 @@
 #define SYS_LED_TRIGGER_INTERVAL  100 
 #define SYS_LED_TRIGGER_INTERVAL_AFTER_EASYLINK  500 
 #define RF_LED_TRIGGER_INTERVAL_AFTER_CLOUD_CONNECTED  1000 
+#define SYS_LED_TRIGGER_OTA_INTERVAL    50 
   
 #define config_delegate_log(M, ...) custom_log("Config Delegate", M, ##__VA_ARGS__)
 #define config_delegate_log_trace() custom_log_trace("Config Delegate")
 
 static mico_timer_t _Led_EL_timer;
 static void _led_EL_Timeout_handler( void* arg );
-
-void wait_for_wifi_info_delegate(mico_Context_t * const inContext)
-{
-  //config_delegate_log_trace();
-#ifdef USE_MiCOKit_EXT
-  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
-#endif
-  
-#ifdef USE_MiCOKit_EXT
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "Wi-Fi           ");
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "   Connecting...");
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", 
-           inContext->flashContentInRam.micoSystemConfig.ssid);
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
-#endif
-  return;
-}
-
-void fogcloud_working_info_delegate(mico_Context_t * const inContext)
-{
-    //config_delegate_log_trace();
-#ifdef USE_MiCOKit_EXT
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "FogCloud        ");
-  if(inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated){
-    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "   Connecting...");
-    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
-  }
-  else{
-    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "   Awaiting     ");
-    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    activation..");
-  }
-#endif
-  return;
-}
 
 
 void OTAWillStart( mico_Context_t * const inContext )
@@ -86,14 +52,14 @@ void OTAWillStart( mico_Context_t * const inContext )
 #endif
 
   /*Led trigger*/
-  mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL, _led_EL_Timeout_handler, NULL);
+  mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_OTA_INTERVAL, _led_EL_Timeout_handler, NULL);
   mico_start_timer(&_Led_EL_timer);
   
 #ifdef USE_MiCOKit_EXT
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"OTA...          ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  wait about    ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Wait about    ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    3 minutes...");
 #endif
   return;
@@ -116,7 +82,7 @@ void OTAFailed( mico_Context_t * const inContext )
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"OTA...          ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  failed!       ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Failed!       ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
 #endif
   return;
@@ -139,8 +105,8 @@ void OTASuccess( mico_Context_t * const inContext )
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"OTA...          ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  success!      ");
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "  reboot...     ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Success!      ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    reboot...   ");
 #endif
   return;
 }
@@ -195,7 +161,7 @@ void ConfigWillStart( mico_Context_t * const inContext )
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Config...       ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Wait for      ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Awaiting      ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    ssid/key    ");
 #endif
   return;
@@ -216,7 +182,7 @@ void ConfigWillStop( mico_Context_t * const inContext )
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Config          ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "    Stop        ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "    Stop.       ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
 #endif
   return;
@@ -247,7 +213,10 @@ void ConfigAirkissIsSuccess( mico_Context_t * const inContext )
 #endif
   
   // restore fogcloud config
-  MicoFogCloudRestoreDefault(inContext);
+  //MicoFogCloudRestoreDefault(inContext);
+  inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated = false;
+  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.deviceId, 0, MAX_SIZE_DEVICE_ID);
+  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.masterDeviceKey, 0, MAX_SIZE_DEVICE_ID);
   return;
 }
 
@@ -276,7 +245,10 @@ void ConfigEasyLinkIsSuccess( mico_Context_t * const inContext )
 #endif
   
   // restore fogcloud config
-  MicoFogCloudRestoreDefault(inContext);
+  //MicoFogCloudRestoreDefault(inContext);
+  inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated = false;
+  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.deviceId, 0, MAX_SIZE_DEVICE_ID);
+  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.masterDeviceKey, 0, MAX_SIZE_DEVICE_ID);
   return;
 }
 
@@ -333,7 +305,7 @@ json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext )
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inet_ntoa(server_ip,inContext->flashContentInRam.micoSystemConfig.easylinkServerIP));
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)oled_show_line);
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", (uint8_t*)"config upload...");
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", (uint8_t*)"Config upload...");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
 
@@ -583,7 +555,7 @@ OSStatus ConfigIncommingJsonMessage( const char *input, mico_Context_t * const i
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inet_ntoa(server_ip,inContext->flashContentInRam.micoSystemConfig.easylinkServerIP));
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)oled_show_line);
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", (uint8_t*)"config set...");
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", (uint8_t*)"Config set...");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
 

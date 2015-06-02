@@ -350,6 +350,8 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   uint32_t readLength = 0;
   uint32_t i = 0, size = 0;
   
+  inContext->appStatus.fogcloudStatus.isOTAInProgress = true;
+  
   // login_id/dev_passwd ok ?
   if((0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId, 
                    devOTARequestData.loginId, 
@@ -360,14 +362,15 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   {
     // devPass err
     cloud_if_log("ERROR: fogCloudDevFirmwareUpdate: loginId/devPasswd mismatch!");
-    return kMismatchErr;
+    err = kMismatchErr;
+    goto exit_with_error;
   }
   cloud_if_log("fogCloudDevFirmwareUpdate: loginId/devPasswd ok!");
   
   //get latest rom version, file_path, md5
   cloud_if_log("fogCloudDevFirmwareUpdate: get latest rom version from server ...");
   err = FogCloudGetLatestRomVersion(&easyCloudContext);
-  require_noerr_action( err, exit, cloud_if_log("ERROR: FogCloudGetLatestRomVersion failed! err=%d", err) );
+  require_noerr_action( err, exit_with_error, cloud_if_log("ERROR: FogCloudGetLatestRomVersion failed! err=%d", err) );
   
   //FW version compare
   cloud_if_log("currnt_version=%s", inContext->flashContentInRam.appConfig.fogcloudConfig.romVersion);
@@ -381,7 +384,8 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
      cloud_if_log("the current firmware version[%s] is up-to-date!", 
                   inContext->flashContentInRam.appConfig.fogcloudConfig.romVersion);
      inContext->appStatus.fogcloudStatus.RecvRomFileSize = 0;
-     return kNoErr;
+     err = kNoErr;
+     goto exit_with_no_error;
   }
   cloud_if_log("fogCloudDevFirmwareUpdate: new firmware[%s] found on server, downloading ...",
                easyCloudContext.service_status.latestRomVersion);
@@ -390,7 +394,7 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   
   //get rom data
   err = FogCloudGetRomData(&easyCloudContext, ota_flash_params);
-  require_noerr_action( err, exit, 
+  require_noerr_action( err, exit_with_error, 
                        cloud_if_log("ERROR: FogCloudGetRomData failed! err=%d", err) );
   
   //------------------------------ OTA DATA VERIFY -----------------------------
@@ -399,7 +403,7 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   memset(rom_file_md5, 0, 32);
   memset(data, 0xFF, SizePerRW);
   err = MicoFlashInitialize( MICO_FLASH_FOR_UPDATE );
-  require_noerr(err, exit);
+  require_noerr(err, exit_with_error);
   updateStartAddress = UPDATE_START_ADDRESS;
   size = (easyCloudContext.service_status.bin_file_size)/SizePerRW;
   
@@ -417,7 +421,7 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
       readLength = SizePerRW;
     }
     err = MicoFlashRead(MICO_FLASH_FOR_UPDATE, &updateStartAddress, data, readLength);
-    require_noerr(err, exit);
+    require_noerr(err, exit_with_error);
     Md5Update(&md5, (uint8_t *)data, readLength);
   } 
   
@@ -433,7 +437,7 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   }
   else{
     err = kNoMemoryErr;
-    goto exit;
+    goto exit_with_error;
   }
   
   // check md5
@@ -441,8 +445,8 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
                   strlen( easyCloudContext.service_status.bin_md5))){
     cloud_if_log("ERROR: ota data wrote in flash md5 checksum err!!!");
     err = kChecksumErr;
-    goto exit;
-  }
+    goto exit_with_error;
+   }
   //----------------------------------------------------------------------------
   
   //update rom version in flash
@@ -458,11 +462,20 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
   
   OTASuccess(inContext);
-  return kNoErr;
+  err = kNoErr;
+  goto exit_with_no_error;
   
-exit:
+exit_with_no_error:
+  cloud_if_log("fogCloudDevFirmwareUpdate exit with no error.");
+  MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
+  inContext->appStatus.fogcloudStatus.isOTAInProgress = false;
+  return err;
+  
+exit_with_error:
+  cloud_if_log("fogCloudDevFirmwareUpdate exit with err=%d.", err);
   MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
   OTAFailed(inContext);
+  inContext->appStatus.fogcloudStatus.isOTAInProgress = false;
   return err;
 }
 

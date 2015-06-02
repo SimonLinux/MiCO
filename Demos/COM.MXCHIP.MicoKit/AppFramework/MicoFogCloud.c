@@ -153,7 +153,6 @@ void fogcloud_main_thread(void *arg)
 #endif
   
   /* wait for station on */
-  wait_for_wifi_info_delegate(inContext);
   fogcloud_log("MicoFogCloud start, wait for Wi-Fi...");
   while(kNoErr != mico_rtos_get_semaphore(&_wifi_station_on_sem, MICO_WAIT_FOREVER));
   
@@ -166,8 +165,6 @@ void fogcloud_main_thread(void *arg)
   err = MicoStartFogCloudConfigServer( inContext);
   require_noerr_action(err, exit, 
                        fogcloud_log("ERROR: start FogCloud configServer failed!") );
-  
-  fogcloud_working_info_delegate(inContext);
   
  #ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
   /* activate when wifi on */
@@ -216,6 +213,10 @@ void fogcloud_main_thread(void *arg)
   
   while(1){
     mico_thread_sleep(1);
+    if(inContext->appStatus.fogcloudStatus.isOTAInProgress){
+      continue;  // ota is in progress, the oled && system led will be holding
+    }
+    
     if(inContext->appStatus.fogcloudStatus.isCloudConnected){
       set_RF_LED_cloud_connected(inContext);  // toggle LED
     }
@@ -259,6 +260,7 @@ OSStatus MicoStartFogCloudService(mico_Context_t* const inContext)
   inContext->appStatus.fogcloudStatus.isCloudConnected = false;
   inContext->appStatus.fogcloudStatus.RecvRomFileSize = 0;
   inContext->appStatus.fogcloudStatus.isActivated = inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated;
+  inContext->appStatus.fogcloudStatus.isOTAInProgress = false;
   
   //init fogcloud service interface
   err = fogCloudInit(inContext);

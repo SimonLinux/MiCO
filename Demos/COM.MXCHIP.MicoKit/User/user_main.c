@@ -86,13 +86,17 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
   // update 2~4 lines on OLED
   char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
   
+  if(mico_context->appStatus.fogcloudStatus.isOTAInProgress){
+    return;  // ota is in progress, the oled && system led will be holding
+  }
+  
   if(user_context->status.oled_keep_s >= 1){
     user_context->status.oled_keep_s--;  // keep display current info
   }
   else{
     if(!mico_context->appStatus.isWifiConnected){
       OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "Wi-Fi           ");
-      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "   Connecting...");
+      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Connecting... ");
       memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
       snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", 
                mico_context->flashContentInRam.micoSystemConfig.ssid);
@@ -101,17 +105,17 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
     else if(!mico_context->appStatus.fogcloudStatus.isCloudConnected){
       OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "FogCloud        ");
       if(mico_context->flashContentInRam.appConfig.fogcloudConfig.isActivated){
-        OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "   Connecting...");
+        OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Connecting... ");
         OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
       }
       else{
-        OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "   Awaiting     ");
+        OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Awaiting      ");
         OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    activation..");
       }
     }
     else{
       OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "System          ");
-      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "    Running...  ");
+      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Running...    ");
       // temperature/humidity display on OLED
       memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
       snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "T: %2dC  H: %2d%%  ", 

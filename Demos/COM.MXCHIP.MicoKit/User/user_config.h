@@ -32,19 +32,22 @@
 #define SERIAL_NUMBER                      "20150515"
 #define PROTOCOL                           "com.mxchip.micokit"
 
-#define OTA_TEST
+/*User provided configurations*/
+#define CONFIGURATION_VERSION               0x00000001 // if default configuration is changed, update this number
+   
+//#define OTA_TEST
 
 /* product type */
 #ifdef OTA_TEST
 #define PRODUCT_ID                         "6be15e13"
 #define PRODUCT_KEY                        "87618cf2-29ea-4ad8-b51b-96e0f489643d"
-#define DEFAULT_ROM_VERSION                "v1.0.0"
+#define DEFAULT_ROM_VERSION                "v1.0.0"  // upload real versin=1.0.2 to test ota
 #define DEFAULT_DEVICE_NAME                "MiCOKit-3288_OTA"  // device name upload to cloud
 #define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
 #else
 #define PRODUCT_ID                         "d64f517c"
 #define PRODUCT_KEY                        "e935ef56-1d03-4432-9524-8d4a691a26ec"
-#define DEFAULT_ROM_VERSION                "v1.0.0"
+#define DEFAULT_ROM_VERSION                "v1.0.2"
 #define DEFAULT_DEVICE_NAME                "MiCOKit-3288"  // device name upload to cloud
 #define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
 #endif
@@ -69,9 +72,6 @@
 #define STACK_SIZE_USER_MAIN_THREAD         0x800
 #define STACK_SIZE_NOTIFY_THREAD            0x800
 #define MICO_PROPERTIES_NOTIFY_INTERVAL_MS  1000
-
-/*User provided configurations*/
-#define CONFIGURATION_VERSION               0x00000001 // if default configuration is changed, update this number
-
+   
    
 #endif  // __USER_CONFIG_H_

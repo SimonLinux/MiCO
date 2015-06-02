@@ -54,7 +54,7 @@ extern OSStatus getMVDOTARequestData(const char *input, MVDOTARequestData_t *OTA
 extern OSStatus getMVDGetStateRequestData(const char *input, MVDGetStateRequestData_t *devGetStateData);
 
 static void fogCloudConfigServer_listener_thread(void *inContext);
-static void localConfig_thread(void *inFd);
+static void fogCloudConfigClient_thread(void *inFd);
 static mico_Context_t *Context;
 static OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
                                                    mico_Context_t * const inContext);
@@ -62,7 +62,7 @@ static OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inH
 OSStatus MicoStartFogCloudConfigServer ( mico_Context_t * const inContext )
 {
   return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, 
-                                 "fogcloud_configserver", 
+                                 "fog_server", 
                                  fogCloudConfigServer_listener_thread, 
                                  STACK_SIZE_FOGCLOUD_CONFIG_SERVER_THREAD, (void*)inContext );
 }
@@ -103,8 +103,8 @@ void fogCloudConfigServer_listener_thread(void *inContext)
       if (j > 0) {
         inet_ntoa(ip_address, addr.s_ip );
         fogcloud_config_log("fogCloud Config Client %s:%d connected, fd: %d", ip_address, addr.s_port, j);
-        err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "fogcloud_configclient", 
-                                      localConfig_thread, STACK_SIZE_FOGCLOUD_CONFIG_CLIENT_THREAD, &j);
+        err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "fog_client", 
+                                      fogCloudConfigClient_thread, STACK_SIZE_FOGCLOUD_CONFIG_CLIENT_THREAD, &j);
       }
     }
   }
@@ -115,7 +115,7 @@ exit:
   return;
 }
 
-void localConfig_thread(void *inFd)
+void fogCloudConfigClient_thread(void *inFd)
 {
   OSStatus err;
   int clientFd = *(int *)inFd;
@@ -127,7 +127,7 @@ void localConfig_thread(void *inFd)
   httpHeader = ECS_HTTPHeaderCreate();
   require_action( httpHeader, exit, err = kNoMemoryErr );
   ECS_HTTPHeaderClear( httpHeader );
-  t.tv_sec = 60;
+  t.tv_sec = 10;
   t.tv_usec = 0;
   while(1){
     FD_ZERO(&readfds);
@@ -135,6 +135,7 @@ void localConfig_thread(void *inFd)
     clientFdIsSet = 0;
     if(httpHeader->len == 0){
       err = select(1, &readfds, NULL, NULL, &t);
+      require( err > 0, exit );
       clientFdIsSet = FD_ISSET(clientFd, &readfds);
     }
     if(clientFdIsSet||httpHeader->len){
@@ -143,20 +144,18 @@ void localConfig_thread(void *inFd)
       {
       case kNoErr:
         // Read the rest of the HTTP body if necessary
-        do{
-          err = ECS_SocketReadHTTPBody( clientFd, httpHeader );
-          require_noerr(err, exit);
-          // Call the HTTPServer owner back with the acquired HTTP header
+        err = ECS_SocketReadHTTPBody( clientFd, httpHeader );
+        if(httpHeader->dataEndedbyClose == true){
           err = _LocalConfigRespondInComingMessage( clientFd, httpHeader, Context );
-          //require_noerr( err, exit );
-          if(kConnectionErr == err){
-            goto exit; // connect err mean client closed.
-          }
-          if(httpHeader->contentLength == 0)
-            break;
-        } while( httpHeader->chunkedData == true || httpHeader->dataEndedbyClose == true);
-        // Reuse HTTPHeader
-        ECS_HTTPHeaderClear( httpHeader );
+          require_noerr(err, exit);
+          err = kConnectionErr;
+          goto exit;
+        }else{
+          require_noerr(err, exit);
+          err = _LocalConfigRespondInComingMessage( clientFd, httpHeader, Context );
+          //require_noerr(err, exit);
+          goto exit;
+        }
         break;
       case EWOULDBLOCK:
         // NO-OP, keep reading
@@ -179,8 +178,11 @@ void localConfig_thread(void *inFd)
   }
   
 exit:
-  if(kConnectionErr != err){
-    fogcloud_config_log("Exit: Client exit with err = %d", err);
+  if(kNoErr != err){
+    fogcloud_config_log("Exit: fogCloud config client exit with err = %d", err);
+  }
+  else{
+    fogcloud_config_log("Exit: fogcloud config client exit with success!");
   }
   SocketClose(&clientFd);
   ECS_HTTPHeaderClear( httpHeader );
@@ -223,7 +225,6 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       require( httpResponse, exit );
       err = SocketSend( fd, httpResponse, httpResponseLen );
       SocketClose(&fd);
-      err = kConnectionErr; //Return an err to close the current thread
     }
     goto exit;
   }
@@ -248,10 +249,6 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       require( httpResponse, exit );
       err = SocketSend( fd, httpResponse, httpResponseLen );
       SocketClose(&fd);
-      err = kConnectionErr; //Return an err to close the current thread
-      //inContext->micoStatus.sys_state = eState_Software_Reset;
-      //require(inContext->micoStatus.sys_state_change_sem, exit);
-      //mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
     }
     goto exit;
   }
@@ -275,10 +272,6 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       require( httpResponse, exit );
       err = SocketSend( fd, httpResponse, httpResponseLen );
       SocketClose(&fd);
-      err = kConnectionErr; //Return an err to close the current thread
-      // inContext->micoStatus.sys_state = eState_Software_Reset;
-      // require(inContext->micoStatus.sys_state_change_sem, exit);
-      // mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
     }
     goto exit;
   }
@@ -296,8 +289,7 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       require( httpResponse, exit );
       err = SocketSend( fd, httpResponse, httpResponseLen );
       SocketClose(&fd);
-      err = kConnectionErr; //Return an err to close the current thread
-      
+     
       inContext->micoStatus.sys_state = eState_Software_Reset;
       require(inContext->micoStatus.sys_state_change_sem, exit);
       mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
@@ -358,7 +350,6 @@ exit:
     require( httpResponse, exit );
     SocketSend( fd, httpResponse, httpResponseLen );
     SocketClose(&fd);
-    err = kConnectionErr;  // return kConnectionErr to close client thread.
   }
   if(httpResponse) free(httpResponse);
   if(report) json_object_put(report);

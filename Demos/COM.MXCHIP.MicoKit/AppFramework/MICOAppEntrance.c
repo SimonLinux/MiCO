@@ -47,8 +47,8 @@ void user_main_thread(void* arg)
   
 #if (MICO_CLOUD_TYPE != CLOUD_DISABLED)
   // wait semaphore for cloud connection
-  mico_fogcloud_waitfor_connect(mico_context, MICO_WAIT_FOREVER);  // block to wait fogcloud connect
-  app_log("Cloud connected, call user_main function.");
+  //mico_fogcloud_waitfor_connect(mico_context, MICO_WAIT_FOREVER);  // block to wait fogcloud connect
+  //app_log("Cloud connected, call user_main function.");
 #endif
   
   // loop in user mian function && must not return
@@ -97,6 +97,9 @@ OSStatus MICOStartApplication( mico_Context_t * const mico_context )
   
   // LED on when Wi-Fi connected.
   MicoSysLed(false);
+  
+  // init application status
+  mico_context->appStatus.isWifiConnected = false;
     
   /* Bonjour for service searching */
   if(mico_context->flashContentInRam.micoSystemConfig.bonjourEnable == true) {

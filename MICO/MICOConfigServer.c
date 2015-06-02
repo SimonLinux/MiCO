@@ -37,6 +37,7 @@
 #include "HTTPUtils.h"
 #include "MICONotificationCenter.h"
 #include "StringUtils.h"
+#include "MiCORTOS.h"
 
 #define config_log(M, ...) custom_log("CONFIG SERVER", M, ##__VA_ARGS__)
 #define config_log_trace() custom_log_trace("CONFIG SERVER")
@@ -65,9 +66,15 @@ static void _easylinkConnectWiFi( mico_Context_t * const inContext);
 static OSStatus onReceivedData(struct _HTTPHeader_t * httpHeader, uint32_t pos, uint8_t * data, size_t len, void * userContext );
 static void onClearHTTPHeader(struct _HTTPHeader_t * httpHeader, void * userContext );
 
+bool is_config_server_established = false;
+
 OSStatus MICOStartConfigServer ( mico_Context_t * const inContext )
 {
-  return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)inContext );
+  if( is_config_server_established == false ){
+    is_config_server_established = true;
+    return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)inContext );
+  }
+  return kNoErr;
 }
 
 void localConfiglistener_thread(void *inContext)
@@ -168,20 +175,7 @@ void localConfig_thread(void *inFd)
             err = _LocalConfigRespondInComingMessage( clientFd, httpHeader, Context );
             require_noerr(err, exit);
           }
-          
 
-
-          //  if(httpHeader->contentLength == 0)
-          //    break;
-          //} while( httpHeader->chunkedData == true || httpHeader->dataEndedbyClose == true);
-
-          // Call the HTTPServer owner back with the acquired HTTP header
-          //err = _LocalConfigRespondInComingMessage( clientFd, httpHeader, Context );
-          //
-          //Exit if connection is closed
-          //require_noerr(err, exit); 
-      
-          // Reuse HTTPHeader
           HTTPHeaderClear( httpHeader );
         break;
 
@@ -307,21 +301,24 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
   }
   else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWrite ) == kNoErr){
     if(inHeader->contentLength > 0){
-      config_log("Recv new configuration, apply and reset");
-      err = ConfigIncommingJsonMessage( inHeader->extraDataPtr, inContext);
-      require_noerr( err, exit );
-      inContext->flashContentInRam.micoSystemConfig.configured = allConfigured;
-      MICOUpdateConfiguration(inContext);
+      config_log("Recv new configuration, apply");
 
       err =  CreateSimpleHTTPOKMessage( &httpResponse, &httpResponseLen );
       require_noerr( err, exit );
       require( httpResponse, exit );
       err = SocketSend( fd, httpResponse, httpResponseLen );
-      SocketClose(&fd);
-      inContext->micoStatus.sys_state = eState_Software_Reset;
-      if(inContext->micoStatus.sys_state_change_sem != NULL );
-        mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
-      mico_thread_sleep(MICO_WAIT_FOREVER);
+      require_noerr( err, exit );
+
+      err = ConfigIncommingJsonMessage( inHeader->extraDataPtr, inContext);
+      require_noerr( err, exit );
+      inContext->flashContentInRam.micoSystemConfig.configured = allConfigured;
+      MICOUpdateConfiguration(inContext);
+
+      //SocketClose(&fd);
+      //inContext->micoStatus.sys_state = eState_Software_Reset;
+      //if(inContext->micoStatus.sys_state_change_sem != NULL );
+      //  mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
+      //mico_thread_sleep(MICO_WAIT_FOREVER);
     }
     goto exit;
   }
@@ -343,7 +340,6 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
       micoWlanSuspendSoftAP();
       _easylinkConnectWiFi( inContext );
 
-      err = kConnectionErr; //Return an err to close socket and exit the current thread
     }
     goto exit;
   }

@@ -69,9 +69,9 @@ void DHT11_Rst(void)
   Delay_us(30);     										//Pull up 20~40us
 }
 
-u8 DHT11_Check(void) 	   
+uint8_t DHT11_Check(void) 	   
 {   
-  u8 retry=0;
+  uint8_t retry=0;
   DHT11_IO_IN();												//SET INPUT	 
   while (DHT11_DQ_IN&&retry<100)				//DHT11 Pull down 40~80us
   {
@@ -96,9 +96,9 @@ u8 DHT11_Check(void)
   return 0;
 }
 
-u8 DHT11_Read_Bit(void) 			 
+uint8_t DHT11_Read_Bit(void) 			 
 {
-  u8 retry=0;
+  uint8_t retry=0;
   while(DHT11_DQ_IN&&retry<100)					//wait become Low level
   {
     retry++;
@@ -120,9 +120,9 @@ u8 DHT11_Read_Bit(void)
     return 0;		   
 }
 
-u8 DHT11_Read_Byte(void)    
+uint8_t DHT11_Read_Byte(void)    
 {        
-  u8 i,dat;
+  uint8_t i,dat;
   dat=0;
   for (i=0;i<8;i++) 
   {
@@ -133,10 +133,10 @@ u8 DHT11_Read_Byte(void)
   return dat;
 }
 
-u8 DHT11_Read_Data(u8 *temperature,u8 *humidity)    
+uint8_t DHT11_Read_Data(uint8_t *temperature,uint8_t *humidity)    
 {        
-  u8 buf[5];
-  u8 i;
+  uint8_t buf[5];
+  uint8_t i;
   DHT11_Rst();
   if(DHT11_Check()==0)
   {

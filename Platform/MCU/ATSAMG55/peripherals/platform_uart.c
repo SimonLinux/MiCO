@@ -71,18 +71,6 @@ static IRQn_Type platform_flexcom_irq_numbers[] =
   [7]  = FLEXCOM7_IRQn,
 };
 
-static Flexcom  *flexcom_base[] = 
-{
-  [0]  = FLEXCOM0,
-  [1]  = FLEXCOM1,
-  [2]  = FLEXCOM2,
-  [3]  = FLEXCOM3,
-  [4]  = FLEXCOM4,
-  [5]  = FLEXCOM5,
-  [6]  = FLEXCOM6,
-  [7]  = FLEXCOM7,
-};
-
 /******************************************************
 *        Static Function Declarations
 ******************************************************/
@@ -137,8 +125,10 @@ OSStatus platform_uart_init( platform_uart_driver_t* driver, const platform_uart
   }
 
   /* Enable the clock. */
-  flexcom_enable( flexcom_base[ peripheral->uart_id ] );
-  flexcom_set_opmode( flexcom_base[ peripheral->uart_id ], FLEXCOM_USART );
+  if( pmc_is_periph_clk_enabled( peripheral->peripheral_id ) == 0  ){
+    flexcom_enable( peripheral->flexcom_base );
+  }
+  flexcom_set_opmode( peripheral->flexcom_base, FLEXCOM_USART );
 
   /* Enable the receiver and transmitter. */
   usart_reset_tx( peripheral->port );
@@ -236,7 +226,9 @@ OSStatus platform_uart_deinit( platform_uart_driver_t* driver )
   usart_disable_tx( driver->peripheral->port );
   usart_disable_rx( driver->peripheral->port );
 
-  sysclk_disable_peripheral_clock( driver->peripheral->peripheral_id );
+  if( pmc_is_periph_clk_enabled( driver->peripheral->peripheral_id ) == 1  ){
+    flexcom_disable( driver->peripheral->flexcom_base );
+  }
 
   platform_gpio_deinit( driver->peripheral->tx_pin );
   platform_gpio_deinit( driver->peripheral->rx_pin );

@@ -308,6 +308,12 @@ MICO_RTOS_DEFINE_ISR( USART2_IRQHandler )
   platform_uart_irq( &platform_uart_drivers[MICO_UART_1] );
 }
 
+MICO_RTOS_DEFINE_ISR( USART1_IRQHandler )
+{
+  platform_uart_irq( &platform_uart_drivers[MICO_UART_2] );
+}
+
+
 MICO_RTOS_DEFINE_ISR( DMA1_Stream6_IRQHandler )
 {
   platform_uart_tx_dma_irq( &platform_uart_drivers[MICO_UART_1] );
@@ -316,6 +322,16 @@ MICO_RTOS_DEFINE_ISR( DMA1_Stream6_IRQHandler )
 MICO_RTOS_DEFINE_ISR( DMA1_Stream5_IRQHandler )
 {
   platform_uart_rx_dma_irq( &platform_uart_drivers[MICO_UART_1] );
+}
+
+MICO_RTOS_DEFINE_ISR( DMA2_Stream7_IRQHandler )
+{
+  platform_uart_tx_dma_irq( &platform_uart_drivers[MICO_UART_2] );
+}
+
+MICO_RTOS_DEFINE_ISR( DMA2_Stream2_IRQHandler )
+{
+  platform_uart_rx_dma_irq( &platform_uart_drivers[MICO_UART_2] );
 }
 
 void platform_init_peripheral_irq_priorities( void )
@@ -434,10 +450,15 @@ void MicoRfLed(bool onoff)
 // add long press key2 on ext-board when restart to enter MFG MODE
 bool MicoShouldEnterMFGMode(void)
 {
+#ifdef USE_MiCOKit_EXT
   if( (MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false) ||
-     (MicoGpioInputGet((mico_gpio_t)Arduino_D5) == false) ){
-       return true;
-     }
+     (MicoGpioInputGet((mico_gpio_t)Arduino_D5) == false) )
+#else
+  if( MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false )
+#endif
+  {
+    return true;
+  }
   else{
     return false;
   }

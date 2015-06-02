@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"mico_rtos_de",
+				"mico_rtos_delete_thread(mico_thread_t *thread)	OSStatus"
+			],
+			[
+				"up",
+				"update_state_sem	mico_semaphore_t"
+			],
+			[
+				"RECORD_",
+				"RECORD_NORMAL	mdns_record_state_t"
+			],
+			[
+				"RE",
+				"RECORD_UPDATE	mdns_record_state_t"
+			],
+			[
+				"s",
+				"state	mdns_record_state_t"
+			],
+			[
+				"REC",
+				"RECORD_REMOVED	mdns_record_state_t"
+			],
+			[
+				"strcm",
+				"strcmp(const char *, const char *)	int"
+			],
+			[
 				"MicoSp",
 				"MicoSpiTransfer(const mico_spi_device_t *spi, const mico_spi_message_segment_t *segments, uint16_t number_of_segments)	OSStatus"
 			],
@@ -128,10 +156,6 @@
 				"keyLength	int"
 			],
 			[
-				"s",
-				"security	SECURITY_TYPE_E"
-			],
-			[
 				"MicoGpioO",
 				"MicoGpioOutputLow(mico_gpio_t gpio)	OSStatus"
 			],
@@ -234,10 +258,6 @@
 			[
 				"Platform",
 				"PlatformWDGReload()	void"
-			],
-			[
-				"RE",
-				"REMOTE_CONNECT	enum <anonymous>"
 			],
 			[
 				"_us",
@@ -476,10 +496,6 @@
 				"MFi_SERVICE_MFi	macro"
 			],
 			[
-				"mico_rtos_de",
-				"mico_rtos_delete_thread(mico_thread_t *thread)	MxchipStatus"
-			],
-			[
 				"mico_re",
 				"mico_rtos_init_mutex(mico_mutex_t *mutex)	MxchipStatus"
 			],
@@ -498,43 +514,11 @@
 			[
 				"supportsAirp",
 				"supportsAirPrint	bool"
-			],
-			[
-				"w",
-				"supportsWakeOnWireless	bool"
-			],
-			[
-				"wi",
-				"wifi_key	char [32]"
-			],
-			[
-				"WAC_N",
-				"WAC_NetConfig	network_InitTypeDef_st *"
-			],
-			[
-				"de",
-				"destinationSSID	char*"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
-			"settings":
-			{
-				"buffer_size": 15204,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "COM.MXCHIP.SPP.sublime-project",
-			"settings":
-			{
-				"buffer_size": 1687,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -596,6 +580,14 @@
 	},
 	"file_history":
 	[
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_i2c.c",
+		"/Users/William/Develop/MiCO/Support/MDNSUtils.c",
+		"/Users/William/Develop/MiCO/Support/MDNSUtils.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/LocalTcpServer.c",
+		"/Users/William/Develop/MiCO/Platform/Drivers/MiCOKit_EXT/lcd/oled.c",
+		"/Users/William/Develop/MiCO/Projects/STM32F4xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
+		"/Users/William/Develop/MiCO/include/MICORTOS.h",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
 		"/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h",
@@ -604,14 +596,12 @@
 		"/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/wlan_platform_common.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform.c",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
 		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_platform.c",
 		"/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
 		"/Users/William/Develop/MiCO/include/MicoPlatform.h",
 		"/Users/William/Develop/MiCO/MICO/MICOEntrance.c",
 		"/Users/William/Develop/MiCO/MICO/EasyLink/EasyLink.c",
 		"/Users/William/Develop/MiCO/MICO/MICONotificationCenter.c",
-		"/Users/William/Develop/MiCO/Projects/STM32F4xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
 		"/Users/William/Develop/MiCO/Demos/COM.APPLE.HOMEKIT/HomeKitServer.c",
 		"/Users/William/Develop/MiCO/Demos/COM.APPLE.HOMEKIT/HomeKitUserInterface.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform_config.h",
@@ -717,13 +707,7 @@
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform.h",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/include/PlatformLogging.h",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_common_config.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/read_wifi_firmware.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoPlatform.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/TimeUtils.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/Mico.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_internal_gpio.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/inc/MICOWlan.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoDefaults.h"
+		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/read_wifi_firmware.c"
 	],
 	"find":
 	{
@@ -750,6 +734,32 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"delay_ms",
+			"delay_us",
+			"OLED_Clear",
+			"mfi_bonjour_thread_handler",
+			"count_down",
+			"MFi_SERVICE_QUERY_NAME",
+			"dns_record_t",
+			"bonjour_remove_record",
+			"bonjour_send",
+			"mico_create_event_fd",
+			"dns_compare_name_to_string",
+			"dns_compare_name_to_string( name, available_services[b].hostname )",
+			"dns_compare_name_to_string",
+			"mfi_mdns_handler",
+			"suspend_bonjour_service",
+			"bonjour_service_remove",
+			"stop_bonjour_service",
+			"_interface",
+			"dns_compare_name_to_string",
+			"mfi_bonjour_remove_record",
+			"available_service_count",
+			"bonjour_mutex",
+			"i2c_rx_no_dma",
+			"i2c_tx_no_dma",
+			"i2c_tx_no_dma\ni2c_tx_no_dma",
+			"i2c_tx_no_dma",
 			"mico_notify_SYS_WILL_POWER_OFF",
 			"mico_notify_SYS_WILL_POWER_OFF_function",
 			"sendNotifySYSWillPowerOff",
@@ -851,33 +861,7 @@
 			"HTTPHeaderCreate",
 			"_ConnectToMfgAP",
 			"stop_mode_power_down_hook",
-			"_button_STANDBY_irq_handler",
-			"%f",
-			"lf",
-			"_cleanEasyLinkResource",
-			"_Led_EL_timer",
-			"ConfigWillStop",
-			"ConfigWillStop\nConfigWillStop",
-			"_FTCRespondInComingMessage",
-			"easylink_sem",
-			"easylink_thread",
-			"easylinkClient_fd",
-			"_cleanEasyLinkResource",
-			"stopEasyLink",
-			"EasyLinkNotify_SYSWillPowerOffHandler",
-			"str2hex",
-			"easylink_thread",
-			"rtc",
-			"_PlatformFlashByteWrite",
-			"APP_HDR_START_ADDR",
-			"The MIT License",
-			"__IO",
-			"network_InitTypeDef_st",
-			"MICO_RF_LED",
-			"C000",
-			"800C000",
-			"host_platform_reset_wifi",
-			"WL_RESET_BANK"
+			"_button_STANDBY_irq_handler"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -897,64 +881,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
-					"settings":
-					{
-						"buffer_size": 15204,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "COM.MXCHIP.SPP.sublime-project",
-					"settings":
-					{
-						"buffer_size": 1687,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1677,
-								681
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 93.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

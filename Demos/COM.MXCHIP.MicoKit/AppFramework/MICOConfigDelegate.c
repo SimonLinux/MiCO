@@ -164,6 +164,12 @@ void ConfigWillStart( mico_Context_t * const inContext )
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Awaiting      ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    ssid/key    ");
 #endif
+  
+  // restore fogcloud config
+  //MicoFogCloudRestoreDefault(inContext);
+  inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated = false;
+  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.deviceId, 0, MAX_SIZE_DEVICE_ID);
+  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.masterDeviceKey, 0, MAX_SIZE_DEVICE_KEY);
   return;
 }
 
@@ -211,12 +217,6 @@ void ConfigAirkissIsSuccess( mico_Context_t * const inContext )
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inContext->flashContentInRam.micoSystemConfig.user_key);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
-  
-  // restore fogcloud config
-  //MicoFogCloudRestoreDefault(inContext);
-  inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated = false;
-  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.deviceId, 0, MAX_SIZE_DEVICE_ID);
-  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.masterDeviceKey, 0, MAX_SIZE_DEVICE_ID);
   return;
 }
 
@@ -243,12 +243,6 @@ void ConfigEasyLinkIsSuccess( mico_Context_t * const inContext )
   snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inContext->flashContentInRam.micoSystemConfig.user_key);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
 #endif
-  
-  // restore fogcloud config
-  //MicoFogCloudRestoreDefault(inContext);
-  inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated = false;
-  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.deviceId, 0, MAX_SIZE_DEVICE_ID);
-  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.masterDeviceKey, 0, MAX_SIZE_DEVICE_ID);
   return;
 }
 

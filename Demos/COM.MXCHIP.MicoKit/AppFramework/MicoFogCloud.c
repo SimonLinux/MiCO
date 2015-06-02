@@ -153,8 +153,8 @@ void fogcloud_main_thread(void *arg)
 #endif
   
   /* wait for station on */
-  fogcloud_log("MicoFogCloud start, wait for Wi-Fi...");
-  while(kNoErr != mico_rtos_get_semaphore(&_wifi_station_on_sem, MICO_WAIT_FOREVER));
+  //fogcloud_log("MicoFogCloud start, wait for Wi-Fi...");
+  //while(kNoErr != mico_rtos_get_semaphore(&_wifi_station_on_sem, MICO_WAIT_FOREVER));
   
   /* start FogCloud service */
   err = fogCloudStart(inContext);

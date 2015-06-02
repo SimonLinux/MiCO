@@ -42,7 +42,7 @@ operation
 /*******************************************************************************
  *                                  VARIABLES
  ******************************************************************************/
-static mico_semaphore_t _wifi_station_on_sem = NULL;
+//static mico_semaphore_t _wifi_station_on_sem = NULL;
 mico_semaphore_t _fogcloud_connect_sem = NULL;
 
 
@@ -64,17 +64,17 @@ WEAK OSStatus user_fogcloud_msg_handler(mico_Context_t* context,
   return kNoErr;
 }
 
-void mvdNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inContext)
+void fogNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inContext)
 {
   fogcloud_log_trace();
   (void)inContext;
   switch (event) {
   case NOTIFY_STATION_UP:
     inContext->appStatus.isWifiConnected = true;
-    if(NULL == _wifi_station_on_sem){
-      mico_rtos_init_semaphore(&_wifi_station_on_sem, 1);
-    }
-    mico_rtos_set_semaphore(&_wifi_station_on_sem);
+//    if(NULL == _wifi_station_on_sem){
+//      mico_rtos_init_semaphore(&_wifi_station_on_sem, 1);
+//    }
+//    mico_rtos_set_semaphore(&_wifi_station_on_sem);
     break;
   case NOTIFY_STATION_DOWN:
     inContext->appStatus.isWifiConnected = false;
@@ -155,6 +155,9 @@ void fogcloud_main_thread(void *arg)
   /* wait for station on */
   //fogcloud_log("MicoFogCloud start, wait for Wi-Fi...");
   //while(kNoErr != mico_rtos_get_semaphore(&_wifi_station_on_sem, MICO_WAIT_FOREVER));
+  while(!inContext->appStatus.isWifiConnected){
+    mico_thread_msleep(500);
+  }
   
   /* start FogCloud service */
   err = fogCloudStart(inContext);
@@ -268,12 +271,12 @@ OSStatus MicoStartFogCloudService(mico_Context_t* const inContext)
                        fogcloud_log("ERROR: FogCloud interface init failed!") );
   
   // add wifi notify && semaphore
-  if(NULL == _wifi_station_on_sem){
-    err = mico_rtos_init_semaphore(&_wifi_station_on_sem, 1);
-    require_noerr_action(err, exit, 
-                         fogcloud_log("ERROR: mico_rtos_init_semaphore (_wifi_station_on_sem) failed!") );
-  }
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)mvdNotify_WifiStatusHandler );
+//  if(NULL == _wifi_station_on_sem){
+//    err = mico_rtos_init_semaphore(&_wifi_station_on_sem, 1);
+//    require_noerr_action(err, exit, 
+//                         fogcloud_log("ERROR: mico_rtos_init_semaphore (_wifi_station_on_sem) failed!") );
+//  }
+  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)fogNotify_WifiStatusHandler );
   require_noerr_action(err, exit, 
                        fogcloud_log("ERROR: MICOAddNotification (mico_notify_WIFI_STATUS_CHANGED) failed!") );
   
@@ -412,18 +415,23 @@ OSStatus MicoFogCloudGetState(mico_Context_t* const context,
   mico_Context_t *inContext = context;
   json_object* report = (json_object*)outDevState;
   
+  uint16_t login_id_cmp_len = 0;
+  uint16_t dev_passwd_cmp_len = 0;
+  
   if((NULL == context) || (NULL == outDevState)){
     return kParamErr;
   }
   
   // login_id/dev_passwd ok ?
+  login_id_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) > strlen(getStateRequestData.loginId) ?
+                     strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) : strlen(getStateRequestData.loginId);
+  dev_passwd_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) > strlen(getStateRequestData.devPasswd) ?
+                       strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) : strlen(getStateRequestData.devPasswd);
+ 
   if((0 != strncmp(context->flashContentInRam.appConfig.fogcloudConfig.loginId, 
-                   getStateRequestData.loginId, 
-                   strlen(context->flashContentInRam.appConfig.fogcloudConfig.loginId))) ||
+                   getStateRequestData.loginId, login_id_cmp_len)) ||
      (0 != strncmp(context->flashContentInRam.appConfig.fogcloudConfig.devPasswd, 
-                   getStateRequestData.devPasswd, 
-                   strlen(context->flashContentInRam.appConfig.fogcloudConfig.devPasswd))))
-  {
+                   getStateRequestData.devPasswd, dev_passwd_cmp_len))){
     fogcloud_log("ERROR: MVDGetState: loginId/devPasswd mismatch!");
     return kMismatchErr;
   }

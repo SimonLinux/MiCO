@@ -21,10 +21,12 @@
 
 #include "MICODefine.h"
 #include "MICOAppDefine.h"
+#include "MICONotificationCenter.h"
 #include "MicoFogCloud.h"
 
 #define app_log(M, ...) custom_log("APP", M, ##__VA_ARGS__)
 #define app_log_trace() custom_log_trace("APP")
+
 
 /* default user_main callback function, this must be override by user. */
 WEAK OSStatus user_main( mico_Context_t * const mico_context )
@@ -90,6 +92,7 @@ OSStatus MICOStartApplication( mico_Context_t * const mico_context )
 {
   app_log_trace();
   OSStatus err = kNoErr;
+  LinkStatusTypeDef wifi_link_status;
     
   require_action(mico_context, exit, err = kParamErr);
     
@@ -98,8 +101,20 @@ OSStatus MICOStartApplication( mico_Context_t * const mico_context )
   // LED on when Wi-Fi connected.
   MicoSysLed(false);
   
-  // init application status
-  mico_context->appStatus.isWifiConnected = false;
+  // init application wifi link status
+  do{
+    err = micoWlanGetLinkStatus(&wifi_link_status);
+    if(kNoErr != err){
+      mico_thread_msleep(500);
+    }
+  }while(kNoErr != err);
+  
+  if(1 ==  wifi_link_status.is_connected){
+    mico_context->appStatus.isWifiConnected = true;
+  }
+  else{
+    mico_context->appStatus.isWifiConnected = false;
+  }
     
   /* Bonjour for service searching */
   if(mico_context->flashContentInRam.micoSystemConfig.bonjourEnable == true) {

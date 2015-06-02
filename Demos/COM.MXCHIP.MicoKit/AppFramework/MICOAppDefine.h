@@ -54,7 +54,7 @@
 
 /* Wi-Fi configuration mode */
 #ifndef MICO_CONFIG_MODE
-  #define MICO_CONFIG_MODE     CONFIG_MODE_EASYLINK_WITH_SOFTAP
+  #define MICO_CONFIG_MODE     CONFIG_MODE_EASYLINK
 #endif
 
 /* Define MICO cloud type */
@@ -113,7 +113,7 @@ typedef struct
 
 /* Running status */
 typedef struct _current_app_status_t {
-  bool              isWifiConnected;      // wifi station connect status
+  volatile bool     isWifiConnected;      // wifi station connect status
   fogcloud_status_t fogcloudStatus;       // fogcloud status
 } current_app_status_t;
 

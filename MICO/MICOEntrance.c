@@ -107,6 +107,7 @@ USED void PlatformEasyLinkButtonLongPressedCallback(void)
   
   context->flashContentInRam.micoSystemConfig.configured = wLanUnConfigured;
   needsUpdate = true;
+  MICORestoreDefault(context);
   
   context->micoStatus.sys_state = eState_Software_Reset;
   require(context->micoStatus.sys_state_change_sem, exit);

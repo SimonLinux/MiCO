@@ -47,7 +47,7 @@
 #else
 #define PRODUCT_ID                         "d64f517c"
 #define PRODUCT_KEY                        "e935ef56-1d03-4432-9524-8d4a691a26ec"
-#define DEFAULT_ROM_VERSION                "v1.0.3"
+#define DEFAULT_ROM_VERSION                "v1.0.4"
 #define DEFAULT_DEVICE_NAME                "MiCOKit-3288"  // device name upload to cloud
 #define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
 #endif

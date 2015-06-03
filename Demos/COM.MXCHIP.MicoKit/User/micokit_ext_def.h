@@ -45,7 +45,7 @@
 #define MICO_EXT_ADC_LIGHT           (MICO_ADC_1)
 #define MICO_EXT_ADC_INFRARED        (MICO_ADC_2)
 
-#define MICO_EXT_USER_UART           (MICO_UART_1)
+#define MICO_EXT_USER_UART           (UART_FOR_APP)
 
 
 #endif  // __MICOKIT_EXT_DEF_H_

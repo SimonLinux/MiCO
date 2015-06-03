@@ -92,7 +92,7 @@ OSStatus user_modules_init(void)
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)"   Starting... ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)"                ");
-  
+    
   // init Light sensor(ADC)
   light_sensor_init();
   
@@ -102,6 +102,9 @@ OSStatus user_modules_init(void)
   // init user key1 && key2
   user_key1_init();
   user_key2_init();
+  
+  // init user uart
+  err = user_uartInit();
   
   err = temp_hum_sensor_init();
   

@@ -107,6 +107,7 @@ void NTPClient_thread(void *inContext)
   struct NtpPacket outpacket ,inpacket;
   struct tm *currentTime;
   mico_rtc_time_t time;
+  LinkStatusTypeDef wifi_link;
   
   /* Regisist notifications */
   err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)ntpNotify_WifiStatusHandler );
@@ -121,7 +122,13 @@ void NTPClient_thread(void *inContext)
   outpacket.precision = NTP_Precision;
   outpacket.root_delay = NTP_Root_Delay;
   outpacket.root_dispersion = NTP_Root_Dispersion;
+  
+  err = micoWlanGetLinkStatus( &wifi_link );
+  require_noerr( err, exit );
 
+  if( wifi_link.is_connected == true )
+    _wifiConnected = true;
+  
   if(_wifiConnected == false)
     mico_rtos_get_semaphore(&_wifiConnected_sem, MICO_WAIT_FOREVER);
   

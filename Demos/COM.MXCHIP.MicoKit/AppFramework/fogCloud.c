@@ -61,7 +61,7 @@ void cloudMsgArrivedHandler(void* context,
   mico_Context_t *inContext = (mico_Context_t*)context;
   
   //note: get data just for length=len is valid, because Msg is just a buf pionter.
-  cloud_if_log("Cloud[%.*s] => MVD: [%d]=%.*s", topicLen, topic, msgLen, msgLen, msg);
+  cloud_if_log("Cloud[%.*s] => KIT: [%d]=%.*s", topicLen, topic, msgLen, msgLen, msg);
   
   MicoFogCloudCloudMsgProcess(inContext, topic, topicLen, msg, msgLen);
 }
@@ -175,7 +175,7 @@ OSStatus fogCloudSend(unsigned char *inBuf, unsigned int inBufLen)
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;
 
-  cloud_if_log("MVD => Cloud[publish]:[%d]=%.*s", inBufLen, inBufLen, inBuf);
+  cloud_if_log("KIT => Cloud[publish]:[%d]=%.*s", inBufLen, inBufLen, inBuf);
   err = FogCloudPublish(&easyCloudContext, inBuf, inBufLen);
   require_noerr_action( err, exit, cloud_if_log("ERROR: fogCloudSend failed! err=%d", err) );
   return kNoErr;
@@ -189,7 +189,7 @@ OSStatus fogCloudSendto(const char* topic, unsigned char *inBuf, unsigned int in
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;
 
-  cloud_if_log("MVD => Cloud[%s]:[%d]=%.*s", topic, inBufLen, inBufLen, inBuf);
+  cloud_if_log("KIT => Cloud[%s]:[%d]=%.*s", topic, inBufLen, inBufLen, inBuf);
   err = FogCloudPublishto(&easyCloudContext, topic, inBuf, inBufLen);
   require_noerr_action( err, exit, cloud_if_log("ERROR: fogCloudSendto failed! err=%d", err) );
   return kNoErr;
@@ -203,7 +203,7 @@ OSStatus fogCloudSendtoChannel(const char* channel, unsigned char *inBuf, unsign
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;
 
-  cloud_if_log("MVD => Cloud[%s]:[%d]=%.*s", channel, inBufLen, inBufLen, inBuf);
+  cloud_if_log("KIT => Cloud[%s]:[%d]=%.*s", channel, inBufLen, inBufLen, inBuf);
   err = FogCloudPublishtoChannel(&easyCloudContext, channel, inBuf, inBufLen);
   require_noerr_action( err, exit, cloud_if_log("ERROR: fogCloudSendtoChannel failed! err=%d", err) );
   return kNoErr;

@@ -406,7 +406,7 @@ exit:
   return err;
 }
 
-//get state of the MVD( e.g. isActivate/isConnected)
+//get state of the device( e.g. isActivate/isConnected)
 OSStatus MicoFogCloudGetState(mico_Context_t* const context,
                               MVDGetStateRequestData_t getStateRequestData,
                               void* outDevState)

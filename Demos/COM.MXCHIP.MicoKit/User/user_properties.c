@@ -507,7 +507,7 @@ int temperature_get(struct mico_prop_t *prop, void *arg, void *val, uint32_t *va
 //  }
   
   err = temp_hum_sensor_read(&temp_data, &hum_data);
-  if((kNoErr != err) || (0 == temp_data) || (0 == hum_data)){
+  if((kNoErr != err) || ((0 == temp_data) && (0 == hum_data))){
     properties_user_log("ERROR: temp_hum_sensor_read error, err=%d.", err);
     return -1;
   }

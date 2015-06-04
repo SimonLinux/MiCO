@@ -368,21 +368,31 @@ int uart_data_recv(struct mico_prop_t *prop, void *arg, void *val, uint32_t *val
 {
   int ret = 0;  
   uint32_t recv_len = 0;
-  //char string_display_on_oled[33] = {'\0'};
+  char string_display_on_oled[MAX_USER_UART_BUF_SIZE+1] = {'\0'};
   
-  if((NULL == prop) || (NULL == val) || (NULL == arg)){
+  if((NULL == val) || (NULL == val_len) || (NULL == prop) || (NULL == arg)){
     return -1;
   }
   
-  //user_context_t *uct = (user_context_t*)arg;
+  user_context_t *uct = (user_context_t*)arg;
   
   // recv data from uart
   memset(val, '\0', prop->maxStringLen);
-  recv_len = user_uartRecv((unsigned char*)val, MAX_USER_UART_BUF_SIZE);
+  recv_len = user_uartRecv((unsigned char*)val, prop->maxStringLen);
   if(recv_len > 0){
     *val_len = recv_len;
     ret = 0;
-    properties_user_log("uart_data_recv: val=%s, val_len=%d.", (char*)val, *val_len);
+    properties_user_log("uart_data_recv: [%d][%*.s]", *val_len, *val_len, (char*)val);
+    
+    // display string on OLED (max_len=32bytes)
+    properties_user_log("Show uart recv msg on OLED: [%d][%*.s]", *val_len, *val_len, (char*)val);
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)"To Cloud:       ");
+    memset(string_display_on_oled, ' ', MAX_USER_UART_BUF_SIZE);  // clean display char
+    memcpy(string_display_on_oled, (uint8_t*)val, *val_len);
+    string_display_on_oled[MAX_USER_UART_BUF_SIZE] = '\0';  // display end
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)string_display_on_oled);
+    ret = 0;  // set always ok
+    uct->status.oled_keep_s = 3;   // display 3s  
   }
   else{
     *val_len = 0;
@@ -398,35 +408,39 @@ int uart_data_send(struct mico_prop_t *prop, void *arg, void *val, uint32_t val_
   int ret = 0;
   OSStatus err = kUnknownErr;
   uint32_t send_len = 0;
-  char string_display_on_oled[MAX_USER_UART_BUF_SIZE+1] = {'\0'};
+  char string_display_on_oled[MAX_USER_UART_BUF_SIZE+3] = {'\0'};  // add CR/LF && '\0' to the end for display on uart
   
-  if((NULL == prop) || (NULL == arg)){
+  if((NULL == val) || (NULL == val_len) || (NULL == prop) || (NULL == arg)){
     return -1;
   }
   
   user_context_t *uct = (user_context_t*)arg;
   
-  // send data
+  // display string on OLED (max_len=32bytes)
   send_len = ((val_len > prop->maxStringLen) ? prop->maxStringLen : val_len);
-  err = user_uartSend((unsigned char*)val, send_len);
+  properties_user_log("Show cloud msg on OLED: [%d][%*.s]", send_len, send_len, (char*)val);
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)"From Cloud:     ");
+  memset(string_display_on_oled, ' ', MAX_USER_UART_BUF_SIZE);  // clean display char
+  memcpy(string_display_on_oled, (uint8_t*)val, send_len);
+  string_display_on_oled[MAX_USER_UART_BUF_SIZE] = '\0';  // display end
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)string_display_on_oled);
+  ret = 0;  // set always ok
+  uct->status.oled_keep_s = 3;   // display 3s
+  
+  // send data to uart, add CR/LF to the end for display.
+  string_display_on_oled[send_len] = '\r';
+  string_display_on_oled[send_len+1] = '\n';  // add CR LF for display on uart
+  string_display_on_oled[send_len+2] = '\0';  // string end
+  
+  err = user_uartSend((unsigned char*)string_display_on_oled, send_len+2);
   if(kNoErr == err){
-    properties_user_log("uart_data_send: val=%s, val_len=%d.", (char*)val, val_len);
+    properties_user_log("uart_data_send: [%d][%s]", send_len+2, (char*)string_display_on_oled);
     ret = 0;  // set ok
   }
   else{
     properties_user_log("ERROR: uart_data_send, err=%d.", err);
     ret = -1; // set failed
   }
-  
-  // display string on OLED (max_len=32bytes)
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)"Recv msg:       ");
-  memset(string_display_on_oled, ' ', MAX_USER_UART_BUF_SIZE+1);
-  //snprintf(string_display_on_oled, 33, "%-32s", (uint8_t*)val);
-  memcpy(string_display_on_oled, (uint8_t*)val, send_len);
-  string_display_on_oled[MAX_USER_UART_BUF_SIZE] = '\0';
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)string_display_on_oled);
-  ret = 0;  // set always ok
-  uct->status.oled_keep_s = 3;   // display 3s
   
   return ret;
 }

@@ -28,7 +28,7 @@
  ******************************************************************************/
 #define APP_INFO                           "MicoKit3288 Demo based on MICO OS"
 
-#define FIRMWARE_REVISION                  "MK3288_1_0_5"
+#define FIRMWARE_REVISION                  "MK3288_1_0_6"
 #define SERIAL_NUMBER                      "20150604"
 #define PROTOCOL                           "com.mxchip.micokit"
 
@@ -47,7 +47,7 @@
 #else
 #define PRODUCT_ID                         "d64f517c"
 #define PRODUCT_KEY                        "e935ef56-1d03-4432-9524-8d4a691a26ec"
-#define DEFAULT_ROM_VERSION                "v1.0.5"
+#define DEFAULT_ROM_VERSION                "v1.0.6"
 #define DEFAULT_DEVICE_NAME                "MiCOKit-3288"  // device name upload to cloud
 #define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
 #endif

@@ -57,10 +57,10 @@ void OTAWillStart( mico_Context_t * const inContext )
   
 #ifdef USE_MiCOKit_EXT
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"OTA...          ");
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Firmware update ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Wait about    ");
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    3 minutes...");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Donwloading...");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "  will reboot...");
 #endif
   return;
 }
@@ -165,11 +165,8 @@ void ConfigWillStart( mico_Context_t * const inContext )
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    ssid/key    ");
 #endif
   
-  // restore fogcloud config
-  //MicoFogCloudRestoreDefault(inContext);
-  inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated = false;
-  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.deviceId, 0, MAX_SIZE_DEVICE_ID);
-  memset(inContext->flashContentInRam.appConfig.fogcloudConfig.masterDeviceKey, 0, MAX_SIZE_DEVICE_KEY);
+  inContext->appStatus.noOTACheckOnSystemStart = true;
+  
   return;
 }
 

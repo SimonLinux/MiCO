@@ -106,7 +106,6 @@ USED void PlatformEasyLinkButtonLongPressedCallback(void)
   mico_log_trace();
   
   context->flashContentInRam.micoSystemConfig.configured = wLanUnConfigured;
-  needsUpdate = true;
   MICORestoreDefault(context);
   
   context->micoStatus.sys_state = eState_Software_Reset;

@@ -203,7 +203,8 @@ void fogcloud_main_thread(void *arg)
   
 #ifndef DISABLE_FOGCLOUD_OTA_CHECK
   /* OTA check just device activated */
-  if(inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated){
+  if( (!inContext->appStatus.noOTACheckOnSystemStart) && 
+     (inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated) ){
     // start ota thread
     err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "fogcloud_ota", 
                                   fogcloud_ota_thread, STACK_SIZE_FOGCLOUD_OTA_THREAD, 
@@ -212,6 +213,7 @@ void fogcloud_main_thread(void *arg)
       fogcloud_log("ERROR: start FogCloud OTA thread failed, err=%d.", err);
     }
   }
+  inContext->appStatus.noOTACheckOnSystemStart = false;
 #endif  // DISABLE_FOGCLOUD_OTA_CHECK
   
   while(1){

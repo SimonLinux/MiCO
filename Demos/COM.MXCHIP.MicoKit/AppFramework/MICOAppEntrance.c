@@ -105,7 +105,7 @@ OSStatus MICOStartApplication( mico_Context_t * const mico_context )
   do{
     err = micoWlanGetLinkStatus(&wifi_link_status);
     if(kNoErr != err){
-      mico_thread_msleep(500);
+      mico_thread_sleep(3);
     }
   }while(kNoErr != err);
   

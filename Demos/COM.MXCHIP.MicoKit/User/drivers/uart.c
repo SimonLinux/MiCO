@@ -58,7 +58,14 @@ OSStatus user_uartSend(unsigned char *inBuf, unsigned int inBufLen)
 {
   OSStatus err = kUnknownErr;
 
+  if( (NULL == inBuf) || ( 0 == inBufLen) ){
+    err = kParamErr;
+    user_uart_log("ERROR: user_uartSend input params error!");
+    goto exit;
+  }
+  
   user_uart_log("KIT => MCU:[%d]=%.*s", inBufLen, inBufLen, inBuf);
+  
   err = MicoUartSend(USER_UART, inBuf, inBufLen);
   require_noerr_action( err, exit, user_uart_log("ERROR: send to USART error! err=%d", err) );
   return kNoErr;
@@ -71,6 +78,11 @@ uint32_t user_uartRecv(unsigned char *outBuf, unsigned int getLen)
 {
   unsigned int data_len = 0;
 
+  if( (NULL == outBuf) || (0 == getLen) ){
+    user_uart_log("ERROR: user_uartRecv input params error!");
+    return 0;
+  }
+  
   if( MicoUartRecv( USER_UART, outBuf, getLen, USER_UART_RECV_TIMEOUT) == kNoErr){
     data_len = getLen;
   }

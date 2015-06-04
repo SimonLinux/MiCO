@@ -161,8 +161,8 @@ OSStatus platform_uart_init( platform_uart_driver_t* driver, const platform_uart
 #endif
     
   /* Configure TX and RX pin_mapping */
-  platform_gpio_set_alternate_function( peripheral->pin_tx->port, peripheral->pin_tx->pin_number, GPIO_OType_PP, GPIO_PuPd_NOPULL, uart_alternate_functions[ uart_number ] );
-  platform_gpio_set_alternate_function( peripheral->pin_rx->port, peripheral->pin_rx->pin_number, GPIO_OType_PP, GPIO_PuPd_NOPULL, uart_alternate_functions[ uart_number ] );
+  platform_gpio_set_alternate_function( peripheral->pin_tx->port, peripheral->pin_tx->pin_number, GPIO_OType_PP, GPIO_PuPd_UP, uart_alternate_functions[ uart_number ] );
+  platform_gpio_set_alternate_function( peripheral->pin_rx->port, peripheral->pin_rx->pin_number, GPIO_OType_PP, GPIO_PuPd_UP, uart_alternate_functions[ uart_number ] );
 
   if ( ( peripheral->pin_cts != NULL ) && ( config->flow_control == FLOW_CONTROL_CTS || config->flow_control == FLOW_CONTROL_CTS_RTS ) )
   {

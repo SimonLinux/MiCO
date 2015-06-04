@@ -393,7 +393,7 @@ int application_start(void)
     WAC_Params->eaBundleSeedID =    BUNDLE_SEED_ID;
     WAC_Params->eaProtocols =       (char **)eaProtocols;
 
-    err = startMFiWAC( context, WAC_Params, MICO_I2C_CP, 1200);
+    err = startMFiWAC( context, WAC_Params, MICO_I2C_CP, 1200 );
     free(WAC_Params);
     require_noerr( err, exit );
 #else
@@ -428,6 +428,7 @@ int application_start(void)
     MicoMcuPowerSaveConfig(true);
   }
 
+#if 0
   /*Local configuration server*/
   if(context->flashContentInRam.micoSystemConfig.configServerEnable == true){
     err =  MICOStartConfigServer(context);
@@ -444,6 +445,7 @@ int application_start(void)
   mico_log("Free memory %d bytes", MicoGetMemoryInfo()->free_memory) ; 
   
   require_noerr_action( err, exit, mico_log("Closing main thread with err num: %d.", err) );
+#endif
 
 exit:
   mico_rtos_delete_thread(NULL);

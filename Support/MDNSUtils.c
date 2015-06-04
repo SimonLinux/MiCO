@@ -21,6 +21,7 @@
 */ 
 
 #include "MDNSUtils.h"
+#include "SocketUtils.h"
 
 static int mDNS_fd = -1;
 
@@ -52,6 +53,7 @@ static WiFi_Interface _interface;
 static bool _suspend_MFi_bonjour;
 static int _bonjour_announce_time = 0;
 static int _bonjour_announce = 0;
+static bool _bonjour_should_stop = false;
 
 
 //#define  debug_out 
@@ -485,7 +487,6 @@ void bonjour_service_init(bonjour_init_t init)
   if(bonjour_mutex == NULL)
     mico_rtos_init_mutex( &bonjour_mutex );
 
-
   mico_rtos_lock_mutex( &bonjour_mutex );
   if(available_services) {
     //suspend_bonjour_service(ENABLE);
@@ -613,6 +614,27 @@ int start_bonjour_service(void)
   return mico_rtos_create_thread(&mfi_bonjour_thread_handler, MICO_APPLICATION_PRIORITY, "Bonjour", _bonjour_thread, 0x500, NULL );
 }
 
+void stop_bonjour_service( void )
+{
+  suspend_bonjour_service( true );
+  _bonjour_should_stop = true;
+  mico_thread_msleep( 1200 );
+
+  available_service_count = 0;
+  
+  if(available_services) {
+    if(available_services->service_name)  free(available_services->service_name);
+    if(available_services->hostname)  free(available_services->hostname);
+    if(available_services->instance_name)  free(available_services->instance_name);
+    if(available_services->txt_att)  free(available_services->txt_att);
+    free(available_services);
+    available_services = NULL;
+  }
+  
+  if(bonjour_mutex != NULL)
+    mico_rtos_deinit_mutex( &bonjour_mutex );
+}
+
 void suspend_bonjour_service(bool state)
 {
   mico_rtos_lock_mutex( &bonjour_mutex );
@@ -668,6 +690,11 @@ void _bonjour_thread(void *arg)
       }
       mico_rtos_unlock_mutex( &bonjour_mutex );
     }
+    
+    if( _bonjour_should_stop == true ){
+      _bonjour_should_stop = false;
+      goto exit;
+    }
 
     /*Check status on erery sockets on bonjour query */
     FD_ZERO(&readfds);
@@ -684,6 +711,7 @@ void _bonjour_thread(void *arg)
   }
 exit:
   mdns_utils_log("Exit: mDNS thread exit with err = %d", err);
+  SocketClose( &mDNS_fd );
   if(buf) free(buf);
   mico_rtos_delete_thread(NULL);
 }

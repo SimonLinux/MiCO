@@ -55,26 +55,48 @@ typedef struct _configContext_t{
 } configContext_t;
 
 extern OSStatus     ConfigIncommingJsonMessage( const char *input, mico_Context_t * const inContext );
-extern OSStatus     ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * const inContext );
 extern json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext );
 
 static void localConfiglistener_thread(void *inContext);
 static void localConfig_thread(void *inFd);
 static mico_Context_t *Context;
 static OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico_Context_t * const inContext);
-static void _easylinkConnectWiFi( mico_Context_t * const inContext);
 static OSStatus onReceivedData(struct _HTTPHeader_t * httpHeader, uint32_t pos, uint8_t * data, size_t len, void * userContext );
 static void onClearHTTPHeader(struct _HTTPHeader_t * httpHeader, void * userContext );
 
 bool is_config_server_established = false;
 
+/* var defined in uAP config mode*/
+extern bool uap_config_mode;
+extern mico_semaphore_t uap_config_finished_sem;
+extern OSStatus     ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * const inContext );
+extern void connect_wifi_normal( mico_Context_t * const inContext);
+
+static mico_semaphore_t close_listener_sem = NULL, close_client_sem[ MAX_TCP_CLIENT_PER_SERVER ] = { NULL };
+
+
+
 OSStatus MICOStartConfigServer ( mico_Context_t * const inContext )
 {
   if( is_config_server_established == false ){
     is_config_server_established = true;
+    close_listener_sem = NULL;
+    for (int i; i < MAX_TCP_CLIENT_PER_SERVER; i++)
+      close_client_sem[ i ] = NULL;
     return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)inContext );
   }
-  return kNoErr;
+  return kAlreadyInitializedErr;
+}
+
+OSStatus MICOStopConfigServer( void )
+{
+  if( close_listener_sem != NULL )
+    mico_rtos_set_semaphore( &close_listener_sem );
+
+  for (int i; i < MAX_TCP_CLIENT_PER_SERVER; i++){
+    if( close_client_sem[ i ] != NULL )
+      mico_rtos_set_semaphore( &close_client_sem[ i ] );
+  }
 }
 
 void localConfiglistener_thread(void *inContext)
@@ -89,6 +111,10 @@ void localConfiglistener_thread(void *inContext)
   char ip_address[16];
   
   int localConfiglistener_fd = -1;
+  int close_listener_fd = -1;
+
+  mico_rtos_init_semaphore( &close_listener_sem, 1);
+  close_listener_fd = mico_create_event_fd( close_listener_sem );
 
   /*Establish a TCP server fd that accept the tcp clients connections*/ 
   localConfiglistener_fd = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
@@ -106,22 +132,35 @@ void localConfiglistener_thread(void *inContext)
   while(1){
     FD_ZERO(&readfds);
     FD_SET(localConfiglistener_fd, &readfds);
+    FD_SET(close_listener_fd, &readfds);
     select(1, &readfds, NULL, NULL, NULL);
 
-    /*Check tcp connection requests */
+    /* Check close requests */
+    if(FD_ISSET(close_listener_fd, &readfds)){
+      goto exit;
+    }
+
+    /* Check tcp connection requests */
     if(FD_ISSET(localConfiglistener_fd, &readfds)){
       sockaddr_t_size = sizeof(struct sockaddr_t);
       j = accept(localConfiglistener_fd, &addr, &sockaddr_t_size);
       if (j > 0) {
         inet_ntoa(ip_address, addr.s_ip );
         config_log("Config Client %s:%d connected, fd: %d", ip_address, addr.s_port, j);
-        err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Clients", localConfig_thread, STACK_SIZE_LOCAL_CONFIG_CLIENT_THREAD, &j);  
+        if(kNoErr !=  mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Clients", localConfig_thread, STACK_SIZE_LOCAL_CONFIG_CLIENT_THREAD, &j) )
+          SocketClose(&j);
       }
     }
-   }
+  }
 
 exit:
+    if( close_listener_sem != NULL ){
+      mico_delete_event_fd( close_listener_fd );
+      mico_rtos_deinit_semaphore( &close_listener_sem );
+      close_listener_sem = NULL;
+    };
     config_log("Exit: Local controller exit with err = %d", err);
+    SocketClose( &localConfiglistener_fd );
     mico_rtos_delete_thread(NULL);
     return;
 }
@@ -272,8 +311,6 @@ static void onClearHTTPHeader(struct _HTTPHeader_t * inHeader, void * inUserCont
   }
  }
 
-
-
 OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico_Context_t * const inContext)
 {
   OSStatus err = kUnknownErr;
@@ -309,23 +346,20 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
       err = SocketSend( fd, httpResponse, httpResponseLen );
       require_noerr( err, exit );
 
-      err = ConfigIncommingJsonMessage( inHeader->extraDataPtr, inContext);
+      err = ConfigIncommingJsonMessage( inHeader->extraDataPtr, inContext );
       require_noerr( err, exit );
       inContext->flashContentInRam.micoSystemConfig.configured = allConfigured;
       MICOUpdateConfiguration(inContext);
 
-      //SocketClose(&fd);
-      //inContext->micoStatus.sys_state = eState_Software_Reset;
-      //if(inContext->micoStatus.sys_state_change_sem != NULL );
-      //  mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
-      //mico_thread_sleep(MICO_WAIT_FOREVER);
+      if( uap_config_mode == true )
+        mico_rtos_set_semaphore( &uap_config_finished_sem ); 
     }
     goto exit;
   }
 else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
     if(inHeader->contentLength > 0){
-      config_log("Recv new configuration from uAP, apply and connect to AP");
-      err = ConfigIncommingJsonMessageUAP( inHeader->extraDataPtr, inContext);
+      config_log( "Recv new configuration from uAP, apply and connect to AP" );
+      err = ConfigIncommingJsonMessageUAP( inHeader->extraDataPtr, inContext );
       require_noerr( err, exit );
       MICOUpdateConfiguration(inContext);
 
@@ -338,8 +372,7 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
       sleep(1);
 
       micoWlanSuspendSoftAP();
-      _easylinkConnectWiFi( inContext );
-
+      connect_wifi_normal( inContext );
     }
     goto exit;
   }
@@ -377,29 +410,4 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
   return err;
 
 }
-
-static void _easylinkConnectWiFi( mico_Context_t * const inContext)
-{
-  config_log_trace();
-  network_InitTypeDef_adv_st wNetConfig;
-  memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_adv_st));
-  
-  mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
-  strncpy((char*)wNetConfig.ap_info.ssid, inContext->flashContentInRam.micoSystemConfig.ssid, maxSsidLen);
-  wNetConfig.ap_info.security = SECURITY_TYPE_AUTO;
-  memcpy(wNetConfig.key, inContext->flashContentInRam.micoSystemConfig.user_key, maxKeyLen);
-  wNetConfig.key_len = inContext->flashContentInRam.micoSystemConfig.user_keyLength;
-  wNetConfig.dhcpMode = inContext->flashContentInRam.micoSystemConfig.dhcpEnable;
-  strncpy((char*)wNetConfig.local_ip_addr, inContext->flashContentInRam.micoSystemConfig.localIp, maxIpLen);
-  strncpy((char*)wNetConfig.net_mask, inContext->flashContentInRam.micoSystemConfig.netMask, maxIpLen);
-  strncpy((char*)wNetConfig.gateway_ip_addr, inContext->flashContentInRam.micoSystemConfig.gateWay, maxIpLen);
-  strncpy((char*)wNetConfig.dnsServer_ip_addr, inContext->flashContentInRam.micoSystemConfig.dnsServer, maxIpLen);
-
-  wNetConfig.wifi_retry_interval = 100;
-  mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
-  micoWlanStartAdv(&wNetConfig);
-  config_log("connect to %s.....", wNetConfig.ap_info.ssid);
-}
-
-
 

@@ -427,8 +427,7 @@ int application_start(void)
   if(context->flashContentInRam.micoSystemConfig.mcuPowerSaveEnable == true){
     MicoMcuPowerSaveConfig(true);
   }
-
-#if 0
+ 
   /*Local configuration server*/
   if(context->flashContentInRam.micoSystemConfig.configServerEnable == true){
     err =  MICOStartConfigServer(context);
@@ -445,7 +444,6 @@ int application_start(void)
   mico_log("Free memory %d bytes", MicoGetMemoryInfo()->free_memory) ; 
   
   require_noerr_action( err, exit, mico_log("Closing main thread with err num: %d.", err) );
-#endif
 
 exit:
   mico_rtos_delete_thread(NULL);

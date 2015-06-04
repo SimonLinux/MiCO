@@ -97,6 +97,7 @@ OSStatus MICOStopConfigServer( void )
     if( close_client_sem[ i ] != NULL )
       mico_rtos_set_semaphore( &close_client_sem[ i ] );
   }
+  is_config_server_established = false;
 }
 
 void localConfiglistener_thread(void *inContext)

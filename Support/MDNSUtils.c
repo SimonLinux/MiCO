@@ -631,8 +631,10 @@ void stop_bonjour_service( void )
     available_services = NULL;
   }
   
-  if(bonjour_mutex != NULL)
+  if(bonjour_mutex != NULL){
     mico_rtos_deinit_mutex( &bonjour_mutex );
+    bonjour_mutex = NULL;
+  }
 }
 
 void suspend_bonjour_service(bool state)

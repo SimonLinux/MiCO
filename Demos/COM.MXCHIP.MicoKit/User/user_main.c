@@ -114,8 +114,16 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
       }
     }
     else{
-      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "System          ");
-      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "  Running...    ");
+//      snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "MAC:%c%c%c%c%c",
+//               mico_context->micoStatus.mac[0], mico_context->micoStatus.mac[1], 
+//               mico_context->micoStatus.mac[3], mico_context->micoStatus.mac[4], 
+//               mico_context->micoStatus.mac[6], mico_context->micoStatus.mac[7],
+//               mico_context->micoStatus.mac[9], mico_context->micoStatus.mac[10],
+//               mico_context->micoStatus.mac[12], mico_context->micoStatus.mac[13],
+//               mico_context->micoStatus.mac[15], mico_context->micoStatus.mac[16]);
+//      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
+      snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%-16s", mico_context->micoStatus.localIp);
+      OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)oled_show_line);
       // temperature/humidity display on OLED
       memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
       snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "T: %2dC  H: %2d%%  ", 

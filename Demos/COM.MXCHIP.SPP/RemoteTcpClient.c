@@ -67,6 +67,7 @@ void remoteTcpClient_thread(void *inContext)
   int eventFd = -1;
   mico_queue_t queue;
   socket_msg_t *msg;
+  LinkStatusTypeDef wifi_link;
   int sent_len, errno;
   
   mico_rtos_init_semaphore(&_wifiConnected_sem, 1);
@@ -77,6 +78,12 @@ void remoteTcpClient_thread(void *inContext)
   
   inDataBuffer = malloc(wlanBufferLen);
   require_action(inDataBuffer, exit, err = kNoMemoryErr);
+  
+  err = micoWlanGetLinkStatus( &wifi_link );
+  require_noerr( err, exit );
+  
+  if( wifi_link.is_connected == true )
+    _wifiConnected = true;
   
   
   while(1) {

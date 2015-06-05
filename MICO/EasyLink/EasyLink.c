@@ -266,7 +266,7 @@ exit:
   return err;
 }
 
-static void _easylinkConnectWiFi( mico_Context_t * const inContext)
+void connect_wifi_normal( mico_Context_t * const inContext)
 {
   easylink_log_trace();
   network_InitTypeDef_adv_st wNetConfig;
@@ -289,7 +289,7 @@ static void _easylinkConnectWiFi( mico_Context_t * const inContext)
   easylink_log("connect to %s.....", wNetConfig.ap_info.ssid);
 }
 
-static void _easylinkConnectWiFi_fast( mico_Context_t * const inContext)
+void connect_wifi_fast( mico_Context_t * const inContext)
 {
   easylink_log_trace();
   network_InitTypeDef_adv_st wNetConfig;
@@ -400,7 +400,7 @@ void easylink_thread(void *inContext)
   if(Context->flashContentInRam.micoSystemConfig.easyLinkByPass == EASYLINK_BYPASS){
     Context->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_BYPASS_NO;
     MICOUpdateConfiguration(Context);
-    _easylinkConnectWiFi_fast(Context);
+    connect_wifi_fast(Context);
   }else if(Context->flashContentInRam.micoSystemConfig.easyLinkByPass == EASYLINK_SOFT_AP_BYPASS){
     ConfigWillStop( Context );
     startEasyLinkSoftAP( Context );
@@ -417,7 +417,7 @@ void easylink_thread(void *inContext)
     mico_rtos_get_semaphore(&easylink_sem, MICO_WAIT_FOREVER);
     /* EasyLink  success or failed and roll back to previous settings, connect new wlan */
     if(easylink_softap_should_start == false && easylink_wlan_should_close == false ){
-      _easylinkConnectWiFi( Context );
+      connect_wifi_normal( Context );
     }
     if( easylink_thread_should_exit == true )
         goto threadexit;
@@ -541,11 +541,6 @@ OSStatus _FTCRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico_Context
           inContext->flashContentInRam.micoSystemConfig.configured = allConfigured;
           err = MICOUpdateConfiguration(inContext);
           easylink_thread_should_exit = true;
-          //SocketClose(&fd);
-          //inContext->micoStatus.sys_state = eState_Software_Reset;
-          //require(inContext->micoStatus.sys_state_change_sem, exit);
-          //mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
-          //mico_thread_sleep(MICO_WAIT_FOREVER);
         }
 #ifdef MICO_FLASH_FOR_UPDATE
         else if(strnicmpx( value, strlen(kMIMEType_JSON), kMIMEType_MXCHIP_OTA ) == 0){
@@ -560,10 +555,7 @@ OSStatus _FTCRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico_Context
           MICOUpdateConfiguration(inContext);
           mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
           SocketClose(&fd);
-          inContext->micoStatus.sys_state = eState_Software_Reset;
-          require(inContext->micoStatus.sys_state_change_sem, exit);
-          mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
-          mico_thread_sleep(MICO_WAIT_FOREVER);
+          easylink_thread_should_exit = true;
         }
 #endif
         else{

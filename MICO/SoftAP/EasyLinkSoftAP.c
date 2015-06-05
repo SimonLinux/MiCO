@@ -54,6 +54,10 @@
 #define KEY_DNS1          "DNS1"
 #define KEY_DNS2          "DNS2"
 
+
+bool uap_config_mode = false;
+mico_semaphore_t uap_config_finished_sem = NULL;
+
 static int _bonjourStarted = false;
 
 extern OSStatus     ConfigIncommingJsonMessage    ( const char *input, mico_Context_t * const inContext );
@@ -67,7 +71,10 @@ extern OSStatus     MICOStartBonjourService       ( WiFi_Interface interface, mi
 extern OSStatus     MICOstartConfigServer         ( mico_Context_t * const inContext );
 
 static OSStatus _initBonjourForEasyLink( WiFi_Interface interface, mico_Context_t * const inContext );
-static void _easylinkConnectWiFi_fast( mico_Context_t * const inContext);
+
+extern void connect_wifi_fast( mico_Context_t * const inContext);
+extern void connect_wifi_normal( mico_Context_t * const inContext);
+
 
 
 static void _EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inContext)
@@ -138,7 +145,7 @@ static OSStatus _initBonjourForEasyLink( WiFi_Interface interface, mico_Context_
 {
   char *temp_txt= NULL;
   char *temp_txt2;
-  OSStatus err;
+  OSStatus err = kNoErr;
   net_para_st para;
   bonjour_init_t init;
 
@@ -224,15 +231,19 @@ OSStatus startEasyLinkSoftAP( mico_Context_t * const inContext)
   OSStatus err = kUnknownErr;
   network_InitTypeDef_st wNetConfig;
 
+  uap_config_mode = true;
+
   err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)_EasyLinkNotify_WifiStatusHandler );
   require_noerr(err, exit);
   err = MICOAddNotification( mico_notify_WiFI_PARA_CHANGED, (void *)_EasyLinkNotify_WiFIParaChangedHandler );
   require_noerr(err, exit);
   err = MICOAddNotification( mico_notify_DHCP_COMPLETED, (void *)_EasyLinkNotify_DHCPCompleteHandler );
   require_noerr( err, exit );    
-  
-  // Start the EasyLink thread
+
+  mico_rtos_init_semaphore( &uap_config_finished_sem, 1 );
+
   ConfigWillStart(inContext);
+  ConfigSoftApWillStart( inContext );
 
   if(inContext->flashContentInRam.micoSystemConfig.easyLinkByPass == EASYLINK_BYPASS_NO){
     memset(&wNetConfig, 0, sizeof(network_InitTypeDef_st));
@@ -247,50 +258,31 @@ OSStatus startEasyLinkSoftAP( mico_Context_t * const inContext)
     wNetConfig.dhcpMode = DHCP_Server;
     micoWlanStart(&wNetConfig);
     easylink_uap_log("Establish soft ap: %s.....", wNetConfig.wifi_ssid);
-
     err = _initBonjourForEasyLink( Soft_AP , inContext );
     require_noerr(err, exit);
   }else{
     err = _initBonjourForEasyLink( Station , inContext );
-    _easylinkConnectWiFi_fast(inContext);
+    connect_wifi_fast(inContext);
     require_noerr(err, exit);
   }
 
-  start_bonjour_service();
   _bonjourStarted = true;
+  start_bonjour_service();
+  
+  err = MICOStartConfigServer( inContext );
+  require_noerr( err, exit );
 
-  err = MICOStartConfigServer  ( inContext );
-  require_noerr(err, exit);
+  mico_rtos_get_semaphore( &uap_config_finished_sem, MICO_WAIT_FOREVER ); 
+  mico_rtos_deinit_semaphore( &uap_config_finished_sem );
 
-  ConfigSoftApWillStart( inContext );
+  err = MICORemoveNotification( mico_notify_SYS_WILL_POWER_OFF, (void *)_EasyLinkNotify_SYSWillPoerOffHandler );
+  MICOStopConfigServer( );
+  stop_bonjour_service( );
 
 exit:
+  uap_config_mode = false;
   return err;
 }
-
-void _easylinkConnectWiFi( mico_Context_t * const inContext)
-{
-  easylink_uap_log_trace();
-  network_InitTypeDef_adv_st wNetConfig;
-  memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_adv_st));
-  
-  mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
-  strncpy((char*)wNetConfig.ap_info.ssid, inContext->flashContentInRam.micoSystemConfig.ssid, maxSsidLen);
-  wNetConfig.ap_info.security = SECURITY_TYPE_AUTO;
-  memcpy(wNetConfig.key, inContext->flashContentInRam.micoSystemConfig.user_key, maxKeyLen);
-  wNetConfig.key_len = inContext->flashContentInRam.micoSystemConfig.user_keyLength;
-  wNetConfig.dhcpMode = inContext->flashContentInRam.micoSystemConfig.dhcpEnable;
-  strncpy((char*)wNetConfig.local_ip_addr, inContext->flashContentInRam.micoSystemConfig.localIp, maxIpLen);
-  strncpy((char*)wNetConfig.net_mask, inContext->flashContentInRam.micoSystemConfig.netMask, maxIpLen);
-  strncpy((char*)wNetConfig.gateway_ip_addr, inContext->flashContentInRam.micoSystemConfig.gateWay, maxIpLen);
-  strncpy((char*)wNetConfig.dnsServer_ip_addr, inContext->flashContentInRam.micoSystemConfig.dnsServer, maxIpLen);
-
-  wNetConfig.wifi_retry_interval = 100;
-  mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
-  micoWlanStartAdv(&wNetConfig);
-  easylink_uap_log("connect to %s.....", wNetConfig.ap_info.ssid);
-}
-
 
 OSStatus ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * const inContext )
 {
@@ -335,33 +327,3 @@ OSStatus ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * cons
 exit:
   return err; 
 }
-
-static void _easylinkConnectWiFi_fast( mico_Context_t * const inContext)
-{
-  easylink_uap_log_trace();
-  network_InitTypeDef_adv_st wNetConfig;
-  memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_adv_st));
-
-  mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
-  strncpy((char*)wNetConfig.ap_info.ssid, inContext->flashContentInRam.micoSystemConfig.ssid, maxSsidLen);
-  memcpy(wNetConfig.ap_info.bssid, inContext->flashContentInRam.micoSystemConfig.bssid, 6);
-  wNetConfig.ap_info.channel = inContext->flashContentInRam.micoSystemConfig.channel;
-  wNetConfig.ap_info.security = inContext->flashContentInRam.micoSystemConfig.security;
-  memcpy(wNetConfig.key, inContext->flashContentInRam.micoSystemConfig.key, maxKeyLen);
-  wNetConfig.key_len = inContext->flashContentInRam.micoSystemConfig.keyLength;
-  wNetConfig.dhcpMode = inContext->flashContentInRam.micoSystemConfig.dhcpEnable;
-  strncpy((char*)wNetConfig.local_ip_addr, inContext->flashContentInRam.micoSystemConfig.localIp, maxIpLen);
-  strncpy((char*)wNetConfig.net_mask, inContext->flashContentInRam.micoSystemConfig.netMask, maxIpLen);
-  strncpy((char*)wNetConfig.gateway_ip_addr, inContext->flashContentInRam.micoSystemConfig.gateWay, maxIpLen);
-  strncpy((char*)wNetConfig.dnsServer_ip_addr, inContext->flashContentInRam.micoSystemConfig.dnsServer, maxIpLen);
-
-  wNetConfig.wifi_retry_interval = 100;
-  mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
-  easylink_uap_log("Connect to %s.....\r\n", wNetConfig.ap_info.ssid);
-  micoWlanStartAdv(&wNetConfig);
-}
-// }
-
-
-
-

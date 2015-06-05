@@ -257,6 +257,9 @@ typedef enum {
 #define NFDBITS (sizeof(unsigned long) * NBBY)        /**< bits per mask */
 
 
+#define MAX_TCP_CLIENT_PER_SERVER  5
+
+
 #define howmany(x, y)   (((x) + ((y) - 1)) / (y))
 
 typedef struct fd_set {

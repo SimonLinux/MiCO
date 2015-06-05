@@ -140,6 +140,7 @@ void fogCloudConfigClient_thread(void *inFd)
     }
     if(clientFdIsSet||httpHeader->len){
       err = ECS_SocketReadHTTPHeader( clientFd, httpHeader );
+      fogcloud_config_log("httpHeader: %s", httpHeader->buf);
       switch ( err )
       {
       case kNoErr:

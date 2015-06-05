@@ -29,11 +29,14 @@
 #define P9813_CIN              MICO_GPIO_10    // CLK
 #define P9813_DIN              MICO_GPIO_11    // DIN
 
-#define P9813_CIN_Clr()        MicoGpioOutputLow(P9813_CIN)  
-#define P9813_CIN_Set()        MicoGpioOutputHigh(P9813_CIN)
+#define RGB_LED_P9813_CIN          P9813_CIN    // CLK
+#define RGB_LED_P9813_DIN          P9813_DIN    // DIN
 
-#define P9813_DIN_Clr()        MicoGpioOutputLow(P9813_DIN) 
-#define P9813_DIN_Set()        MicoGpioOutputHigh(P9813_DIN)
+//#define P9813_CIN_Clr()        MicoGpioOutputLow(P9813_CIN)  
+//#define P9813_CIN_Set()        MicoGpioOutputHigh(P9813_CIN)
+//
+//#define P9813_DIN_Clr()        MicoGpioOutputLow(P9813_DIN) 
+//#define P9813_DIN_Set()        MicoGpioOutputHigh(P9813_DIN)
 
 //-------------------- user interfaces ---------------------------
 void rgb_led_init(void);

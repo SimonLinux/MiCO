@@ -22,6 +22,7 @@
 #include "rgb_led.h"
 #include "MicoPlatform.h"
 #include "platform.h"
+#include "rgb_led_platform_interface.h"
 
 #define rgb_led_log(M, ...)
 #define rgb_led_log_trace()

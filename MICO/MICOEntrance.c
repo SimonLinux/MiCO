@@ -289,7 +289,7 @@ int application_start(void)
   memset(context, 0x0, sizeof(mico_Context_t));
   mico_rtos_init_mutex(&context->flashContentInRam_mutex);
   mico_rtos_init_semaphore(&context->micoStatus.sys_state_change_sem, 1); 
-  mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "sys", _sys_state_thread, 600, NULL );
+  mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "sys", _sys_state_thread, 800, NULL );
 
   MICOReadConfiguration( context );
 

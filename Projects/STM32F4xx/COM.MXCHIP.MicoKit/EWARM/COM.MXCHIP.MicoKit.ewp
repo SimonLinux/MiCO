@@ -1190,7 +1190,7 @@
         <option>
           <name>CCAllowList</name>
           <version>1</version>
-          <state>11111110</state>
+          <state>00000000</state>
         </option>
         <option>
           <name>CCDebugInfo</name>
@@ -1274,7 +1274,7 @@
           <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework</state>
           <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User</state>
           <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers</state>
-          <state>$PROJ_DIR$\..\..\..\..\include\FogCloud</state>
+          <state>D:\github\mico_on_gitlab\MICO\Library\FogCloud</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1294,7 +1294,7 @@
         </option>
         <option>
           <name>CCOptLevel</name>
-          <state>3</state>
+          <state>0</state>
         </option>
         <option>
           <name>CCOptStrategy</name>
@@ -1303,7 +1303,7 @@
         </option>
         <option>
           <name>CCOptLevelSlave</name>
-          <state>3</state>
+          <state>0</state>
         </option>
         <option>
           <name>CompilerMisraRules98</name>
@@ -3277,12 +3277,102 @@
       <name>FogCloud</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4f_debug.a</name>
+        <excluded>
+          <configuration>MiCOKit-3288</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4f_release.a</name>
         <excluded>
           <configuration>MiCOKit-3288</configuration>
         </excluded>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudMQTTClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudMQTTClient.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudService.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudService.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudServiceDef.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudServiceVersion.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudUtils.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTClient.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTConnect.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTConnectClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTConnectServer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTDeserializePublish.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTFormat.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTFormat.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTMICO.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTMICO.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTPacket.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTPacket.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTPublish.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSerializePublish.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSubscribe.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSubscribeClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSubscribeServer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTUnsubscribe.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTUnsubscribeClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTUnsubscribeServer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\StackTrace.h</name>
       </file>
     </group>
     <file>
@@ -3358,7 +3448,7 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MicoDefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>

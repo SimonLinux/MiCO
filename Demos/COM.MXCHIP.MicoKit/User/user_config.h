@@ -28,8 +28,8 @@
  ******************************************************************************/
 #define APP_INFO                           "MicoKit3288 Demo based on MICO OS"
 
-#define FIRMWARE_REVISION                  "MK3288@1506051827"
-#define SERIAL_NUMBER                      "20150605"
+#define FIRMWARE_REVISION                  "MK3288@1506081810"
+#define SERIAL_NUMBER                      "20150608"
 #define PROTOCOL                           "com.mxchip.micokit"
 
 /*User provided configurations*/

@@ -489,7 +489,7 @@ int dc_motor_switch_set(struct mico_prop_t *prop, void *arg, void *val, uint32_t
   value = *((int*)val);
   dc_motor_set(value);
 
-  return 0;  // get ok
+  return 0;  // set ok
 }
 
 /*------------------------------------------------------------------------------
@@ -627,6 +627,35 @@ int notify_check_humidity(struct mico_prop_t *prop, void *arg, void *val, uint32
   
   return ret;
 }
+
+#ifdef USE_COMMON_MODULE
+/*------------------------------------------------------------------------------
+ *                               Common module
+ *----------------------------------------------------------------------------*/
+
+// get function: get value 
+int common_module_value_get(struct mico_prop_t *prop, void *arg, void *val, uint32_t *val_len)
+{
+  *val_len = int_len;
+  
+  // get current status from your hardware and return to val
+  *(int*)val = *((int*)prop->value);  // here just return current prop value
+  
+  return 0;  // get ok
+}
+
+// set function: set value 
+int common_module_value_set(struct mico_prop_t *prop, void *arg, void *val, uint32_t val_len)
+{
+  int value = 0;
+  
+  // use value(param: val) operate your hardware here and return result
+  value = *((int*)val);
+  UNUSED_PARAMETER(value);
+  
+  return 0;  // set ok
+}
+#endif  // USE_COMMON_MODULE
 
 
 /*******************************************************************************
@@ -834,7 +863,56 @@ const struct mico_service_t  service_table[] = {
       [1] = {NULL}
     }
   },
+#ifdef USE_COMMON_MODULE
+    [8] = {
+    .type = "public.map.service.common",     // service 8: common module
+    .properties = {
+      [0] = {
+        .type = "public.map.property.value",  // common value1
+        .value = &(g_user_context.status.common_module_value1),
+        .value_len = &int_len,                // int type len
+        .format = MICO_PROP_TYPE_INT,
+        .perms = (MICO_PROP_PERMS_RO | MICO_PROP_PERMS_WO),
+        .get = common_module_value_get,              // get value function
+        .set = common_module_value_set,              // set value function
+        .notify_check = NULL,
+        .arg = &g_user_context,                // user context
+        .event = NULL,
+        .hasMeta = false
+      },
+      [1] = {
+        .type = "public.map.property.value",  // common value2
+        .value = &(g_user_context.status.common_module_value2),
+        .value_len = &int_len,                // int type len
+        .format = MICO_PROP_TYPE_INT,
+        .perms = (MICO_PROP_PERMS_RO | MICO_PROP_PERMS_WO),
+        .get = common_module_value_get,              // get value function
+        .set = common_module_value_set,              // set value function
+        .notify_check = NULL,
+        .arg = &g_user_context,                // user context
+        .event = NULL,
+        .hasMeta = false
+      },
+      [2] = {
+        .type = "public.map.property.value",  // common value3
+        .value = &(g_user_context.status.common_module_value3),
+        .value_len = &int_len,                // int type len
+        .format = MICO_PROP_TYPE_INT,
+        .perms = (MICO_PROP_PERMS_RO | MICO_PROP_PERMS_WO),
+        .get = common_module_value_get,              // get value function
+        .set = common_module_value_set,              // set value function
+        .notify_check = NULL,
+        .arg = &g_user_context,                // user context
+        .event = NULL,
+        .hasMeta = false
+      },
+      [4] = {NULL}
+    }
+  },
+  [9] = {NULL}
+#else  // ! USE_COMMON_MODULE
   [8] = {NULL}
+#endif
 };
 
 /************************************ FILE END ********************************/

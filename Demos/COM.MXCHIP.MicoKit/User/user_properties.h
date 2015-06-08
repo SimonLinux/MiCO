@@ -30,6 +30,7 @@
 #define MAX_DEVICE_NAME_SIZE            16
 #define MAX_USER_UART_BUF_SIZE          32 // for OLED display
  
+//#define USE_COMMON_MODULE   // add a common module for demo
 
 /*******************************************************************************
  *                               USER CONTEXT
@@ -70,6 +71,13 @@ typedef struct _user_status_t {
   // uart
   char uart_rx_buf[MAX_USER_UART_BUF_SIZE];   // use a buffer to store data received
   uint32_t uart_rx_data_len;                  // uart data len received
+
+#ifdef USE_COMMON_MODULE  
+  // common module values(support 3 values)
+  int common_module_value1;
+  int common_module_value2;
+  int common_module_value3;
+#endif
 }user_status_t;
 
 // user context

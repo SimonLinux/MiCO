@@ -1274,7 +1274,7 @@
           <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework</state>
           <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User</state>
           <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers</state>
-          <state>D:\github\mico_on_gitlab\MICO\Library\FogCloud</state>
+          <state>$PROJ_DIR$\..\..\..\..\include\FogCloud</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>

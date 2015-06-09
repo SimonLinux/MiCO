@@ -1,6 +1,15 @@
 ================================================================================
 ¡¾2015.06.09¡¿
 [Name]   : FogCloud
+[version]: v1.0.3
+
+[Changlog]:
+    1.enlarge http header buffer to 1024 byte, this just fix long http header bug
+      temporarily.
+
+================================================================================
+¡¾2015.06.09¡¿
+[Name]   : FogCloud
 [version]: v1.0.2
 
 [Changlog]:

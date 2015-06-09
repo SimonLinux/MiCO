@@ -214,7 +214,7 @@ uint32_t ECS_getFlashStorageAddress(void);
 void ECS_resetFlashStorageAddress(void);
 uint64_t ECS_getDownloadedFileSize(void);
 void ECS_FlashWriteDone(void);
-//char* ECS_getRomFileMD5_32(void);
+char* ECS_getRomFileMD5_32(void);
 
 
 //#endif

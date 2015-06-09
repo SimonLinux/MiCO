@@ -89,7 +89,7 @@
 
 #define ECS_kTransferrEncodingType_CHUNKED  "chunked"
 
-#define ECS_OTA_Data_Length_per_read        1024
+#define ECS_OTA_Data_Length_per_read        1024*4
 
 
 typedef struct
@@ -214,7 +214,7 @@ uint32_t ECS_getFlashStorageAddress(void);
 void ECS_resetFlashStorageAddress(void);
 uint64_t ECS_getDownloadedFileSize(void);
 void ECS_FlashWriteDone(void);
-//char* ECS_getRomFileMD5_32(void);
+char* ECS_getRomFileMD5_32(void);
 
 
 //#endif

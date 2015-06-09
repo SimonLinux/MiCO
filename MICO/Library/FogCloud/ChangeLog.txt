@@ -1,10 +1,11 @@
 ================================================================================
-¡¾2015.05.30¡¿
+¡¾2015.06.09¡¿
 [Name]   : FogCloud
 [version]: v1.0.2
 
 [Changlog]:
-    1. not check md5 for ota download, just do it before bootloader do real update.
+    1. set ota data to 4kb;
+    2. fix ota log.
 
 ================================================================================
 ¡¾2015.05.22¡¿

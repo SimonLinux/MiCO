@@ -96,7 +96,7 @@ void fogcloud_ota_thread(void *arg)
   MVDOTARequestData_t devOTARequestData;
   mico_Context_t *inContext = (mico_Context_t *)arg;
   
-  fogcloud_log("OTA: downloading firmware from server...");
+  fogcloud_log("OTA: check new firmware ...");
   memset((void*)&devOTARequestData, 0, sizeof(devOTARequestData));
   strncpy(devOTARequestData.loginId,
           inContext->flashContentInRam.appConfig.fogcloudConfig.loginId,

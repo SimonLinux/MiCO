@@ -2,7 +2,7 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\COM.MXCHIP.MicoKit.ewp</path>
+    <path>$WS_DIR$\COM.MXCHIP.MiCOKit.ewp</path>
   </project>
   <batchBuild/>
 </workspace>

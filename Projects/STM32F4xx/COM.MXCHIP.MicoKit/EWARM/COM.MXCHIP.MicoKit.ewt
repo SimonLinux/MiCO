@@ -259,49 +259,49 @@
     <group>
       <name>AppFramework</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogCloud.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogCloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogCloud.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogcloud_msg_dispatch.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogcloud_msg_dispatch.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogcloud_msg_dispatch.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogcloud_msg_dispatch.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOAppDefine.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOAppDefine.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOAppEntrance.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOAppEntrance.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOBonjour.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOBonjour.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOConfigDelegate.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOConfigDelegate.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoDefaults.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoDefaults.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloud.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloud.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloudConfigServer.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloudConfigServer.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloudDef.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloudDef.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\properties.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\properties.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\properties.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\properties.h</name>
       </file>
     </group>
     <group>
@@ -309,107 +309,107 @@
       <group>
         <name>drivers</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\AsciiLib.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\AsciiLib.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\AsciiLib.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\AsciiLib.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\bme280.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\bme280.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280_user.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\bme280_user.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280_user.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\bme280_user.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\dc_motor.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\dc_motor.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\dc_motor.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\dc_motor.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\DHT11.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\DHT11.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\DHT11.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\DHT11.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\hsb2rgb_led.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\hsb2rgb_led.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\hsb2rgb_led.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\hsb2rgb_led.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\infrared_reflective.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\infrared_reflective.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\infrared_reflective.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\infrared_reflective.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\keys.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\keys.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\keys.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\keys.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\light_sensor.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\light_sensor.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\light_sensor.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\light_sensor.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oled.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\oled.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oled.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\oled.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oledfont.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\oledfont.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\rgb_led.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\rgb_led.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\rgb_led.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\rgb_led.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\temp_hum_sensor.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\temp_hum_sensor.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\temp_hum_sensor.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\temp_hum_sensor.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\uart.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\uart.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\uart.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\uart.h</name>
         </file>
       </group>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\micokit_ext.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\micokit_ext.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext_def.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\micokit_ext_def.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_config.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_config.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_main.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_main.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_properties.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_properties.h</name>
       </file>
     </group>
   </group>

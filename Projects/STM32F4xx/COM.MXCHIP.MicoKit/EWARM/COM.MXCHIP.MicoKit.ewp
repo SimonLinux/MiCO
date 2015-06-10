@@ -17,15 +17,15 @@
         <debug>0</debug>
         <option>
           <name>ExePath</name>
-          <state>..\..\..\..\Build\COM.MXCHIP.MicoKit\Output\MiCOKit-3165</state>
+          <state>..\..\..\..\Build\COM.MXCHIP.MiCOKit\Output\MiCOKit-3165</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>..\..\..\..\Build\COM.MXCHIP.MicoKit\MiCOKit-3165\obj_EWARM</state>
+          <state>..\..\..\..\Build\COM.MXCHIP.MiCOKit\MiCOKit-3165\obj_EWARM</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>..\..\..\..\Build\COM.MXCHIP.MicoKit\MiCOKit-3165\list_EWARM</state>
+          <state>..\..\..\..\Build\COM.MXCHIP.MiCOKit\MiCOKit-3165\list_EWARM</state>
         </option>
         <option>
           <name>Variant</name>
@@ -303,7 +303,7 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit</state>
+          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit</state>
           <state>$PROJ_DIR$\..\..\..\..\include</state>
           <state>$PROJ_DIR$\..\..\..\..\MICO</state>
           <state>$PROJ_DIR$\..\..\..\..\Support</state>
@@ -607,7 +607,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>COM.MXCHIP.MicoKit.bin</state>
+          <state>COM.MXCHIP.MiCOKit.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -661,7 +661,7 @@
         </option>
         <option>
           <name>IlinkOutputFile</name>
-          <state>COM.MXCHIP.MicoKit.out</state>
+          <state>COM.MXCHIP.MiCOKit.out</state>
         </option>
         <option>
           <name>IlinkDebugInfoEnable</name>
@@ -972,15 +972,15 @@
         <debug>0</debug>
         <option>
           <name>ExePath</name>
-          <state>..\..\..\..\Build\COM.MXCHIP.MicoKit\Output\MiCOKit-3288</state>
+          <state>..\..\..\..\Build\COM.MXCHIP.MiCOKit\Output\MiCOKit-3288</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>..\..\..\..\Build\COM.MXCHIP.MicoKit\MiCOKit-3288\obj_EWARM</state>
+          <state>..\..\..\..\Build\COM.MXCHIP.MiCOKit\MiCOKit-3288\obj_EWARM</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>..\..\..\..\Build\COM.MXCHIP.MicoKit\MiCOKit-3288\list_EWARM</state>
+          <state>..\..\..\..\Build\COM.MXCHIP.MiCOKit\MiCOKit-3288\list_EWARM</state>
         </option>
         <option>
           <name>Variant</name>
@@ -1258,7 +1258,7 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit</state>
+          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit</state>
           <state>$PROJ_DIR$\..\..\..\..\include</state>
           <state>$PROJ_DIR$\..\..\..\..\MICO</state>
           <state>$PROJ_DIR$\..\..\..\..\Support</state>
@@ -1271,9 +1271,9 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries\STM32F4xx_StdPeriph_Driver\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
-          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework</state>
-          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User</state>
-          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers</state>
+          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework</state>
+          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User</state>
+          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers</state>
           <state>$PROJ_DIR$\..\..\..\..\include\FogCloud</state>
         </option>
         <option>
@@ -1566,7 +1566,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>COM.MXCHIP.MicoKit.bin</state>
+          <state>COM.MXCHIP.MiCOKit.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -1620,7 +1620,7 @@
         </option>
         <option>
           <name>IlinkOutputFile</name>
-          <state>COM.MXCHIP.MicoKit.out</state>
+          <state>COM.MXCHIP.MiCOKit.out</state>
         </option>
         <option>
           <name>IlinkDebugInfoEnable</name>
@@ -1931,15 +1931,15 @@
         <debug>0</debug>
         <option>
           <name>ExePath</name>
-          <state>..\..\..\..\Build\COM.MXCHIP.MicoKit\Output\EMW5288</state>
+          <state>..\..\..\..\Build\COM.MXCHIP.MiCOKit\Output\EMW5288</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>..\..\..\..\Build\COM.MXCHIP.MicoKit\EMW5288\Obj_EWARM</state>
+          <state>..\..\..\..\Build\COM.MXCHIP.MiCOKit\EMW5288\Obj_EWARM</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>..\..\..\..\Build\COM.MXCHIP.MicoKit\EMW5288\List_EWARM</state>
+          <state>..\..\..\..\Build\COM.MXCHIP.MiCOKit\EMW5288\List_EWARM</state>
         </option>
         <option>
           <name>Variant</name>
@@ -2217,7 +2217,7 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit</state>
+          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit</state>
           <state>$PROJ_DIR$\..\..\..\..\include</state>
           <state>$PROJ_DIR$\..\..\..\..\MICO</state>
           <state>$PROJ_DIR$\..\..\..\..\Support</state>
@@ -2521,7 +2521,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>COM.MXCHIP.MicoKit.bin</state>
+          <state>COM.MXCHIP.MiCOKit.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -2575,7 +2575,7 @@
         </option>
         <option>
           <name>IlinkOutputFile</name>
-          <state>COM.MXCHIP.MicoKit.out</state>
+          <state>COM.MXCHIP.MiCOKit.out</state>
         </option>
         <option>
           <name>IlinkDebugInfoEnable</name>
@@ -2876,49 +2876,49 @@
     <group>
       <name>AppFramework</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogCloud.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogCloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogCloud.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogcloud_msg_dispatch.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogcloud_msg_dispatch.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogcloud_msg_dispatch.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogcloud_msg_dispatch.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOAppDefine.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOAppDefine.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOAppEntrance.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOAppEntrance.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOBonjour.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOBonjour.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOConfigDelegate.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOConfigDelegate.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoDefaults.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoDefaults.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloud.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloud.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloudConfigServer.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloudConfigServer.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloudDef.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloudDef.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\properties.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\properties.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\properties.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\properties.h</name>
       </file>
     </group>
     <group>
@@ -2926,107 +2926,107 @@
       <group>
         <name>drivers</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\AsciiLib.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\AsciiLib.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\AsciiLib.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\AsciiLib.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\bme280.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\bme280.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280_user.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\bme280_user.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280_user.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\bme280_user.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\dc_motor.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\dc_motor.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\dc_motor.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\dc_motor.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\DHT11.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\DHT11.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\DHT11.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\DHT11.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\hsb2rgb_led.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\hsb2rgb_led.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\hsb2rgb_led.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\hsb2rgb_led.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\infrared_reflective.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\infrared_reflective.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\infrared_reflective.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\infrared_reflective.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\keys.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\keys.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\keys.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\keys.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\light_sensor.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\light_sensor.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\light_sensor.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\light_sensor.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oled.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\oled.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oled.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\oled.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oledfont.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\oledfont.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\rgb_led.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\rgb_led.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\rgb_led.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\rgb_led.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\temp_hum_sensor.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\temp_hum_sensor.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\temp_hum_sensor.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\temp_hum_sensor.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\uart.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\uart.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\uart.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers\uart.h</name>
         </file>
       </group>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\micokit_ext.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\micokit_ext.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext_def.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\micokit_ext_def.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_config.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_config.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_main.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_main.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_properties.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_properties.h</name>
       </file>
     </group>
   </group>
@@ -3706,7 +3706,7 @@
                 </option>
                 <option>
                   <name>CCIncludePath2</name>
-                  <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit</state>
+                  <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit</state>
                   <state>$PROJ_DIR$\..\..\..\..\include</state>
                   <state>$PROJ_DIR$\..\..\..\..\MICO</state>
                   <state>$PROJ_DIR$\..\..\..\..\Support</state>
@@ -3719,14 +3719,14 @@
                   <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries\STM32F4xx_StdPeriph_Driver\inc</state>
                   <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries</state>
                   <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
-                  <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework</state>
-                  <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User</state>
+                  <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework</state>
+                  <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User</state>
                   <state>$PROJ_DIR$\..\..\..\..\MICO\Library\EasyCloud</state>
                   <state>$PROJ_DIR$\..\..\..\..\MICO\Library\EasyCloud\EasyCloudMQTTClient</state>
                   <state>$PROJ_DIR$\..\..\..\..\MICO\Library\EasyCloud\EasyCloudMQTTClient\MQTTPacket\src</state>
                   <state>$PROJ_DIR$\..\..\..\..\MICO\Library\EasyCloud\EasyCloudMQTTClient\MQTTClient-C\src</state>
                   <state>$PROJ_DIR$\..\..\..\..\MICO\Library\EasyCloud\EasyCloudMQTTClient\MQTTClient-C\src\MICO</state>
-                  <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers</state>
+                  <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\drivers</state>
                 </option>
                 <option>
                   <name>CCStdIncCheck</name>

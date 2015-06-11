@@ -102,7 +102,7 @@ extern "C"
 #define SDIO_1_BIT
 
 /* Wi-Fi power pin is active high */
-//#define MICO_USE_WIFI_POWER_PIN_ACTIVE_HIGH
+#define MICO_USE_WIFI_POWER_PIN_ACTIVE_HIGH
 
 
 /* Memory map */

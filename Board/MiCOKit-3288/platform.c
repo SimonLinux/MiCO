@@ -308,6 +308,11 @@ MICO_RTOS_DEFINE_ISR( USART2_IRQHandler )
   platform_uart_irq( &platform_uart_drivers[MICO_UART_1] );
 }
 
+MICO_RTOS_DEFINE_ISR( USART1_IRQHandler )
+{
+  platform_uart_irq( &platform_uart_drivers[MICO_UART_2] );
+}
+
 MICO_RTOS_DEFINE_ISR( DMA1_Stream6_IRQHandler )
 {
   platform_uart_tx_dma_irq( &platform_uart_drivers[MICO_UART_1] );

@@ -220,18 +220,16 @@ void platform_mcu_reset( void )
 */
 void init_clocks( void )
 {  
-  ClkPorRcToDpll(0);
-  CacheInit();
-  
 //  /* Configure Clocks */
-//	ClkModuleDis(ALL_MODULE_CLK_SWITCH &(~(FSHC_CLK_EN)));	
-//	ClkModuleEn( FSHC_CLK_EN | FUART_CLK_EN | SD_CLK_EN | BUART_CLK_EN );	//enable Fuart clock for debugging
-//	ClkModuleGateEn( ALL_MODULE_CLK_GATE_SWITCH );        //open all clk gating  
+	ClkModuleDis(ALL_MODULE_CLK_SWITCH &(~(FSHC_CLK_EN)));	
+  ClkModuleEn( FSHC_CLK_EN );
+	//ClkModuleEn( FSHC_CLK_EN | FUART_CLK_EN | SD_CLK_EN | BUART_CLK_EN );	//enable Fuart clock for debugging
+	ClkModuleGateEn( ALL_MODULE_CLK_GATE_SWITCH );        //open all clk gating  
   
+  ClkPorRcToDpll(0);              //clock src is 32768hz OSC
+	ClkDpllClkGatingEn(1);
   
-
-  ClkModuleEn(ALL_MODULE_CLK_SWITCH);
-  ClkModuleGateEn(ALL_MODULE_CLK_GATE_SWITCH);  
+  CacheInit();
 
   //Disable Watchdog
   WdgDis();
@@ -285,22 +283,22 @@ void init_architecture( void )
   NVIC_SetPriority(TMR1_IRQn,   TMR1_IRQn_PRIO);
   NVIC_SetPriority(WDG_IRQn,    WDG_IRQn_PRIO);
   
-    GpioSetRegBits(GPIO_A_IE, 0xFFFFFFFF);
-    GpioSetRegBits(GPIO_B_IE, 0xFFFFFFFF);
-    GpioSetRegBits(GPIO_C_IE, 0x7FFF);
+  GpioClrRegBits(GPIO_A_IE, 0xFFFFFFFF);
+  GpioClrRegBits(GPIO_B_IE, 0xFFFFFFFF);
+  GpioClrRegBits(GPIO_C_IE, 0x7FFF);
     
-    GpioClrRegBits(GPIO_A_OE, 0xFFFFFFFF);
-    GpioClrRegBits(GPIO_B_OE, 0xFFFFFFFF);
-    GpioClrRegBits(GPIO_C_OE, 0x7FFF);
+  GpioClrRegBits(GPIO_A_OE, 0xFFFFFFFF);
+  GpioClrRegBits(GPIO_B_OE, 0xFFFFFFFF);
+  GpioClrRegBits(GPIO_C_OE, 0x7FFF);
     											
-    GpioSetRegBits(GPIO_A_PU, 0xFFFFFFFF);
-    GpioClrRegBits(GPIO_A_PD, 0x0);
+  GpioSetRegBits(GPIO_A_PU, 0xFFFFFFFF);
+  GpioClrRegBits(GPIO_A_PD, 0x0);
     
-    GpioSetRegBits(GPIO_B_PU, 0xFFFFFFFF);
-    GpioClrRegBits(GPIO_B_PD, 0x0);
+  GpioSetRegBits(GPIO_B_PU, 0xFFFFFFFF);
+  GpioClrRegBits(GPIO_B_PD, 0x0);
     
-    GpioSetRegBits(GPIO_C_PU, 0x7FFF);
-    GpioClrRegBits(GPIO_B_PD, 0x0);
+  GpioSetRegBits(GPIO_C_PU, 0x7FFF);
+  GpioClrRegBits(GPIO_B_PD, 0x0);
   
   /* Initialise GPIO IRQ manager */
   platform_gpio_irq_manager_init();

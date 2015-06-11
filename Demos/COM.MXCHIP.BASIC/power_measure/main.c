@@ -30,21 +30,72 @@
 */
 
 #include "MiCO.h" 
+#include "wakeup.h"
 
 #define power_log(M, ...) custom_log("PM", M, ##__VA_ARGS__)
 
-#define POWER_MEASURE_PROGRAM RTOS_INITIALIZED
+#define POWER_MEASURE_PROGRAM STANDBY_MODE
 #define MCU_POWERSAVE_ENABLED 0
+#define IEEE_POWERSAVE_ENABLED 1
 
 #define RTOS_INITIALIZED          1
 #define RTOS_FULL_CPU_THREAD      2
 #define RTOS_FLASH_READ           3
-#define RTOS_FLASH_WRITE          4
+#define RTOS_FLASH_ERASE          4
 #define RTOS_FLASH_WRITE          5
 #define RTOS_WLAN_INITIALIZED     6
 #define RTOS_WLAN_SOFT_AP         7
 #define RTOS_WLAN_EASYLINK        8
 #define RTOS_WLAN_CONNECT         9
+#define RTOS_WLAN_UDP_SEND       10
+#define STANDBY_MODE             11
+    
+#if POWER_MEASURE_PROGRAM == STANDBY_MODE
+int application_start( void )
+{
+#if MCU_POWERSAVE_ENABLED
+  MicoMcuPowerSaveConfig(true);
+#endif
+  host_platform_power_wifi( true );
+    
+  power_log( "Power measure program: RTOS initialized and no application is running" );
+  
+  while(1){
+    power_log( "+" );
+    mico_thread_sleep( 1 );
+  }
+  //mico_thread_sleep( 10 ); //Wait a period to avoid enter standby mode when boot
+  
+  power_log( "Enter standby mode..." );
+  
+#ifdef EMW1088
+  //MicoInit( );
+  //micoWlanPowerOff( );
+  
+#endif
+
+  SysGetWakeUpFlag();             //get wake up flag, DO NOT remove this!!
+  
+  SysPowerKeyInit(POWERKEY_MODE_SLIDE_SWITCH, 300);	//硬开关模式
+
+  //SysSetWakeUpSrcInPowerDown(WAKEUP_SRC_PD_RTC);
+  
+  SysSetWakeUpSrcInDeepSleep(WAKEUP_SRC_SLEEP_RTC, WAKEUP_POLAR_POWERKEY_LOW, 1);
+  
+  //SysClrWakeUpSrc(WAKEUP_SRC_PD_POWERKEY);
+
+  //SysClrWakeUpSrc(WAKEUP_SRC_PD_RTC);
+
+	//SysGotoPowerDown();
+  
+  SysGotoDeepSleep();
+  
+  power_log( "xxx" );
+  
+  mico_rtos_delete_thread( NULL );
+  return 0;
+}
+#endif
 
 #if POWER_MEASURE_PROGRAM == RTOS_INITIALIZED
 int application_start( void )
@@ -52,10 +103,10 @@ int application_start( void )
 #if MCU_POWERSAVE_ENABLED
   MicoMcuPowerSaveConfig(true);
 #endif
-  host_platform_init( );
   host_platform_power_wifi( true );
     
   power_log( "Power measure program: RTOS initialized and no application is running" );
+  
   mico_rtos_delete_thread( NULL );
   return 0;
 }
@@ -67,10 +118,30 @@ int application_start( void )
 #if MCU_POWERSAVE_ENABLED
   MicoMcuPowerSaveConfig(true);
 #endif
-  host_platform_init( );
   host_platform_power_wifi( true );
+  
+  power_log( "Power measure program: RTOS initialized and application is running full speed" );
     
   while(1);
+  return 0;
+}
+#endif
+
+#if POWER_MEASURE_PROGRAM == RTOS_FLASH_ERASE
+int application_start( void )
+{
+#if MCU_POWERSAVE_ENABLED
+  MicoMcuPowerSaveConfig(true);
+#endif
+  host_platform_power_wifi( true );
+  power_log( "Power measure program: RTOS initialized and application is running full speed" );
+  
+  MicoFlashInitialize( MICO_FLASH_FOR_UPDATE );
+  MicoFlashErase( MICO_FLASH_FOR_UPDATE, UPDATE_START_ADDRESS, UPDATE_END_ADDRESS );
+  MicoFlashFinalize( MICO_FLASH_FOR_UPDATE );
+  
+  mico_rtos_delete_thread( NULL );
+
   return 0;
 }
 #endif
@@ -89,7 +160,7 @@ int application_start( void )
 }
 #endif
 
-#if POWER_MEASURE_PROGRAM == RTOS_WLAN_SOFY_AP
+#if POWER_MEASURE_PROGRAM == RTOS_WLAN_SOFT_AP
 int application_start( void )
 {
   network_InitTypeDef_st wNetConfig;
@@ -140,7 +211,10 @@ int application_start( void )
 #endif
   power_log( "Power measure program: RTOS and wlan initialized and connect wlan, wait 10sec to measure" );
   MicoInit( );
+
+#if IEEE_POWERSAVE_ENABLED
    micoWlanEnablePowerSave();
+#endif
   memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_adv_st));
   
   strncpy((char*)wNetConfig.ap_info.ssid, "William Xu", 32);
@@ -157,5 +231,54 @@ int application_start( void )
 }
 #endif
 
+#if POWER_MEASURE_PROGRAM == RTOS_WLAN_UDP_SEND
+int application_start( void )
+{
+  network_InitTypeDef_adv_st wNetConfig;
+  int udp_fd = -1;
+  struct sockaddr_t addr;
+  socklen_t addrLen;
+  uint8_t *buf = NULL;
+  
+#if MCU_POWERSAVE_ENABLED
+  MicoMcuPowerSaveConfig(true);
+#endif
+  power_log( "Power measure program: RTOS and wlan initialized and connect wlan, wait 10sec to measure" );
+  MicoInit( );
 
+#if IEEE_POWERSAVE_ENABLED
+   micoWlanEnablePowerSave();
+#endif
+  memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_adv_st));
+  
+  strncpy((char*)wNetConfig.ap_info.ssid, "William Xu", 32);
+  wNetConfig.ap_info.security = SECURITY_TYPE_AUTO;
+  strncpy((char*)wNetConfig.key, "mx099555", 64);
+  wNetConfig.key_len = 8;
+  wNetConfig.dhcpMode = true;
+  wNetConfig.wifi_retry_interval = 100;
+  micoWlanStartAdv(&wNetConfig);
+  power_log("connect to %s.....", wNetConfig.ap_info.ssid);
+  
+  buf = malloc(1024);
+  
+  udp_fd = socket(AF_INET, SOCK_DGRM, IPPROTO_UDP);;
+  addr.s_port = 2000;
+  addr.s_ip = INADDR_ANY;
+  bind(udp_fd, &addr, sizeof(addr));
+  
+  addr.s_port = 2001;
+  addr.s_ip = inet_addr( "192.168.2.1" );
+  
+  connect( udp_fd, &addr, sizeof(addr) );
+
+  while(1) {
+    send( udp_fd, buf, 1024, 0 );
+    mico_thread_msleep( 10 );
+  }
+    
+  mico_rtos_delete_thread( NULL );
+  return 0;
+}
+#endif
 

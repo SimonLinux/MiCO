@@ -528,6 +528,16 @@
 			}
 		},
 		{
+			"contents": "Searching 1896 files for \"platform_mcu_enter_standby\"\n\n/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h:\n  437   * @param[in] secondsToWakeup : seconds to wakeup\n  438   */\n  439: void platform_mcu_enter_standby( uint32_t secondsToWakeup );\n  440  \n  441  \n\n/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c:\n  293  void MicoSystemStandBy( uint32_t secondsToWakeup )\n  294  {\n  295:   platform_mcu_enter_standby( secondsToWakeup );\n  296  }\n  297  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_mcu_powersave.c:\n  386  \n  387  \n  388: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  389  {\n  390    platform_log(\"unimplemented\");\n\n/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c:\n  158  #define USE_DEEPSLEEP_MODE\n  159  \n  160: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  161  {\n  162    uint32_t Temp;\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_powersave.c:\n  412  \n  413  \n  414: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  415  { \n  416    mico_rtc_time_t time;\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_powersave.c:\n  412  \n  413  \n  414: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  415  { \n  416    mico_rtc_time_t time;\n\n/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c:\n   94  #endif\n   95      \n   96:   platform_mcu_enter_standby( MICO_WAIT_FOREVER );\n   97    \n   98    power_log( \"Enter standby mode error!\" );\n\n/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h:\n  437   * @param[in] secondsToWakeup : seconds to wakeup\n  438   */\n  439: void platform_mcu_enter_standby( uint32_t secondsToWakeup );\n  440  \n  441  \n\n8 matches across 8 files\n",
+			"settings":
+			{
+				"buffer_size": 1817,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
 			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/clk.h",
 			"settings":
 			{
@@ -579,7 +589,7 @@
 			"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c",
 			"settings":
 			{
-				"buffer_size": 8535,
+				"buffer_size": 8106,
 				"line_ending": "Windows"
 			}
 		},
@@ -587,7 +597,7 @@
 			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c",
 			"settings":
 			{
-				"buffer_size": 7221,
+				"buffer_size": 5814,
 				"line_ending": "Windows"
 			}
 		},
@@ -819,6 +829,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"platform_mcu_enter_standby",
 			"RtcGetRefCnt",
 			"host_platform_power_wifi",
 			"SysSetWakeUpSrcInPowerDown",
@@ -945,8 +956,7 @@
 			"freopen",
 			"fopen",
 			"mico_mutex_t",
-			"RTC_WKUP_irq",
-			"bootloader_start"
+			"RTC_WKUP_irq"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -966,7 +976,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 8,
 			"sheets":
 			[
 				{
@@ -997,6 +1007,77 @@
 				},
 				{
 					"buffer": 1,
+					"settings":
+					{
+						"buffer_size": 1817,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										203,
+										229
+									],
+									[
+										417,
+										443
+									],
+									[
+										598,
+										624
+									],
+									[
+										841,
+										867
+									],
+									[
+										1045,
+										1071
+									],
+									[
+										1257,
+										1283
+									],
+									[
+										1460,
+										1486
+									],
+									[
+										1719,
+										1745
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								353,
+								370
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/clk.h",
 					"settings":
 					{
@@ -1024,7 +1105,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "COM.MXCHIP.SPP.sublime-project",
 					"settings":
 					{
@@ -1051,7 +1132,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_uart.c",
 					"settings":
 					{
@@ -1079,7 +1160,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
 					"settings":
 					{
@@ -1107,7 +1188,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/type.h",
 					"settings":
 					{
@@ -1133,7 +1214,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "/Users/William/Develop/MiCO/Board/EMW5088/platform.h",
 					"settings":
 					{
@@ -1161,19 +1242,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 8,
 					"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c",
 					"settings":
 					{
-						"buffer_size": 8535,
+						"buffer_size": 8106,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3034,
-								3445
+								2933,
+								2933
 							]
 						],
 						"settings":
@@ -1183,25 +1264,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1436.0,
+						"translation.y": 1056.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 9,
 					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c",
 					"settings":
 					{
-						"buffer_size": 7221,
+						"buffer_size": 5814,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5336,
-								5348
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1217,7 +1298,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 10,
 					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_peripheral.h",
 					"settings":
 					{

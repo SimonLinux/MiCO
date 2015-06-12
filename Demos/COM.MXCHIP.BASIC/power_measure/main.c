@@ -106,8 +106,7 @@ int application_start( void )
 #if MCU_POWERSAVE_ENABLED
   MicoMcuPowerSaveConfig(true);
 #endif
-  host_platform_power_wifi( true );
-    
+  
   power_log( "Power measure program: RTOS initialized and no application is running" );
   
   mico_rtos_delete_thread( NULL );
@@ -121,7 +120,6 @@ int application_start( void )
 #if MCU_POWERSAVE_ENABLED
   MicoMcuPowerSaveConfig(true);
 #endif
-  host_platform_power_wifi( true );
   
   power_log( "Power measure program: RTOS initialized and application is running full speed" );
     
@@ -136,7 +134,6 @@ int application_start( void )
 #if MCU_POWERSAVE_ENABLED
   MicoMcuPowerSaveConfig(true);
 #endif
-  host_platform_power_wifi( true );
   power_log( "Power measure program: RTOS initialized and erase flash" );
   
   MicoFlashInitialize( MICO_FLASH_FOR_UPDATE );

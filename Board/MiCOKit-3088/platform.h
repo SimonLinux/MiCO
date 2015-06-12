@@ -53,9 +53,7 @@ typedef enum
     MICO_GPIO_1,
     MICO_GPIO_2,
     MICO_GPIO_3,
-//    MICO_GPIO_4,
-//    MICO_GPIO_5,
-//    MICO_GPIO_6,
+
     MICO_GPIO_7,
     MICO_GPIO_8,
     MICO_GPIO_9,
@@ -67,13 +65,11 @@ typedef enum
     MICO_GPIO_12,
     MICO_GPIO_13,
     USB_DETECT = MICO_GPIO_13,
-//    MICO_GPIO_14,
-//    MICO_GPIO_15,
+
     MICO_GPIO_16,
     BOOT_SEL = MICO_GPIO_16,
     MICO_GPIO_17,
-//    MICO_GPIO_18,
-//    MICO_GPIO_19,
+
     MICO_GPIO_20,
     MICO_SYS_LED = MICO_GPIO_20,
     MICO_GPIO_21,
@@ -81,12 +77,11 @@ typedef enum
     APP_UART_TX = MICO_GPIO_22,
     MICO_GPIO_23,
     APP_UART_RX = MICO_GPIO_23,
-//    MICO_GPIO_24,
-//    MICO_GPIO_25,
+
     MICO_GPIO_26,
     MICO_GPIO_27,
     MICO_GPIO_28,
-//    MICO_GPIO_29,
+
     MICO_GPIO_30,
     MFG_SEL = MICO_GPIO_30,
 
@@ -153,16 +148,16 @@ typedef enum
 #define MICO_I2C_CP         (MICO_I2C_1)
 
 #ifdef BOOTLOADER
-#define STDIO_UART       MICO_UART_1
+#define STDIO_UART       MICO_UART_2
 #define STDIO_UART_BAUDRATE (115200) 
 #else
-#define STDIO_UART       MICO_UART_1
+#define STDIO_UART       MICO_UART_2
 #define STDIO_UART_BAUDRATE (115200) 
 #endif
 
-#define UART_FOR_APP     MICO_UART_2
-#define MFG_TEST         MICO_UART_1
-#define CLI_UART         MICO_UART_1
+#define UART_FOR_APP     MICO_UART_1
+#define MFG_TEST         MICO_UART_2
+#define CLI_UART         MICO_UART_2
 
 #define FUNC_USB_EN					   
 //#define FUNC_CARD_EN					

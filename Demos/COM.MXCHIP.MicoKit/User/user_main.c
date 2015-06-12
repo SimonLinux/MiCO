@@ -25,6 +25,7 @@
 
 #include "user_properties.h"
 #include "micokit_ext.h"
+#include "uart.h"
 
 #define user_log(M, ...) custom_log("USER", M, ##__VA_ARGS__)
 #define user_log_trace() custom_log_trace("USER")
@@ -141,6 +142,9 @@ OSStatus user_main( mico_Context_t * const mico_context )
   OSStatus err = kUnknownErr;
   
   user_log("User main start...");
+  
+  err = user_uartInit();
+  require_noerr_action( err, exit, user_log("ERROR: user_uartInit err = %d.", err) );
   
 #if (MICO_CLOUD_TYPE != CLOUD_DISABLED)
   /* start properties notify task */

@@ -154,12 +154,37 @@ static unsigned long stop_mode_power_down_hook( unsigned long sleep_ms )
 }
 #endif /* MICO_DISABLE_MCU_POWERSAVE */
 
+
+#define USE_DEEPSLEEP_MODE
+
+extern uint32_t RtcGetRefCnt(void);
+extern void RtcSetAlarmCnt(uint32_t AlarmCnt);
+
 void platform_mcu_enter_standby(uint32_t secondsToWakeup)
 {
-  platform_log("unimplemented");
-  return;
-}
+  SysGetWakeUpFlag();             //get wake up flag, DO NOT remove this!!
 
+  SysClrWakeUpSrc(WAKEUP_SRC_PD_POWERKEY);
+
+  SysClrWakeUpSrc(WAKEUP_SRC_PD_RTC);
+  
+  SysPowerKeyInit(POWERKEY_MODE_SLIDE_SWITCH, 300); 
+
+  if(secondsToWakeup != MICO_WAIT_FOREVER){
+    RtcSetAlarmCnt( RtcGetRefCnt()+secondsToWakeup );
+  }
+
+#ifdef USE_DEEPSLEEP_MODE
+  SysSetWakeUpSrcInDeepSleep(WAKEUP_SRC_SLEEP_RTC, WAKEUP_POLAR_POWERKEY_LOW, 1);
+  SysGotoDeepSleep();
+#else
+  SysSetWakeUpSrcInPowerDown(WAKEUP_SRC_PD_RTC);
+  SysGotoPowerDown();
+#endif
+  
+  
+
+}
 
 /******************************************************
  *         IRQ Handlers Definition & Mapping

@@ -42,7 +42,7 @@
 #include "wlan_platform_common.h"
 
 #ifdef USE_MiCOKit_EXT
-  #include "rgb_led.h"
+  #include "micokit_ext.h"
 #endif
 
 /******************************************************
@@ -258,21 +258,8 @@ const mico_spi_device_t mico_spi_flash =
 
 const platform_adc_t platform_adc_peripherals[] =
 {
-  // [MICO_ADC_1] = NULL,
-  [MICO_ADC_1] = {
-    .port = ADC1,
-    . channel = ADC_Channel_4,
-    .adc_peripheral_clock = RCC_APB2Periph_ADC1, 
-    .rank = 1, 
-    .pin = (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_9]
-  },
-  [MICO_ADC_2] = {
-    .port = ADC1,
-    .channel = ADC_Channel_1,
-    .adc_peripheral_clock = RCC_APB2Periph_ADC1,
-    .rank = 1, 
-    .pin = (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_24]
-  }
+  [MICO_ADC_1] = { ADC1, ADC_Channel_4, RCC_APB2Periph_ADC1, 1, (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_9] },
+  [MICO_ADC_2] = { ADC1, ADC_Channel_1, RCC_APB2Periph_ADC1, 1, (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_24] },
 };
 
 /* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c
@@ -303,16 +290,11 @@ const platform_gpio_t wifi_sdio_pins[] =
 *           Interrupt Handler Definitions
 ******************************************************/
 
+/* USART2 -> MICO_UART_1 */
 MICO_RTOS_DEFINE_ISR( USART2_IRQHandler )
 {
   platform_uart_irq( &platform_uart_drivers[MICO_UART_1] );
 }
-
-MICO_RTOS_DEFINE_ISR( USART1_IRQHandler )
-{
-  platform_uart_irq( &platform_uart_drivers[MICO_UART_2] );
-}
-
 
 MICO_RTOS_DEFINE_ISR( DMA1_Stream6_IRQHandler )
 {
@@ -322,6 +304,12 @@ MICO_RTOS_DEFINE_ISR( DMA1_Stream6_IRQHandler )
 MICO_RTOS_DEFINE_ISR( DMA1_Stream5_IRQHandler )
 {
   platform_uart_rx_dma_irq( &platform_uart_drivers[MICO_UART_1] );
+}
+
+/* USART1 -> MICO_UART_2 */
+MICO_RTOS_DEFINE_ISR( USART1_IRQHandler )
+{
+  platform_uart_irq( &platform_uart_drivers[MICO_UART_2] );
 }
 
 MICO_RTOS_DEFINE_ISR( DMA2_Stream7_IRQHandler )

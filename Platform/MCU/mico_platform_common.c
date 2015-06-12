@@ -596,6 +596,10 @@ exit:
   return err;
 }
 
+void MicoNanosendDelay( uint64_t delayus )
+{
+  platform_nanosecond_delay( delayus );
+}
 
 // uint64_t wiced_get_nanosecond_clock_value( void )
 // {

@@ -427,15 +427,15 @@ int application_start(void)
   if(context->flashContentInRam.micoSystemConfig.mcuPowerSaveEnable == true){
     MicoMcuPowerSaveConfig(true);
   }
-
+ 
   /*Local configuration server*/
   if(context->flashContentInRam.micoSystemConfig.configServerEnable == true){
     err =  MICOStartConfigServer(context);
     require_noerr_action( err, exit, mico_log("ERROR: Unable to start the local server thread.") );
   }
 
-  //err =  MICOStartNTPClient(context);
-  //require_noerr_action( err, exit, mico_log("ERROR: Unable to start the NTP client thread.") );
+  err =  MICOStartNTPClient(context);
+  require_noerr_action( err, exit, mico_log("ERROR: Unable to start the NTP client thread.") );
 
   /*Start mico application*/
   err = MICOStartApplication( context );

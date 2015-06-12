@@ -78,10 +78,11 @@ static mico_semaphore_t close_listener_sem = NULL, close_client_sem[ MAX_TCP_CLI
 
 OSStatus MICOStartConfigServer ( mico_Context_t * const inContext )
 {
+  int i = 0;
   if( is_config_server_established == false ){
     is_config_server_established = true;
     close_listener_sem = NULL;
-    for (int i; i < MAX_TCP_CLIENT_PER_SERVER; i++)
+    for (; i < MAX_TCP_CLIENT_PER_SERVER; i++)
       close_client_sem[ i ] = NULL;
     return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)inContext );
   }
@@ -90,14 +91,17 @@ OSStatus MICOStartConfigServer ( mico_Context_t * const inContext )
 
 OSStatus MICOStopConfigServer( void )
 {
+  int i = 0;
   if( close_listener_sem != NULL )
     mico_rtos_set_semaphore( &close_listener_sem );
 
-  for (int i; i < MAX_TCP_CLIENT_PER_SERVER; i++){
+  for (; i < MAX_TCP_CLIENT_PER_SERVER; i++){
     if( close_client_sem[ i ] != NULL )
       mico_rtos_set_semaphore( &close_client_sem[ i ] );
   }
   is_config_server_established = false;
+  
+  return kNoErr;
 }
 
 void localConfiglistener_thread(void *inContext)

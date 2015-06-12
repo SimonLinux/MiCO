@@ -50,6 +50,7 @@ void uartRecv_thread(void *inContext)
   
 exit:
   if(inDataBuffer) free(inDataBuffer);
+  mico_rtos_delete_thread(NULL);
 }
 
 /* Packet format: BB 00 CMD(2B) Status(2B) datalen(2B) data(x) checksum(2B)

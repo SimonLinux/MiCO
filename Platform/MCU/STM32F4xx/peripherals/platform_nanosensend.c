@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
-* @file    platform_pwm.c 
+* @file    platform_nanosecond.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
-* @brief   This file provide PWM driver functions.
+* @brief   This file provide time delay function using nano second.
 ******************************************************************************
 *
 *  The MIT License

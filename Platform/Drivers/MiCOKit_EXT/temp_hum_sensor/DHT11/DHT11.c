@@ -52,6 +52,8 @@ void Delay_us(uint32_t nus)
   TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
   TIM_Cmd(TIM1, DISABLE);
 #endif
+  
+  MicoNanosendDelay( 1000*nus );
 }
 
 void Delay_ms(uint16_t nms)

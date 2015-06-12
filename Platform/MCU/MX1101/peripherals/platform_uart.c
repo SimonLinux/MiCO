@@ -94,6 +94,8 @@ OSStatus platform_uart_init( platform_uart_driver_t* driver, const platform_uart
 #endif
 
   if ( peripheral->uart == FUART ){
+    ClkModuleEn( FUART_CLK_EN );
+    
     if( peripheral->pin_tx->port == GPIOA && peripheral->pin_tx->pin == 1 )
       GpioFuartTxIoConfig(0);
     else if( peripheral->pin_tx->port == GPIOB && peripheral->pin_tx->pin == 7 )
@@ -127,6 +129,8 @@ OSStatus platform_uart_init( platform_uart_driver_t* driver, const platform_uart
     }
 
   }else if( peripheral->uart == BUART ){
+    ClkModuleEn( BUART_CLK_EN );
+    
     if( peripheral->pin_tx->port == GPIOA && peripheral->pin_tx->pin == 16 )
       GpioBuartTxIoConfig(0);
     else if( peripheral->pin_tx->port == GPIOA && peripheral->pin_tx->pin == 25 )

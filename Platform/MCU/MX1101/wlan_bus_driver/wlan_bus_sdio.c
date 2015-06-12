@@ -243,6 +243,7 @@ OSStatus host_platform_bus_init( void )
     platform_gpio_irq_enable( &wifi_sdio_pins[WIFI_PIN_SDIO_IRQ], IRQ_TRIGGER_FALLING_EDGE, sdio_int_pin_irq_handler, 0 );
 #endif    
     
+   ClkModuleEn( SD_CLK_EN );
    SdioControllerInit();
    SdioSetClk(0);
    NVIC_EnableIRQ(SD_IRQn);

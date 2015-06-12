@@ -12,10 +12,10 @@
 			"path": "../../../../Support"
 		},
 		{
-			"path": "../../../../Board/EMW5088"
+			"path": "../../../../Board/MiCOKit-3088"
 		},
 		{
-			"path": "../../../../Demos/COM.MXCHIP.SPP"
+			"path": "../../../../Demos/COM.MXCHIP.BASIC"
 		},
 		{
 			"path": "../../../../External"
@@ -39,7 +39,7 @@
 			"-D__pure=__attribute__((const))",
 			"-D__value_in_regs=__attribute__(())",
 			"-DDEBUG",
-			"-I/Users/william/Develop/MiCO/Demos/COM.MXCHIP.SPP/",
+			"-I/Users/william/Develop/MiCO/Demos/COM.MXCHIP.BASIC/",
 			"-I/Users/william/Develop/MiCO/External/",
 			"-I/Users/william/Develop/MiCO/Platform/",
 			"-I/Users/william/Develop/MiCO/Platform/include/",
@@ -49,7 +49,7 @@
 			"-I/Users/william/Develop/MiCO/Platform/MCU/MX1101/",
 			"-I/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/",
 			"-I/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/",
-			"-I/Users/william/Develop/MiCO/Board/EMW5088/",
+			"-I/Users/william/Develop/MiCO/Board/MiCOKit-3088/",
 			"-I/Users/william/Develop/MiCO/include/",
 			"-I/Users/william/Develop/MiCO/MICO/",
 			"-I/Users/william/Develop/MiCO/Support/",

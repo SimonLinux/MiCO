@@ -47,6 +47,8 @@
 #include "debug.h"
 #include "Common.h"
 #include "PlatformLogging.h"
+#include "wakeup.h"
+#include "rtc.h"
 
 #ifdef __cplusplus
 extern "C"

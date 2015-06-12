@@ -70,9 +70,18 @@ OSStatus sppUartCommandProcess(uint8_t *inBuf, int inLen, mico_Context_t * const
   spp_log_trace();
   OSStatus err = kNoErr;
   int i;
-  mico_queue_t* p_queue;
+  mico_queue_t* p_queue=NULL;
   socket_msg_t *real_msg;
 
+  for(i=0; i < MAX_QUEUE_NUM; i++) {
+    p_queue = inContext->appStatus.socket_out_queue[i];
+    if(p_queue  != NULL ){
+      break;
+    }
+  }
+  if (p_queue == NULL)
+    return kNoErr;
+  
   if (MAX_SOCK_MSG_LEN < sockmsg_len)
     return kNoMemoryErr;
   real_msg = (socket_msg_t*)malloc(sizeof(socket_msg_t) - 1 + inLen);

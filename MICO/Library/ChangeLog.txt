@@ -1,3 +1,11 @@
+版本号：10880002.032
+日期：2015-06-11
+1. Updated 8801's driver as WMSDK-3.1.16
+2. Updated 8801's firmware to P70 from WMSDK-3.1.16
+3. Support PMK fast connection.
+4. Easylink support probe_request configure.
+5. Wifi firmware updated to P70.
+
 版本号：31620002.031
 日期：2015-05-19
 1. 新增API：void uap_dns_redirector(int enable)开关UAP的DNS Redirector功能。enable==true打开，否则关闭。默认是打开的。

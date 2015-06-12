@@ -30,7 +30,7 @@
 */
 
 #include "MiCO.h" 
-#include "wakeup.h"
+#include "MiCONotificationCenter.h"
 
 #define power_log(M, ...) custom_log("PM", M, ##__VA_ARGS__)
 
@@ -49,6 +49,24 @@
 #define RTOS_WLAN_CONNECT         9
 #define RTOS_WLAN_UDP_SEND       10
 #define STANDBY_MODE             11
+
+
+void micoNotify_WifiStatusHandler(WiFiEvent event,  const int inContext)
+{
+  switch (event) {
+  case NOTIFY_STATION_UP:
+    power_log("Station up");
+    MicoRfLed(true);
+    break;
+  case NOTIFY_STATION_DOWN:
+    power_log("Station down");
+    MicoRfLed(false);
+    break;
+  default:
+    break;
+  }
+  return;
+}
     
 #if POWER_MEASURE_PROGRAM == STANDBY_MODE
 int application_start( void )
@@ -56,41 +74,26 @@ int application_start( void )
 #if MCU_POWERSAVE_ENABLED
   MicoMcuPowerSaveConfig(true);
 #endif
-  host_platform_power_wifi( true );
     
-  power_log( "Power measure program: RTOS initialized and no application is running" );
+  power_log( "Power measure program: RTOS initialized and wait 5 seconds to standy" );
+
+  mico_thread_sleep( 5 ); //Wait a period to avoid enter standby mode when boot
   
-  while(1){
-    power_log( "+" );
-    mico_thread_sleep( 1 );
-  }
-  //mico_thread_sleep( 10 ); //Wait a period to avoid enter standby mode when boot
-  
-  power_log( "Enter standby mode..." );
+  power_log( "Enter standby mode..., and exit in 5 seconds" );
   
 #ifdef EMW1088
   //MicoInit( );
   //micoWlanPowerOff( );
-  
+  //wlan_deepsleepps_on( );
 #endif
-
-  SysGetWakeUpFlag();             //get wake up flag, DO NOT remove this!!
   
-  SysPowerKeyInit(POWERKEY_MODE_SLIDE_SWITCH, 300);	//硬开关模式
-
-  //SysSetWakeUpSrcInPowerDown(WAKEUP_SRC_PD_RTC);
+#if IEEE_POWERSAVE_ENABLED
+   micoWlanEnablePowerSave();
+#endif
+    
+  MicoSystemStandBy( 5 );
   
-  SysSetWakeUpSrcInDeepSleep(WAKEUP_SRC_SLEEP_RTC, WAKEUP_POLAR_POWERKEY_LOW, 1);
-  
-  //SysClrWakeUpSrc(WAKEUP_SRC_PD_POWERKEY);
-
-  //SysClrWakeUpSrc(WAKEUP_SRC_PD_RTC);
-
-	//SysGotoPowerDown();
-  
-  SysGotoDeepSleep();
-  
-  power_log( "xxx" );
+  power_log( "Enter standby mode error!" );
   
   mico_rtos_delete_thread( NULL );
   return 0;
@@ -134,7 +137,7 @@ int application_start( void )
   MicoMcuPowerSaveConfig(true);
 #endif
   host_platform_power_wifi( true );
-  power_log( "Power measure program: RTOS initialized and application is running full speed" );
+  power_log( "Power measure program: RTOS initialized and erase flash" );
   
   MicoFlashInitialize( MICO_FLASH_FOR_UPDATE );
   MicoFlashErase( MICO_FLASH_FOR_UPDATE, UPDATE_START_ADDRESS, UPDATE_END_ADDRESS );
@@ -152,8 +155,12 @@ int application_start( void )
 #if MCU_POWERSAVE_ENABLED
   MicoMcuPowerSaveConfig(true);
 #endif
-  power_log( "Power measure program: RTOS and wlan initialized and no application is running" );
+  power_log( "Power measure program: RTOS and wlan initialized and wlan is initialized" );
   MicoInit( );
+  
+#if IEEE_POWERSAVE_ENABLED
+   micoWlanEnablePowerSave();
+#endif
     
   mico_rtos_delete_thread( NULL );
   return 0;
@@ -205,16 +212,19 @@ int application_start( void )
 #if POWER_MEASURE_PROGRAM == RTOS_WLAN_CONNECT
 int application_start( void )
 {
+  MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
+  
   network_InitTypeDef_adv_st wNetConfig;
 #if MCU_POWERSAVE_ENABLED
   MicoMcuPowerSaveConfig(true);
 #endif
-  power_log( "Power measure program: RTOS and wlan initialized and connect wlan, wait 10sec to measure" );
+  power_log( "Power measure program: RTOS and wlan initialized and connect wlan, wait station up to measure" );
   MicoInit( );
-
+  
 #if IEEE_POWERSAVE_ENABLED
    micoWlanEnablePowerSave();
 #endif
+  
   memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_adv_st));
   
   strncpy((char*)wNetConfig.ap_info.ssid, "William Xu", 32);
@@ -243,7 +253,7 @@ int application_start( void )
 #if MCU_POWERSAVE_ENABLED
   MicoMcuPowerSaveConfig(true);
 #endif
-  power_log( "Power measure program: RTOS and wlan initialized and connect wlan, wait 10sec to measure" );
+  power_log( "Power measure program: RTOS and wlan initialized and connect wlan, wait station up to measure" );
   MicoInit( );
 
 #if IEEE_POWERSAVE_ENABLED

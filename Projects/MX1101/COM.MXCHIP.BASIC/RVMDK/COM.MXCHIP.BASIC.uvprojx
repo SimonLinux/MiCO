@@ -462,6 +462,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>MICO</GroupName>
+          <Files>
+            <File>
+              <FileName>MICONotificationCenter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICONotificationCenter.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>MICO/Library</GroupName>
           <Files>
             <File>
@@ -1488,6 +1498,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>MICO</GroupName>
+          <Files>
+            <File>
+              <FileName>MICONotificationCenter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICONotificationCenter.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>MICO/Library</GroupName>
           <Files>
             <File>
@@ -2491,6 +2511,16 @@
               <FileName>MicoWlan.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\include\MicoWlan.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>MICO</GroupName>
+          <Files>
+            <File>
+              <FileName>MICONotificationCenter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICONotificationCenter.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3517,6 +3547,16 @@
               <FileName>MicoWlan.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\include\MicoWlan.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>MICO</GroupName>
+          <Files>
+            <File>
+              <FileName>MICONotificationCenter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICONotificationCenter.c</FilePath>
             </File>
           </Files>
         </Group>

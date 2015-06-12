@@ -857,7 +857,7 @@ OSStatus platform_flash_read( platform_flash_driver_t *driver, volatile uint32_t
  */
 OSStatus platform_flash_deinit( platform_flash_driver_t *driver);
 
-
+void platform_nanosecond_delay( uint64_t delayns );
 
 #ifdef __cplusplus
 } /*"C" */

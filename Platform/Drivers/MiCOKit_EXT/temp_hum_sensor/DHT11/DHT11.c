@@ -4,7 +4,7 @@
 * @author  Eshen Wang
 * @version V1.0.0
 * @date    1-May-2015
-* @brief   dc motor operation. 
+* @brief   DHT11 temperature and humidity sensor driver. 
 ******************************************************************************
 * @attention
 *
@@ -24,34 +24,8 @@
 /*------------------------------ delay function ------------------------------*/
 
 void Delay_us(uint32_t nus)
-{
-#if 0
-  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-  
-  /* TIM1 clock enable */
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
-  
-  // TIM1 configuration    10ms
-  TIM_DeInit(TIM1);
-  TIM_TimeBaseStructure.TIM_Period = nus;          
-  TIM_TimeBaseStructure.TIM_Prescaler = (100-1);       
-  TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  
-  TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
-  
-  // Clear TIM1 update pending flag
-  TIM_ClearFlag(TIM1, TIM_FLAG_Update);
-  // Disable TIM1 Update interrupt 
-  TIM_ITConfig(TIM1, TIM_IT_Update, ENABLE);
-  // TIM1 enable counter 
-  TIM_Cmd(TIM1, ENABLE);
-  
-  while(TIM_GetITStatus(TIM1, TIM_IT_Update) == RESET);
-  
-  // stop TIM1
-  TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
-  TIM_Cmd(TIM1, DISABLE);
-#endif
+{ 
+  MicoNanosendDelay( 1000*nus );
 }
 
 void Delay_ms(uint16_t nms)

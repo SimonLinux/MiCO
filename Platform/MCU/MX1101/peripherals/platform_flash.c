@@ -35,8 +35,7 @@
 #include "platform.h"
 #include "Platform_config.h"
 #include "stdio.h"
-//#include "AP80xx.h"
-#include "spi_flash.h"
+
 
 //#define DEBUG_FLASH
 

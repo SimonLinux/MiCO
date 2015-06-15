@@ -49,6 +49,7 @@
 #include "PlatformLogging.h"
 #include "wakeup.h"
 #include "rtc.h"
+#include "spi_flash.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -171,6 +172,7 @@ typedef struct
     platform_flash_type_t      flash_type;
     uint32_t                   flash_start_addr;
     uint32_t                   flash_length;
+    uint32_t                   flash_protect_opt;
 } platform_flash_t;
 
 typedef struct
@@ -180,6 +182,13 @@ typedef struct
     mico_mutex_t               flash_mutex;
 } platform_flash_driver_t;
 
+
+typedef struct
+{
+    platform_flash_t*          peripheral;
+    uint32_t                   partition_start_addr;
+    uint32_t                   partition_length;
+} platform_flash_partition_t;
 
 
 /******************************************************

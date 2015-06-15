@@ -129,7 +129,6 @@ OSStatus MICOReadConfiguration(mico_Context_t *inContext)
 #endif
     
     require_noerr(err, exit);
-    //MicoSystemReboot();
   }
 
   if(inContext->flashContentInRam.micoSystemConfig.dhcpEnable == DHCP_Disable){

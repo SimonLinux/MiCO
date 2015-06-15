@@ -60,7 +60,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>5</state>
         </option>
         <option>
@@ -87,7 +87,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.1.7765</state>
+          <state>7.30.4.8186</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -342,6 +342,7 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\common\boards</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\sam\drivers\twi</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
+          <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\sam\drivers\adc</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -651,6 +652,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1144,34 +1146,37 @@
     <group>
       <name>MicoDriver</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverAdc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverAdc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverGpio.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverGpio.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverI2c.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverI2c.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverMFiAuth.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverMFiAuth.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverPwm.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverNanoSecond.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRng.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverPwm.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRtc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRng.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverSpi.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRtc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverUart.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverSpi.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverWdg.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverUART.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverWdg.h</name>
       </file>
     </group>
     <file>
@@ -1187,7 +1192,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MICOPlatform.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
@@ -1268,7 +1273,7 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MiCODefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
@@ -1950,6 +1955,9 @@
           </file>
           <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\platform_mcu_powersave.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\platform_nano_second.c</name>
           </file>
           <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\platform_pwm.c</name>

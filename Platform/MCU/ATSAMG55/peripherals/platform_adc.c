@@ -37,11 +37,21 @@
 /******************************************************
  *                    Constants
  ******************************************************/
-
+static int8_t channel_num = 0;
+volatile bool initialized = false;
 /******************************************************
  *                   Enumerations
  ******************************************************/
-
+enum adc_channel{
+  adc_channel_0 = 0,
+  adc_channel_1,
+  adc_channel_2,
+  adc_channel_3,
+  adc_channel_4,
+  adc_channel_5,
+  adc_channel_6,
+  adc_channel_7,
+};
 /******************************************************
  *                 Type Definitions
  ******************************************************/
@@ -58,54 +68,103 @@
  *               Function Declarations
  ******************************************************/
 
-
 /******************************************************
  *               Function Definitions
  ******************************************************/
 
+/**
+ * \brief ADC interrupt callback function.
+ */
+static void adc_end_conversion(void)
+{
+  switch(channel_num){
+  case adc_channel_0:
+    adc_channel_get_value(ADC, ADC_CHANNEL_0);
+    break;
+  case adc_channel_1:
+    adc_channel_get_value(ADC, ADC_CHANNEL_1);
+    break;
+  case adc_channel_2:
+    adc_channel_get_value(ADC, ADC_CHANNEL_2);
+    break;
+  case adc_channel_3:
+    adc_channel_get_value(ADC, ADC_CHANNEL_3);
+    break;
+  case adc_channel_4:
+    adc_channel_get_value(ADC, ADC_CHANNEL_4);
+    break;
+  case adc_channel_5:
+    adc_channel_get_value(ADC, ADC_CHANNEL_5);
+    break;
+  case adc_channel_6:
+    adc_channel_get_value(ADC, ADC_CHANNEL_6);
+    break;
+  case adc_channel_7:
+    adc_channel_get_value(ADC, ADC_CHANNEL_7);
+    break;
+  }
+}
 
 
 OSStatus platform_adc_init( const platform_adc_t* adc, uint32_t sample_cycle )
 {
-//    UNUSED_PARAMETER(adc);
-//    UNUSED_PARAMETER(sample_cycle);
-//
-//    platform_mcu_powersave_disable();
-//
-//    sysclk_enable_peripheral_clock( adc->peripheral_id );
-//    ioport_set_pin_mode( adc->adc_pin->pin, 0 );
-//    ioport_set_pin_dir ( adc->adc_pin->pin, IOPORT_DIR_INPUT );
-//
-//    adc_init( adc->peripheral, CPU_CLOCK_HZ, adc->adc_clock_hz, 8 );
-//
-//    /* Maximum track time is 16 cycles */
-//    if ( sample_cycle > 16 )
-//    {
-//        sample_cycle = 16;
-//    }
-//
-//    /* Tracking time = TRACKTIM + 1 */
-//    sample_cycle--;
-//    adc_configure_timing( adc->peripheral, sample_cycle, adc->settling_time, 1 );
-//
-//    adc_set_resolution( adc->peripheral, adc->resolution );
-//
-//    adc_enable_channel( adc->peripheral, adc->channel );
-//
-//    adc_configure_trigger( adc->peripheral, adc->trigger, 0 );
-//
-//    platform_mcu_powersave_enable();
-//
-//
-//    return PLATFORM_SUCCESS;
-  return kUnsupportedErr;
+  OSStatus    err = kNoErr;
+  struct adc_config adc_cfg;
+  UNUSED_PARAMETER(sample_cycle);
+
+  platform_mcu_powersave_disable();
+  
+  require_action_quiet( adc != NULL, exit, err = kParamErr);
+  
+  if( initialized != true )
+  {
+    adc_enable();
+    
+    adc_select_clock_source_mck(ADC);
+    
+    adc_get_config_defaults(&adc_cfg);
+    
+    adc_init(ADC, &adc_cfg);
+    
+    adc_set_trigger(ADC, ADC_TRIG_SW);
+    
+     adc_set_resolution(ADC, adc->resolution);
+    
+    initialized = true;
+  }
+  
+exit:
+  platform_mcu_powersave_enable();
+  return err;
 }
 
 OSStatus platform_adc_take_sample( const platform_adc_t* adc, uint16_t* output )
 {
-  UNUSED_PARAMETER(output);
-  platform_log("unimplemented");
-  return kUnsupportedErr;
+  OSStatus    err = kNoErr;
+ 
+  platform_mcu_powersave_disable();
+  
+  require_action_quiet( adc != NULL, exit, err = kParamErr);
+  
+  channel_num = adc->channel;
+  
+  adc_channel_enable(ADC, adc->channel);
+    
+  adc_set_callback(ADC, adc->interrupt, adc_end_conversion, 1);
+  
+  /* Start conversion */
+  adc_start_software_conversion(ADC);
+  adc_start_calibration(ADC);
+  
+  while (adc_get_interrupt_status(ADC) & (1 << adc->channel));
+  
+  *output = adc_channel_get_value(ADC, adc->channel);	
+  msleep(1);
+  adc_channel_disable(ADC, adc->channel);
+  
+exit:
+  platform_mcu_powersave_enable();
+  return err;  
 }
 
 OSStatus platform_adc_take_sample_stream( const platform_adc_t* adc, void* buffer, uint16_t buffer_length )
@@ -119,7 +178,17 @@ OSStatus platform_adc_take_sample_stream( const platform_adc_t* adc, void* buffe
 
 OSStatus platform_adc_deinit( const platform_adc_t* adc )
 {
-  UNUSED_PARAMETER(adc);
-  platform_log("unimplemented");
-  return kUnsupportedErr;
+  OSStatus    err = kNoErr;
+  
+  platform_mcu_powersave_disable();
+  
+  require_action_quiet( adc != NULL, exit, err = kParamErr);
+  
+  adc_disable();
+  
+  initialized = false;
+  
+exit:
+  platform_mcu_powersave_enable();
+  return err;  
 }

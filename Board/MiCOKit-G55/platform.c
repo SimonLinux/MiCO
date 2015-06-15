@@ -122,12 +122,12 @@ const platform_gpio_t platform_gpio_pins[] =
 
 const platform_adc_t platform_adc_peripherals[] = 
 {
-  [ Arduino_A0 ] = { ADC_CHANNEL_0 },
-  [ Arduino_A1 ] = { ADC_CHANNEL_1 },
-  [ Arduino_A2 ] = { ADC_CHANNEL_2 },
-  [ Arduino_A3 ] = { ADC_CHANNEL_3 },
-  [ Arduino_A4 ] = { ADC_CHANNEL_6 },
-  [ Arduino_A5 ] = { ADC_CHANNEL_7 },
+  [ Arduino_A0 ] = { ADC_CHANNEL_0, ADC_INTERRUPT_EOC_0, ADC_12_BITS },
+  [ Arduino_A1 ] = { ADC_CHANNEL_1, ADC_INTERRUPT_EOC_1, ADC_12_BITS },
+  [ Arduino_A2 ] = { ADC_CHANNEL_2, ADC_INTERRUPT_EOC_2, ADC_12_BITS },
+  [ Arduino_A3 ] = { ADC_CHANNEL_3, ADC_INTERRUPT_EOC_3, ADC_12_BITS },
+  [ Arduino_A4 ] = { ADC_CHANNEL_6, ADC_INTERRUPT_EOC_6, ADC_12_BITS },
+  [ Arduino_A5 ] = { ADC_CHANNEL_7, ADC_INTERRUPT_EOC_7, ADC_12_BITS },
 };
 
 
@@ -384,7 +384,8 @@ void MicoRfLed(bool onoff)
 
 bool MicoShouldEnterMFGMode(void)
 {
-  if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false)
+  if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false ||
+     (MicoGpioInputGet((mico_gpio_t)Arduino_D5) == false) )
     return true;
   else
     return false;

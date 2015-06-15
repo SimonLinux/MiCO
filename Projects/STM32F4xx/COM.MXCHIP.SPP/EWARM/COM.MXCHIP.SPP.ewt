@@ -1164,7 +1164,7 @@
           <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_mcu_powersave.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_nanosensend.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_nano_second.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_pwm.c</name>

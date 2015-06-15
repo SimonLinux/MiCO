@@ -166,7 +166,7 @@ typedef enum
 #define MICO_I2C_CP      (MICO_I2C_1)
 #define Arduino_SPI      (MICO_SPI_1)
 #define Arduino_I2C      (MICO_I2C_1)
-
+#define Arduino_UART     (MICO_UART_2)
 
 
 

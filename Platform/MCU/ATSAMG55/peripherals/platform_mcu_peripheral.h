@@ -145,7 +145,9 @@ typedef struct
 
 typedef struct
 {
-    adc_channel_num channel;
+    enum adc_channel_num          channel;
+    enum adc_interrupt_source     interrupt;
+    enum adc_resolution           resolution;
 } platform_adc_t;
 
 // typedef struct {

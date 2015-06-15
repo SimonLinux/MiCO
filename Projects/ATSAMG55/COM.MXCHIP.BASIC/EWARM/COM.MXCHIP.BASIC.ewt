@@ -88,75 +88,9 @@
   </configuration>
   <group>
     <name>Application</name>
-    <group>
-      <name>AppFrameeork</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogCloud.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogCloud.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogcloud_msg_dispatch.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogcloud_msg_dispatch.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOAppDefine.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOAppEntrance.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOBonjour.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOConfigDelegate.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoDefaults.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloud.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloud.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloudConfigServer.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloudDef.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\properties.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\properties.h</name>
-      </file>
-    </group>
-    <group>
-      <name>User</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\uart.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\uart.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_config.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_main.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.h</name>
-      </file>
-    </group>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\helloworld\hello_world.c</name>
+    </file>
   </group>
   <group>
     <name>Board</name>
@@ -281,18 +215,6 @@
   <group>
     <name>include</name>
     <group>
-      <name>FogCloud</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\FogCloud\FogCloudService.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\FogCloud\FogCloudServiceDef.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\FogCloud\FogCloudUtils.h</name>
-      </file>
-    </group>
-    <group>
       <name>MicoDriver</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverAdc.h</name>
@@ -359,88 +281,16 @@
   <group>
     <name>MICO</name>
     <group>
-      <name>AirKiss</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss_CM3_Debug.a</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss_CM3_Release.a</name>
-      </file>
-    </group>
-    <group>
-      <name>EasyLink</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\EasyLink\EasyLink.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\SoftAP\EasyLinkSoftAP.c</name>
-      </file>
-    </group>
-    <group>
-      <name>Library</name>
-      <group>
-        <name>FogCloud</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4_debug.a</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4_release.a</name>
-        </file>
-      </group>
+      <name>library</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\Library\MICOConfig.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\mxchipWNet_cm4f_spi.a</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\RF driver\wlan_firmware.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\mxchipWNet_cm4f_8801.a</name>
       </file>
     </group>
-    <group>
-      <name>WAC</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Debug.a</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Release.a</name>
-      </file>
-    </group>
-    <group>
-      <name>WPS</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\WPS\WPS.c</name>
-      </file>
-    </group>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOCli.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigMenu.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOMfgtest.c</name>
-    </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICONotificationCenter.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICONTPClient.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOParaStorage.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
@@ -804,9 +654,6 @@
           </file>
           <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\platform_adc.c</name>
-            <configuration>
-              <name>MiCOKit-G55</name>
-            </configuration>
           </file>
           <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\platform_flash.c</name>

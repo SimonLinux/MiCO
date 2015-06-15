@@ -3,7 +3,10 @@
 #include "HomeKitProfiles.h"
 #include "StringUtils.h"
 #include "MDNSUtils.h"
-#include "rgb_led.h"
+
+#ifdef USE_MiCOKit_EXT
+#include "micokit_ext.h"
+#endif
 
 extern void HKBonjourUpdateStateNumber( mico_Context_t * const inContext );
 
@@ -249,9 +252,9 @@ void HKWriteCharacteristicValue(int accessoryID, int serviceID, int characterist
     }
     
     if( inContext->appStatus.service.on == false)
-      hsb_led_open( inContext->appStatus.service.hue, inContext->appStatus.service.saturation, 0 );
+      hsb2rgb_led_open( inContext->appStatus.service.hue, inContext->appStatus.service.saturation, 0 );
     else
-      hsb_led_open( inContext->appStatus.service.hue, inContext->appStatus.service.saturation, inContext->appStatus.service.brightness );
+      hsb2rgb_led_open( inContext->appStatus.service.hue, inContext->appStatus.service.saturation, inContext->appStatus.service.brightness );
 #endif
 
 #ifdef thermostat
@@ -304,7 +307,8 @@ void HKCharacteristicInit(mico_Context_t * const inContext)
   inContext->appStatus.service.saturation                       = 80;
   strncpy(inContext->appStatus.service.name,                    "Wiliam's lightbulb", 64);
   
-  hsb_led_open( inContext->appStatus.service.hue, inContext->appStatus.service.saturation, inContext->appStatus.service.brightness );
+  hsb2rgb_led_init( );
+  hsb2rgb_led_open( inContext->appStatus.service.hue, inContext->appStatus.service.saturation, inContext->appStatus.service.brightness );
 #endif  
 
 #ifdef thermostat

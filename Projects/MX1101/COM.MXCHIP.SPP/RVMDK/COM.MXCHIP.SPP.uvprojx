@@ -913,6 +913,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\MX1101\peripherals\platform_watchdog.c</FilePath>
             </File>
+            <File>
+              <FileName>platform_nano_second.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Platform\MCU\MX1101\peripherals\platform_nano_second.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2015,6 +2020,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\MX1101\peripherals\platform_watchdog.c</FilePath>
             </File>
+            <File>
+              <FileName>platform_nano_second.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Platform\MCU\MX1101\peripherals\platform_nano_second.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3075,6 +3085,11 @@
               <FileName>platform_watchdog.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\MX1101\peripherals\platform_watchdog.c</FilePath>
+            </File>
+            <File>
+              <FileName>platform_nano_second.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Platform\MCU\MX1101\peripherals\platform_nano_second.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4196,6 +4211,11 @@
               <FileName>platform_watchdog.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\MX1101\peripherals\platform_watchdog.c</FilePath>
+            </File>
+            <File>
+              <FileName>platform_nano_second.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Platform\MCU\MX1101\peripherals\platform_nano_second.c</FilePath>
             </File>
           </Files>
         </Group>

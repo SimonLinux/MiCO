@@ -596,30 +596,10 @@ exit:
   return err;
 }
 
-void MicoNanosendDelay( uint64_t delayus )
+void MicoNanosendDelay( uint64_t delayns )
 {
-  platform_nanosecond_delay( delayus );
+  platform_nanosecond_delay( delayns );
 }
-
-// uint64_t wiced_get_nanosecond_clock_value( void )
-// {
-//     return platform_get_nanosecond_clock_value( );
-// }
-
-// void wiced_deinit_nanosecond_clock( void )
-// {
-//     platform_deinit_nanosecond_clock( );
-// }
-
-// void wiced_reset_nanosecond_clock( void )
-// {
-//     platform_reset_nanosecond_clock( );
-// }
-
-// void wiced_init_nanosecond_clock( void )
-// {
-//     platform_init_nanosecond_clock( );
-// }
 
 char *mico_get_bootloader_ver(void)
 {

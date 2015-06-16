@@ -35,9 +35,6 @@
 #include "key/keys.h"
 
 //--------------------------- MicoKit-EXT board info ---------------------------
-#define DEV_KIT_MANUFACTURER    "MXCHIP"
-#define DEV_KIT_NAME            "MiCOKit3288"
-
 #define MFG_TEST_MAX_MODULE_NUM      8
 
 OSStatus micokit_ext_init(void);    // MicoKit-EXT board init

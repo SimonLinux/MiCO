@@ -24,24 +24,27 @@
 
 #include "platform_config.h"
 
+
 /*******************************************************************************
  *                              APP INFO
  ******************************************************************************/
-#define APP_INFO                           "MiCOKit-3288 Demo based on MICO OS"
-
-#define FIRMWARE_REVISION                  "MK3288@1506101455"
-#define SERIAL_NUMBER                      "20150610"
-#define PROTOCOL                           "com.mxchip.micokit"
-
-/*User provided configurations*/
-#define CONFIGURATION_VERSION               0x00000001 // if default configuration is changed, update this number
-   
 /* product type */
-#define PRODUCT_ID                         "d64f517c"
-#define PRODUCT_KEY                        "e935ef56-1d03-4432-9524-8d4a691a26ec"
+#ifdef MICOKIT_3288
+  #define PRODUCT_ID                       "d64f517c"
+  #define PRODUCT_KEY                      "e935ef56-1d03-4432-9524-8d4a691a26ec"
+#elif MICOKIT_G55
+  #define PRODUCT_ID                       "b95b6242"
+  #define PRODUCT_KEY                      "52731f33-edba-4483-9e4a-dc3859976c41"
+#endif
+
+#define SERIAL_NUMBER                      "1506161821"
+#define FIRMWARE_REVISION                  HARDWARE_REVISION"@"SERIAL_NUMBER
+
 #define DEFAULT_ROM_VERSION                FIRMWARE_REVISION
-#define DEFAULT_DEVICE_NAME                DEFAULT_NAME   // device name upload to cloud defined in platform_config.h
-//#define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
+#define DEFAULT_DEVICE_NAME                MODEL   // device name upload to cloud defined in platform_config.h
+
+#define APP_INFO                           MODEL" Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
+#define PROTOCOL                           "com.mxchip.micokit"
 
 
 /*******************************************************************************
@@ -63,6 +66,9 @@
 #define STACK_SIZE_USER_MAIN_THREAD         0x800
 #define STACK_SIZE_NOTIFY_THREAD            0x800
 #define MICO_PROPERTIES_NOTIFY_INTERVAL_MS  1000
-   
+
+
+/*User provided configurations*/
+#define CONFIGURATION_VERSION               0x00000001 // if default configuration is changed, update this number
    
 #endif  // __USER_CONFIG_H_

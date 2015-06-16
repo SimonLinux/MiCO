@@ -94,7 +94,11 @@
 #endif
 
 #ifndef DEFAULT_ROM_VERSION
-  #define DEFAULT_ROM_VERSION            "v1.0.0"
+  #error  "DEFAULT_ROM_VERSION must be set in 'user_config.h'."
+#endif
+
+#ifndef DEFAULT_DEVICE_NAME
+  #error  "DEFAULT_DEVICE_NAME must be set in 'user_config.h'."
 #endif
 
 

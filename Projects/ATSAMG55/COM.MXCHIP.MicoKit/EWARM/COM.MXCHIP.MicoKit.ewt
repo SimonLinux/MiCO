@@ -89,7 +89,7 @@
   <group>
     <name>Application</name>
     <group>
-      <name>AppFrameeork</name>
+      <name>AppFramework</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogCloud.c</name>
       </file>
@@ -295,37 +295,37 @@
     <group>
       <name>MicoDriver</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverAdc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverAdc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverGpio.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverGpio.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverI2c.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverI2c.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverMFiAuth.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverMFiAuth.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverNanoSecond.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverPwm.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverPwm.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRng.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRng.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRtc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRtc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverSpi.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverSpi.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverUart.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverUART.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverWdg.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverWdg.h</name>
       </file>
     </group>
     <file>
@@ -760,9 +760,6 @@
                     <name>twi</name>
                     <file>
                       <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\sam\drivers\twi\twi.c</name>
-                      <configuration>
-                        <name>MiCOKit-G55</name>
-                      </configuration>
                     </file>
                   </group>
                   <group>
@@ -804,9 +801,6 @@
           </file>
           <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\platform_adc.c</name>
-            <configuration>
-              <name>MiCOKit-G55</name>
-            </configuration>
           </file>
           <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\platform_flash.c</name>

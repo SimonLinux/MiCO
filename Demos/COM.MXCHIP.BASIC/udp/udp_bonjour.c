@@ -102,16 +102,16 @@ void bonjour_server( WiFi_Interface interface )
 
   /*   name#xxxxxx.local.  */
   snprintf( temp_txt, 100, "%s#%c%c%c%c%c%c.local.", BONJOURNANE, 
-                                                     para.mac[7],   para.mac[8], \
-                                                     para.mac[9],   para.mac[10], \
-                                                     para.mac[11],  para.mac[12]  );
+                                                     para.mac[6],   para.mac[7], \
+                                                     para.mac[8],   para.mac[9], \
+                                                     para.mac[10],  para.mac[11]  );
   init.host_name = (char*)__strdup(temp_txt);
 
   /*   name#xxxxxx.   */
   snprintf( temp_txt, 100, "%s#%c%c%c%c%c%c",        BONJOURNANE, 
-                                                     para.mac[7],   para.mac[8], \
-                                                     para.mac[9],   para.mac[10], \
-                                                     para.mac[11],  para.mac[12]   );
+                                                     para.mac[6],   para.mac[7], \
+                                                     para.mac[8],   para.mac[9], \
+                                                     para.mac[10],  para.mac[11]   );
   init.instance_name = (char*)__strdup(temp_txt);
 
   init.service_port = LOCAL_PORT;

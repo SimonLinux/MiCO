@@ -33,7 +33,7 @@
  ******************************************************************************/
     
 #ifndef APP_INFO
-  #define APP_INFO   "mxchipWNet MicoKit Demo based on MICO OS"
+  #define APP_INFO            "MiCOKit Demo based on MICO OS"
 #endif
 
 #ifndef FIRMWARE_REVISION

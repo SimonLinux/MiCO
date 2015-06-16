@@ -22,11 +22,12 @@
 #ifndef __USER_CONFIG_H_
 #define __USER_CONFIG_H_
 
+#include "platform_config.h"
 
 /*******************************************************************************
  *                              APP INFO
  ******************************************************************************/
-#define APP_INFO                           "MicoKit3288 Demo based on MICO OS"
+#define APP_INFO                           "MiCOKit-3288 Demo based on MICO OS"
 
 #define FIRMWARE_REVISION                  "MK3288@1506101455"
 #define SERIAL_NUMBER                      "20150610"
@@ -39,8 +40,8 @@
 #define PRODUCT_ID                         "d64f517c"
 #define PRODUCT_KEY                        "e935ef56-1d03-4432-9524-8d4a691a26ec"
 #define DEFAULT_ROM_VERSION                FIRMWARE_REVISION
-#define DEFAULT_DEVICE_NAME                "MiCOKit-3288"  // device name upload to cloud
-#define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
+#define DEFAULT_DEVICE_NAME                DEFAULT_NAME   // device name upload to cloud defined in platform_config.h
+//#define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
 
 
 /*******************************************************************************

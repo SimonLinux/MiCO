@@ -37,7 +37,22 @@
   #define PRODUCT_KEY                      "52731f33-edba-4483-9e4a-dc3859976c41"
 #endif
 
-#define SERIAL_NUMBER                      "1506161821"
+/*------------------------- for ota test -----------------*/
+//#define OTA_TEST
+
+#ifdef OTA_TEST
+  #ifdef PRODUCT_ID
+    #undef PRODUCT_ID
+  #endif
+  #ifdef PRODUCT_KEY
+    #undef PRODUCT_KEY
+  #endif
+  #define PRODUCT_ID                       "6be15e13"  // OTA test product
+  #define PRODUCT_KEY                      "87618cf2-29ea-4ad8-b51b-96e0f489643d"
+#endif
+/*---------------------------------------------------------*/
+
+#define SERIAL_NUMBER                      "1506171710"
 #define FIRMWARE_REVISION                  HARDWARE_REVISION"@"SERIAL_NUMBER
 
 #define DEFAULT_ROM_VERSION                FIRMWARE_REVISION

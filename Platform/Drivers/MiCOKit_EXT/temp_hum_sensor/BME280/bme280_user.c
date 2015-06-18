@@ -395,68 +395,69 @@ s8 BME280_I2C_bus_read(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
  *	\param reg_data : This data read from the sensor, which is hold in an array
  *	\param cnt : The no of byte of data to be read
  */
-//s8 BME280_SPI_bus_read(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
-//{
-//	s32 iError=BME280_INIT_VALUE;
-//	u8 array[SPI_BUFFER_LEN]={MASK_DATA1};
-//	u8 stringpos;
-//	/*	For the SPI mode only 7 bits of register addresses are used.
-//	The MSB of register address is declared the bit what functionality it is
-//	read/write (read as 1/write as BME280_INIT_VALUE)*/
-//	array[BME280_INIT_VALUE] = reg_addr|MASK_DATA2;/*read routine is initiated register address is mask with 0x80*/
-//	/*
-//	* Please take the below function as your reference for
-//	* read the data using SPI communication
-//	* " IBME280_ERROR = SPI_READ_WRITE_STRING(ARRAY, ARRAY, CNT+1)"
-//	* add your SPI read function here
-//	* iError is an return value of SPI read function
-//	* Please select your valid return value
-//	* In the driver BME280_SUCCESS defined as 0
-//    * and FAILURE defined as -1
-//	* Note :
-//	* This is a full duplex operation,
-//	* The first read data is discarded, for that extra write operation
-//	* have to be initiated. For that cnt+1 operation done in the SPI read
-//	* and write string function
-//	* For more information please refer data sheet SPI communication:
-//	*/
-//	for (stringpos = BME280_INIT_VALUE; stringpos < cnt; stringpos++) {
-//		*(reg_data + stringpos) = array[stringpos+BME280_ONE_U8X];
-//	}
-//	return (s8)iError;
-//}
-//
-///*	\Brief: The function is used as SPI bus write
-// *	\Return : Status of the SPI write
-// *	\param dev_addr : The device address of the sensor
-// *	\param reg_addr : Address of the first register, will data is going to be written
-// *	\param reg_data : It is a value hold in the array,
-// *		will be used for write the value into the register
-// *	\param cnt : The no of byte of data to be write
-// */
-//s8 BME280_SPI_bus_write(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
-//{
-//	s32 iError = BME280_INIT_VALUE;
-//	u8 array[SPI_BUFFER_LEN * BME280_TWO_U8X];
-//	u8 stringpos = BME280_INIT_VALUE;
-//	for (stringpos = BME280_INIT_VALUE; stringpos < cnt; stringpos++) {
-//		/* the operation of (reg_addr++)&0x7F done: because it ensure the
-//		   BME280_INIT_VALUE and 1 of the given value
-//		   It is done only for 8bit operation*/
-//		array[stringpos * BME280_TWO_U8X] = (reg_addr++) & MASK_DATA3;
-//		array[stringpos * BME280_TWO_U8X + BME280_ONE_U8X] = *(reg_data + stringpos);
-//	}
-//	/* Please take the below function as your reference
-//	 * for write the data using SPI communication
-//	 * add your SPI write function here.
-//	 * "IBME280_ERROR = SPI_WRITE_STRING(ARRAY, CNT*2)"
-//	 * iError is an return value of SPI write function
-//	 * Please select your valid return value
-//	 * In the driver BME280_SUCCESS defined as 0
-//     * and FAILURE defined as -1
-//	 */
-//	return (s8)iError;
-//}
+s8 BME280_SPI_bus_read(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
+{
+	s32 iError=BME280_INIT_VALUE;
+	u8 array[SPI_BUFFER_LEN]={MASK_DATA1};
+	u8 stringpos;
+	/*	For the SPI mode only 7 bits of register addresses are used.
+	The MSB of register address is declared the bit what functionality it is
+	read/write (read as 1/write as BME280_INIT_VALUE)*/
+	array[BME280_INIT_VALUE] = reg_addr|MASK_DATA2;/*read routine is initiated register address is mask with 0x80*/
+	/*
+	* Please take the below function as your reference for
+	* read the data using SPI communication
+	* " IBME280_ERROR = SPI_READ_WRITE_STRING(ARRAY, ARRAY, CNT+1)"
+	* add your SPI read function here
+	* iError is an return value of SPI read function
+	* Please select your valid return value
+	* In the driver BME280_SUCCESS defined as 0
+    * and FAILURE defined as -1
+	* Note :
+	* This is a full duplex operation,
+	* The first read data is discarded, for that extra write operation
+	* have to be initiated. For that cnt+1 operation done in the SPI read
+	* and write string function
+	* For more information please refer data sheet SPI communication:
+	*/
+	for (stringpos = BME280_INIT_VALUE; stringpos < cnt; stringpos++) {
+		*(reg_data + stringpos) = array[stringpos+BME280_ONE_U8X];
+	}
+	return (s8)iError;
+}
+
+/*	\Brief: The function is used as SPI bus write
+ *	\Return : Status of the SPI write
+ *	\param dev_addr : The device address of the sensor
+ *	\param reg_addr : Address of the first register, will data is going to be written
+ *	\param reg_data : It is a value hold in the array,
+ *		will be used for write the value into the register
+ *	\param cnt : The no of byte of data to be write
+ */
+s8 BME280_SPI_bus_write(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
+{
+  
+	s32 iError = BME280_INIT_VALUE;
+	u8 array[SPI_BUFFER_LEN * BME280_TWO_U8X];
+	u8 stringpos = BME280_INIT_VALUE;
+	for (stringpos = BME280_INIT_VALUE; stringpos < cnt; stringpos++) {
+		/* the operation of (reg_addr++)&0x7F done: because it ensure the
+		   BME280_INIT_VALUE and 1 of the given value
+		   It is done only for 8bit operation*/
+		array[stringpos * BME280_TWO_U8X] = (reg_addr++) & MASK_DATA3;
+		array[stringpos * BME280_TWO_U8X + BME280_ONE_U8X] = *(reg_data + stringpos);
+	}
+	/* Please take the below function as your reference
+	 * for write the data using SPI communication
+	 * add your SPI write function here.
+	 * "IBME280_ERROR = SPI_WRITE_STRING(ARRAY, CNT*2)"
+	 * iError is an return value of SPI write function
+	 * Please select your valid return value
+	 * In the driver BME280_SUCCESS defined as 0
+     * and FAILURE defined as -1
+	 */
+	return (s8)iError;
+}
 
 /*	Brief : The delay routine
  *	\param : delay in ms

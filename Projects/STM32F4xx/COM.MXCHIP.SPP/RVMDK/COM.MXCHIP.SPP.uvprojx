@@ -309,7 +309,7 @@
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0x8000000</StartAddress>
+                <StartAddress>0x800c000</StartAddress>
                 <Size>0x80000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
@@ -764,62 +764,17 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>External/SHAUtils</GroupName>
-          <Files>
-            <File>
-              <FileName>hkdf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\External\SHAUtils\hkdf.c</FilePath>
-            </File>
-            <File>
-              <FileName>hmac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\External\SHAUtils\hmac.c</FilePath>
-            </File>
-            <File>
-              <FileName>sha1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\External\SHAUtils\sha1.c</FilePath>
-            </File>
-            <File>
-              <FileName>sha224-256.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\External\SHAUtils\sha224-256.c</FilePath>
-            </File>
-            <File>
-              <FileName>sha384-512.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\External\SHAUtils\sha384-512.c</FilePath>
-            </File>
-            <File>
-              <FileName>usha.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\External\SHAUtils\usha.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>External/curve25519_donna</GroupName>
-          <Files>
-            <File>
-              <FileName>curve25519-donna.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\External\Curve25519\curve25519-donna.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>Platform/Cortex-M4</GroupName>
           <Files>
-            <File>
-              <FileName>crt0_RVMDK.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\Cortex-M4\crt0_RVMDK.c</FilePath>
-            </File>
             <File>
               <FileName>hardfault.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\Cortex-M4\hardfault.c</FilePath>
+            </File>
+            <File>
+              <FileName>crt0_RVMDK.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Platform\Cortex-M4\crt0_RVMDK.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -982,9 +937,9 @@
           <GroupName>Platform/MCU/STM32F4xx/RVMDK</GroupName>
           <Files>
             <File>
-              <FileName>startup_stm32f411xe.s</FileName>
+              <FileName>startup_stm32f401xx.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\STM32F4xx\RVMDK\startup_stm32f411xe.s</FilePath>
+              <FilePath>..\..\..\..\Platform\MCU\STM32F4xx\RVMDK\startup_stm32f401xx.s</FilePath>
             </File>
           </Files>
         </Group>

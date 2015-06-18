@@ -34,8 +34,15 @@
 
 /* product type */
 // NOTE: use your own product id/key create in FogCloud developper center(www.easylink.io).
-#define PRODUCT_ID                        "062bfffc"
-#define PRODUCT_KEY                       "3cd53e02-5739-4b5a-a5e8-62fefb787598"
+#ifdef EMW3162
+  #define PRODUCT_ID                        "062bfffc"
+  #define PRODUCT_KEY                       "3cd53e02-5739-4b5a-a5e8-62fefb787598"
+#elif MICOKIT_3288
+  #define PRODUCT_ID                        "28e6d490"
+  #define PRODUCT_KEY                       "5f4ad7eb-4c71-41e5-91ba-8e3a8dfb2ec4"
+#else
+
+#endif
 
 #define DEFAULT_ROM_VERSION                "v1.0.0"
 #define DEFAULT_DEVICE_NAME                "MiCO_FOG"      // device name upload to cloud
@@ -52,10 +59,10 @@
 #define MICO_CLOUD_TYPE                    CLOUD_FOGCLOUD
    
 // if need to auto activate afger first time configure, comment it out
-#define DISABLE_FOGCLOUD_AUTO_ACTIVATE
+//#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
 
 // disalbe FogCloud OTA check when system start
-#define DISABLE_FOGCLOUD_OTA_CHECK
+//#define DISABLE_FOGCLOUD_OTA_CHECK
 
    
 /*******************************************************************************

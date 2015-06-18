@@ -89,12 +89,14 @@
 
 #define ECS_kTransferrEncodingType_CHUNKED  "chunked"
 
-#define ECS_OTA_Data_Length_per_read        1024
+#define ECS_OTA_Data_Length_per_read        1024*4
+
+#define ECS_HTTP_HEADER_BUFF_LEN              1024
 
 
 typedef struct
 {
-    char                buf[ 512 ];        //! Buffer holding the start line and all headers.
+    char                buf[ ECS_HTTP_HEADER_BUFF_LEN ]; //! Buffer holding the start line and all headers.
     size_t              len;                //! Number of bytes in the header.
     char *              extraDataPtr;       //! Ptr for any extra data beyond the header, it is alloced when http header is received.
     char *              otaDataPtr;         //! Ptr for any OTA data beyond the header, it is alloced when one OTA package is received.

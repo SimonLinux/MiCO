@@ -1134,6 +1134,7 @@
           <state>USE_STDPERIPH_DRIVER</state>
           <state>DEBUG</state>
           <state>HSE_VALUE=16000000</state>
+          <state>MICOKIT_3288</state>
         </option>
         <option>
           <name>CCPreprocFile</name>

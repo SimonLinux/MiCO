@@ -208,21 +208,35 @@ void OLED_ShowNum(u8 x,u8 y,u32 num,u8 len,u8 size)
 void OLED_ShowString(u8 x,u8 y,u8 *chr)
 {
   unsigned char j=0;
+  u8 x_t = x,y_t = y;
+  
   while (chr[j]!='\0')
   {	
     // add for CR/LF
-    if( ('\r' == chr[j]) && ('\n' == chr[j+1]) ){  // user set next line
-      x = 0;
-      y += 2;
+    if( ('\r' == chr[j]) && ('\n' == chr[j+1]) ){  // CR LF
+      while(x_t <= 120){  // fill rest chars in current line
+        OLED_ShowChar(x_t,y_t,' ');
+        x_t += 8;
+      }
       j += 2;
     }
-    else{
-      OLED_ShowChar(x,y,chr[j]);
-      x += 8;
-      if( (x>120) && (('\r' != chr[j+1]) || ('\n' != chr[j+2])) ){  // auto next line
-        x = 0;
-        y += 2;
+    else if( ('\r' == chr[j]) || ('\n' == chr[j]) ){   // CR or LF
+      while(x_t <= 120){  // fill rest chars in current line
+        OLED_ShowChar(x_t,y_t,' ');
+        x_t += 8;
       }
+      j += 1;
+    }
+    else{
+      if(x_t>120){  // line end, goto next line
+        x_t = 0;
+        y_t += 2;
+        if(y_t >= 8){  // can only display 4 line
+          break;
+        }
+      }
+      OLED_ShowChar(x_t,y_t,chr[j]);
+      x_t += 8;
       j++;
     }
   }

@@ -29,7 +29,7 @@
 #define APP_INFO                           "FogCloud Demo based on MICO OS"
 
 #define FIRMWARE_REVISION                  "MICO_FOG_1_0"
-#define SERIAL_NUMBER                      "20150521"
+#define SERIAL_NUMBER                      "20150618"
 #define PROTOCOL                           "com.mxchip.fog"
 
 /* product type */
@@ -38,7 +38,7 @@
 #define PRODUCT_KEY                       "3cd53e02-5739-4b5a-a5e8-62fefb787598"
 
 #define DEFAULT_ROM_VERSION                "v1.0.0"
-#define DEFAULT_DEVICE_NAME                "MicoFog"      // device name upload to cloud
+#define DEFAULT_DEVICE_NAME                "MiCO_FOG"      // device name upload to cloud
 #define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
 
    

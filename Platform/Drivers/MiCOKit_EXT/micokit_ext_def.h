@@ -45,7 +45,5 @@
 #define MICO_EXT_ADC_LIGHT           (Arduino_A2)
 #define MICO_EXT_ADC_INFRARED        (Arduino_A3)
 
-#define MICO_EXT_USER_UART           (MICO_UART_1)
-
 
 #endif  // __MICOKIT_EXT_DEF_H_

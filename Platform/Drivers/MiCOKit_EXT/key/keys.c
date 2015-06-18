@@ -36,10 +36,10 @@ static mico_timer_t _user_key2_timer;
 /*------------------------------ USER INTERFACES -----------------------------*/
 
 // Key1 && key2 callbacks, set by user.
-extern WEAK void user_key1_clicked_callback(void);
-extern WEAK void user_key1_long_pressed_callback(void);
-extern WEAK void user_key2_clicked_callback(void);
-extern WEAK void user_key2_long_pressed_callback(void);
+extern void user_key1_clicked_callback(void);
+extern void user_key1_long_pressed_callback(void);
+extern void user_key2_clicked_callback(void);
+extern void user_key2_long_pressed_callback(void);
 
 static void _user_key1_irq_handler( void* arg )
 {

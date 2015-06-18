@@ -84,8 +84,8 @@ OSStatus MicoFogCloudGetState(mico_Context_t* const context,
 *******************************************************************************/
 
 // override by user in user_main.c
-WEAK OSStatus user_fogcloud_msg_handler(mico_Context_t* context, 
-                                        const char* topic, const unsigned int topicLen,
-                                        unsigned char *inBuf, unsigned int inBufLen);
+//WEAK OSStatus user_fogcloud_msg_handler(mico_Context_t* context, 
+//                                        const char* topic, const unsigned int topicLen,
+//                                        unsigned char *inBuf, unsigned int inBufLen);
 
 #endif  // __MICO_FOGCLOUD_H_

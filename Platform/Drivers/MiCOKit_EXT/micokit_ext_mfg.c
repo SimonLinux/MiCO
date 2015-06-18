@@ -34,7 +34,7 @@ extern volatile int16_t      mfg_test_module_number;
 //---------------------------- user modules functions --------------------------
 
 // Key1 clicked callback:  previous test module in test mode
-void user_key1_clicked_callback(void)
+WEAK void user_key1_clicked_callback(void)
 {
   if(NULL != mfg_test_state_change_sem){
     if( 0 < mfg_test_module_number){
@@ -49,13 +49,13 @@ void user_key1_clicked_callback(void)
 }
 
 // Key1 long pressed callback
-void user_key1_long_pressed_callback(void)
+WEAK void user_key1_long_pressed_callback(void)
 {
   return;
 }
 
 // Key2 clicked callback:  next test module in test mode
-void user_key2_clicked_callback(void)
+WEAK void user_key2_clicked_callback(void)
 {
   if(NULL != mfg_test_state_change_sem){
     mfg_test_module_number = (mfg_test_module_number+1)%(MFG_TEST_MAX_MODULE_NUM+1);
@@ -65,7 +65,7 @@ void user_key2_clicked_callback(void)
 }
 
 // Key2 long pressed callback(use for enter MFG MODE when reset)
-void user_key2_long_pressed_callback(void)
+WEAK void user_key2_long_pressed_callback(void)
 {
   return;
 }

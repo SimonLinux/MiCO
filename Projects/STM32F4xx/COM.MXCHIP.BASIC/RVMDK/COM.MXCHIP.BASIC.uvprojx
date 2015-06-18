@@ -147,7 +147,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -161,7 +161,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>BIN\UL2CM3.DLL</Driver>
+            <Driver>Segger\JL2CM3.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -309,7 +309,7 @@
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0x8000000</StartAddress>
+                <StartAddress>0x800c000</StartAddress>
                 <Size>0x80000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
@@ -509,51 +509,9 @@
               <FilePath>..\..\..\..\MICO\Library\MICOConfig.c</FilePath>
             </File>
             <File>
-              <FileName>mxchipWNet_cm4f_sdio.a</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\..\MICO\Library\mxchipWNet_cm4f_sdio.a</FilePath>
-            </File>
-            <File>
-              <FileName>mxchipWNet_cm4f_spi.a</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\..\MICO\Library\mxchipWNet_cm4f_spi.a</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Aads>
-                    <interw>2</interw>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <thumb>2</thumb>
-                    <SplitLS>2</SplitLS>
-                    <SwStkChk>2</SwStkChk>
-                    <NoWarn>2</NoWarn>
-                    <uSurpInc>2</uSurpInc>
-                    <useXO>2</useXO>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Aads>
-                </FileArmAds>
-              </FileOption>
+              <FileName>mxchipWNet_cm4f_8801.a</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\..\..\MICO\Library\mxchipWNet_cm4f_8801.a</FilePath>
             </File>
           </Files>
         </Group>
@@ -876,9 +834,9 @@
           <GroupName>Platform/MCU/STM32F4xx/RVMDK</GroupName>
           <Files>
             <File>
-              <FileName>startup_stm32f411xe.s</FileName>
+              <FileName>startup_stm32f4xx_RVMDK.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\STM32F4xx\RVMDK\startup_stm32f411xe.s</FilePath>
+              <FilePath>..\..\..\..\Platform\MCU\STM32F4xx\RVMDK\startup_stm32f4xx_RVMDK.s</FilePath>
             </File>
           </Files>
         </Group>

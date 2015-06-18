@@ -13,7 +13,6 @@
 
   <project>
     <PathAndName>.\COM.MXCHIP.BASIC\RVMDK\COM.MXCHIP.BASIC.uvprojx</PathAndName>
-    <NodeIsActive>1</NodeIsActive>
   </project>
 
   <project>
@@ -22,6 +21,11 @@
 
   <project>
     <PathAndName>.\COM.ALINK.HA\RVMDK\COM.ALINK.HA.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\COM.MXCHIP.FogCloud\RVMDK\COM.MXCHIP.FogCloud.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
   </project>
 
 </ProjectWorkspace>

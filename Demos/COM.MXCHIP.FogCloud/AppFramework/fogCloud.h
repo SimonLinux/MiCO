@@ -29,14 +29,13 @@
 #include "FogCloudServiceDef.h"
 
 /*******************************************************************************
- * DEFINES
+ *                                DEFINES
  ******************************************************************************/
 
 
 /*******************************************************************************
- * INTERFACES
+ *                               INTERFACES
  ******************************************************************************/
-
 //common interfaces
 OSStatus fogCloudInit(mico_Context_t* const inContext);
 OSStatus fogCloudStart(mico_Context_t* const inContext);
@@ -64,7 +63,7 @@ OSStatus fogCloudDeinit(mico_Context_t* const inContext);
 OSStatus fogCloudPrintVersion(void);
 
 /*******************************************************************************
-* INTERNAL FUNCTIONS
+*                              INTERNAL FUNCTIONS
 *******************************************************************************/
 WEAK OSStatus MicoFogCloudCloudMsgProcess(mico_Context_t* context, 
                                           const char* topic, const unsigned int topicLen,

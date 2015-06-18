@@ -46,9 +46,11 @@ OSStatus user_main( mico_Context_t * const mico_context )
   require(mico_context, exit);
   
   while(1){
+    // in case of while (1)
+    mico_thread_msleep(200);
     
     // recv_msg->data = <topic><data>
-    err = MicoFogCloudMsgRecv(mico_context, &recv_msg, 200);
+    err = MicoFogCloudMsgRecv(mico_context, &recv_msg, 0);
     if(kNoErr == err){
       user_log("Msg recv: topic[%d]=[%.*s]\tdata[%d]=[%.*s]", 
                recv_msg->topic_len, recv_msg->topic_len, recv_msg->data, 

@@ -29,7 +29,7 @@
 #define APP_INFO                           "FogCloud Demo based on MICO OS"
 
 #define FIRMWARE_REVISION                  "MICO_FOG_1_0"
-#define SERIAL_NUMBER                      "20150521"
+#define SERIAL_NUMBER                      "20150618"
 #define PROTOCOL                           "com.mxchip.fog"
 
 /* product type */
@@ -59,10 +59,10 @@
 #define MICO_CLOUD_TYPE                    CLOUD_FOGCLOUD
    
 // if need to auto activate afger first time configure, comment it out
-#define DISABLE_FOGCLOUD_AUTO_ACTIVATE
+//#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
 
 // disalbe FogCloud OTA check when system start
-#define DISABLE_FOGCLOUD_OTA_CHECK
+//#define DISABLE_FOGCLOUD_OTA_CHECK
 
    
 /*******************************************************************************

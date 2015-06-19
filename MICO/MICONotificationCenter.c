@@ -306,7 +306,18 @@ exit:
   return err;
 }
 
+OSStatus MICORemoveAllNotification( mico_notify_types_t notify_type)
+{
+    _Notify_list_t *temp = Notify_list[notify_type];;
 
+    while(temp) {
+        Notify_list[notify_type] = Notify_list[notify_type]->next;
+        free(temp);
+        temp = Notify_list[notify_type];
+    }
+
+    return kNoErr;
+}
 
 
 // void WatchDog(void)

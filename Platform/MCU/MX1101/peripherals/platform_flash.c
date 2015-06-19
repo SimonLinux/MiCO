@@ -429,9 +429,11 @@ exit:
   return err;
 }
 
+#define MAX_ERASE_LEN (16*1024)
 OSStatus platform_flash_erase( platform_flash_driver_t *driver, uint32_t StartAddress, uint32_t EndAddress  )
 {
   OSStatus err = kNoErr;
+  int erase_len = MAX_ERASE_LEN, total_len = EndAddress - StartAddress +1;
 
   require_action_quiet( driver != NULL, exit, err = kParamErr);
   require_action_quiet( driver->initialized != false, exit, err = kNotInitializedErr);
@@ -440,8 +442,22 @@ OSStatus platform_flash_erase( platform_flash_driver_t *driver, uint32_t StartAd
   
 
   if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
-    err = SpiFlashErase( StartAddress, EndAddress - StartAddress +1 );
+    while(total_len > 0) {
+        if (total_len > MAX_ERASE_LEN) {
+            erase_len = MAX_ERASE_LEN;
+            total_len -= MAX_ERASE_LEN;
+        } else {
+            erase_len = total_len;
+            total_len = 0;
+        }
+        err = SpiFlashErase( StartAddress, erase_len );
+#ifndef MICO_DISABLE_WATCHDOG
+				WdgFeed();
+#endif
     require_noerr(err, exit);
+        StartAddress += erase_len;
+    }
+    
   }else{
     err = kTypeErr;
     goto exit;

@@ -3,6 +3,7 @@
 #include "MICOCli.h"
 #include "stdarg.h"
 #include "platform_config.h"
+#include "tftp/tftp.h"
 
 #ifdef MICO_CLI_ENABLE
 int cli_printf(const char *msg, ...);
@@ -333,6 +334,63 @@ static void cli_main(void *data)
   mico_rtos_delete_thread(NULL);
 }
 
+static void tftp_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char **argv)
+{
+    tftp_file_info_t cmdinfo;
+    int tftpcmd;
+    uint32_t ip;
+
+    if (argc != 7) {
+        goto WRONGCMD;
+    }
+    if (strcmp(argv[2], "put")==0) {
+        tftpcmd = 0;
+    } else if (strcmp(argv[2], "get") == 0) {
+        tftpcmd = 1;
+    } else {
+        goto WRONGCMD;
+    }
+
+    ip = inet_addr(argv[1]);
+    if (strcmp(argv[4], "i")==0) {
+        cmdinfo.flashtype = MICO_INTERNAL_FLASH;
+    } else if (strcmp(argv[4], "s") == 0) {
+        cmdinfo.flashtype = MICO_SPI_FLASH;
+    } else {
+        goto WRONGCMD;
+    }
+
+    cmdinfo.flashaddr = strtoul(argv[5], NULL, 0);
+    strncpy(cmdinfo.filename, argv[3], 32);
+
+    cmdinfo.filelen= strtoul(argv[6], NULL, 0);
+    if (tftpcmd == 0) { // put
+        cmd_printf("tftp put to %s, filenmae %s. from %s flash, address 0x%x, len %d\r\n", argv[1], cmdinfo.filename,
+            cmdinfo.flashtype==MICO_INTERNAL_FLASH?"internal":"SPI", cmdinfo.flashaddr, cmdinfo.filelen);
+        tsend(&cmdinfo, ip);
+    } else { // get
+        cmd_printf("tftp get from %s, filenmae %s. to %s flash, address 0x%x, len %d\r\n", argv[1], cmdinfo.filename,
+            cmdinfo.flashtype==MICO_INTERNAL_FLASH?"internal":"SPI", cmdinfo.flashaddr, cmdinfo.filelen);
+        tget(&cmdinfo, ip);
+    }
+    return;
+    
+WRONGCMD:
+    cmd_printf("Usage: tftp <ip> put <filename> i/s <flashaddr> <flashlen>\r\n"
+               "       tftp <ip> get <filenmae> i/s <flashaddr> <flashlen>\r\n"
+               "        i=internale flash, s=SPI flash");
+}
+
+static void uptime_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char **argv)
+{
+    cmd_printf("UP time %dms\r\n", mico_get_time());
+}
+
+static void ota_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char **argv)
+{
+    mico_force_ota();
+}
+
 /*
 *  Command buffer API
 */
@@ -430,6 +488,9 @@ static const struct cli_command built_ins[] = {
   {"memp", "print memp list", memp_dump_Command},
   {"wifidriver", "show wifi driver status", driver_state_Command}, // bus credite, flow control...
   {"reboot", "reboot MiCO system", reboot},
+  {"tftp",     "tftp",                        tftp_Command},
+  {"time",     "system time",                 uptime_Command},
+  {"ota",      "system ota",                  ota_Command},
 };
 
 int cli_register_command(const struct cli_command *command)

@@ -52,6 +52,7 @@ extern "C" {
 #define micoWlanStartEasyLink     OpenEasylink2_withdata
 #define micoWlanStopEasyLink      CloseEasylink2
 #define micoWlanStartEasyLinkPlus OpenEasylink
+#define micoWlanStopEasyLinkPlus  CloseEasylink
 #define micoWlanStartWPS          OpenConfigmodeWPS
 #define micoWlanStopWPS           CloseConfigmodeWPS
 #define micoWlanEnablePowerSave   ps_enable

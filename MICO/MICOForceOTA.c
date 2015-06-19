@@ -84,8 +84,13 @@ void mico_fource_ota(void)
     MICORemoveAllNotification(mico_notify_WiFI_PARA_CHANGED);
     MICORemoveAllNotification(mico_notify_DHCP_COMPLETED);
     MICORemoveAllNotification(mico_notify_WIFI_CONNECT_FAILED);
+	  MICORemoveAllNotification(mico_notify_EASYLINK_WPS_COMPLETED);
     MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)FOTA_WifiStatusHandler );
     micoWlanStopEasyLink();
+	  micoWlanStopEasyLinkPlus();
+		micoWlanStopAirkiss();
+	  msleep(10);
+		
     tmpbuf = (uint8_t*)malloc(TMP_BUF_LEN);
     if (tmpbuf == NULL) {
         fota_log("ERROR!! Can't get enough memory");

@@ -327,7 +327,7 @@ static void uptime_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, ch
 
 static void ota_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char **argv)
 {
-    mico_fource_ota();
+    mico_force_ota();
 }
 
 static const struct cli_command user_clis[] = {

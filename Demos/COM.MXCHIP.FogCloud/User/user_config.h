@@ -29,7 +29,7 @@
 #define APP_INFO                           "FogCloud Demo based on MICO OS"
 
 #define FIRMWARE_REVISION                  "MICO_FOG_1_0"
-#define SERIAL_NUMBER                      "20150521"
+#define SERIAL_NUMBER                      "20150619"
 #define PROTOCOL                           "com.mxchip.fog"
 
 /* product type */
@@ -37,6 +37,9 @@
 #ifdef EMW3162
   #define PRODUCT_ID                        "062bfffc"
   #define PRODUCT_KEY                       "3cd53e02-5739-4b5a-a5e8-62fefb787598"
+#elif EMW3165
+  #define PRODUCT_ID                        "35036c4f"
+  #define PRODUCT_KEY                       "2e9d0e7d-7f8a-478d-a2ed-9894c71e0f95"
 #elif MICOKIT_3288
   #define PRODUCT_ID                        "28e6d490"
   #define PRODUCT_KEY                       "5f4ad7eb-4c71-41e5-91ba-8e3a8dfb2ec4"
@@ -58,11 +61,11 @@
 /* MICO cloud service */
 #define MICO_CLOUD_TYPE                    CLOUD_FOGCLOUD
    
-// if need to auto activate afger first time configure, comment it out
-#define DISABLE_FOGCLOUD_AUTO_ACTIVATE
+// if need to auto activate afger first time configure, add this macro
+//#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
 
-// disalbe FogCloud OTA check when system start
-#define DISABLE_FOGCLOUD_OTA_CHECK
+// if not need to check new firmware on server when system start, add this macro
+//#define DISABLE_FOGCLOUD_OTA_CHECK
 
    
 /*******************************************************************************
@@ -73,7 +76,7 @@
 #define MICO_PROPERTIES_NOTIFY_INTERVAL_MS  1000
    
 /*User provided configurations*/
-#define CONFIGURATION_VERSION               0x00000005 // if default configuration is changed, update this number
+#define CONFIGURATION_VERSION               0x00000001 // if default configuration is changed, update this number
 
    
 #endif  // __USER_CONFIG_H_

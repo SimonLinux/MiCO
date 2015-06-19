@@ -175,6 +175,7 @@
           <state>USE_STDPERIPH_DRIVER</state>
           <state>HSE_VALUE=26000000</state>
           <state>DEBUG</state>
+          <state>EMW3165</state>
         </option>
         <option>
           <name>CCPreprocFile</name>

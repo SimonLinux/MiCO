@@ -202,6 +202,8 @@ typedef enum
     SPI_SLAVE_TRANSFER_STATUS_MAX = 0xff,   /* Denotes maximum value. Not a valid status */
 } platform_spi_slave_transfer_status_t;
 
+
+
 /******************************************************
  *                 Type Definitions
  ******************************************************/
@@ -820,44 +822,49 @@ void platform_reset_nanosecond_clock( void );
 void platform_init_nanosecond_clock( void );
 
 /**
+ * Nanosecond delay
+ *
+ */
+void platform_nanosecond_delay( uint64_t delayns );
+
+/**
  * Read random numbers
  *
  */
 OSStatus platform_random_number_read( void *inBuffer, int inByteCount );
 
 /**
- * Init flash 
+ * Init flash driver and hardware interface
  *
  */
-OSStatus platform_flash_init( platform_flash_driver_t *driver, const platform_flash_t *peripheral );
-
+OSStatus platform_flash_init( const platform_flash_t *peripheral );
 
 /**
  * Erase flash 
  *
  */
-OSStatus platform_flash_erase( platform_flash_driver_t *driver, uint32_t StartAddress, uint32_t EndAddress  );
+OSStatus platform_flash_erase( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address  );
 
 /**
  * Write flash 
  *
  */
-OSStatus platform_flash_write( platform_flash_driver_t *driver, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  );
+OSStatus platform_flash_write( const platform_flash_t *peripheral, volatile uint32_t* start_address, uint8_t* data ,uint32_t length  );
 
 /**
  * Read flash 
  *
  */
-OSStatus platform_flash_read( platform_flash_driver_t *driver, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  );
-
+OSStatus platform_flash_read( const platform_flash_t *peripheral, volatile uint32_t* start_address, uint8_t* data ,uint32_t length  );
 
 /**
- * Deinit flash 
+ * Flash protect operation
  *
  */
-OSStatus platform_flash_deinit( platform_flash_driver_t *driver);
+OSStatus platform_flash_set_protect( const platform_flash_t *peripheral, bool enable );
 
-void platform_nanosecond_delay( uint64_t delayns );
+
+
 
 #ifdef __cplusplus
 } /*"C" */

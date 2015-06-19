@@ -36,7 +36,6 @@
 
 #include "common.h"
 
-#include "MicoDefaults.h"
 #include "platform.h" /* This file is unique for each platform */
 #include "platform_peripheral.h"
 

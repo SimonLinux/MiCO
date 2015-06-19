@@ -223,28 +223,6 @@ const platform_spi_t platform_spi_peripherals[] =
 
 platform_spi_driver_t platform_spi_drivers[MICO_SPI_MAX];
 
-
-
-const platform_flash_t platform_flash_peripherals[] =
-{
-  [MICO_SPI_FLASH] =
-  {
-    .flash_type                   = FLASH_TYPE_SPI,
-    .flash_start_addr             = 0x000000,
-    .flash_length                 = 0x200000,
-  },
-  [MICO_INTERNAL_FLASH] =
-  {
-    .flash_type                   = FLASH_TYPE_INTERNAL,
-    .flash_start_addr             = 0x08000000,
-    .flash_length                 = 0x80000,
-  },
-};
-
-platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
-
-
-
 #if defined ( USE_MICO_SPI_FLASH )
 const mico_spi_device_t mico_spi_flash =
 {
@@ -284,6 +262,73 @@ const platform_gpio_t wifi_sdio_pins[] =
   [WIFI_PIN_SDIO_D3     ] = { GPIOB,  5 },
 #endif
 };
+
+/* Flash memory devices */
+const platform_flash_t platform_flash_peripherals[] =
+{
+  [MICO_FLASH_EMBEDDED] =
+  {
+    .flash_type                   = FLASH_TYPE_EMBEDDED,
+    .flash_start_addr             = 0x08000000,
+    .flash_length                 = 0x80000,
+  },
+  [MICO_FLASH_SPI] =
+  {
+    .flash_type                   = FLASH_TYPE_SPI,
+    .flash_start_addr             = 0x000000,
+    .flash_length                 = 0x200000,
+  },
+};
+
+platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
+
+/* Logic partition on flash devices */
+const mico_logic_partition_t mico_partitions[] =
+{
+  [MICO_PARTITION_BOOTLOADER] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_start_addr      = 0x08000000,
+    .partition_length          =     0x8000,    //32k bytes
+    .pattition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_APPLICATION] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_start_addr      = 0x0800C000,
+    .partition_length          =    0x74000,   //480k bytes
+    .pattition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_RF_DRIVER] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_start_addr      = 0x2000,
+    .partition_length          = 0x4E000,  //312k bytes
+    .pattition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_OTA_TEMP] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_start_addr      = 0x50000,
+    .partition_length          = 0x74000, //768k bytes
+    .pattition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_1] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_start_addr      = 0x0,
+    .partition_length          = 0x1000, // 4k bytes
+    .pattition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_2] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_start_addr      = 0x1000,
+    .partition_length          = 0x1000, //4k bytes
+    .pattition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  }
+};
+
 
 
 /******************************************************
@@ -389,12 +434,7 @@ void init_platform( void )
 #ifdef USE_MiCOKit_EXT
   MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );
   MicoGpioOutputLow( Arduino_D9 );
-  
-  //hsb_led_open( 0, 0, 0 );
-
 #endif
-
-   MicoFlashInitialize( MICO_SPI_FLASH );
 }
 
 void init_platform_bootloader( void )

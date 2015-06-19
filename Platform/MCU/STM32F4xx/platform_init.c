@@ -135,7 +135,7 @@ static void __asm __jump_to( uint32_t addr )
 /*Boot to mico application form APPLICATION_START_ADDRESS defined in platform_common_config.h */
 void startApplication(void)
 {
-  uint32_t text_addr = APPLICATION_START_ADDRESS;
+  uint32_t text_addr = (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr;
   uint32_t* stack_ptr;
   uint32_t* start_ptr;
   SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;

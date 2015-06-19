@@ -43,6 +43,15 @@
 /******************************************************
  *                   Macros
  ******************************************************/  
+ #define PAR_OPT_READ_DIS 		( 0x0u << 0 )
+ #define PAR_OPT_READ_EN  		( 0x1u << 0 )
+ #define PAR_OPT_WRITE_DIS 		( 0x0u << 1 )
+ #define PAR_OPT_WRITE_EN   	        ( 0x1u << 1 )
+
+ #define PAR_OPT_READ_MASK  	        ( 0x1u << 0 )
+ #define PAR_OPT_WRITE_MASK 	        ( 0x1u << 1 )
+
+
 
 /******************************************************
  *                   Enumerations
@@ -51,6 +60,16 @@
 /******************************************************
  *                 Type Definitions
  ******************************************************/
+
+
+typedef struct
+{
+    mico_flash_t               partition_owner;
+    uint32_t                   partition_start_addr;
+    uint32_t                   partition_length;
+    uint32_t                   partition_options;
+} mico_logic_partition_t;
+
 
 /******************************************************
  *                 Global Variables
@@ -67,36 +86,28 @@ extern const char*  flash_name[];  /**< A name string of a Flash drive */
 * @{
 */
 
-/** Initialises a Flash driver
- *
- * Prepares an Flash for read and write
- *
- * @param  inFlash     : the interface which should be initialised
- *
- * @return    kNoErr        : On success.
- * @return    kGeneralErr   : If an error occurred with any step
- */
-OSStatus MicoFlashInitialize( mico_flash_t inFlash );
+mico_logic_partition_t* MicoFlashGetInfo( mico_partition_t inPartition );
 
-/** Erase an area on a Flash
+
+/** Erase an area on a Flash logical partition
  *
  * @note Erase on an address will erase all data on a sector that the 
  *       address is belonged to, this function does not save data that
  *       beyond the address area but in the affected sector, the data
  *       will be lost.
  *
- * @param  inFlash     		: The target flash which should be erased
+ * @param  inPartition    : The target flash logical partition which should be erased
  * @param  inStartAddress 	: Start address of the erased flash area
  * @param  inEndAddress   	: End address of the erased flash area
  *
  * @return    kNoErr        : On success.
  * @return    kGeneralErr   : If an error occurred with any step
  */
-OSStatus MicoFlashErase(mico_flash_t inFlash, uint32_t inStartAddress, uint32_t inEndAddress);
+OSStatus MicoFlashErase(mico_partition_t inPartition, uint32_t off_set, uint32_t size);
 
-/** Write data to an area on a Flash
+/** Write data to an area on a Flash logical partition
  *
- * @param  inFlash     	  : The target flash which should be written
+ * @param  inPartition    : The target flash logical partition which should be read which should be written
  * @param  inFlashAddress : Poing to the start address that the data is written to, and
  *                          point to the last unwritten address after this function is 
  *                          returned, so you can call this function serval times without
@@ -107,11 +118,11 @@ OSStatus MicoFlashErase(mico_flash_t inFlash, uint32_t inStartAddress, uint32_t 
  * @return    kNoErr        : On success.
  * @return    kGeneralErr   : If an error occurred with any step
  */
-OSStatus MicoFlashWrite(mico_flash_t inFlash, volatile uint32_t* inFlashAddress, uint8_t* inBuffer ,uint32_t inBufferLength);
+OSStatus MicoFlashWrite( mico_partition_t inPartition, volatile uint32_t* off_set, uint8_t* inBuffer ,uint32_t inBufferLength);
 
 /** Read data from an area on a Flash to data buffer in RAM
  *
- * @param  inFlash     	  : The target flash which should be  read
+ * @param  inPartition    : The target flash logical partition which should be read
  * @param  inFlashAddress : Poing to the start address that the data is read, and
  *                          point to the last unread address after this function is 
  *                          returned, so you can call this function serval times without
@@ -122,18 +133,21 @@ OSStatus MicoFlashWrite(mico_flash_t inFlash, volatile uint32_t* inFlashAddress,
  * @return    kNoErr        : On success.
  * @return    kGeneralErr   : If an error occurred with any step
  */
-OSStatus MicoFlashRead(mico_flash_t inFlash, volatile uint32_t* inFlashAddress, uint8_t* outBuffer ,uint32_t inBufferLength);
+OSStatus MicoFlashRead( mico_partition_t inPartition, volatile uint32_t* off_set, uint8_t* outBuffer ,uint32_t inBufferLength);
 
-/** Deinitialises a Flash driver
+
+#ifdef BOOTLOADER
+/** Set security options on a logical partition
  *
- * Prepares an Flash for read and write
- *
- * @param  inFlash     : The target flash which should be deinitialised
+ * @param  inPartition     : The target flash logical partition
+ * @param  enable          : true: enable security options, false: remove security options
  *
  * @return    kNoErr        : On success.
  * @return    kGeneralErr   : If an error occurred with any step
  */
-OSStatus MicoFlashFinalize( mico_flash_t inFlash );
+OSStatus MicoFlashSetSecurity( mico_partition_t inPartition, bool enable );
+
+#endif
 
 
 

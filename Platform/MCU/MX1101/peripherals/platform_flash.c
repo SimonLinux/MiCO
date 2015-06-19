@@ -401,16 +401,13 @@ void GetFlashInfo(void)
 
 #endif /* DEBUG_FLASH */
 
-OSStatus platform_flash_init( platform_flash_driver_t *driver, const platform_flash_t *peripheral )
+OSStatus platform_flash_init( const platform_flash_t *peripheral )
 {
   OSStatus err = kNoErr;
 
-  require_action_quiet( driver != NULL && peripheral != NULL, exit, err = kParamErr);
-  require_action_quiet( driver->initialized == false, exit, err = kNoErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
 
-  driver->peripheral = (platform_flash_t *)peripheral;
-
-  if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
+  if( peripheral->flash_type == FLASH_TYPE_SPI ){
     SpiFlashInfoInit();
 #ifdef  DEBUG_FLASH 
     SpiFlashGetInfo(&FlashInfo);
@@ -423,24 +420,21 @@ OSStatus platform_flash_init( platform_flash_driver_t *driver, const platform_fl
     goto exit;
   }
 
-  driver->initialized = true;
-
 exit:
   return err;
 }
 
-OSStatus platform_flash_erase( platform_flash_driver_t *driver, uint32_t StartAddress, uint32_t EndAddress  )
+OSStatus platform_flash_erase( const platform_flash_t *peripheral, uint32_t StartAddress, uint32_t EndAddress  )
 {
   OSStatus err = kNoErr;
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
-  require_action_quiet( driver->initialized != false, exit, err = kNotInitializedErr);
-  require_action( StartAddress >= driver->peripheral->flash_start_addr 
-               && EndAddress   <= driver->peripheral->flash_start_addr + driver->peripheral->flash_length - 1, exit, err = kParamErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( StartAddress >= peripheral->flash_start_addr 
+               && EndAddress   < peripheral->flash_start_addr + peripheral->flash_length, exit, err = kParamErr);
   
 
-  if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
-    err = SpiFlashErase( StartAddress, EndAddress - StartAddress +1 );
+  if( peripheral->flash_type == FLASH_TYPE_SPI ){
+    err = SpiFlashErase( StartAddress, EndAddress - StartAddress + 1 );
     require_noerr(err, exit);
   }else{
     err = kTypeErr;
@@ -451,16 +445,15 @@ exit:
   return err;
 }
 
-OSStatus platform_flash_write( platform_flash_driver_t *driver, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
+OSStatus platform_flash_write( const platform_flash_t *peripheral, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
 {
   OSStatus err = kNoErr;
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
-  require_action_quiet( driver->initialized != false, exit, err = kNotInitializedErr);
-  require_action( *FlashAddress >= driver->peripheral->flash_start_addr 
-               && *FlashAddress + DataLength <= driver->peripheral->flash_start_addr + driver->peripheral->flash_length, exit, err = kParamErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( *FlashAddress >= peripheral->flash_start_addr 
+               && *FlashAddress + DataLength <= peripheral->flash_start_addr + peripheral->flash_length, exit, err = kParamErr);
 
-  if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
+  if( peripheral->flash_type == FLASH_TYPE_SPI ){
     err = SpiFlashWrite(*FlashAddress, Data, DataLength);
     require_noerr(err, exit);
     *FlashAddress += DataLength;
@@ -473,17 +466,16 @@ exit:
   return err;
 }
 
-OSStatus platform_flash_read( platform_flash_driver_t *driver, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
+OSStatus platform_flash_read( const platform_flash_t *peripheral, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
 {
   OSStatus err = kNoErr;
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
   require_action_quiet( DataLength != 0, exit, err = kNoErr);
-  require_action_quiet( driver->initialized != false, exit, err = kNotInitializedErr);
-  require_action( *FlashAddress >= driver->peripheral->flash_start_addr 
-               && *FlashAddress + DataLength <= driver->peripheral->flash_start_addr + driver->peripheral->flash_length, exit, err = kParamErr);
+  require_action( *FlashAddress >= peripheral->flash_start_addr 
+               && *FlashAddress + DataLength <= peripheral->flash_start_addr + peripheral->flash_length, exit, err = kParamErr);
   
-  if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
+  if( peripheral->flash_type == FLASH_TYPE_SPI ){
     err = SpiFlashRead(*FlashAddress, Data, DataLength);
     require_noerr(err, exit);
     *FlashAddress += DataLength;
@@ -496,41 +488,11 @@ exit:
   return err;
 }
 
-
-OSStatus platform_flash_deinit( platform_flash_driver_t *driver)
+OSStatus platform_flash_set_protect( const platform_flash_t *peripheral, bool enable )
 {
-  OSStatus err = kNoErr;
-
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
-
-  driver->initialized = false;
-
-  if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
-    /* To Do */
-  }else
-    return kUnsupportedErr;
-  
-exit:
-  return err;
+    return kNoErr;
 }
 
-OSStatus internalFlashWrite(volatile uint32_t* FlashAddress, uint32_t* Data ,uint32_t DataLength)
-{
-  platform_log_trace();
-  return kNoErr;
-}
-
-OSStatus internalFlashFinalize( void )
-{
-  return kNoErr;
-}
-
-
-OSStatus internalFlashByteWrite(__IO uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength)
-{
-  platform_log_trace();
-  return kNoErr;
-}
 
 bool FlashUnlock(void)
 {

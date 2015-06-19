@@ -520,63 +520,58 @@
 	"buffers":
 	[
 		{
-			"contents": "/**\n******************************************************************************\n* @file    platform.c \n* @author  William Xu\n* @version V1.0.0\n* @date    05-May-2014\n* @brief   This file provides all MICO Peripherals mapping table and platform\n*          specific funcgtions.\n******************************************************************************\n*\n*  The MIT License\n*  Copyright (c) 2014 MXCHIP Inc.\n*\n*  Permission is hereby granted, free of charge, to any person obtaining a copy \n*  of this software and associated documentation files (the \"Software\"), to deal\n*  in the Software without restriction, including without limitation the rights \n*  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n*  copies of the Software, and to permit persons to whom the Software is furnished\n*  to do so, subject to the following conditions:\n*\n*  The above copyright notice and this permission notice shall be included in\n*  all copies or substantial portions of the Software.\n*\n*  THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR \n*  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, \n*  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE \n*  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\n*  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR \n*  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n******************************************************************************\n*/ \n\n#include \"stdio.h\"\n#include \"string.h\"\n\n#include \"MICOPlatform.h\"\n#include \"platform.h\"\n#include \"platform_peripheral.h\"\n#include \"platform_config.h\"\n#include \"PlatformLogging.h\"\n#include \"spi_flash_platform_interface.h\"\n#include \"wlan_platform_common.h\"\n\n//#ifdef USE_MiCOKit_EXT\n//#include \"rgb_led.h\"\n//#endif\n\n/******************************************************\n*                      Macros\n******************************************************/\n\n/******************************************************\n*                    Constants\n******************************************************/\n\n/******************************************************\n*                   Enumerations\n******************************************************/\n\n/******************************************************\n*                 Type Definitions\n******************************************************/\n\n/******************************************************\n*                    Structures\n******************************************************/\n\n/******************************************************\n*               Function Declarations\n******************************************************/\nextern WEAK void PlatformEasyLinkButtonClickedCallback(void);\nextern WEAK void PlatformStandbyButtonClickedCallback(void);\nextern WEAK void PlatformEasyLinkButtonLongPressedCallback(void);\n\n/******************************************************\n*               Variables Definitions\n******************************************************/\n\n/* This table maps STM32 pins to GPIO definitions on the schematic\n* A full pin definition is provided in <WICED-SDK>/include/platforms/BCM943362WCD4/platform.h\n*/\n\nstatic uint32_t _default_start_time = 0;\nstatic mico_timer_t _button_EL_timer;\n\nconst platform_gpio_t platform_gpio_pins[] =\n{\n  /* GPIOs for external use */\n  [MICO_GPIO_4]                       = { GPIOA, 15 },   \n  [MICO_GPIO_5]                       = { GPIOB,  3 },   \n  [MICO_GPIO_6]                       = { GPIOA, 11 },\n  [MICO_GPIO_7]                       = { GPIOB,  4 },\n  [MICO_GPIO_9]                       = { GPIOA,  4 },\n  [MICO_GPIO_10]                      = { GPIOB,  8 },\n  [MICO_GPIO_11]                      = { GPIOB,  9 },\n  [MICO_GPIO_14]                      = { GPIOC, 13 },\n  [MICO_GPIO_21]                      = { GPIOA,  2 }, //UART1_TX_DEBUG\n  [MICO_GPIO_22]                      = { GPIOA,  3 }, //UART1_RX_DEBUG\n  [MICO_GPIO_23]                      = { GPIOA,  0 }, //EasyLink_BUTTON\n  [MICO_GPIO_24]                      = { GPIOA,  1 },\n  [MICO_GPIO_25]                      = { GPIOB,  0 }, //spi_flash_spi_pins\n  [MICO_GPIO_26]                      = { GPIOB,  1 }, //spi_flash_spi_pins\n  [MICO_GPIO_27]                      = { GPIOA, 12 }, //spi_flash_spi_pins\n  [MICO_GPIO_28]                      = { GPIOA, 10 }, //spi_flash_spi_pins\n  [MICO_GPIO_29]                      = { GPIOA,  5 }, \n  [MICO_GPIO_30]                      = { GPIOB,  2 }, //BOOT\n  [MICO_GPIO_31]                      = { GPIOA,  7 },\n  [MICO_GPIO_32]                      = { GPIOB, 12 }, //MICO_SYS_LED\n  [MICO_GPIO_33]                      = { GPIOB, 13 }, //MFG\n};\n\nconst platform_pwm_t *platform_pwm_peripherals = NULL;\n\nconst platform_i2c_t platform_i2c_peripherals[] =\n{\n  [MICO_I2C_1] =\n  {\n    .port                         = I2C1,\n    .pin_scl                      = &platform_gpio_pins[MICO_GPIO_10],\n    .pin_sda                      = &platform_gpio_pins[MICO_GPIO_11],\n    .peripheral_clock_reg         = RCC_APB1Periph_I2C1,\n    .tx_dma                       = DMA1,\n    .tx_dma_peripheral_clock      = RCC_AHB1Periph_DMA1,\n    .tx_dma_stream                = DMA1_Stream7,\n    .rx_dma_stream                = DMA1_Stream5,\n    .tx_dma_stream_id             = 7,\n    .rx_dma_stream_id             = 5,\n    .tx_dma_channel               = DMA_Channel_1,\n    .rx_dma_channel               = DMA_Channel_1,\n    .gpio_af                      = GPIO_AF_I2C1\n  },\n};\n\nconst platform_uart_t platform_uart_peripherals[] =\n{\n  [MICO_UART_1] =\n  {\n    .port                         = USART2,\n    .pin_tx                       = &platform_gpio_pins[MICO_GPIO_21],\n    .pin_rx                       = &platform_gpio_pins[MICO_GPIO_22],\n    .pin_cts                      = NULL,\n    .pin_rts                      = NULL,\n    .tx_dma_config =\n    {\n      .controller                 = DMA1,\n      .stream                     = DMA1_Stream6,\n      .channel                    = DMA_Channel_4,\n      .irq_vector                 = DMA1_Stream6_IRQn,\n      .complete_flags             = DMA_HISR_TCIF6,\n      .error_flags                = ( DMA_HISR_TEIF6 | DMA_HISR_FEIF6 ),\n    },\n    .rx_dma_config =\n    {\n      .controller                 = DMA1,\n      .stream                     = DMA1_Stream5,\n      .channel                    = DMA_Channel_4,\n      .irq_vector                 = DMA1_Stream5_IRQn,\n      .complete_flags             = DMA_HISR_TCIF5,\n      .error_flags                = ( DMA_HISR_TEIF5 | DMA_HISR_FEIF5 | DMA_HISR_DMEIF5 ),\n    },\n  },\n  [MICO_UART_2] =\n  {\n    .port                         = USART1,\n    .pin_tx                       = &platform_gpio_pins[Arduino_TXD],\n    .pin_rx                       = &platform_gpio_pins[Arduino_RXD],\n    .pin_cts                      = NULL,\n    .pin_rts                      = NULL,\n    .tx_dma_config =\n    {\n      .controller                 = DMA2,\n      .stream                     = DMA2_Stream7,\n      .channel                    = DMA_Channel_4,\n      .irq_vector                 = DMA2_Stream7_IRQn,\n      .complete_flags             = DMA_HISR_TCIF7,\n      .error_flags                = ( DMA_HISR_TEIF7 | DMA_HISR_FEIF7 ),\n    },\n    .rx_dma_config =\n    {\n      .controller                 = DMA2,\n      .stream                     = DMA2_Stream2,\n      .channel                    = DMA_Channel_4,\n      .irq_vector                 = DMA2_Stream2_IRQn,\n      .complete_flags             = DMA_LISR_TCIF2,\n      .error_flags                = ( DMA_LISR_TEIF2 | DMA_LISR_FEIF2 | DMA_LISR_DMEIF2 ),\n    },\n  },\n};\n\nplatform_uart_driver_t platform_uart_drivers[MICO_UART_MAX];\n\nconst platform_spi_t platform_spi_peripherals[] =\n{\n  [MICO_SPI_1]  =\n  {\n    .port                         = SPI5,\n    .gpio_af                      = GPIO_AF6_SPI5,\n    .peripheral_clock_reg         = RCC_APB2Periph_SPI5,\n    .peripheral_clock_func        = RCC_APB2PeriphClockCmd,\n    .pin_mosi                     = &platform_gpio_pins[MICO_GPIO_28],\n    .pin_miso                     = &platform_gpio_pins[MICO_GPIO_27],\n    .pin_clock                    = &platform_gpio_pins[MICO_GPIO_25],\n    .tx_dma = \n    {\n      .controller                 = DMA2,\n      .stream                     = DMA2_Stream6,\n      .channel                    = DMA_Channel_7,\n      .irq_vector                 = DMA2_Stream6_IRQn,\n      .complete_flags             = DMA_HISR_TCIF6,\n      .error_flags                = ( DMA_HISR_TEIF6 | DMA_HISR_FEIF6 ),\n    },\n    .rx_dma = \n    {\n      .controller                 = DMA2,\n      .stream                     = DMA2_Stream5,\n      .channel                    = DMA_Channel_7,\n      .irq_vector                 = DMA2_Stream5_IRQn,\n      .complete_flags             = DMA_HISR_TCIF5,\n      .error_flags                = ( DMA_HISR_TEIF5 | DMA_HISR_FEIF5 | DMA_HISR_DMEIF5 ),\n    },\n  }\n};\n\nplatform_spi_driver_t platform_spi_drivers[MICO_SPI_MAX];\n\n\n\nconst platform_flash_t platform_flash_peripherals[] =\n{\n  [MICO_SPI_FLASH] =\n  {\n    .flash_type                   = FLASH_TYPE_SPI,\n    .flash_start_addr             = 0x000000,\n    .flash_length                 = 0x200000,\n  },\n  [MICO_INTERNAL_FLASH] =\n  {\n    .flash_type                   = FLASH_TYPE_INTERNAL,\n    .flash_start_addr             = 0x08000000,\n    .flash_length                 = 0x80000,\n  },\n};\n\nplatform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];\n\n\n\n#if defined ( USE_MICO_SPI_FLASH )\nconst mico_spi_device_t mico_spi_flash =\n{\n    .port        = MICO_SPI_1,\n    .chip_select = MICO_GPIO_26,\n    .speed       = 40000000,\n    .mode        = (SPI_CLOCK_RISING_EDGE | SPI_CLOCK_IDLE_HIGH | SPI_USE_DMA | SPI_MSB_FIRST),\n    .bits        = 8\n};\n#endif\n\nconst platform_adc_t platform_adc_peripherals[] =\n{\n  // [MICO_ADC_1] = NULL,\n  [MICO_ADC_1] = {\n    .port = ADC1,\n    . channel = ADC_Channel_4,\n    .adc_peripheral_clock = RCC_APB2Periph_ADC1, \n    .rank = 1, \n    .pin = (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_9]\n  },\n  [MICO_ADC_2] = {\n    .port = ADC1,\n    .channel = ADC_Channel_1,\n    .adc_peripheral_clock = RCC_APB2Periph_ADC1,\n    .rank = 1, \n    .pin = (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_24]\n  }\n};\n\n/* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c\n*/\nconst platform_gpio_t wifi_control_pins[] =\n{\n  [WIFI_PIN_POWER       ] = { GPIOB, 6 },\n};\n\n/* Wi-Fi SDIO bus pins. Used by platform/MCU/STM32F2xx/EMW1062_driver/wlan_SDIO.c */\nconst platform_gpio_t wifi_sdio_pins[] =\n{\n#ifdef SDIO_1_BIT\n  [WIFI_PIN_SDIO_IRQ    ] = { GPIOA,  8 },\n#endif\n  [WIFI_PIN_SDIO_CLK    ] = { GPIOB, 15 },\n  [WIFI_PIN_SDIO_CMD    ] = { GPIOA,  6 },\n  [WIFI_PIN_SDIO_D0     ] = { GPIOB,  7 },\n#ifndef SDIO_1_BIT\n  [WIFI_PIN_SDIO_D1     ] = { GPIOA,  8 },\n  [WIFI_PIN_SDIO_D2     ] = { GPIOA,  9 },\n  [WIFI_PIN_SDIO_D3     ] = { GPIOB,  5 },\n#endif\n};\n\n\n/******************************************************\n*           Interrupt Handler Definitions\n******************************************************/\n/* USART2 -> MICO_UART_1 */\nMICO_RTOS_DEFINE_ISR( USART2_IRQHandler )\n{\n  platform_uart_irq( &platform_uart_drivers[MICO_UART_1] );\n}\n\nMICO_RTOS_DEFINE_ISR( DMA1_Stream6_IRQHandler )\n{\n  platform_uart_tx_dma_irq( &platform_uart_drivers[MICO_UART_1] );\n}\n\nMICO_RTOS_DEFINE_ISR( DMA1_Stream5_IRQHandler )\n{\n  platform_uart_rx_dma_irq( &platform_uart_drivers[MICO_UART_1] );\n}\n\n/* USART1 -> MICO_UART_2 */\nMICO_RTOS_DEFINE_ISR( USART1_IRQHandler )\n{\n  platform_uart_irq( &platform_uart_drivers[MICO_UART_2] );\n}\n\nMICO_RTOS_DEFINE_ISR( DMA2_Stream7_IRQHandler )\n{\n  platform_uart_tx_dma_irq( &platform_uart_drivers[MICO_UART_2] );\n}\n\nMICO_RTOS_DEFINE_ISR( DMA2_Stream2_IRQHandler )\n{\n  platform_uart_rx_dma_irq( &platform_uart_drivers[MICO_UART_2] );\n}\n\nvoid platform_init_peripheral_irq_priorities( void )\n{\n  /* Interrupt priority setup. Called by WICED/platform/MCU/STM32F2xx/platform_init.c */\n  NVIC_SetPriority( RTC_WKUP_IRQn    ,  1 ); /* RTC Wake-up event   */\n  NVIC_SetPriority( SDIO_IRQn        ,  2 ); /* WLAN SDIO           */\n  NVIC_SetPriority( DMA2_Stream3_IRQn,  3 ); /* WLAN SDIO DMA       */\n  NVIC_SetPriority( USART1_IRQn      ,  6 ); /* MICO_UART_1         */\n  // NVIC_SetPriority( USART2_IRQn      ,  6 ); /* MICO_UART_2         */\n  NVIC_SetPriority( DMA1_Stream6_IRQn,  7 ); /* MICO_UART_1 TX DMA  */\n  NVIC_SetPriority( DMA1_Stream5_IRQn,  7 ); /* MICO_UART_1 RX DMA  */\n  // NVIC_SetPriority( DMA2_Stream7_IRQn,  7 ); /* MICO_UART_2 TX DMA  */\n  // NVIC_SetPriority( DMA2_Stream2_IRQn,  7 ); /* MICO_UART_2 RX DMA  */\n  NVIC_SetPriority( EXTI0_IRQn       , 14 ); /* GPIO                */\n  NVIC_SetPriority( EXTI1_IRQn       , 14 ); /* GPIO                */\n  NVIC_SetPriority( EXTI2_IRQn       , 14 ); /* GPIO                */\n  NVIC_SetPriority( EXTI3_IRQn       , 14 ); /* GPIO                */\n  NVIC_SetPriority( EXTI4_IRQn       , 14 ); /* GPIO                */\n  NVIC_SetPriority( EXTI9_5_IRQn     , 14 ); /* GPIO                */\n  NVIC_SetPriority( EXTI15_10_IRQn   , 14 ); /* GPIO                */\n}\n\n\n/******************************************************\n*               Function Definitions\n******************************************************/\n\nstatic void _button_EL_irq_handler( void* arg )\n{\n  (void)(arg);\n  int interval = -1;\n  \n  if ( MicoGpioInputGet( (mico_gpio_t)EasyLink_BUTTON ) == 1 ) {\n    _default_start_time = mico_get_time()+1;\n    mico_start_timer(&_button_EL_timer);\n  } else {\n    interval = mico_get_time() + 1 - _default_start_time;\n    if ( (_default_start_time != 0) && interval > 50 && interval < RestoreDefault_TimeOut){\n      /* EasyLink button clicked once */\n      PlatformEasyLinkButtonClickedCallback();\n    }\n    mico_stop_timer(&_button_EL_timer);\n    _default_start_time = 0;\n  }\n}\n\nstatic void _button_EL_Timeout_handler( void* arg )\n{\n  (void)(arg);\n  _default_start_time = 0;\n  PlatformEasyLinkButtonLongPressedCallback();\n}\n\nvoid init_platform( void )\n{\n   MicoGpioInitialize( (mico_gpio_t)MICO_SYS_LED, OUTPUT_PUSH_PULL );\n   MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );\n   MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );\n   MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );\n  \n   //  Initialise EasyLink buttons\n   MicoGpioInitialize( (mico_gpio_t)EasyLink_BUTTON, INPUT_HIGH_IMPEDANCE );\n   mico_init_timer(&_button_EL_timer, RestoreDefault_TimeOut, _button_EL_Timeout_handler, NULL);\n   MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_BOTH_EDGES, _button_EL_irq_handler, NULL );\n   \n#ifdef USE_MiCOKit_EXT\n  MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );\n  MicoGpioOutputLow( Arduino_D9 );\n  \n  //hsb_led_open( 0, 0, 0 );\n\n#endif\n\n   MicoFlashInitialize( MICO_SPI_FLASH );\n}\n\nvoid init_platform_bootloader( void )\n{\n  MicoGpioInitialize( (mico_gpio_t)MICO_SYS_LED, OUTPUT_PUSH_PULL );\n  MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );\n  MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );\n  MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );\n  \n  MicoGpioInitialize((mico_gpio_t)BOOT_SEL, INPUT_PULL_UP);\n  MicoGpioInitialize((mico_gpio_t)MFG_SEL, INPUT_HIGH_IMPEDANCE);\n  \n#ifdef USE_MiCOKit_EXT\n  MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );\n  MicoGpioOutputLow( Arduino_D9 );\n#endif\n}\n\nvoid MicoSysLed(bool onoff)\n{\n    if (onoff) {\n        MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );\n    } else {\n        MicoGpioOutputHigh( (mico_gpio_t)MICO_SYS_LED );\n    }\n}\n\n// Only one led on base board, so use system led as RF led.\nvoid MicoRfLed(bool onoff)\n{\n    if (onoff) {\n        MicoSysLed(true);\n    } else {\n        MicoSysLed(false);\n    }\n}\n\n// add long press key2 on ext-board when restart to enter MFG MODE\nbool MicoShouldEnterMFGMode(void)\n{\n#ifdef USE_MiCOKit_EXT\n  if( (MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false) ||\n     (MicoGpioInputGet((mico_gpio_t)Arduino_D5) == false) )\n#else\n  if( MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false )\n#endif\n  {\n    return true;\n  }\n  else{\n    return false;\n  }\n}\n\n// bootloader mode: SW1=ON, SW2=OFF\nbool MicoShouldEnterBootloader(void)\n{\n  if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==true)\n    return true;\n  else\n    return false;\n}\n\n",
 			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
-			"file_size": 16848,
-			"file_write_time": 1434076157000000,
 			"settings":
 			{
-				"buffer_size": 16396,
+				"buffer_size": 17806,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_i2c.c",
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.h",
 			"settings":
 			{
-				"buffer_size": 26120,
+				"buffer_size": 6137,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.c",
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform_config.h",
 			"settings":
 			{
-				"buffer_size": 22224,
+				"buffer_size": 5409,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.h",
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_flash.c",
 			"settings":
 			{
-				"buffer_size": 4089,
+				"buffer_size": 14346,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "Searching 1878 files for \"mico_create_event_fd\" (whole word)\n\n/Users/William/Develop/MiCO/include/MICORTOS.h:\n  506  bool mico_is_timer_running( mico_timer_t* timer );\n  507  \n  508: int mico_create_event_fd(mico_event handle);\n  509  int mico_delete_event_fd(int fd);\n  510  \n\n/Users/William/Develop/MiCO/Support/MDNSUtils.c:\n  658      mico_rtos_init_semaphore( &update_state_sem, 1 );\n  659  \n  660:   update_state_fd = mico_create_event_fd( update_state_sem );\n  661  \n  662    memset( available_services, 0x0, sizeof( available_services ) );\n\n/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/LocalTcpServer.c:\n  105    err = socket_queue_create(Context, &queue);\n  106    require_noerr( err, exit );\n  107:   eventFd = mico_create_event_fd(queue);\n  108    if (eventFd < 0) {\n  109      server_log(\"create event fd error\");\n\n/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/RemoteTcpClient.c:\n   99        err = socket_queue_create(Context, &queue);\n  100        require_noerr( err, exit );\n  101:       eventFd = mico_create_event_fd(queue);\n  102        if (eventFd < 0) {\n  103          client_log(\"create event fd error\");\n\n4 matches across 4 files\n",
+			"file": "/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h",
 			"settings":
 			{
-				"buffer_size": 1158,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/LocalTcpServer.c",
-			"settings":
-			{
-				"buffer_size": 5368,
+				"buffer_size": 8693,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_uart.c",
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
 			"settings":
 			{
-				"buffer_size": 26441,
+				"buffer_size": 24305,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h",
+			"settings":
+			{
+				"buffer_size": 24529,
 				"line_ending": "Windows"
 			}
 		}
@@ -641,17 +636,29 @@
 	},
 	"file_history":
 	[
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MicoDefaults.h",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/EWARM/startup_stm32f411xe_IAR.s",
+		"/Users/William/Develop/MiCO/Platform/Drivers/MiCOKit_EXT/temp_hum_sensor/BME280/bme280_user.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/platform_init.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
+		"/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverFlash.h",
+		"/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h",
+		"/Users/william/Develop/MiCO/Board/MiCOKit-3288/platform.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_gpio.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_i2c.c",
+		"/Users/William/Develop/MiCO/Support/MDNSUtils.c",
+		"/Users/William/Develop/MiCO/Support/MDNSUtils.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/LocalTcpServer.c",
+		"/Users/William/Develop/MiCO/Platform/Drivers/MiCOKit_EXT/lcd/oled.c",
 		"/Users/William/Develop/MiCO/Projects/STM32F4xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
 		"/Users/William/Develop/MiCO/include/MICORTOS.h",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
 		"/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_spi.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.h",
-		"/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/wlan_platform_common.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform.c",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
 		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_platform.c",
 		"/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
 		"/Users/William/Develop/MiCO/include/MicoPlatform.h",
@@ -681,7 +688,6 @@
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_flash.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_uart.c",
 		"/Users/William/Develop/MiCO/MICO/MICOMfgtest.c",
-		"/Users/william/Develop/MiCO/Board/MiCOKit-3288/platform.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_flash.c",
 		"/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverI2c.h",
 		"/Users/William/Develop/MiCO/Platform/include/wlan_platform_common.h",
@@ -757,18 +763,7 @@
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/MicoDriverFlash.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/hardfault.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/rtc.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/rtc.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/wlan_platform.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/IAR/stdio_IAR.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/include/PlatformLogging.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_common_config.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/read_wifi_firmware.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoPlatform.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/TimeUtils.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/Mico.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_internal_gpio.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/inc/MICOWlan.h"
+		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/rtc.h"
 	],
 	"find":
 	{
@@ -795,6 +790,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"BME280_I2C_bus_write",
+			"BME280_SPI_bus_write",
+			"delay_ms",
+			"delay_us",
+			"OLED_Clear",
 			"mfi_bonjour_thread_handler",
 			"count_down",
 			"MFi_SERVICE_QUERY_NAME",
@@ -917,12 +917,7 @@
 			"crea",
 			"mico_notify_WIFI_SCAN_COMPLETE_function",
 			"HTTPHeaderCreate",
-			"_ConnectToMfgAP",
-			"stop_mode_power_down_hook",
-			"_button_STANDBY_irq_handler",
-			"%f",
-			"lf",
-			"_cleanEasyLinkResource"
+			"_ConnectToMfgAP"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -942,7 +937,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -950,15 +945,15 @@
 					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
 					"settings":
 					{
-						"buffer_size": 16396,
+						"buffer_size": 17806,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11841,
-								11093
+								11656,
+								11656
 							]
 						],
 						"settings":
@@ -968,53 +963,79 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5372.0,
+						"translation.y": 4771.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_i2c.c",
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.h",
 					"settings":
 					{
-						"buffer_size": 26120,
+						"buffer_size": 6137,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								25294,
-								25294
+								3451,
+								3470
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.tmLanguage",
+							"syntax": "Packages/C++/C++.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 11981.0,
+						"translation.y": 11.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.c",
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform_config.h",
 					"settings":
 					{
-						"buffer_size": 22224,
+						"buffer_size": 5409,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								18280,
-								18280
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_flash.c",
+					"settings":
+					{
+						"buffer_size": 14346,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1024,17 +1045,73 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 11128.0,
+						"translation.y": 6433.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.h",
+					"buffer": 4,
+					"file": "/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h",
 					"settings":
 					{
-						"buffer_size": 4089,
+						"buffer_size": 8693,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6710,
+								6710
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3456.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
+					"settings":
+					{
+						"buffer_size": 24305,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 8737.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h",
+					"settings":
+					{
+						"buffer_size": 24529,
 						"regions":
 						{
 						},
@@ -1048,122 +1125,11 @@
 						"settings":
 						{
 							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 2022.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"settings":
-					{
-						"buffer_size": 1158,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										187,
-										207
-									],
-									[
-										423,
-										443
-									],
-									[
-										724,
-										744
-									],
-									[
-										1019,
-										1039
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								740,
-								740
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
+						"translation.x": 3.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/LocalTcpServer.c",
-					"settings":
-					{
-						"buffer_size": 5368,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3567,
-								3572
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1388.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_uart.c",
-					"settings":
-					{
-						"buffer_size": 26441,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								15478,
-								15506
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 7134.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1247,6 +1213,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 248.0,
+	"side_bar_width": 332.0,
 	"status_bar_visible": true
 }

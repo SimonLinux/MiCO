@@ -33,6 +33,7 @@
 #include "platform.h"
 #include "platform_config.h"
 #include "wlan_platform_common.h"
+#include "MiCO.h"
 
 /******************************************************
  *                      Macros
@@ -148,3 +149,86 @@ OSStatus host_platform_deinit_wlan_powersave_clock( void )
     return kNoErr;
 #endif
 }
+
+
+extern uint32_t wifi_firmware_image_size;
+extern unsigned char wifi_firmware_image[];
+
+static uint32_t platform_get_wifi_image_size_from_array(void)
+{
+    return wifi_firmware_image_size;
+}
+
+uint32_t platform_get_wifi_image_from_array(unsigned char* buffer, uint32_t size, uint32_t offset)
+{
+    uint32_t buffer_size;
+    buffer_size = MIN(size, (wifi_firmware_image_size - offset));
+    memcpy(buffer, &wifi_firmware_image[offset], buffer_size);
+
+    return buffer_size;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+static uint32_t image_size = 0x0;
+
+static uint32_t platform_get_wifi_image_size_from_flash(void)
+{
+#define READ_LEN 2048
+    mico_logic_partition_t *driver_partition = MicoFlashGetInfo( MICO_PARTITION_RF_DRIVER );
+    uint32_t offset = driver_partition->partition_length;
+    uint32_t *p;
+    uint32_t *buf = (uint32_t *)malloc(READ_LEN);
+
+    uint32_t image_size = driver_partition->partition_length;
+    do {
+        offset -= READ_LEN; // Next block
+        MicoFlashRead( MICO_PARTITION_RF_DRIVER, &offset, (uint8_t *)buf, READ_LEN);
+        offset -= READ_LEN; // MicoFlashRead will increase FlashAddress READ_LEN, move back.
+        p = buf + (READ_LEN - 4)/sizeof(uint32_t);
+        while(p >= buf) {
+            if (*p != 0xFFFFFFFF) {
+                goto EXIT;
+            }
+            p--;
+            image_size -= 4;
+        }
+    } while (offset > 0);
+
+EXIT:
+    free(buf);
+    return image_size;
+}
+
+
+static uint32_t platform_get_wifi_image_from_flash(unsigned char* buffer, uint32_t size, uint32_t offset)
+{
+    uint32_t buffer_size;
+    uint32_t read_address = offset;
+    mico_logic_partition_t *driver_partition = MicoFlashGetInfo( MICO_PARTITION_RF_DRIVER );
+    
+    if( image_size == 0)
+      image_size = driver_partition->partition_length;
+    
+    buffer_size = MIN(size, (image_size - offset));
+
+    MicoFlashRead( MICO_PARTITION_RF_DRIVER, &read_address, buffer, buffer_size);
+    return buffer_size;
+}
+
+
+uint32_t platform_get_wifi_image_size(void)
+{
+if( MICO_PARTITION_RF_DRIVER == MICO_PARTITION_NONE )
+    return platform_get_wifi_image_size_from_array();
+else
+    return platform_get_wifi_image_size_from_flash();
+}
+
+uint32_t platform_get_wifi_image(unsigned char* buffer, uint32_t size, uint32_t offset)
+{
+if( MICO_PARTITION_RF_DRIVER == MICO_PARTITION_NONE )
+    return platform_get_wifi_image_from_array( buffer, size, offset );
+else
+    return platform_get_wifi_image_from_flash( buffer, size, offset );
+}
+

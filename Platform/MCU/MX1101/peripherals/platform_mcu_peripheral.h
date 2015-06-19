@@ -37,6 +37,7 @@
 #include "clk.h"
 #include "uart.h"
 #include "gpio.h"
+#include "spi_flash.h"
 #include "watchdog.h"
 #include "timeout.h"
 #include "cache.h"
@@ -49,7 +50,7 @@
 #include "PlatformLogging.h"
 #include "wakeup.h"
 #include "rtc.h"
-#include "spi_flash.h"
+
 
 #ifdef __cplusplus
 extern "C"
@@ -88,7 +89,7 @@ extern "C"
  ******************************************************/
 typedef enum
 {
-    FLASH_TYPE_INTERNAL, 
+    FLASH_TYPE_EMBEDDED, 
     FLASH_TYPE_SPI,
 } platform_flash_type_t;
 
@@ -177,19 +178,10 @@ typedef struct
 
 typedef struct
 {
-    platform_flash_t*          peripheral;
-    volatile bool              initialized;
+    const platform_flash_t*    peripheral;
     mico_mutex_t               flash_mutex;
+    volatile bool              initialized;
 } platform_flash_driver_t;
-
-
-typedef struct
-{
-    platform_flash_t*          peripheral;
-    uint32_t                   partition_start_addr;
-    uint32_t                   partition_length;
-} platform_flash_partition_t;
-
 
 /******************************************************
  *                 Global Variables

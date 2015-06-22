@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
-* @file    MicoDefaults.h 
+* @file    MiCOPlatform.h 
 * @author  William Xu
 * @version V1.0.0
 * @date    16-Sep-2014
-* @brief   This file provides the default configuration for MICO.
+* @brief   This file provides all the headers of MICO peripheral operations. 
 ******************************************************************************
 *
 *  The MIT License
@@ -27,18 +27,21 @@
 *  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR 
 *  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************
-*/
+*/ 
 
-#ifndef __MICODEFAULTS_H__
-#define __MICODEFAULTS_H__
+#ifndef __BOOTLOADER_H__
+#define __BOOTLOADER_H__
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+
+#define Bootloader_REVISION "v2.0"
+
+
+
+
 
 #ifdef __cplusplus
 } /*extern "C" */
 #endif
 
-#endif //__MICODEFAULTS_H__
+
+#endif

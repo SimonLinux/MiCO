@@ -35,6 +35,7 @@
 #include "platform.h"
 #include "platformInternal.h"
 #include "platform_config.h"
+#include "bootloader.h"
 
 #define boot_log(M, ...) custom_log("BOOT", M, ##__VA_ARGS__)
 #define boot_log_trace() custom_log_trace("BOOT")
@@ -63,18 +64,18 @@ char menu[] =
 "| 1:FWUPDATE      <-r>             | Update application   |\r\n"
 "| 2:DRIVERUPDATE  <-r>             | Update RF driver     |\r\n"
 "| 3:PARAUPDATE    <-r><-e>         | Update MICO settings |\r\n"
-"| 4:FLASHUPDATE   <-i><-s><-e><-r> |                      |\r\n"
-"|    <-start address><-end address>| Update flash content |\r\n"
+"| 4:FLASHUPDATE   <-dev device >   |                      |\r\n"
+"|  <-e><-r><-start addr><-end addr>| Update flash content |\r\n"
 "| 5:MEMORYMAP                      | List flash memory map|\r\n"
 "| 6:BOOT                           | Excute application   |\r\n"
 "| 7:REBOOT                         | Reboot               |\r\n"
 "+----------------------------------+----------------------+\r\n"
 "|    (C) COPYRIGHT 2014 MXCHIP Corporation  By William Xu |\r\n"
 " Notes:\r\n"
-" -e Erase only  -r Read from flash -i internal flash  -s SPI flash\r\n"
+" -e Erase only  -r Read from flash -dev flash device number\r\n"
 "  -start flash start address -end flash start address\r\n"
-" Example: Input \"4 -i -start 0x400 -end 0x800\": Update internal\r\n"
-"          flash from 0x400 to 0x800\r\n";
+" Example: Input \"4 -dev 0 -start 0x400 -end 0x800\": Update \r\n"
+"          flash device 0 from 0x400 to 0x800\r\n";
 #endif
 #ifdef MICO_ENABLE_STDIO_TO_BOOT
 extern int stdio_break_in(void);

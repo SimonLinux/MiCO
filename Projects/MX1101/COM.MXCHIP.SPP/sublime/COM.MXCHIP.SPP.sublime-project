@@ -39,6 +39,7 @@
 			"-D__pure=__attribute__((const))",
 			"-D__value_in_regs=__attribute__(())",
 			"-DDEBUG",
+			"-DBOOTLOADER",
 			"-I/Users/william/Develop/MiCO/include/",
 			"-I/Users/william/Develop/MiCO/Demos/bootloader/",
 			"-I/Users/william/Develop/MiCO/External/",

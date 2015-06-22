@@ -637,23 +637,24 @@ char *mico_get_bootloader_ver(void)
 }
 
 #ifdef BOOTLOADER 
+#include "bootloader.h"
+
 void mico_set_bootload_ver(void)
 {
-    char ver[33];
-    uint32_t flashaddr = BOOT_END_ADDRESS + 1 - 0x20;
-    int i;
+   char ver[33];
+   mico_logic_partition_t *boot_partition = MicoFlashGetInfo( MICO_PARTITION_BOOTLOADER );
+   uint32_t flashaddr =  boot_partition->partition_length - 0x20;
+   int i;
 
-    MicoFlashInitialize(MICO_FLASH_FOR_BOOT);
-    memset(ver, 0, sizeof(ver));
-    MicoFlashRead(MICO_FLASH_FOR_BOOT, &flashaddr, (uint8_t *)ver , 32);
-    for(i=0;i<32;i++) {
-        if (ver[i] != 0xFF)
-            return;
-    }
-    snprintf(ver, 33, "%s%s", MODEL, Bootloader_REVISION );
-    flashaddr = BOOT_END_ADDRESS + 1 - 0x20;
-    MicoFlashWrite(MICO_FLASH_FOR_BOOT, &flashaddr, (uint8_t *)ver , 32);
-    MicoFlashFinalize(MICO_FLASH_FOR_BOOT);
+   memset(ver, 0, sizeof(ver));
+   MicoFlashRead( MICO_PARTITION_BOOTLOADER, &flashaddr, (uint8_t *)ver , 32);
+   for(i=0;i<32;i++) {
+       if (ver[i] != 0xFF)
+           return;
+   }
+   snprintf(ver, 33, "%s %s", MODEL, Bootloader_REVISION );
+   flashaddr =  boot_partition->partition_length - 0x20;
+   MicoFlashWrite( MICO_PARTITION_BOOTLOADER, &flashaddr, (uint8_t *)ver , 32);
 }
 
 OSStatus MicoFlashSetSecurity( mico_partition_t partition, bool enable )
@@ -662,15 +663,15 @@ OSStatus MicoFlashSetSecurity( mico_partition_t partition, bool enable )
   uint32_t start_addr = mico_partitions[ partition ].partition_start_addr;
   uint32_t end_addr = mico_partitions[ partition ].partition_start_addr + mico_partitions[ partition ].partition_length - 1;
 
-  if( platform_flash_drivers[ mico_partitions[ partition ].peripheral ].initialized == false )
+  if( platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].initialized == false )
   {
     err =  MicoFlashInitialize( partition );
     require_noerr_quiet( err, exit );
   }
 
-  mico_rtos_lock_mutex( &platform_flash_drivers[ mico_partitions[ partition ].peripheral ].flash_mutex );
-  err = platform_flash_enable_security( &platform_flash_peripherals[ mico_partitions[ partition ].partition_owner ] );
-  mico_rtos_unlock_mutex( &platform_flash_drivers[ mico_partitions[ partition ].peripheral ].flash_mutex );
+  mico_rtos_lock_mutex( &platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].flash_mutex );
+  err = platform_flash_set_protect( &platform_flash_peripherals[ mico_partitions[ partition ].partition_owner ], enable );
+  mico_rtos_unlock_mutex( &platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].flash_mutex );
   
 exit:
   return err;

@@ -150,22 +150,25 @@ OSStatus host_platform_deinit_wlan_powersave_clock( void )
 #endif
 }
 
+#ifndef BOOTLOADER 
 
 extern uint32_t wifi_firmware_image_size;
 extern unsigned char wifi_firmware_image[];
 
 static uint32_t platform_get_wifi_image_size_from_array(void)
 {
-    return wifi_firmware_image_size;
+
+  return wifi_firmware_image_size;
 }
 
 uint32_t platform_get_wifi_image_from_array(unsigned char* buffer, uint32_t size, uint32_t offset)
 {
-    uint32_t buffer_size;
-    buffer_size = MIN(size, (wifi_firmware_image_size - offset));
-    memcpy(buffer, &wifi_firmware_image[offset], buffer_size);
+  
+  uint32_t buffer_size;
+  buffer_size = MIN(size, (platform_get_wifi_image_size_from_array() - offset));
+  memcpy(buffer, &wifi_firmware_image[offset], buffer_size);
 
-    return buffer_size;
+  return buffer_size;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -231,4 +234,4 @@ if( MICO_PARTITION_RF_DRIVER == MICO_PARTITION_NONE )
 else
     return platform_get_wifi_image_from_flash( buffer, size, offset );
 }
-
+#endif

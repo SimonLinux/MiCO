@@ -533,6 +533,7 @@ OSStatus fogCloudResetCloudDevInfo(mico_Context_t* const inContext,
   
   mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
   inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated = false;  // need to reActivate
+  inContext->flashContentInRam.appConfig.fogcloudConfig.owner_binding = false;  // no owner binding
   sprintf(inContext->flashContentInRam.appConfig.fogcloudConfig.deviceId, DEFAULT_DEVICE_ID);
   sprintf(inContext->flashContentInRam.appConfig.fogcloudConfig.masterDeviceKey, DEFAULT_DEVICE_KEY);
   sprintf(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId, DEFAULT_LOGIN_ID);

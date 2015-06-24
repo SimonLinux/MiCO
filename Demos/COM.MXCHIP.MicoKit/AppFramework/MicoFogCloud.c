@@ -165,9 +165,11 @@ void fogcloud_main_thread(void *arg)
                        fogcloud_log("ERROR: MicoFogCloudCloudInterfaceStart failed!") );
   
   /* start configServer for fogcloud (server for activate/authorize/reset/ota cmd from user APP) */
-  err = MicoStartFogCloudConfigServer( inContext);
-  require_noerr_action(err, exit, 
-                       fogcloud_log("ERROR: start FogCloud configServer failed!") );
+  if(false == inContext->flashContentInRam.appConfig.fogcloudConfig.owner_binding){
+    err = MicoStartFogCloudConfigServer( inContext);
+    require_noerr_action(err, exit, 
+                         fogcloud_log("ERROR: start FogCloud configServer failed!") );
+  }
   
  #ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
   /* activate when wifi on */
@@ -248,6 +250,7 @@ void MicoFogCloudRestoreDefault(mico_Context_t* const context)
          0, sizeof(fogcloud_config_t));
   
   context->flashContentInRam.appConfig.fogcloudConfig.isActivated = false;
+  context->flashContentInRam.appConfig.fogcloudConfig.owner_binding = false;
   sprintf(context->flashContentInRam.appConfig.fogcloudConfig.deviceId, DEFAULT_DEVICE_ID);
   sprintf(context->flashContentInRam.appConfig.fogcloudConfig.masterDeviceKey, DEFAULT_DEVICE_KEY);
   sprintf(context->flashContentInRam.appConfig.fogcloudConfig.romVersion, DEFAULT_ROM_VERSION);
@@ -337,18 +340,22 @@ OSStatus MicoFogCloudActivate(mico_Context_t* const context,
 {
   OSStatus err = kUnknownErr;
   
-  if(context->flashContentInRam.appConfig.fogcloudConfig.isActivated){
-    // already activated, just do authorize
-    err = fogCloudDevAuthorize(context, activateData);
-    require_noerr_action(err, exit, 
-                         fogcloud_log("ERROR: device authorize failed! err=%d", err) );
-  }
-  else {
-    // activate
-    err = fogCloudDevActivate(context, activateData);
-    require_noerr_action(err, exit, 
-                         fogcloud_log("ERROR: device activate failed! err=%d", err) );
-  }
+//  if(context->flashContentInRam.appConfig.fogcloudConfig.isActivated){
+//    // already activated, just do authorize
+//    err = fogCloudDevAuthorize(context, activateData);
+//    require_noerr_action(err, exit, 
+//                         fogcloud_log("ERROR: device authorize failed! err=%d", err) );
+//  }
+//  else {
+//    // activate
+//    err = fogCloudDevActivate(context, activateData);
+//    require_noerr_action(err, exit, 
+//                         fogcloud_log("ERROR: device activate failed! err=%d", err) );
+//  }   
+  // activate
+  err = fogCloudDevActivate(context, activateData);
+  require_noerr_action(err, exit, 
+                       fogcloud_log("ERROR: device activate failed! err=%d", err) );
   return kNoErr;
   
 exit:

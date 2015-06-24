@@ -484,6 +484,10 @@ json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext )
   err = MICOAddSwitchCellToSector(sector, "activated", 
                                   inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated, 
                                   "RO");
+  // device binding status
+  err = MICOAddSwitchCellToSector(sector, "binding", 
+                                  inContext->flashContentInRam.appConfig.fogcloudConfig.owner_binding, 
+                                  "RO");
   require_noerr(err, exit);
   // cloud connect status
   err = MICOAddSwitchCellToSector(sector, "connected", 

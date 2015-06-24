@@ -68,7 +68,7 @@
  *                             CONNECTING
  ******************************************************************************/
 /* Wi-Fi configuration mode */
-#define MICO_CONFIG_MODE                   CONFIG_MODE_EASYLINK_WITH_SOFTAP
+#define MICO_CONFIG_MODE                   CONFIG_MODE_EASYLINK
 
 /* MICO cloud service type */
 #define MICO_CLOUD_TYPE                    CLOUD_FOGCLOUD

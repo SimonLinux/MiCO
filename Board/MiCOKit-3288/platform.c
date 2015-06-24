@@ -290,42 +290,42 @@ const mico_logic_partition_t mico_partitions[] =
     .partition_owner           = MICO_FLASH_EMBEDDED,
     .partition_start_addr      = 0x08000000,
     .partition_length          =     0x8000,    //32k bytes
-    .pattition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
+    .partition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
   },
   [MICO_PARTITION_APPLICATION] =
   {
     .partition_owner           = MICO_FLASH_EMBEDDED,
     .partition_start_addr      = 0x0800C000,
     .partition_length          =    0x74000,   //480k bytes
-    .pattition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
+    .partition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
   },
   [MICO_PARTITION_RF_DRIVER] =
   {
     .partition_owner           = MICO_FLASH_SPI,
     .partition_start_addr      = 0x2000,
     .partition_length          = 0x4E000,  //312k bytes
-    .pattition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
   },
   [MICO_PARTITION_OTA_TEMP] =
   {
     .partition_owner           = MICO_FLASH_SPI,
     .partition_start_addr      = 0x50000,
     .partition_length          = 0x74000, //768k bytes
-    .pattition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
   },
   [MICO_PARTITION_PARAMETER_1] =
   {
     .partition_owner           = MICO_FLASH_SPI,
     .partition_start_addr      = 0x0,
     .partition_length          = 0x1000, // 4k bytes
-    .pattition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
   },
   [MICO_PARTITION_PARAMETER_2] =
   {
     .partition_owner           = MICO_FLASH_SPI,
     .partition_start_addr      = 0x1000,
     .partition_length          = 0x1000, //4k bytes
-    .pattition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
   }
 };
 
@@ -498,3 +498,7 @@ bool MicoShouldEnterBootloader(void)
     return false;
 }
 
+bool MicoShouldEnterATEMode(void)
+{
+    return false;
+}

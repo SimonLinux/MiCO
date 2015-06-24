@@ -132,6 +132,8 @@ void MicoRfLed(bool onoff);
 
 bool MicoShouldEnterMFGMode(void);
 
+bool MicoShouldEnterATEMode(void);
+
 
 bool MicoShouldEnterBootloader(void);
 

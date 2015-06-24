@@ -51,23 +51,23 @@
 extern platform_flash_t platform_flash_peripherals[];
 
 uint8_t tab_1024[1024] =
-  {
-    0
-  };
+{
+  0
+};
 
 //#if defined MICO_FLASH_FOR_UPDATE && defined MICO_FLASH_FOR_DRIVER
 char MEMMAP_HEADER[] = "\r\n\
 +******************* MICO Flash Map **************+\r\n\
-+-- Content --+- Device +-- Start ---+--- End ----+\r\n";
-
-char MEMMAP_TAILER[] = "+-------------+---------+------------+------------+\r\n";
+  +-- Content --+- Device +-- Start ---+--- End ----+\r\n";
+    
+    char MEMMAP_TAILER[] = "+-------------+---------+------------+------------+\r\n";
 
 char FileName[FILE_NAME_LENGTH];
 char ERROR_STR [] = "\n\r*** ERROR: %s\n\r";    /* ERROR message string in code   */
 
 extern char menu[];
 extern void getline (char *line, int n);          /* input line               */
-extern void startApplication(void);
+extern void startApplication( uint32_t app_addr );
 
 /* Private function prototypes -----------------------------------------------*/
 void SerialDownload(mico_flash_t flash, uint32_t flashdestination, int32_t maxRecvSize);
@@ -75,13 +75,13 @@ void SerialUpload(mico_flash_t flash, uint32_t flashdestination, char * fileName
 
 /* Private functions ---------------------------------------------------------*/
 /**
-  * @brief  Analyse a command parameter
-  * @param  commandBody: command string address
-  * @param  para: The para we are looking for
-  * @param  paraBody: A pointer to the buffer to receive the para body.
-  * @param  paraBodyLength: The length, in bytes, of the buffer pointed to by the paraBody parameter.
-  * @retval the actual length of the paraBody received, -1 means failed to find this paras 
-  */
+* @brief  Analyse a command parameter
+* @param  commandBody: command string address
+* @param  para: The para we are looking for
+* @param  paraBody: A pointer to the buffer to receive the para body.
+* @param  paraBodyLength: The length, in bytes, of the buffer pointed to by the paraBody parameter.
+* @retval the actual length of the paraBody received, -1 means failed to find this paras 
+*/
 int findCommandPara(char *commandBody, char *para, char *paraBody, int paraBodyLength)
 {
   int i = 0;
@@ -93,7 +93,7 @@ int findCommandPara(char *commandBody, char *para, char *paraBody, int paraBodyL
   for (i = 0; para_in_ram[i] != 0; i++)  {                /* convert to upper characters */
     para_in_ram[i] = toupper(para_in_ram[i]);
   }
-
+  
   i = 0;
   while(commandBody[i] != 0) {
     if(commandBody[i] == '-' ){
@@ -102,12 +102,12 @@ int findCommandPara(char *commandBody, char *para, char *paraBody, int paraBodyL
           break;
         } 
       }
-
+      
       if(*(para+k)!=0x0 || (commandBody[j]!=' '&& commandBody[j]!=0x0)){   /* para not found!             */
         i++;
         continue;
       }
-
+      
       retval = 0;
       for (k = j+1; commandBody[k] == ' '; k++);      /* skip blanks                 */
       for(j = 0; commandBody[k] != ' ' && commandBody[k] != 0 && commandBody[k] != '-'; j++, k++){   /* para body found!             */
@@ -119,7 +119,7 @@ int findCommandPara(char *commandBody, char *para, char *paraBody, int paraBodyL
     }
     i++;
   }
-
+  
 exit:
   if(paraBody) paraBody[retval] = 0x0;
   return retval;
@@ -127,15 +127,15 @@ exit:
 
 
 /**
-  * @brief  Download a file via serial port
-  * @param  None
-  * @retval None
-  */
+* @brief  Download a file via serial port
+* @param  None
+* @retval None
+*/
 void SerialDownload(mico_flash_t flash, uint32_t flashdestination, int32_t maxRecvSize)
 {
   char Number[10] = "          ";
   int32_t Size = 0;
-
+  
   printf("Waiting for the file to be sent ... (press 'a' to abort)\n\r");
   Size = Ymodem_Receive( &tab_1024[0], flash, flashdestination, maxRecvSize );
   if (Size > 0)
@@ -167,23 +167,23 @@ void SerialDownload(mico_flash_t flash, uint32_t flashdestination, int32_t maxRe
 }
 
 /**
-  * @brief  Upload a file via serial port.
-  * @param  None
-  * @retval None
-  */
+* @brief  Upload a file via serial port.
+* @param  None
+* @retval None
+*/
 void SerialUpload(mico_flash_t flash, uint32_t flashdestination, char * fileName, int32_t maxRecvSize)
 {
   uint8_t status = 0;
   uint8_t key;
-
+  
   printf("Select Receive File\n\r");
   MicoUartRecv( STDIO_UART, &key, 1, MICO_NEVER_TIMEOUT );
-
+  
   if (key == CRC16)
   {
     /* Transmit the flash image through ymodem protocol */
     status = Ymodem_Transmit(flash, flashdestination, (uint8_t *)fileName, maxRecvSize);
-
+    
     if (status != 0)
     {
       printf("\n\rError Occurred while Transmitting File\n\r");
@@ -196,10 +196,10 @@ void SerialUpload(mico_flash_t flash, uint32_t flashdestination, char * fileName
 }
 
 /**
-  * @brief  Display the Main Menu on HyperTerminal
-  * @param  None
-  * @retval None
-  */
+* @brief  Display the Main Menu on HyperTerminal
+* @param  None
+* @retval None
+*/
 void Main_Menu(void)
 {
   char cmdbuf [CMD_STRING_SIZE] = {0}, cmdname[15] = {0};     /* command input buffer        */
@@ -210,22 +210,23 @@ void Main_Menu(void)
   bool inputFlashArea = false;
   mico_logic_partition_t *partition;
   mico_flash_t flash_dev;
-
+  OSStatus err = kNoErr;
+  
   while (1)  {                                    /* loop forever                */
     printf ("\n\rMXCHIP> ");
     getline (&cmdbuf[0], sizeof (cmdbuf));        /* input command line          */
-
+    
     for (i = 0; cmdbuf[i] == ' '; i++);           /* skip blanks on head         */
     for (; cmdbuf[i] != 0; i++)  {                /* convert to upper characters */
       cmdbuf[i] = toupper(cmdbuf[i]);
     }
-
+    
     for (i = 0; cmdbuf[i] == ' '; i++);        /* skip blanks on head         */
     for(j=0; cmdbuf[i] != ' '&&cmdbuf[i] != 0; i++,j++)  {         /* find command name       */
       cmdname[j] = cmdbuf[i];
     }
     cmdname[j] = '\0';
-
+    
     /***************** Command "0" or "BOOTUPDATE": Update the application  *************************/
     if(strcmp(cmdname, "BOOTUPDATE") == 0 || strcmp(cmdname, "0") == 0) {
       partition = MicoFlashGetInfo( MICO_PARTITION_BOOTLOADER );
@@ -235,9 +236,12 @@ void Main_Menu(void)
         continue;
       }
       printf ("\n\rUpdating Bootloader...\n\r");
+      err = MicoFlashDisableSecurity( MICO_PARTITION_BOOTLOADER, 0x0, partition->partition_length );
+      require_noerr( err, exit);
+
       SerialDownload( partition->partition_owner, partition->partition_start_addr, partition->partition_length );
     }
-
+    
     /***************** Command "1" or "FWUPDATE": Update the MICO application  *************************/
     else if(strcmp(cmdname, "FWUPDATE") == 0 || strcmp(cmdname, "1") == 0)	{
       partition = MicoFlashGetInfo( MICO_PARTITION_APPLICATION );
@@ -247,31 +251,39 @@ void Main_Menu(void)
         continue;
       }
       printf ("\n\rUpdating MICO application...\n\r");
+      err = MicoFlashDisableSecurity( MICO_PARTITION_APPLICATION, 0x0, partition->partition_length );
+      require_noerr( err, exit);
       SerialDownload( partition->partition_owner, partition->partition_start_addr, partition->partition_length ); 							   	
     }
-
+    
     /***************** Command "2" or "DRIVERUPDATE": Update the RF driver  *************************/
-
     else if(strcmp(cmdname, "DRIVERUPDATE") == 0 || strcmp(cmdname, "2") == 0) {
-#if ( MICO_PARTITION_RF_DRIVER == MICO_PARTITION_NONE ) 
-      printf ("\n\rNo independ flash memory for RF driver, exiting...\n\r");
-#else
       partition = MicoFlashGetInfo( MICO_PARTITION_RF_DRIVER );
+      if( partition == NULL ){
+        printf ("\n\rNo independ flash memory for RF driver, exiting...\n\r");
+        continue;
+      }
+      
       if (findCommandPara(cmdbuf, "r", NULL, 0) != -1){
         printf ("\n\rRead RF driver only...\n\r");
-        SerialUpload( partition->partition_owner, artition->partition_start_addr, "DriverImage.bin", partition->partition_length );
+        SerialUpload( partition->partition_owner, partition->partition_start_addr, "DriverImage.bin", partition->partition_length );
         continue;
       }
       printf ("\n\rUpdating RF driver...\n\r");
-      SerialDownload( partition->partition_owner, artition->partition_start_addr, partition->partition_length );    
-#endif
+      err = MicoFlashDisableSecurity( MICO_PARTITION_RF_DRIVER, 0x0, partition->partition_length );
+      require_noerr( err, exit);
+      SerialDownload( partition->partition_owner, partition->partition_start_addr, partition->partition_length );    
     }
-
+    
     /***************** Command "3" or "PARAUPDATE": Update the application  *************************/
     else if(strcmp(cmdname, "PARAUPDATE") == 0 || strcmp(cmdname, "3") == 0)  {
+      partition = MicoFlashGetInfo( MICO_PARTITION_PARAMETER_1 );
+
       if (findCommandPara(cmdbuf, "e", NULL, 0) != -1){
-        partition = MicoFlashGetInfo( MICO_PARTITION_PARAMETER_1 );
         printf ("\n\rErasing MICO settings only...\n\r");
+
+        err = MicoFlashDisableSecurity( MICO_PARTITION_PARAMETER_1, 0x0, partition->partition_length );
+        require_noerr( err, exit);
         MicoFlashErase( MICO_PARTITION_PARAMETER_1, 0x0, partition->partition_length );
         continue;
       }
@@ -281,25 +293,27 @@ void Main_Menu(void)
         continue;
       }
       printf ("\n\rUpdating MICO settings...\n\r");
+      err = MicoFlashDisableSecurity( MICO_PARTITION_PARAMETER_1, 0x0, partition->partition_length );
+      require_noerr( err, exit);
       SerialDownload( partition->partition_owner, partition->partition_start_addr, partition->partition_length );                        
     }
-
+    
     /***************** Command "4" or "FLASHUPDATE": : Update the Flash  *************************/
     else if(strcmp(cmdname, "FLASHUPDATE") == 0 || strcmp(cmdname, "4") == 0) {
       if (findCommandPara(cmdbuf, "dev", flash_dev_str, 1) == -1  ){
-          printf ("\n\rUnkown target type! Exiting...\n\r");
-          continue;
-        }
-
-        if(Str2Int((uint8_t *)flash_dev_str, (int32_t *)&flash_dev)==0){ 
-          printf ("\n\rFlash device input error! Exiting...\n\r");
-          continue;
-        }
-        if( flash_dev >= MICO_FLASH_MAX ){
-          printf ("\n\rUnkown target type! Exiting...\n\r");
-          continue;
-        }
-
+        printf ("\n\rUnkown target type! Exiting...\n\r");
+        continue;
+      }
+      
+      if(Str2Int((uint8_t *)flash_dev_str, (int32_t *)&flash_dev)==0){ 
+        printf ("\n\rFlash device input error! Exiting...\n\r");
+        continue;
+      }
+      if( flash_dev >= MICO_FLASH_MAX ){
+        printf ("\n\rUnkown target type! Exiting...\n\r");
+        continue;
+      }
+      
       inputFlashArea = false;
       
       if (findCommandPara(cmdbuf, "start", startAddressStr, 10) != -1){
@@ -320,70 +334,75 @@ void Main_Menu(void)
           }
         }
       }
-
+      
       if(endAddress<startAddress && inputFlashArea == true) {
         printf ("\n\rIllegal flash address.\n\r");
         continue;
       }
-
+      
       if(inputFlashArea != true){
-          startAddress = platform_flash_peripherals[ flash_dev ].flash_start_addr ;
-          endAddress = platform_flash_peripherals[ flash_dev ].flash_start_addr 
-                     + platform_flash_peripherals[ flash_dev ].flash_length - 1;
+        startAddress = platform_flash_peripherals[ flash_dev ].flash_start_addr ;
+        endAddress = platform_flash_peripherals[ flash_dev ].flash_start_addr 
+          + platform_flash_peripherals[ flash_dev ].flash_length - 1;
       }
-
+      
       if (findCommandPara(cmdbuf, "e", NULL, 0) != -1){
-        printf ("\n\rErasing flash content From 0x%x to 0x%x\n\r", startAddress, endAddress);
+        printf ("\n\rErasing dev%d content From 0x%x to 0x%x\n\r", flash_dev, startAddress, endAddress);
         platform_flash_init( &platform_flash_peripherals[ flash_dev ] );
-        platform_flash_erase( &platform_flash_peripherals[ flash_dev ], startAddress, endAddress);
+        platform_flash_disable_protect( &platform_flash_peripherals[ flash_dev ], startAddress, endAddress );
+        platform_flash_erase( &platform_flash_peripherals[ flash_dev ], startAddress, endAddress );
         continue;
       }
-
+      
       if (findCommandPara(cmdbuf, "r", NULL, 0) != -1){
-        printf ("\n\rRead flash content From 0x%x to 0x%x\n\r", startAddress, endAddress);
+        printf ("\n\rRead dev%d content From 0x%x to 0x%x\n\r", flash_dev, startAddress, endAddress);
         SerialUpload((mico_flash_t)targetFlash, startAddress, "FlashImage.bin", endAddress-startAddress+1);
         continue;
       }
-
-      printf ("\n\rUpdating flash content From 0x%x to 0x%x\n\r", startAddress, endAddress);
+      
+      printf ("\n\rUpdating dev%d content From 0x%x to 0x%x\n\r", flash_dev, startAddress, endAddress);
+      platform_flash_disable_protect( &platform_flash_peripherals[ flash_dev ], startAddress, endAddress );
       SerialDownload((mico_flash_t)targetFlash, startAddress, endAddress-startAddress+1);                           
     }
-      
-
+    
+    
     /***************** Command: Reboot *************************/
     else if(strcmp(cmdname, "MEMORYMAP") == 0 || strcmp(cmdname, "5") == 0)  {
       printf( MEMMAP_HEADER );
       for( i = 0; i < MICO_PARTITION_MAX; i++ ){
         partition = MicoFlashGetInfo( i );
         printf( "| %11s |  Dev:%d  | 0x%08x | 0x%08x |\r\n", partition->partition_description, partition->partition_owner, 
-                                                           partition->partition_start_addr, partition->partition_length);
+               partition->partition_start_addr, partition->partition_length);
       }
       printf( MEMMAP_TAILER );
     }
     /***************** Command: Excute the application *************************/
     else if(strcmp(cmdname, "BOOT") == 0 || strcmp(cmdname, "6") == 0)	{
       printf ("\n\rBooting.......\n\r");
-      startApplication();
+      startApplication( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
     }
-
-   /***************** Command: Reboot *************************/
+    
+    /***************** Command: Reboot *************************/
     else if(strcmp(cmdname, "REBOOT") == 0 || strcmp(cmdname, "7") == 0)  {
       printf ("\n\rReBooting.......\n\r");
       MicoSystemReboot();
-    break;                              
-  }
+      break;                              
+    }
+    
+    else if(strcmp(cmdname, "HELP") == 0 || strcmp(cmdname, "?") == 0)	{
+      printf ( menu, MODEL, HARDWARE_REVISION );                       /* display command menu        */
+      break;
+    }
+    
+    else if(strcmp(cmdname, "") == 0 )	{                         
+      break;
+    }
+    else{
+      printf (ERROR_STR, "UNKNOWN COMMAND");
+      break;
+    }
 
-	else if(strcmp(cmdname, "HELP") == 0 || strcmp(cmdname, "?") == 0)	{
-    printf ( menu, MODEL, HARDWARE_REVISION );                       /* display command menu        */
-		break;
-	}
-
-	else if(strcmp(cmdname, "") == 0 )	{                         
-		break;
-	}
-	else{
-	    printf (ERROR_STR, "UNKNOWN COMMAND");
-		break;
-	}
+exit:
+    continue;
   }
 }

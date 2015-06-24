@@ -29,21 +29,16 @@
 OSStatus HMClearPairList(void)
 { 
   OSStatus err = kNoErr;
-  uint32_t exParaStartAddress, exParaEndAddress;
+  uint32_t exParaStartAddress = 0x0;
+  mico_logic_partition_t *partition = MicoFlashGetInfo( MICO_PARTITION_PARAMETER_2 );
  
-  exParaStartAddress = EX_PARA_START_ADDRESS;
-  exParaEndAddress = EX_PARA_END_ADDRESS;
   pair_list_in_flash_t *pairList = NULL;
   pairList = calloc(1, sizeof(pair_list_in_flash_t));
   require_action(pairList, exit, err = kNoMemoryErr);
 
-  err = MicoFlashInitialize(MICO_FLASH_FOR_EX_PARA);
+  err = MicoFlashErase( MICO_PARTITION_PARAMETER_2, 0x0, partition->partition_length);
   require_noerr(err, exit);
-  err = MicoFlashErase(MICO_FLASH_FOR_EX_PARA, exParaStartAddress, exParaEndAddress);
-  require_noerr(err, exit);
-  err = MicoFlashWrite(MICO_FLASH_FOR_EX_PARA, &exParaStartAddress, (uint8_t *)pairList, sizeof(pair_list_in_flash_t));
-  require_noerr(err, exit);
-  err = MicoFlashFinalize(MICO_FLASH_FOR_EX_PARA);
+  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_2, &exParaStartAddress, (uint8_t *)pairList, sizeof(pair_list_in_flash_t));
   require_noerr(err, exit);
 
 exit:
@@ -57,9 +52,8 @@ OSStatus HMReadPairList(pair_list_in_flash_t *pPairList)
   OSStatus err = kNoErr;
   require(pPairList, exit);
 
-  configInFlash = EX_PARA_START_ADDRESS;
-  err = MicoFlashRead(MICO_FLASH_FOR_EX_PARA, &configInFlash, (uint8_t *)pPairList, sizeof(pair_list_in_flash_t));
-  //memcpy(pPairList, (void *)configInFlash, sizeof(pair_list_in_flash_t));
+  configInFlash = 0x0;
+  err = MicoFlashRead( MICO_PARTITION_PARAMETER_2, &configInFlash, (uint8_t *)pPairList, sizeof(pair_list_in_flash_t));
 
 exit: 
   return err;
@@ -68,18 +62,12 @@ exit:
 OSStatus HMUpdatePairList(pair_list_in_flash_t *pPairList)
 {
   OSStatus err = kNoErr;
-  uint32_t exParaStartAddress, exParaEndAddress;
- 
-  exParaStartAddress = EX_PARA_START_ADDRESS;
-  exParaEndAddress = EX_PARA_END_ADDRESS;
+  uint32_t exParaStartAddress = 0x0;
+  mico_logic_partition_t *partition = MicoFlashGetInfo( MICO_PARTITION_PARAMETER_2 );
 
-  err = MicoFlashInitialize(MICO_FLASH_FOR_EX_PARA);
+  err = MicoFlashErase( MICO_PARTITION_PARAMETER_2, 0x0, partition->partition_length);
   require_noerr(err, exit);
-  err = MicoFlashErase(MICO_FLASH_FOR_EX_PARA, exParaStartAddress, exParaEndAddress);
-  require_noerr(err, exit);
-  err = MicoFlashWrite(MICO_FLASH_FOR_EX_PARA, &exParaStartAddress, (uint8_t *)pPairList, sizeof(pair_list_in_flash_t));
-  require_noerr(err, exit);
-  err = MicoFlashFinalize(MICO_FLASH_FOR_EX_PARA);
+  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_2, &exParaStartAddress, (uint8_t *)pPairList, sizeof(pair_list_in_flash_t));
   require_noerr(err, exit);
 
 exit:
@@ -91,6 +79,7 @@ OSStatus HKInsertPairInfo(char controllerIdentifier[64], uint8_t controllerLTPK[
   OSStatus err = kNoErr;
   pair_list_in_flash_t        *pairList = NULL;
   uint32_t i;
+  uint32_t MAXPairNumber = (MicoFlashGetInfo( MICO_PARTITION_PARAMETER_2 )->partition_length-64)/(MaxControllerNameLen+32+4);
 
   /* Pair storage */
   pairList = calloc(1, sizeof(pair_list_in_flash_t));
@@ -136,6 +125,8 @@ uint8_t * HMFindLTPK(char * name)
 {
   uint8_t *controllerLTPK = NULL;
   uint32_t i;
+  uint32_t MAXPairNumber = (MicoFlashGetInfo( MICO_PARTITION_PARAMETER_2 )->partition_length-64)/(MaxControllerNameLen+32+4);
+
 
   pair_list_in_flash_t *pairList = malloc(sizeof(pair_list_in_flash_t));
   HMReadPairList(pairList);
@@ -156,6 +147,7 @@ bool HMFindAdmin(char * name)
 {
   uint32_t i;
   bool ret = false;
+  uint32_t MAXPairNumber = (MicoFlashGetInfo( MICO_PARTITION_PARAMETER_2 )->partition_length-64)/(MaxControllerNameLen+32+4);
 
   pair_list_in_flash_t *pairList = malloc(sizeof(pair_list_in_flash_t));
   HMReadPairList(pairList);
@@ -176,6 +168,7 @@ OSStatus HMRemoveLTPK(char * name)
 {
   uint32_t i;
   OSStatus err = kNoErr;
+  uint32_t MAXPairNumber = (MicoFlashGetInfo( MICO_PARTITION_PARAMETER_2 )->partition_length-64)/(MaxControllerNameLen+32+4);
 
   pair_list_in_flash_t *pairList = malloc(sizeof(pair_list_in_flash_t));
   HMReadPairList(pairList);

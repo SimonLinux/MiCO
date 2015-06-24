@@ -134,10 +134,10 @@ OSStatus MicoFlashWrite( mico_partition_t inPartition, volatile uint32_t* off_se
  * @return    kNoErr        : On success.
  * @return    kGeneralErr   : If an error occurred with any step
  */
-OSStatus MicoFlashRead( mico_partition_t inPartition, volatile uint32_t* off_set, uint8_t* outBuffer ,uint32_t inBufferLength);
+OSStatus MicoFlashRead( mico_partition_t inPartition, volatile uint32_t* off_set, uint8_t* outBuffer, uint32_t inBufferLength);
 
 
-#ifdef BOOTLOADER
+
 /** Set security options on a logical partition
  *
  * @param  inPartition     : The target flash logical partition
@@ -146,10 +146,11 @@ OSStatus MicoFlashRead( mico_partition_t inPartition, volatile uint32_t* off_set
  * @return    kNoErr        : On success.
  * @return    kGeneralErr   : If an error occurred with any step
  */
-OSStatus MicoFlashSetSecurity( mico_partition_t inPartition, bool enable );
+OSStatus MicoFlashEnableSecurity( mico_partition_t partition, uint32_t off_set, uint32_t size );
 
+#ifdef BOOTLOADER
+OSStatus MicoFlashDisableSecurity( mico_partition_t partition, uint32_t off_set, uint32_t size );
 #endif
-
 
 
 /** @} */

@@ -234,9 +234,6 @@
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform.h</name>
       </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform_common_config.h</name>
-      </file>
     </group>
   </group>
   <group>
@@ -513,19 +510,10 @@
       <group>
         <name>MFiAuth</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MicoDriverMFiAuth\MicoDriverMFiAuth.a</name>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCODriverMFiAuth\MicoDriverMFiAuth.a</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MicoDriverMFiAuth\MicoDriverMFiAuth.c</name>
-        </file>
-      </group>
-      <group>
-        <name>RGB LED</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\rgb_led\rgb_led.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\rgb_led\rgb_led_platform.c</name>
         </file>
       </group>
       <group>
@@ -703,9 +691,6 @@
         </group>
         <group>
           <name>Wi-Fi_Bus_Driver</name>
-          <file>
-            <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\read_wifi_firmware.c</name>
-          </file>
           <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\wlan_bus_sdio.c</name>
           </file>

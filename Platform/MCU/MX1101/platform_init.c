@@ -132,17 +132,21 @@ static void __asm __jump_to( uint32_t addr )
 }
 #endif
 
-/*Boot to mico application form APPLICATION_START_ADDRESS defined in platform_common_config.h */
-void startApplication(void)
+void startApplication( uint32_t app_addr )
 {
-  uint32_t text_addr = (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr;
   uint32_t* stack_ptr;
   uint32_t* start_ptr;
+
+  /* Ensure all flash devices are under protected. */
+  for( mico_partition_t i = MICO_PARTITION_1; i < MICO_PARTITION_MAX ; i++){
+    MicoFlashEnableSecurity( i, 0x0, MicoFlashGetInfo(i)->partition_length );
+  }
+
   
-  if (((*(volatile uint32_t*)text_addr) & 0x2FFE0000 ) != 0x20000000)
-  text_addr += 0x200;
+  if (((*(volatile uint32_t*)app_addr) & 0x2FFE0000 ) != 0x20000000)
+  app_addr += 0x200;
   /* Test if user code is programmed starting from address "ApplicationAddress" */
-  if (((*(volatile uint32_t*)text_addr) & 0x2FFE0000 ) == 0x20000000)
+  if (((*(volatile uint32_t*)app_addr) & 0x2FFE0000 ) == 0x20000000)
   { 
     SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
 
@@ -150,7 +154,7 @@ void startApplication(void)
     for (int i = 0; i < 8; i++ )
         NVIC->ICER[i] = 0x00;
     
-    stack_ptr = (uint32_t*) text_addr;  /* Initial stack pointer is first 4 bytes of vector table */
+    stack_ptr = (uint32_t*) app_addr;  /* Initial stack pointer is first 4 bytes of vector table */
     start_ptr = ( stack_ptr + 1 );  /* Reset vector is second 4 bytes of vector table */
 
     #if defined ( __ICCARM__)
@@ -169,44 +173,6 @@ void startApplication(void)
   }  
 }
 
-#ifdef MICO_ATE_START_ADDRESS
-/*Boot to ATE form MICO_ATE_START_ADDRESS defined in platform_config.h */
-void startATEApplication(void)
-{
-  uint32_t text_addr = MICO_ATE_START_ADDRESS;
-  uint32_t* stack_ptr;
-  uint32_t* start_ptr;
-  
-  if (((*(volatile uint32_t*)text_addr) & 0x2FFE0000 ) != 0x20000000)
-  text_addr += 0x200;
-  /* Test if user code is programmed starting from address "ApplicationAddress" */
-  if (((*(volatile uint32_t*)text_addr) & 0x2FFE0000 ) == 0x20000000)
-  { 
-    SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
-
-    /* Clear all interrupt enabled by bootloader */
-    for (int i = 0; i < 8; i++ )
-        NVIC->ICER[i] = 0x00;
-    
-    stack_ptr = (uint32_t*) text_addr;  /* Initial stack pointer is first 4 bytes of vector table */
-    start_ptr = ( stack_ptr + 1 );  /* Reset vector is second 4 bytes of vector table */
-
-    #if defined ( __ICCARM__)
-    __ASM( "MOV LR,        #0xFFFFFFFF" );
-    __ASM( "MOV R1,        #0x01000000" );
-    __ASM( "MSR APSR_nzcvq,     R1" );
-    __ASM( "MOV R1,        #0x00000000" );
-    __ASM( "MSR PRIMASK,   R1" );
-    __ASM( "MSR FAULTMASK, R1" );
-    __ASM( "MSR BASEPRI,   R1" );
-    __ASM( "MSR CONTROL,   R1" );
-    #endif
-    
-    __set_MSP( *stack_ptr );
-    __jump_to( *start_ptr );
-  }  
-}
-#endif
 
 void platform_mcu_reset( void )
 {
@@ -244,8 +210,6 @@ WEAK void init_memory( void )
 
 void init_architecture( void )
 { 
-  int i;
-
   NVIC_SetPriorityGrouping(__NVIC_PRIO_BITS + 1);
   
   /* Initialise the interrupt priorities to a priority lower than 0 so that the BASEPRI register can mask them */
@@ -314,12 +278,6 @@ void init_architecture( void )
   ring_buffer_init  ( (ring_buffer_t*)&stdio_rx_buffer, (uint8_t*)stdio_rx_data, STDIO_BUFFER_SIZE );
   platform_uart_init( &platform_uart_drivers[STDIO_UART], &platform_uart_peripherals[STDIO_UART], &stdio_uart_config, (ring_buffer_t*)&stdio_rx_buffer );
 #endif
-
-  /* Ensure all flash devices are under protected. */
-  for( i = 0; i < MICO_FLASH_MAX; i++){
-    platform_flash_init( &platform_flash_peripherals[i] );
-    platform_flash_set_protect( &platform_flash_peripherals[i], true );
-  }
 
   /* Ensure 802.11 device is in reset. */
   host_platform_init( );

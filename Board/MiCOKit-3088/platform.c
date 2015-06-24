@@ -552,7 +552,6 @@ bool MicoShouldEnterBootloader(void)
   }
 }
 
-#ifdef MICO_ATE_START_ADDRESS
 bool MicoShouldEnterATEMode(void)
 {
   if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)EasyLink_BUTTON)==false)
@@ -560,5 +559,4 @@ bool MicoShouldEnterATEMode(void)
   else
     return false;
 }
-#endif
 

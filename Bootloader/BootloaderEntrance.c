@@ -58,7 +58,7 @@ char menu[] =
 #else
 char menu[] =
 "\r\n"
-"MICO Bootloader for %s, HARDWARE_REVISION: %s\r\n"
+"MICO Bootloader for %s, %s, HARDWARE_REVISION: %s\r\n"
 "+ command -------------------------+ function ------------+\r\n"
 "| 0:BOOTUPDATE    <-r>             | Update bootloader    |\r\n"
 "| 1:FWUPDATE      <-r>             | Update application   |\r\n"
@@ -90,26 +90,27 @@ int main(void)
 
   mico_set_bootload_ver();
   
-#ifdef MICO_FLASH_FOR_UPDATE
   update();
-#endif
+
+  for( mico_partition_t i = MICO_PARTITION_1; i < MICO_PARTITION_MAX ; i++){
+    MicoFlashEnableSecurity( i, 0x0, MicoFlashGetInfo(i)->partition_length );
+  }
 
 #ifdef MICO_ENABLE_STDIO_TO_BOOT
   if (stdio_break_in() == 1)
     goto BOOT;
 #endif
-  if(MicoShouldEnterBootloader() == false)
-    startApplication();
-  else if(MicoShouldEnterMFGMode() == true)
-    startApplication();
-#ifdef MICO_ATE_START_ADDRESS
-  else if (MicoShouldEnterATEMode()) {
-    startATEApplication();
+  
+  if( MicoShouldEnterBootloader() == false) 
+    startApplication( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
+  else if( MicoShouldEnterMFGMode() == true )
+    startApplication( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
+  else if ( MicoShouldEnterATEMode() && MICO_PARTITION_NONE != MICO_PARTITION_ATE ) {
+    startApplication( (MicoFlashGetInfo(MICO_PARTITION_ATE))->partition_start_addr );
 	}
-#endif 
 
 BOOT:
-  printf ( menu, MODEL, HARDWARE_REVISION );
+  printf ( menu, MODEL, Bootloader_REVISION, HARDWARE_REVISION );
 
   while(1){                             
     Main_Menu ();

@@ -49,8 +49,6 @@
 
 /* Private function prototypes -----------------------------------------------*/
 
-static bool FlashUnlock(void);
-
 #ifdef DEBUG_FLASH
 SPI_FLASH_INFO  FlashInfo;
 
@@ -413,7 +411,7 @@ OSStatus platform_flash_init( const platform_flash_t *peripheral )
     SpiFlashGetInfo(&FlashInfo);
     GetFlashInfo();
 #endif
-    require_action(FlashUnlock(), exit, err = kUnknownErr);
+    //require_action(FlashUnlock(), exit, err = kUnknownErr);
   }
   else{
     err = kTypeErr;
@@ -488,20 +486,53 @@ exit:
   return err;
 }
 
-OSStatus platform_flash_set_protect( const platform_flash_t *peripheral, bool enable )
+#define BP_Pos  2
+#define BP_Msk (0x1Fu << BP_Pos)
+
+#define CMP_Pos 14
+#define CMP_Msk (0x1u << BP_Pos)
+
+
+OSStatus platform_flash_enable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
 {
+  OSStatus err = kNoErr;
+  int32_t spi_err = 0;
+  int32_t status = SpiFlashIOCtl( IOCTL_STATUS_REGISTER );
+  UNUSED_PARAMETER( end_address );
+
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+
+  if( ( 0x5 == ( status & BP_Msk ) >> BP_Pos ) && ( status&CMP_Msk ) )
     return kNoErr;
+
+  spi_err = SpiFlashIOCtl(IOCTL_FLASH_PROTECT, FLASH_HALF_PROTECT);
+
+  platform_log("BP: %x", ( SpiFlashIOCtl( IOCTL_STATUS_REGISTER ) & BP_Msk ) >> BP_Pos );
+
+  require_action_quiet(spi_err == 0, exit, err = kUnexpectedErr);
+
+exit:
+  return err;
 }
 
-
-bool FlashUnlock(void)
+OSStatus platform_flash_disable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
 {
+  OSStatus err = kNoErr;
   char cmd[3] = "\x35\xBA\x69";
-  
-  if(SpiFlashIOCtl(IOCTL_FLASH_UNPROTECT, cmd, sizeof(cmd)) != FLASH_NONE_ERR)
-  {
-    return false;
-  }
+  int32_t spi_err = 0;
+  int32_t status = SpiFlashIOCtl( IOCTL_STATUS_REGISTER );
+  UNUSED_PARAMETER( end_address );
 
-  return true;
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+
+  if( ( 0x0 == ( status & BP_Msk ) >> BP_Pos ) && !( status&CMP_Msk ) )
+    return kNoErr;
+
+  spi_err = SpiFlashIOCtl(IOCTL_FLASH_UNPROTECT, cmd, sizeof(cmd));
+
+  require_action_quiet(spi_err == 0, exit, err = kUnexpectedErr);
+
+exit:
+  return err;
 }
+

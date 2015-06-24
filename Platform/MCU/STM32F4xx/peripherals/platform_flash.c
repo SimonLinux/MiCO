@@ -175,6 +175,16 @@ exit:
   return err;
 }
 
+OSStatus platform_flash_enable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
+{
+  return kNoErr;
+}
+
+OSStatus platform_flash_disable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
+{
+  return kNoErr;
+}
+
 OSStatus internalFlashInitialize( void )
 { 
   platform_log_trace();

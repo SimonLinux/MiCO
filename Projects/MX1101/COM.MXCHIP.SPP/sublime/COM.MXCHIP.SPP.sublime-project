@@ -15,7 +15,7 @@
 			"path": "../../../../Board/MiCOKit-3088"
 		},
 		{
-			"path": "../../../../bootloader"
+			"path": "../../../../Bootloader"
 		},
 		{
 			"path": "../../../../External"
@@ -41,7 +41,7 @@
 			"-DDEBUG",
 			"-DBOOTLOADER",
 			"-I/Users/william/Develop/MiCO/include/",
-			"-I/Users/william/Develop/MiCO/Demos/bootloader/",
+			"-I/Users/william/Develop/MiCO/Demos/Bootloader/",
 			"-I/Users/william/Develop/MiCO/External/",
 			"-I/Users/william/Develop/MiCO/Platform/",
 			"-I/Users/william/Develop/MiCO/Platform/include/",

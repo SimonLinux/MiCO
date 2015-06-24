@@ -754,11 +754,6 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
-            <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\wlan_bus_sdio.c</FilePath>
@@ -1776,11 +1771,6 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
-            <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\wlan_bus_sdio.c</FilePath>
@@ -2756,11 +2746,6 @@
         <Group>
           <GroupName>Platform/MCU/MX1101/wlan_bus_driver</GroupName>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
@@ -3797,11 +3782,6 @@
         <Group>
           <GroupName>Platform/MCU/MX1101/wlan_bus_driver</GroupName>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>

@@ -23,7 +23,7 @@
 #include "platform_config.h"
 
 #define MaxControllerNameLen  64
-#define MAXPairNumber         (EX_PARA_FLASH_SIZE-64)/(MaxControllerNameLen+32+4)
+
 /*Pair Info flash content*/
 typedef struct _pair_t {
   char             controllerName[MaxControllerNameLen];
@@ -32,7 +32,7 @@ typedef struct _pair_t {
 } _pair_t;
 
 typedef struct _pair_list_in_flash_t {
-  _pair_t          pairInfo[MAXPairNumber];
+  _pair_t          pairInfo[1024];
 } pair_list_in_flash_t;
 
 

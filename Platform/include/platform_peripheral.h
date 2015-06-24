@@ -861,7 +861,9 @@ OSStatus platform_flash_read( const platform_flash_t *peripheral, volatile uint3
  * Flash protect operation
  *
  */
-OSStatus platform_flash_set_protect( const platform_flash_t *peripheral, bool enable );
+OSStatus platform_flash_enable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address );
+OSStatus platform_flash_disable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address );
+
 
 
 

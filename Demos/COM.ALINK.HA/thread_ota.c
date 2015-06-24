@@ -38,11 +38,11 @@ static uint8_t bp_count = 0;
 #define OTA_KEY ALINK_KEY
 #endif
 
-static uint32_t flashStorageAddress;
+static uint32_t write_offset;
 
 uint32_t get_writed_length(void)
 {
-  return flashStorageAddress-UPDATE_START_ADDRESS;
+  return write_offset;
 }
 
 static int open_url(char *filename);
@@ -226,16 +226,19 @@ static int ota_finished(uint8_t *md5_recv, uint8_t *temp_buf, int temp_buf_len, 
     uint8_t md5_ret[16];
     md5_context ctx;
     int len;
-    uint32_t offset = UPDATE_START_ADDRESS;
+    uint32_t offset = 0x0;
     mico_Context_t *context = (mico_Context_t *)inUserContext;
+  
+    if( MICO_PARTITION_OTA_TEMP == MICO_PARTITION_NONE )
+      return kNoErr;
 
     ota_log("Receive OTA data done!");
     InitMd5( &ctx );
-    while((len = flashStorageAddress - offset) > 0) {
+    while((len = write_offset - offset) > 0) {
         if (temp_buf_len < len) {
             len = temp_buf_len;
         }
-        MicoFlashRead(MICO_FLASH_FOR_UPDATE, &offset, (uint8_t *)temp_buf, len);
+        MicoFlashRead( MICO_PARTITION_OTA_TEMP, &offset, (uint8_t *)temp_buf, len);
         Md5Update( &ctx, (uint8_t *)temp_buf, len);
     }
     Md5Final( &ctx, md5_ret );
@@ -246,7 +249,7 @@ static int ota_finished(uint8_t *md5_recv, uint8_t *temp_buf, int temp_buf_len, 
     
     memset(&context->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
     context->flashContentInRam.bootTable.length = get_writed_length();
-    context->flashContentInRam.bootTable.start_address = UPDATE_START_ADDRESS;
+    context->flashContentInRam.bootTable.start_address =  MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP )->partition_start_addr ;
     context->flashContentInRam.bootTable.type = 'A';
     context->flashContentInRam.bootTable.upgrade_type = 'U';
     MICOUpdateConfiguration(context);
@@ -266,10 +269,12 @@ static OSStatus onReceivedData(struct _HTTPHeader_t * inHeader, uint32_t inPos, 
   const char *    value;
   size_t          valueSize;
 
+  require_action( MICO_PARTITION_OTA_TEMP != MICO_PARTITION_NONE, flashErrExit, err = kUnsupportedErr );
+  
   err = HTTPGetHeaderField( inHeader->buf, inHeader->len, "Content-Type", NULL, NULL, &value, &valueSize, NULL );
   if(err == kNoErr && strnicmpx( value, valueSize, kMIMEType_Stream ) == 0){
 #ifdef MICO_FLASH_FOR_UPDATE  
-    err = MicoFlashWrite(MICO_FLASH_FOR_UPDATE, &flashStorageAddress, (uint8_t *)inData, inLen);
+    err = MicoFlashWrite (MICO_PARTITION_OTA_TEMP, &write_offset, (uint8_t *)inData, inLen);
     require_noerr(err, flashErrExit);
 #else
     ota_log("OTA storage is not exist");
@@ -286,11 +291,9 @@ static OSStatus onReceivedData(struct _HTTPHeader_t * inHeader, uint32_t inPos, 
   if(err!=kNoErr)  ota_log("onReceivedData");
   return err;
 
-#ifdef MICO_FLASH_FOR_UPDATE  
+
 flashErrExit:
-  MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
   return err;
-#endif
 }
 
 
@@ -366,7 +369,6 @@ OSStatus _OTARespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico_Context
       err = ota_finished(md5_bin, (uint8_t*)inHeader->buf, sizeof(inHeader->buf), inContext);
       if(err != kNoErr) {
         ota_log("MD5 check error!");
-        MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
         err = kGeneralErr;
         goto exit;
       }
@@ -384,7 +386,6 @@ OSStatus _OTARespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico_Context
       err = ota_finished(md5_bin, (uint8_t*)inHeader->buf, sizeof(inHeader->buf), inContext);
       if(err != kNoErr) {
         ota_log("MD5 check error!");
-        MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
         err = kGeneralErr;
         goto exit;
       }
@@ -416,9 +417,7 @@ void ota_thread(void *inContext)
   struct timeval_t t;
   int reConnCount = 0;
 
-  flashStorageAddress = UPDATE_START_ADDRESS;
-  err = MicoFlashInitialize( MICO_FLASH_FOR_UPDATE );
-  require_noerr(err, threadexit);
+  write_offset = 0x0;
   
   httpHeader = HTTPHeaderCreateWithCallback(onReceivedData, NULL, inContext);
   require_action( httpHeader, threadexit, err = kNoMemoryErr );

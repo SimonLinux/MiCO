@@ -157,17 +157,72 @@ platform_uart_driver_t platform_uart_drivers[MICO_UART_MAX];
 
 const platform_i2c_t *platform_i2c_peripherals = NULL;
 
+/* Flash memory devices */
 const platform_flash_t platform_flash_peripherals[] =
 {
-  [MICO_SPI_FLASH] =
+  [MICO_FLASH_SPI] =
   {
     .flash_type                   = FLASH_TYPE_SPI,
     .flash_start_addr             = 0x000000,
     .flash_length                 = 0x200000,
-  },
+    .flash_protect_opt            = FLASH_HALF_PROTECT,
+  }
 };
 
 platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
+
+/* Logic partition on flash devices */
+const mico_logic_partition_t mico_partitions[] =
+{
+  [MICO_PARTITION_BOOTLOADER] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "Bootloader",
+    .partition_start_addr      =    0x0,
+    .partition_length          = 0xA000,    //40k bytes + 4k bytes empty space
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_APPLICATION] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "Application",
+    .partition_start_addr      =  0xB000,
+    .partition_length          = 0xC0000,   //768k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_ATE] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "ATE",
+    .partition_start_addr      = 0xCB000,
+    .partition_length          = 0x50000,  //320k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_OTA_TEMP] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "OTA Storage",
+    .partition_start_addr      = 0x11B000,
+    .partition_length          =  0xC0000, //768k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_1] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "PARAMETER 1",
+    .partition_start_addr      = 0x1DB000,
+    .partition_length          =   0x1000, // 4k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_2] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "PARAMETER 2",
+    .partition_start_addr      = 0x1DC000,
+    .partition_length          =   0x1000, //4k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  }
+};
 
 /* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c
 */

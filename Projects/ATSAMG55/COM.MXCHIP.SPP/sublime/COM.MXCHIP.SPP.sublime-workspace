@@ -519,70 +519,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/pmc/pmc.c",
-			"settings":
-			{
-				"buffer_size": 34604,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.c",
-			"settings":
-			{
-				"buffer_size": 14520,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/samg55j19.h",
-			"settings":
-			{
-				"buffer_size": 35457,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc2.h",
-			"settings":
-			{
-				"buffer_size": 21694,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc.h",
-			"settings":
-			{
-				"buffer_size": 22849,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/pdc/pdc.c",
-			"settings":
-			{
-				"buffer_size": 7524,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc2.c",
-			"settings":
-			{
-				"buffer_size": 12941,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/component/adc.h",
-			"settings":
-			{
-				"buffer_size": 33208,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -644,12 +580,19 @@
 	},
 	"file_history":
 	[
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/pmc/pmc.c",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.c",
+		"/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/samg55j19.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc2.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/pdc/pdc.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc2.c",
+		"/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/component/adc.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_i2c.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/common/services/clock/samg/sysclk.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/flexcom/flexcom.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/twi/twi.c",
 		"/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_mcu_peripheral.h",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_spi.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_uart.c",
 		"/Users/william/Develop/MiCO/Support/MDNSUtils.h",
@@ -665,7 +608,6 @@
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_mcu_peripheral.h",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.h",
-		"/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/samg55j19.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/common/services/ioport/sam/ioport_gpio.h",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform_config.h",
 		"/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/flexcom/flexcom.h",
@@ -765,13 +707,7 @@
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/rtc.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverGpio.c",
 		"/Users/William/Develop/MiCO/MICO/MICOSystemMonitor.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverI2c.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/EMW1062_Driver/SDIO/wlan_bus.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverPwm.c",
-		"/Users/William/Develop/MiCO/Demos/COM.Apple.HomeKit/HomeKitUserInterface.c",
-		"/Users/William/Develop/MiCO/Demos/COM.Apple.HomeKit/HomeKitServer.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverAdc.c",
-		"/Users/william/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_syscfg.h"
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverI2c.c"
 	],
 	"find":
 	{
@@ -946,228 +882,8 @@
 	"groups":
 	[
 		{
-			"selected": 7,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/pmc/pmc.c",
-					"settings":
-					{
-						"buffer_size": 34604,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								17520,
-								17528
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.c",
-					"settings":
-					{
-						"buffer_size": 14520,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7047,
-								7072
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1083.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/samg55j19.h",
-					"settings":
-					{
-						"buffer_size": 35457,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								16050,
-								16050
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 10986.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc2.h",
-					"settings":
-					{
-						"buffer_size": 21694,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 9222.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc.h",
-					"settings":
-					{
-						"buffer_size": 22849,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 9337.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/pdc/pdc.c",
-					"settings":
-					{
-						"buffer_size": 7524,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2401,
-								2401
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1064.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc2.c",
-					"settings":
-					{
-						"buffer_size": 12941,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7972,
-								7979
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4247.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/component/adc.h",
-					"settings":
-					{
-						"buffer_size": 33208,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4134,
-								4134
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4381.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

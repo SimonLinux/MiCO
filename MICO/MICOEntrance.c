@@ -52,6 +52,8 @@
 #include "Airkiss/Airkiss.h"
 #endif
 
+
+
 static mico_Context_t *context;
 static mico_timer_t _watchdog_reload_timer;
 
@@ -272,6 +274,16 @@ static void _watchdog_reload_timer_handler( void* arg )
 mico_Context_t *getGlobalContext(void)
 {
   return context;
+}
+
+void mico_write_ota_tbl(int len)
+{
+    memset(&context->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
+    context->flashContentInRam.bootTable.length = len;
+    context->flashContentInRam.bootTable.start_address = UPDATE_START_ADDRESS;
+    context->flashContentInRam.bootTable.type = 'A';
+    context->flashContentInRam.bootTable.upgrade_type = 'U';
+    MICOUpdateConfiguration(context);
 }
 
 int application_start(void)

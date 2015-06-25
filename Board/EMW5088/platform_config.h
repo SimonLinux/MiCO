@@ -47,7 +47,7 @@
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 
-
+#define MCU_CLOCK_HZ                                96000000
 /************************************************************************
  * Uncomment to disable watchdog. For debugging only */
 //#define MICO_DISABLE_WATCHDOG

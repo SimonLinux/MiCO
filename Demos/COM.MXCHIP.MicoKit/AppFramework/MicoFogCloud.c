@@ -466,26 +466,26 @@ OSStatus MicoFogCloudGetState(mico_Context_t* const context,
   mico_Context_t *inContext = context;
   json_object* report = (json_object*)outDevState;
   
-  uint16_t login_id_cmp_len = 0;
-  uint16_t dev_passwd_cmp_len = 0;
+//  uint16_t login_id_cmp_len = 0;
+//  uint16_t dev_passwd_cmp_len = 0;
   
   if((NULL == context) || (NULL == outDevState)){
     return kParamErr;
   }
   
-  // login_id/dev_passwd ok ?
-  login_id_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) > strlen(getStateRequestData.loginId) ?
-                     strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) : strlen(getStateRequestData.loginId);
-  dev_passwd_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) > strlen(getStateRequestData.devPasswd) ?
-                       strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) : strlen(getStateRequestData.devPasswd);
- 
-  if((0 != strncmp(context->flashContentInRam.appConfig.fogcloudConfig.loginId, 
-                   getStateRequestData.loginId, login_id_cmp_len)) ||
-     (0 != strncmp(context->flashContentInRam.appConfig.fogcloudConfig.devPasswd, 
-                   getStateRequestData.devPasswd, dev_passwd_cmp_len))){
-    fogcloud_log("ERROR: MVDGetState: loginId/devPasswd mismatch!");
-    return kMismatchErr;
-  }
+//  // login_id/dev_passwd ok ?
+//  login_id_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) > strlen(getStateRequestData.loginId) ?
+//                     strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) : strlen(getStateRequestData.loginId);
+//  dev_passwd_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) > strlen(getStateRequestData.devPasswd) ?
+//                       strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) : strlen(getStateRequestData.devPasswd);
+// 
+//  if((0 != strncmp(context->flashContentInRam.appConfig.fogcloudConfig.loginId, 
+//                   getStateRequestData.loginId, login_id_cmp_len)) ||
+//     (0 != strncmp(context->flashContentInRam.appConfig.fogcloudConfig.devPasswd, 
+//                   getStateRequestData.devPasswd, dev_passwd_cmp_len))){
+//    fogcloud_log("ERROR: MVDGetState: loginId/devPasswd mismatch!");
+//    return kMismatchErr;
+//  }
   
   json_object_object_add(report, "isActivated",
                          json_object_new_boolean(inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated)); 

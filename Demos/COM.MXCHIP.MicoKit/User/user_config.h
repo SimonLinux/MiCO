@@ -32,7 +32,7 @@
 #ifdef MICOKIT_3288
 //  #define PRODUCT_ID                       "d64f517c"
 //  #define PRODUCT_KEY                      "e935ef56-1d03-4432-9524-8d4a691a26ec"
-  #define PRODUCT_ID                       "b574d4b8"
+  #define PRODUCT_ID                       "b574d4b8"  //  wechat support
   #define PRODUCT_KEY                      "3cb9d67f-bb69-45e1-b9b8-15c5b7eae304"
 #elif MICOKIT_G55
   #define PRODUCT_ID                       "b95b6242"
@@ -86,6 +86,6 @@
 
 
 /*User provided configurations*/
-#define CONFIGURATION_VERSION               0x00000001 // if default configuration is changed, update this number
+#define CONFIGURATION_VERSION               0x00000002 // if default configuration is changed, update this number
    
 #endif  // __USER_CONFIG_H_

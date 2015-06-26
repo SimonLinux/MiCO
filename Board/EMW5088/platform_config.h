@@ -43,7 +43,6 @@
 #define HARDWARE_REVISION   "EMW5088_1"
 #define DEFAULT_NAME        "EMW5088"
 #define MODEL               "EMW5088"
-#define Bootloader_REVISION "V 0.1"
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 

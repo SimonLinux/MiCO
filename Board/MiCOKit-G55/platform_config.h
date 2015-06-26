@@ -45,7 +45,6 @@
 #define HARDWARE_REVISION   "MKG55_1"
 #define DEFAULT_NAME        "MiCOKit G55"
 #define MODEL               "MiCOKit-G55"
-#define Bootloader_REVISION "V 0.1"
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 

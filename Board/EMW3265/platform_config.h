@@ -48,7 +48,6 @@ extern "C"
 #define HARDWARE_REVISION   "EMW3265_1"
 #define DEFAULT_NAME        "EMW3265"
 #define MODEL               "EMW3265"
-#define Bootloader_REVISION "V 0.1"
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 

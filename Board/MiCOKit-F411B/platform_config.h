@@ -48,7 +48,6 @@ extern "C"
 #define HARDWARE_REVISION   "MKF411B_1"
 #define DEFAULT_NAME        "MiCOKit F411B"
 #define MODEL               "MiCOKit-F411B"
-#define Bootloader_REVISION "V 0.1"
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 

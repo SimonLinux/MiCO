@@ -35,6 +35,7 @@
 #include "platform.h"
 #include "platformInternal.h"
 #include "platform_config.h"
+#include "bootloader.h"
 
 #define boot_log(M, ...) custom_log("BOOT", M, ##__VA_ARGS__)
 #define boot_log_trace() custom_log_trace("BOOT")
@@ -57,7 +58,7 @@ char menu[] =
 #else
 char menu[] =
 "\r\n"
-"MICO Bootloader for %s, HARDWARE_REVISION: %s\r\n"
+"MICO Bootloader for %s%s, HARDWARE_REVISION: %s\r\n"
 "+ command -------------------------+ function ------------+\r\n"
 "| 0:BOOTUPDATE    <-r>             | Update bootloader    |\r\n"
 "| 1:FWUPDATE      <-r>             | Update application   |\r\n"
@@ -108,7 +109,7 @@ int main(void)
 #endif 
 
 BOOT:
-  printf ( menu, MODEL, HARDWARE_REVISION );
+  printf ( menu, MODEL, Bootloader_REVISION, HARDWARE_REVISION );
 
   while(1){                             
     Main_Menu ();

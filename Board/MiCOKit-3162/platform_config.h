@@ -43,7 +43,6 @@
 #define HARDWARE_REVISION   "3162"
 #define DEFAULT_NAME        "EMW3162 Module"
 #define MODEL               "EMW3162"
-#define Bootloader_REVISION "V 0.1"
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 

@@ -608,6 +608,7 @@ char *mico_get_bootloader_ver(void)
 }
 
 #ifdef BOOTLOADER 
+#include "bootloader.h"
 void mico_set_bootload_ver(void)
 {
     char ver[33];

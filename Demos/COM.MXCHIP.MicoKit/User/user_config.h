@@ -28,15 +28,25 @@
 /*******************************************************************************
  *                              APP INFO
  ******************************************************************************/
+#define WECHAT_SUPPORT       // add this macro if the product supports wechat
+
 /* product type */
 #ifdef MICOKIT_3288
-//  #define PRODUCT_ID                       "d64f517c"
-//  #define PRODUCT_KEY                      "e935ef56-1d03-4432-9524-8d4a691a26ec"
-  #define PRODUCT_ID                       "b574d4b8"  //  wechat support
-  #define PRODUCT_KEY                      "3cb9d67f-bb69-45e1-b9b8-15c5b7eae304"
+  #ifdef WECHAT_SUPPORT
+    #define PRODUCT_ID                       "b574d4b8"  //  wechat support
+    #define PRODUCT_KEY                      "3cb9d67f-bb69-45e1-b9b8-15c5b7eae304"
+  #else
+    #define PRODUCT_ID                       "d64f517c"
+    #define PRODUCT_KEY                      "e935ef56-1d03-4432-9524-8d4a691a26ec"
+  #endif
 #elif MICOKIT_G55
-  #define PRODUCT_ID                       "b95b6242"
-  #define PRODUCT_KEY                      "52731f33-edba-4483-9e4a-dc3859976c41"
+  #ifdef WECHAT_SUPPORT
+    #define PRODUCT_ID                       "8f362375"  //  wechat support
+    #define PRODUCT_KEY                      "0a7a2b47-9766-4807-be14-d2c35919485a"
+  #else
+    #define PRODUCT_ID                       "b95b6242"
+    #define PRODUCT_KEY                      "52731f33-edba-4483-9e4a-dc3859976c41"
+  #endif
 #endif
 
 /*------------------------- for ota test -----------------*/

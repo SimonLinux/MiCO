@@ -78,7 +78,11 @@
  *                             CONNECTING
  ******************************************************************************/
 /* Wi-Fi configuration mode */
-#define MICO_CONFIG_MODE                   CONFIG_MODE_AIRKISS
+#ifdef WECHAT_SUPPORT
+  #define MICO_CONFIG_MODE                   CONFIG_MODE_AIRKISS  // may be hybrid mode later
+#else
+  #define MICO_CONFIG_MODE                   CONFIG_MODE_EASYLINK
+#endif
 
 /* MICO cloud service type */
 #define MICO_CLOUD_TYPE                    CLOUD_FOGCLOUD

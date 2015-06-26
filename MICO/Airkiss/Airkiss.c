@@ -52,6 +52,7 @@
 
 static mico_semaphore_t      airkiss_sem;
 static uint8_t airkiss_data;
+static mico_semaphore_t      config_finished_sem;
 
 static void airkiss_thread(void *inContext);
 
@@ -215,12 +216,17 @@ OSStatus startAirkiss( mico_Context_t * const inContext)
   err = MICOAddNotification( mico_notify_SYS_WILL_POWER_OFF, (void *)AirkissNotify_SYSWillPowerOffHandler );
   require_noerr( err, exit ); 
   
+  mico_rtos_init_semaphore(&config_finished_sem, 1);
+  
   // Start the Airkiss thread
   ConfigWillStart(inContext);
   mico_rtos_init_semaphore(&airkiss_sem, 1);
   err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Airkiss", airkiss_thread, 0x1000, (void*)inContext );
   require_noerr_action( err, exit, airkiss_log("ERROR: Unable to start the Airkiss thread.") );
-
+  
+  mico_rtos_get_semaphore( &config_finished_sem, MICO_WAIT_FOREVER );
+  mico_rtos_deinit_semaphore( &config_finished_sem );
+  
 exit:
   return err;
 }
@@ -333,10 +339,11 @@ void airkiss_thread(void *inContext)
   }  
   Context->flashContentInRam.micoSystemConfig.configured = allConfigured;
   MICOUpdateConfiguration( Context );
-  MicoSystemReboot();
+  //MicoSystemReboot();
 threadexit:
   _cleanAirkissResource( Context );
   ConfigWillStop( Context );
+  mico_rtos_set_semaphore( &config_finished_sem );
   mico_rtos_delete_thread( NULL );
   return;
   

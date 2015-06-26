@@ -149,7 +149,7 @@ void startApplication(void)
 
     /* Clear all interrupt enabled by bootloader */
     for (int i = 0; i < 8; i++ )
-        NVIC->ICER[i] = 0x00;
+        NVIC->ICER[i] = 0xFF;
     
     stack_ptr = (uint32_t*) text_addr;  /* Initial stack pointer is first 4 bytes of vector table */
     start_ptr = ( stack_ptr + 1 );  /* Reset vector is second 4 bytes of vector table */

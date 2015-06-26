@@ -142,7 +142,7 @@ void startApplication(void)
   
   /* Clear all interrupt enabled by bootloader */
   for (int i = 0; i < 8; i++ )
-    NVIC->ICER[i] = 0x00;
+    NVIC->ICER[i] = 0xFF;
   
   if (((*(volatile uint32_t*)text_addr) & 0x2FFE0000 ) != 0x20000000)
   text_addr += 0x200;

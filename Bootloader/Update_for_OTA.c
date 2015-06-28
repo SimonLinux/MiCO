@@ -87,7 +87,7 @@ Log_Status updateLogCheck(boot_table_t *updateLog, mico_partition_t *dest_partit
   else if(updateLog->type == 'A')
     *dest_partition_type = MICO_PARTITION_APPLICATION;
   else if(updateLog->type == 'D')
-    *dest_partition_type = MICO_PARTITION_RF_DRIVER;
+    *dest_partition_type = MICO_PARTITION_RF_FIRMWARE;
   else 
     return Log_contentTypeNotExist;
 

@@ -278,9 +278,9 @@ typedef enum
 
 typedef enum
 {
-  MICO_SPI_FLASH,
-  MICO_INTERNAL_FLASH,
+  MICO_FLASH_EMBEDDED,
   MICO_FLASH_MAX,
+  MICO_FLASH_NONE,
 } mico_flash_t;
 
 #ifdef BOOTLOADER

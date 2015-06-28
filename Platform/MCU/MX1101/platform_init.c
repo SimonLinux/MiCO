@@ -136,12 +136,6 @@ void startApplication( uint32_t app_addr )
 {
   uint32_t* stack_ptr;
   uint32_t* start_ptr;
-
-  /* Ensure all flash devices are under protected. */
-  for( mico_partition_t i = MICO_PARTITION_BOOTLOADER; i <= MICO_PARTITION_PARAMETER_2 ; i++){
-    MicoFlashEnableSecurity( i, 0x0, MicoFlashGetInfo(i)->partition_length );
-  }
-
   
   if (((*(volatile uint32_t*)app_addr) & 0x2FFE0000 ) != 0x20000000)
   app_addr += 0x200;

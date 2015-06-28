@@ -339,7 +339,7 @@ static void tftp_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char
     tftp_file_info_t cmdinfo;
     int tftpcmd;
     uint32_t ip;
-    int parttype;
+    mico_partition_t parttype;
     mico_logic_partition_t *partition;
     
     if (argc != 7) {
@@ -386,9 +386,9 @@ WRONGCMD:
 
 static void partShow_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char **argv)
 {
-    int i;
+    mico_partition_t i;
     mico_logic_partition_t *partition;
-  
+
     for( i = MICO_PARTITION_BOOTLOADER; i <= MICO_PARTITION_PARAMETER_2; i++ ){
         partition = MicoFlashGetInfo( i );
         cmd_printf( "%4d | %11s |  Dev:%d  | 0x%08x | 0x%08x |\r\n", i,

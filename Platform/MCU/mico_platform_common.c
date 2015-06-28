@@ -85,15 +85,6 @@ extern const platform_flash_t           platform_flash_peripherals[];
 extern platform_flash_driver_t          platform_flash_drivers[];
 extern const mico_logic_partition_t     mico_partitions[];
 
-
-// const char* flash_name[] =
-// { 
-// #ifdef USE_MICO_SPI_FLASH
-//   [MICO_SPI_FLASH] = "SPI Flash", 
-// #endif
-//   [MICO_INTERNAL_FLASH] = "Internal",
-// };
-
 /******************************************************
 *               Function Definitions
 ******************************************************/
@@ -510,7 +501,7 @@ void MicoWdgReload( void )
 
 mico_logic_partition_t* MicoFlashGetInfo( mico_partition_t inPartition )
 {
-  if( (inPartition < MICO_PARTITION_BOOTLOADER) || (inPartition > MICO_PARTITION_PARAMETER_2))
+  if( (inPartition < 0) || (inPartition >= MICO_PARTITION_MAX))
     return NULL;
   else
     return (mico_logic_partition_t *)&mico_partitions[ inPartition ];
@@ -520,20 +511,23 @@ mico_logic_partition_t* MicoFlashGetInfo( mico_partition_t inPartition )
 static OSStatus MicoFlashInitialize( mico_partition_t partition )
 {
   OSStatus err = kNoErr;
-
+  
+  require_action_quiet( partition > MICO_PARTITION_ERROR, exit, err = kParamErr );
+  require_action_quiet( partition < MICO_PARTITION_MAX, exit, err = kParamErr );
   require_action_quiet( mico_partitions[ partition ].partition_owner != MICO_FLASH_NONE, exit, err = kNotFoundErr );
+  
   if( platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].flash_mutex == NULL){
-      err = mico_rtos_init_mutex( &platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].flash_mutex );
-      require_noerr( err, exit );
-    }
-
-    mico_rtos_lock_mutex( &platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].flash_mutex );
-
-    err = platform_flash_init( &platform_flash_peripherals[ mico_partitions[ partition ].partition_owner ] );
-    platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].peripheral = (platform_flash_t *)&platform_flash_peripherals[ mico_partitions[ partition ].partition_owner ];
-    platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].initialized = true;
-    mico_rtos_unlock_mutex( &platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].flash_mutex );
-
+    err = mico_rtos_init_mutex( &platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].flash_mutex );
+    require_noerr( err, exit );
+  }
+  
+  mico_rtos_lock_mutex( &platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].flash_mutex );
+  
+  err = platform_flash_init( &platform_flash_peripherals[ mico_partitions[ partition ].partition_owner ] );
+  platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].peripheral = (platform_flash_t *)&platform_flash_peripherals[ mico_partitions[ partition ].partition_owner ];
+  platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].initialized = true;
+  mico_rtos_unlock_mutex( &platform_flash_drivers[ mico_partitions[ partition ].partition_owner ].flash_mutex );
+  
 exit: 
   return err;
 }
@@ -543,13 +537,15 @@ OSStatus MicoFlashErase(mico_partition_t partition, uint32_t off_set, uint32_t s
   OSStatus err = kNoErr;
   uint32_t start_addr = mico_partitions[ partition ].partition_start_addr + off_set;
   uint32_t end_addr = mico_partitions[ partition ].partition_start_addr + off_set + size - 1;
+  
+  require_action_quiet( partition > MICO_PARTITION_ERROR, exit, err = kParamErr );
+  require_action_quiet( partition < MICO_PARTITION_MAX, exit, err = kParamErr );  
 
   require_action_quiet( mico_partitions[ partition ].partition_owner != MICO_FLASH_NONE, exit, err = kNotFoundErr );
 #ifndef BOOTLOADER
   require_action_quiet( ( mico_partitions[ partition ].partition_options & PAR_OPT_WRITE_MASK ) == PAR_OPT_WRITE_EN, exit, err = kPermissionErr );
 #endif
 
-  require_action_quiet( start_addr <= end_addr, exit, err = kParamErr );
   require_action_quiet( start_addr >= mico_partitions[ partition ].partition_start_addr, exit, err = kParamErr );
   require_action_quiet( end_addr < mico_partitions[ partition ].partition_start_addr + mico_partitions[ partition ].partition_length, exit, err = kParamErr );
 
@@ -573,6 +569,9 @@ OSStatus MicoFlashWrite( mico_partition_t partition, volatile uint32_t* off_set,
   uint32_t start_addr = mico_partitions[ partition ].partition_start_addr + *off_set;
   uint32_t end_addr = mico_partitions[ partition ].partition_start_addr + *off_set + inBufferLength - 1;
 
+  require_action_quiet( partition > MICO_PARTITION_ERROR, exit, err = kParamErr );
+  require_action_quiet( partition < MICO_PARTITION_MAX, exit, err = kParamErr );
+  
   require_action_quiet( mico_partitions[ partition ].partition_owner != MICO_FLASH_NONE, exit, err = kNotFoundErr );
 #ifndef BOOTLOADER
   require_action_quiet( ( mico_partitions[ partition ].partition_options & PAR_OPT_WRITE_MASK ) == PAR_OPT_WRITE_EN, exit, err = kPermissionErr );
@@ -602,6 +601,9 @@ OSStatus MicoFlashRead( mico_partition_t partition, volatile uint32_t* off_set, 
   uint32_t start_addr = mico_partitions[ partition ].partition_start_addr + *off_set;
   uint32_t  end_addr = mico_partitions[ partition ].partition_start_addr + *off_set + inBufferLength - 1;
 
+  require_action_quiet( partition > MICO_PARTITION_ERROR, exit, err = kParamErr );
+  require_action_quiet( partition < MICO_PARTITION_MAX, exit, err = kParamErr );
+  
   require_action_quiet( mico_partitions[ partition ].partition_owner != MICO_FLASH_NONE, exit, err = kNotFoundErr );
 #ifndef BOOTLOADER
   require_action_quiet( ( mico_partitions[ partition ].partition_options & PAR_OPT_READ_MASK ) == PAR_OPT_READ_EN, exit, err = kPermissionErr );
@@ -630,9 +632,11 @@ OSStatus MicoFlashEnableSecurity( mico_partition_t partition, uint32_t off_set, 
   OSStatus err = kNoErr;
   uint32_t start_addr = mico_partitions[ partition ].partition_start_addr + off_set;
   uint32_t end_addr = mico_partitions[ partition ].partition_start_addr + off_set + size - 1;
+  
+  require_action_quiet( partition > MICO_PARTITION_ERROR, exit, err = kParamErr );
+  require_action_quiet( partition < MICO_PARTITION_MAX, exit, err = kParamErr );
 
   require_action_quiet( mico_partitions[ partition ].partition_owner != MICO_FLASH_NONE, exit, err = kNotFoundErr );
-  require_action_quiet( start_addr <= end_addr, exit, err = kParamErr );
   require_action_quiet( start_addr >= mico_partitions[ partition ].partition_start_addr, exit, err = kParamErr );
   require_action_quiet( end_addr < mico_partitions[ partition ].partition_start_addr + mico_partitions[ partition ].partition_length, exit, err = kParamErr );
 
@@ -694,8 +698,9 @@ OSStatus MicoFlashDisableSecurity( mico_partition_t partition, uint32_t off_set,
   uint32_t start_addr = mico_partitions[ partition ].partition_start_addr + off_set;
   uint32_t end_addr = mico_partitions[ partition ].partition_start_addr + off_set + size - 1;
 
+  require_action_quiet( partition > MICO_PARTITION_ERROR, exit, err = kParamErr );
+  require_action_quiet( partition < MICO_PARTITION_MAX, exit, err = kParamErr );
   require_action_quiet( mico_partitions[ partition ].partition_owner != MICO_FLASH_NONE, exit, err = kNotFoundErr );
-  require_action_quiet( start_addr <= end_addr, exit, err = kParamErr );
   require_action_quiet( start_addr >= mico_partitions[ partition ].partition_start_addr, exit, err = kParamErr );
   require_action_quiet( end_addr < mico_partitions[ partition ].partition_start_addr + mico_partitions[ partition ].partition_length, exit, err = kParamErr );
 

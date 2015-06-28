@@ -301,7 +301,7 @@ const mico_logic_partition_t mico_partitions[] =
     .partition_length          =    0x74000,   //480k bytes
     .partition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
   },
-  [MICO_PARTITION_RF_DRIVER] =
+  [MICO_PARTITION_RF_FIRMWARE] =
   {
     .partition_owner           = MICO_FLASH_SPI,
     .partition_description     = "RF Firmware",

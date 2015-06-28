@@ -43,15 +43,17 @@
 /******************************************************
  *                   Macros
  ******************************************************/  
- #define PAR_OPT_READ_DIS 		( 0x0u << 0 )
- #define PAR_OPT_READ_EN  		( 0x1u << 0 )
- #define PAR_OPT_WRITE_DIS 		( 0x0u << 1 )
- #define PAR_OPT_WRITE_EN   	        ( 0x1u << 1 )
 
- #define PAR_OPT_READ_MASK  	        ( 0x1u << 0 )
- #define PAR_OPT_WRITE_MASK 	        ( 0x1u << 1 )
+#define PAR_OPT_READ_POS      ( 0 )
+#define PAR_OPT_WRITE_POS     ( 1 )
 
+#define PAR_OPT_READ_MASK  	  ( 0x1u << PAR_OPT_READ_POS )
+#define PAR_OPT_WRITE_MASK 	  ( 0x1u << PAR_OPT_WRITE_POS )
 
+#define PAR_OPT_READ_DIS      ( 0x0u << PAR_OPT_READ_MASK )
+#define PAR_OPT_READ_EN       ( 0x1u << PAR_OPT_READ_MASK )
+#define PAR_OPT_WRITE_DIS     ( 0x0u << PAR_OPT_WRITE_POS )
+#define PAR_OPT_WRITE_EN      ( 0x1u << PAR_OPT_WRITE_POS )
 
 /******************************************************
  *                   Enumerations
@@ -63,13 +65,16 @@
      
 typedef enum
 {
-    MICO_PARTITION_BOOTLOADER,
+    MICO_PARTITION_ERROR = -1,
+    MICO_PARTITION_BOOTLOADER = 0,
     MICO_PARTITION_APPLICATION,
     MICO_PARTITION_ATE,
     MICO_PARTITION_OTA_TEMP,
-    MICO_PARTITION_RF_DRIVER,
+    MICO_PARTITION_RF_FIRMWARE,
     MICO_PARTITION_PARAMETER_1,
     MICO_PARTITION_PARAMETER_2,
+    MICO_PARTITION_MAX,
+    MICO_PARTITION_NONE,
 } mico_partition_t;
 
 typedef struct

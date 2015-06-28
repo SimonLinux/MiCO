@@ -258,7 +258,7 @@ void Main_Menu(void)
     
     /***************** Command "2" or "DRIVERUPDATE": Update the RF driver  *************************/
     else if(strcmp(cmdname, "DRIVERUPDATE") == 0 || strcmp(cmdname, "2") == 0) {
-      partition = MicoFlashGetInfo( MICO_PARTITION_RF_DRIVER );
+      partition = MicoFlashGetInfo( MICO_PARTITION_RF_FIRMWARE );
       if( partition == NULL ){
         printf ("\n\rNo independ flash memory for RF driver, exiting...\n\r");
         continue;
@@ -270,7 +270,7 @@ void Main_Menu(void)
         continue;
       }
       printf ("\n\rUpdating RF driver...\n\r");
-      err = MicoFlashDisableSecurity( MICO_PARTITION_RF_DRIVER, 0x0, partition->partition_length );
+      err = MicoFlashDisableSecurity( MICO_PARTITION_RF_FIRMWARE, 0x0, partition->partition_length );
       require_noerr( err, exit);
       SerialDownload( partition->partition_owner, partition->partition_start_addr, partition->partition_length );    
     }

@@ -43,6 +43,7 @@
 extern void Main_Menu(void);
 extern OSStatus update(void);
 
+
 #ifdef SIZE_OPTIMIZE
 char menu[] =
 "\r\n"
@@ -81,9 +82,28 @@ char menu[] =
 extern int stdio_break_in(void);
 #endif
 
-int main(void)
+
+static void enable_protection( void )
 {
   mico_partition_t i;
+  mico_logic_partition_t *partition;
+
+  for( i = MICO_PARTITION_BOOTLOADER; i < MICO_PARTITION_MAX; i++ ){
+    partition = MicoFlashGetInfo( i );
+    if( PAR_OPT_WRITE_DIS == ( partition->partition_options & PAR_OPT_WRITE_MASK )  )
+      MicoFlashEnableSecurity( i, 0x0, MicoFlashGetInfo(i)->partition_length );
+  }
+}
+
+void bootloader_start_app( uint32_t app_addr )
+{
+  enable_protection( );
+  startApplication( app_addr );
+}
+
+
+int main(void)
+{
   mico_logic_partition_t *partition;
   
   init_clocks();
@@ -95,9 +115,7 @@ int main(void)
   
   update();
 
-  for( i = MICO_PARTITION_BOOTLOADER; i <= MICO_PARTITION_PARAMETER_2; i++ ){
-    MicoFlashEnableSecurity( i, 0x0, MicoFlashGetInfo(i)->partition_length );
-  }
+  enable_protection();
 
 #ifdef MICO_ENABLE_STDIO_TO_BOOT
   if (stdio_break_in() == 1)
@@ -105,13 +123,13 @@ int main(void)
 #endif
   
   if( MicoShouldEnterBootloader() == false) 
-    startApplication( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
+    bootloader_start_app( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
   else if( MicoShouldEnterMFGMode() == true )
-    startApplication( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
+    bootloader_start_app( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
   else if ( MicoShouldEnterATEMode()) {
     partition = MicoFlashGetInfo( MICO_PARTITION_ATE );
     if (partition->partition_owner != MICO_FLASH_NONE) {
-      startApplication( (MicoFlashGetInfo(MICO_PARTITION_ATE))->partition_start_addr );
+      bootloader_start_app( partition->partition_start_addr );
     }
   }
 

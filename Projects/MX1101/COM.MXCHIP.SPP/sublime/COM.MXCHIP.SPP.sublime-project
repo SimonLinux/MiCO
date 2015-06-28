@@ -15,7 +15,7 @@
 			"path": "../../../../Board/MiCOKit-3088"
 		},
 		{
-			"path": "../../../../COM.MXCHIP.SPP"
+			"path": "../../../../Bootloader"
 		},
 		{
 			"path": "../../../../External"
@@ -41,7 +41,7 @@
 			"-DDEBUG",
 			"-DBOOTLOADER",
 			"-I/Users/william/Develop/MiCO/include/",
-			"-I/Users/william/Develop/MiCO/Demos/COM.MXCHIP.SPP/",
+			"-I/Users/william/Develop/MiCO/Bootloader/",
 			"-I/Users/william/Develop/MiCO/External/",
 			"-I/Users/william/Develop/MiCO/Platform/",
 			"-I/Users/william/Develop/MiCO/Platform/include/",

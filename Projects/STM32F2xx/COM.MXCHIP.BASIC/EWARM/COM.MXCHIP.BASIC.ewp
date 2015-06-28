@@ -3164,7 +3164,7 @@
       <group>
         <name>MFiAuth</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MicoDriverMFiAuth\MicoDriverMFiAuth.a</name>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCODriverMFiAuth\MicoDriverMFiAuth.a</name>
         </file>
       </group>
       <group>
@@ -3380,9 +3380,6 @@
         </group>
         <group>
           <name>wlan_bus_driver</name>
-          <file>
-            <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F2xx\wlan_bus_driver\read_wifi_firmware.c</name>
-          </file>
           <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F2xx\wlan_bus_driver\wlan_bus_sdio.c</name>
             <excluded>

@@ -228,8 +228,9 @@ static int ota_finished(uint8_t *md5_recv, uint8_t *temp_buf, int temp_buf_len, 
     int len;
     uint32_t offset = 0x0;
     mico_Context_t *context = (mico_Context_t *)inUserContext;
-  
-    if( MICO_PARTITION_OTA_TEMP == MICO_PARTITION_NONE )
+    mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
+    
+    if( ota_partition->partition_owner == MICO_FLASH_NONE )
       return kNoErr;
 
     ota_log("Receive OTA data done!");
@@ -268,8 +269,9 @@ static OSStatus onReceivedData(struct _HTTPHeader_t * inHeader, uint32_t inPos, 
   OSStatus err = kUnknownErr;
   const char *    value;
   size_t          valueSize;
-
-  require_action( MICO_PARTITION_OTA_TEMP != MICO_PARTITION_NONE, flashErrExit, err = kUnsupportedErr );
+  mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
+  
+  require_action( ota_partition->partition_owner != MICO_FLASH_NONE, flashErrExit, err = kUnsupportedErr );
   
   err = HTTPGetHeaderField( inHeader->buf, inHeader->len, "Content-Type", NULL, NULL, &value, &valueSize, NULL );
   if(err == kNoErr && strnicmpx( value, valueSize, kMIMEType_Stream ) == 0){

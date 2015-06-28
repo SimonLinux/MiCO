@@ -339,7 +339,9 @@ static void tftp_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char
     tftp_file_info_t cmdinfo;
     int tftpcmd;
     uint32_t ip;
-
+    int parttype;
+    mico_logic_partition_t *partition;
+    
     if (argc != 7) {
         goto WRONGCMD;
     }
@@ -352,10 +354,11 @@ static void tftp_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char
     }
 
     ip = inet_addr(argv[1]);
-    if (strcmp(argv[4], "i")==0) {
-        cmdinfo.flashtype = MICO_INTERNAL_FLASH;
-    } else if (strcmp(argv[4], "s") == 0) {
-        cmdinfo.flashtype = MICO_SPI_FLASH;
+    parttype = atoi(argv[4]);
+
+    partition = MicoFlashGetInfo( parttype );
+    if (partition) {
+        cmdinfo.flashtype = parttype;
     } else {
         goto WRONGCMD;
     }
@@ -366,19 +369,33 @@ static void tftp_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char
     cmdinfo.filelen= strtoul(argv[6], NULL, 0);
     if (tftpcmd == 0) { // put
         cmd_printf("tftp put to %s, filenmae %s. from %s flash, address 0x%x, len %d\r\n", argv[1], cmdinfo.filename,
-            cmdinfo.flashtype==MICO_INTERNAL_FLASH?"internal":"SPI", cmdinfo.flashaddr, cmdinfo.filelen);
+            partition->partition_description, cmdinfo.flashaddr, cmdinfo.filelen);
         tsend(&cmdinfo, ip);
     } else { // get
         cmd_printf("tftp get from %s, filenmae %s. to %s flash, address 0x%x, len %d\r\n", argv[1], cmdinfo.filename,
-            cmdinfo.flashtype==MICO_INTERNAL_FLASH?"internal":"SPI", cmdinfo.flashaddr, cmdinfo.filelen);
+            partition->partition_description, cmdinfo.flashaddr, cmdinfo.filelen);
         tget(&cmdinfo, ip);
     }
     return;
     
 WRONGCMD:
-    cmd_printf("Usage: tftp <ip> put <filename> i/s <flashaddr> <flashlen>\r\n"
-               "       tftp <ip> get <filenmae> i/s <flashaddr> <flashlen>\r\n"
-               "        i=internale flash, s=SPI flash");
+    cmd_printf("Usage: tftp <ip> put <filename> <partition type> <flashaddr> <flashlen>\r\n"
+               "       tftp <ip> get <filenmae> <partition type> <flashaddr> <flashlen>\r\n"
+              );
+}
+
+static void partShow_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char **argv)
+{
+    int i;
+    mico_logic_partition_t *partition;
+  
+    for( i = MICO_PARTITION_BOOTLOADER; i <= MICO_PARTITION_PARAMETER_2; i++ ){
+        partition = MicoFlashGetInfo( i );
+        cmd_printf( "%4d | %11s |  Dev:%d  | 0x%08x | 0x%08x |\r\n", i,
+            partition->partition_description, partition->partition_owner, 
+            partition->partition_start_addr, partition->partition_length);
+    };
+
 }
 
 static void uptime_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char **argv)
@@ -491,6 +508,7 @@ static const struct cli_command built_ins[] = {
   {"tftp",     "tftp",                        tftp_Command},
   {"time",     "system time",                 uptime_Command},
   {"ota",      "system ota",                  ota_Command},
+  {"flash",    "Flash memory map",            partShow_Command},
 };
 
 int cli_register_command(const struct cli_command *command)

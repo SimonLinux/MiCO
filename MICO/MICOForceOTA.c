@@ -76,6 +76,7 @@ void mico_force_ota(void)
     uint8_t *tmpbuf;
     md5_context ctx;
     uint8_t mac[6], sta_ip_addr[16];
+    mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
     
 #define TMP_BUF_LEN 1024
 
@@ -87,9 +88,9 @@ void mico_force_ota(void)
 	  MICORemoveAllNotification(mico_notify_EASYLINK_WPS_COMPLETED);
     MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)FOTA_WifiStatusHandler );
     micoWlanStopEasyLink();
-	  micoWlanStopEasyLinkPlus();
-		micoWlanStopAirkiss();
-	  msleep(10);
+	micoWlanStopEasyLinkPlus();
+    micoWlanStopAirkiss();
+	msleep(10);
 		
     tmpbuf = (uint8_t*)malloc(TMP_BUF_LEN);
     if (tmpbuf == NULL) {
@@ -129,9 +130,9 @@ void mico_force_ota(void)
     }
     fota_log("AP connected, tftp download image...");
 
-    fileinfo.filelen = UPDATE_FLASH_SIZE-1;
-    fileinfo.flashaddr = UPDATE_START_ADDRESS;
-    fileinfo.flashtype = MICO_FLASH_FOR_UPDATE;
+    fileinfo.filelen = ota_partition->partition_length;
+    fileinfo.flashaddr = 0;
+    fileinfo.flashtype = MICO_PARTITION_OTA_TEMP;
     strcpy(fileinfo.filename, "mico_ota.bin");
 
     while((filelen = tget (&fileinfo, ipaddr)) < 0) {
@@ -147,10 +148,10 @@ void mico_force_ota(void)
 
     filelen -= 16; // remove md5.
     fota_log("tftp download image finished, OTA bin len %d", filelen);
-    flashaddr = UPDATE_START_ADDRESS + filelen;
-    MicoFlashRead(MICO_FLASH_FOR_UPDATE, &flashaddr, (uint8_t *)md5_recv, 16);
+    flashaddr = filelen;
+    MicoFlashRead(MICO_PARTITION_OTA_TEMP, &flashaddr, (uint8_t *)md5_recv, 16);
     InitMd5( &ctx );
-    flashaddr = UPDATE_START_ADDRESS;
+    flashaddr = 0;
     left = filelen;
     while(left > 0) {
         if (left > TMP_BUF_LEN) {
@@ -159,7 +160,7 @@ void mico_force_ota(void)
             len = left;
         }
         left -= len;
-        MicoFlashRead(MICO_FLASH_FOR_UPDATE, &flashaddr, (uint8_t *)tmpbuf, len);
+        MicoFlashRead(MICO_PARTITION_OTA_TEMP, &flashaddr, (uint8_t *)tmpbuf, len);
         Md5Update( &ctx, (uint8_t *)tmpbuf, len);
     }
     Md5Final( &ctx, md5_calc );

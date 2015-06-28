@@ -366,10 +366,10 @@ void Main_Menu(void)
     }
     
     
-    /***************** Command: Reboot *************************/
+    /***************** Command: MEMORYMAP *************************/
     else if(strcmp(cmdname, "MEMORYMAP") == 0 || strcmp(cmdname, "5") == 0)  {
       printf( MEMMAP_HEADER );
-      for( i = 0; i < MICO_PARTITION_MAX; i++ ){
+      for( i = MICO_PARTITION_BOOTLOADER; i <= MICO_PARTITION_PARAMETER_2; i++ ){
         partition = MicoFlashGetInfo( i );
         printf( "| %11s |  Dev:%d  | 0x%08x | 0x%08x |\r\n", partition->partition_description, partition->partition_owner, 
                partition->partition_start_addr, partition->partition_length);

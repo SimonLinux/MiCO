@@ -72,9 +72,6 @@ extern "C"
  * Restore default and start easylink after press down EasyLink button for 3 seconds. */
 #define RestoreDefault_TimeOut                      (3000)
 
-
-#define MCU_CLOCK_HZ            100000000
-
 #define HSE_SOURCE              RCC_HSE_OFF               /* Use external crystal                 */
 #define AHB_CLOCK_DIVIDER       RCC_SYSCLK_Div1          /* AHB clock = System clock             */
 #define APB1_CLOCK_DIVIDER      RCC_HCLK_Div2            /* APB1 clock = AHB clock / 2           */
@@ -103,7 +100,8 @@ extern "C"
 
 /* Wi-Fi power pin is active high */
 #define MICO_USE_WIFI_POWER_PIN_ACTIVE_HIGH
-  
+
+//#define MICO_USE_BUILTIN_RF_DRIVER
 /******************************************************
 *                   Enumerations
 ******************************************************/

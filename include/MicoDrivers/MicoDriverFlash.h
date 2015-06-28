@@ -60,7 +60,17 @@
 /******************************************************
  *                 Type Definitions
  ******************************************************/
-
+     
+typedef enum
+{
+    MICO_PARTITION_BOOTLOADER,
+    MICO_PARTITION_APPLICATION,
+    MICO_PARTITION_ATE,
+    MICO_PARTITION_OTA_TEMP,
+    MICO_PARTITION_RF_DRIVER,
+    MICO_PARTITION_PARAMETER_1,
+    MICO_PARTITION_PARAMETER_2,
+} mico_partition_t;
 
 typedef struct
 {

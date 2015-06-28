@@ -83,6 +83,9 @@ extern int stdio_break_in(void);
 
 int main(void)
 {
+  mico_partition_t i;
+  mico_logic_partition_t *partition;
+  
   init_clocks();
   init_memory();
   init_architecture();
@@ -92,7 +95,7 @@ int main(void)
   
   update();
 
-  for( mico_partition_t i = MICO_PARTITION_1; i < MICO_PARTITION_MAX ; i++){
+  for( i = MICO_PARTITION_BOOTLOADER; i <= MICO_PARTITION_PARAMETER_2; i++ ){
     MicoFlashEnableSecurity( i, 0x0, MicoFlashGetInfo(i)->partition_length );
   }
 
@@ -105,9 +108,12 @@ int main(void)
     startApplication( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
   else if( MicoShouldEnterMFGMode() == true )
     startApplication( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
-  else if ( MicoShouldEnterATEMode() && MICO_PARTITION_NONE != MICO_PARTITION_ATE ) {
-    startApplication( (MicoFlashGetInfo(MICO_PARTITION_ATE))->partition_start_addr );
-	}
+  else if ( MicoShouldEnterATEMode()) {
+    partition = MicoFlashGetInfo( MICO_PARTITION_ATE );
+    if (partition->partition_owner != MICO_FLASH_NONE) {
+      startApplication( (MicoFlashGetInfo(MICO_PARTITION_ATE))->partition_start_addr );
+    }
+  }
 
 BOOT:
   printf ( menu, MODEL, Bootloader_REVISION, HARDWARE_REVISION );

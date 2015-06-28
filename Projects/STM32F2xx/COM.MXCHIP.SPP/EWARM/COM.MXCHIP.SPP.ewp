@@ -3240,7 +3240,7 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\mico_0527\mico\External\tftp\tftpc.o</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\work\tftp\mico\tftpc.c</name>
     </file>
   </group>
   <group>

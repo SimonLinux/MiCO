@@ -228,7 +228,7 @@ static OSStatus onReceivedData(struct _HTTPHeader_t * inHeader, uint32_t inPos, 
   if(err == kNoErr && strnicmpx( value, valueSize, kMIMEType_MXCHIP_OTA ) == 0){
     printf("%d/", inPos);
 
-    if( MICO_PARTITION_OTA_TEMP == MICO_PARTITION_NONE ){
+    if( ota_partition->partition_owner == MICO_FLASH_NONE ){
       config_log("OTA storage is not exist");
       return kUnsupportedErr;
     }
@@ -340,7 +340,7 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
     }
     goto exit;
   }
-  else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLOTA ) == kNoErr && MICO_PARTITION_OTA_TEMP != MICO_PARTITION_NONE){
+  else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLOTA ) == kNoErr && ota_partition->partition_owner != MICO_FLASH_NONE){
     if(inHeader->contentLength > 0){
       config_log("Receive OTA data!");
       memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));

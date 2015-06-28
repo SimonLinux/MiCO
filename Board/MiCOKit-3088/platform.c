@@ -206,7 +206,7 @@ const mico_logic_partition_t mico_partitions[] =
   {
     .partition_owner           = MICO_FLASH_SPI,
     .partition_description     = "Bootloader",
-    .partition_start_addr      =    0x0,
+    .partition_start_addr      = 0x0,
     .partition_length          = 0xA000,    //40k bytes + 4k bytes empty space
     .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
   },
@@ -214,7 +214,7 @@ const mico_logic_partition_t mico_partitions[] =
   {
     .partition_owner           = MICO_FLASH_SPI,
     .partition_description     = "Application",
-    .partition_start_addr      =  0xB000,
+    .partition_start_addr      = 0xB000,
     .partition_length          = 0xC0000,   //768k bytes
     .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
   },
@@ -229,25 +229,25 @@ const mico_logic_partition_t mico_partitions[] =
   [MICO_PARTITION_OTA_TEMP] =
   {
     .partition_owner           = MICO_FLASH_SPI,
-    .partition_description     = "OTA Storage",
+    .partition_description     = "OTAStorage",
     .partition_start_addr      = 0x11B000,
-    .partition_length          =  0xC0000, //768k bytes
+    .partition_length          = 0xC0000, //768k bytes
     .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
   },
   [MICO_PARTITION_PARAMETER_1] =
   {
     .partition_owner           = MICO_FLASH_SPI,
-    .partition_description     = "PARAMETER 1",
+    .partition_description     = "PARAMETER1",
     .partition_start_addr      = 0x1DB000,
-    .partition_length          =   0x1000, // 4k bytes
+    .partition_length          = 0x1000, // 4k bytes
     .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
   },
   [MICO_PARTITION_PARAMETER_2] =
   {
     .partition_owner           = MICO_FLASH_SPI,
-    .partition_description     = "PARAMETER 2",
+    .partition_description     = "PARAMETER2",
     .partition_start_addr      = 0x1DC000,
-    .partition_length          =   0x1000, //4k bytes
+    .partition_length          = 0x1000, //4k bytes
     .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
   }
 };

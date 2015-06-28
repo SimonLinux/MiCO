@@ -221,17 +221,19 @@ static uint32_t platform_get_wifi_image_from_flash(unsigned char* buffer, uint32
 
 uint32_t platform_get_wifi_image_size(void)
 {
-if( MICO_PARTITION_RF_DRIVER == MICO_PARTITION_NONE )
+#ifdef MICO_USE_BUILTIN_RF_DRIVER
     return platform_get_wifi_image_size_from_array();
-else
+#else
     return platform_get_wifi_image_size_from_flash();
+#endif
 }
 
 uint32_t platform_get_wifi_image(unsigned char* buffer, uint32_t size, uint32_t offset)
 {
-if( MICO_PARTITION_RF_DRIVER == MICO_PARTITION_NONE )
+#ifdef MICO_USE_BUILTIN_RF_DRIVER
     return platform_get_wifi_image_from_array( buffer, size, offset );
-else
+#else
     return platform_get_wifi_image_from_flash( buffer, size, offset );
+#endif
 }
 #endif

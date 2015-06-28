@@ -111,13 +111,13 @@ OSStatus update(void)
   mico_logic_partition_t *ota_partition_info, *dest_partition_info, *para_partition_info;
   mico_partition_t dest_partition;
   OSStatus err = kNoErr;
-  
-  require_action( MICO_PARTITION_OTA_TEMP <= MICO_PARTITION_MAX, exit, err = kUnsupportedErr );
-  ota_partition_info = MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP);
 
-  require_action( MICO_PARTITION_PARAMETER_1 <= MICO_PARTITION_MAX, exit, err = kUnsupportedErr );
+  ota_partition_info = MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP);
+  require_action( ota_partition_info->partition_owner != MICO_FLASH_NONE, exit, err = kUnsupportedErr );
+  
   para_partition_info = MicoFlashGetInfo(MICO_PARTITION_PARAMETER_1);
- 
+  require_action( para_partition_info->partition_owner != MICO_FLASH_NONE, exit, err = kUnsupportedErr );
+  
   memset(data, 0xFF, SizePerRW);
   memset(newData, 0xFF, SizePerRW);
 
@@ -155,10 +155,11 @@ OSStatus update(void)
     goto exit;
   }
 
-  require_action( dest_partition <= MICO_PARTITION_MAX, exit, err = kUnsupportedErr );
   dest_partition_info = MicoFlashGetInfo( dest_partition );
+  require_action( dest_partition_info->partition_owner != MICO_FLASH_NONE, exit, err = kUnsupportedErr );
   
-  update_log("Write OTA data to destination, partition:%d, length 0x%x", dest_partition, updateLog.length);
+  update_log("Write OTA data to partition: %s, length %d", 
+    dest_partition_info->partition_description, updateLog.length);
   
   dest_offset = 0x0;
   update_data_offset = 0x0;

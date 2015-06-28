@@ -138,7 +138,7 @@ void startApplication( uint32_t app_addr )
   uint32_t* start_ptr;
 
   /* Ensure all flash devices are under protected. */
-  for( mico_partition_t i = MICO_PARTITION_1; i < MICO_PARTITION_MAX ; i++){
+  for( mico_partition_t i = MICO_PARTITION_BOOTLOADER; i <= MICO_PARTITION_PARAMETER_2 ; i++){
     MicoFlashEnableSecurity( i, 0x0, MicoFlashGetInfo(i)->partition_length );
   }
 

@@ -554,11 +554,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICOCli.c</FilePath>
             </File>
-            <File>
-              <FileName>MICOForceOTA.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -602,11 +597,6 @@
               <FileName>wlan_firmware.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\Library\RF driver\wlan_firmware.c</FilePath>
-            </File>
-            <File>
-              <FileName>tftpc.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
             </File>
           </Files>
         </Group>
@@ -848,11 +838,6 @@
             </GroupArmAds>
           </GroupOption>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
@@ -1690,11 +1675,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICOCli.c</FilePath>
             </File>
-            <File>
-              <FileName>MICOForceOTA.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1719,11 +1699,6 @@
               <FileName>wlan_firmware.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\Library\RF driver\wlan_firmware.c</FilePath>
-            </File>
-            <File>
-              <FileName>tftpc.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
             </File>
           </Files>
         </Group>
@@ -1965,11 +1940,6 @@
             </GroupArmAds>
           </GroupOption>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
@@ -2562,7 +2532,7 @@
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0xd000</StartAddress>
+                <StartAddress>0xb000</StartAddress>
                 <Size>0xc0000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
@@ -2807,11 +2777,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICOCli.c</FilePath>
             </File>
-            <File>
-              <FileName>MICOForceOTA.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2855,11 +2820,6 @@
               <FileName>wlan_firmware.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\Library\RF driver\wlan_firmware.c</FilePath>
-            </File>
-            <File>
-              <FileName>tftpc.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
             </File>
           </Files>
         </Group>
@@ -3041,11 +3001,6 @@
         <Group>
           <GroupName>Platform/MCU/MX1101/wlan_bus_driver</GroupName>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
@@ -3943,11 +3898,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICOCli.c</FilePath>
             </File>
-            <File>
-              <FileName>MICOForceOTA.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -3991,11 +3941,6 @@
               <FileName>wlan_firmware.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\Library\RF driver\wlan_firmware.c</FilePath>
-            </File>
-            <File>
-              <FileName>tftpc.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
             </File>
           </Files>
         </Group>
@@ -4177,11 +4122,6 @@
         <Group>
           <GroupName>Platform/MCU/MX1101/wlan_bus_driver</GroupName>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>

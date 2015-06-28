@@ -27,7 +27,6 @@
 
   <project>
     <PathAndName>.\COM.MXCHIP.FogCloud\RVMDK\COM.MXCHIP.FogCloud.uvprojx</PathAndName>
-    <NodeIsActive>1</NodeIsActive>
   </project>
 
 </ProjectWorkspace>

@@ -46,10 +46,7 @@ __weak void appRestoreDefault_callback(mico_Context_t *inContext)
 OSStatus MICORestoreDefault(mico_Context_t *inContext)
 { 
   OSStatus err = kNoErr;
-  uint32_t paraStartAddress, paraEndAddress;
- 
-  paraStartAddress = PARA_START_ADDRESS;
-  paraEndAddress = PARA_END_ADDRESS;
+  uint32_t para_offset = 0x0;
 
   /*wlan configration is not need to change to a default state, use easylink to do that*/
   memset(&inContext->flashContentInRam, 0x0, sizeof(inContext->flashContentInRam));
@@ -65,13 +62,9 @@ OSStatus MICORestoreDefault(mico_Context_t *inContext)
   /*Application's default configuration*/
   appRestoreDefault_callback(inContext);
 
-  err = MicoFlashInitialize(MICO_FLASH_FOR_PARA);
+  err = MicoFlashErase( MICO_PARTITION_PARAMETER_1 ,para_offset, sizeof(flash_content_t) );
   require_noerr(err, exit);
-  err = MicoFlashErase(MICO_FLASH_FOR_PARA, paraStartAddress, paraEndAddress);
-  require_noerr(err, exit);
-  err = MicoFlashWrite(MICO_FLASH_FOR_PARA, &paraStartAddress, (void *)inContext, sizeof(flash_content_t));
-  require_noerr(err, exit);
-  err = MicoFlashFinalize(MICO_FLASH_FOR_PARA);
+  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &para_offset, (void *)inContext, sizeof(flash_content_t));
   require_noerr(err, exit);
 
 exit:
@@ -82,10 +75,7 @@ exit:
 OSStatus MICORestoreMFG(mico_Context_t *inContext)
 { 
   OSStatus err = kNoErr;
-  uint32_t paraStartAddress, paraEndAddress;
- 
-  paraStartAddress = PARA_START_ADDRESS;
-  paraEndAddress = PARA_END_ADDRESS;
+  uint32_t para_offset = 0x0;
 
   /*wlan configration is not need to change to a default state, use easylink to do that*/
   sprintf(inContext->flashContentInRam.micoSystemConfig.name, DEFAULT_NAME);
@@ -94,13 +84,9 @@ OSStatus MICORestoreMFG(mico_Context_t *inContext)
   /*Application's default configuration*/
   appRestoreDefault_callback(inContext);
 
-  err = MicoFlashInitialize(MICO_FLASH_FOR_PARA);
+  err = MicoFlashErase( MICO_PARTITION_PARAMETER_1 ,para_offset, sizeof(flash_content_t) );
   require_noerr(err, exit);
-  err = MicoFlashErase(MICO_FLASH_FOR_PARA, paraStartAddress, paraEndAddress);
-  require_noerr(err, exit);
-  err = MicoFlashWrite(MICO_FLASH_FOR_PARA, &paraStartAddress, (void *)inContext, sizeof(flash_content_t));
-  require_noerr(err, exit);
-  err = MicoFlashFinalize(MICO_FLASH_FOR_PARA);
+  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &para_offset, (void *)inContext, sizeof(flash_content_t));
   require_noerr(err, exit);
 
 exit:
@@ -112,12 +98,10 @@ exit:
 
 OSStatus MICOReadConfiguration(mico_Context_t *inContext)
 {
-  uint32_t configInFlash;
+  uint32_t config_offset = 0;
   OSStatus err = kNoErr;
-  configInFlash = PARA_START_ADDRESS;
-  err = MicoFlashInitialize(MICO_FLASH_FOR_PARA);
-  require_noerr(err, exit);
-  err = MicoFlashRead(MICO_FLASH_FOR_PARA, &configInFlash, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t));
+
+  err = MicoFlashRead( MICO_PARTITION_PARAMETER_1, &config_offset, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t));
   seedNum = inContext->flashContentInRam.micoSystemConfig.seed;
   if(seedNum == -1) seedNum = 0;
 
@@ -145,19 +129,13 @@ exit:
 OSStatus MICOUpdateConfiguration(mico_Context_t *inContext)
 {
   OSStatus err = kNoErr;
-  uint32_t paraStartAddress, paraEndAddress;
- 
-  paraStartAddress = PARA_START_ADDRESS;
-  paraEndAddress = PARA_END_ADDRESS;
+  uint32_t para_offset = 0x0;
 
   inContext->flashContentInRam.micoSystemConfig.seed = ++seedNum;
-  err = MicoFlashInitialize(MICO_FLASH_FOR_PARA);
+
+  err = MicoFlashErase( MICO_PARTITION_PARAMETER_1, para_offset, sizeof(flash_content_t) );
   require_noerr(err, exit);
-  err = MicoFlashErase(MICO_FLASH_FOR_PARA, paraStartAddress, paraEndAddress);
-  require_noerr(err, exit);
-  err = MicoFlashWrite(MICO_FLASH_FOR_PARA, &paraStartAddress, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t));
-  require_noerr(err, exit);
-  err = MicoFlashFinalize(MICO_FLASH_FOR_PARA);
+  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &para_offset, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t));
   require_noerr(err, exit);
 
 exit:

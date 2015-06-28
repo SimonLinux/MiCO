@@ -30,30 +30,27 @@
 ******************************************************************************
 */
 
+#include "platform.h"
 #include "MicoPlatform.h"
 #include "platform_config.h"
 #include "debug.h"
 
 typedef int Log_Status;					
-#define Log_NotExist				1
-#define Log_NeedUpdate				2
-#define Log_UpdateTagNotExist		3
-#define Log_contentTypeNotExist		4
-#define Log_dataLengthOverFlow		5
-#define Log_StartAddressERROR		6
-#define Log_UnkonwnERROR			7
+#define Log_NotExist				    (1)
+#define Log_NeedUpdate				  (2)
+#define Log_UpdateTagNotExist		(3)
+#define Log_contentTypeNotExist (4)
+#define Log_dataLengthOverFlow  (5)
+#define Log_StartAddressERROR		(6)
+#define Log_UnkonwnERROR        (7)
 
 #define SizePerRW 4096   /* Bootloader need 2xSizePerRW RAM heap size to operate, 
                             but it can boost the setup. */
 
-#ifdef MICO_FLASH_FOR_UPDATE
 static uint8_t data[SizePerRW];
 static uint8_t newData[SizePerRW];
-static uint8_t paraSaveInRam[PARA_FLASH_SIZE];
+uint8_t paraSaveInRam[16*1024];
 
-static uint32_t destStartAddress, destEndAddress;
-static mico_flash_t destFlashType;
-#endif
 
 /* Upgrade iamge should save this table to flash */
 typedef struct  _boot_table_t {
@@ -68,13 +65,7 @@ typedef struct  _boot_table_t {
 #define update_log(M, ...) custom_log("UPDATE", M, ##__VA_ARGS__)
 #define update_log_trace() custom_log_trace("UPDATE")
 
-#ifndef MICO_FLASH_FOR_UPDATE
-OSStatus update(void)
-{
-  return kUnsupportedErr;
-}
-#else
-Log_Status updateLogCheck(boot_table_t *updateLog)
+Log_Status updateLogCheck(boot_table_t *updateLog, mico_partition_t *dest_partition_type)
 {
   uint32_t i;
   
@@ -84,40 +75,26 @@ Log_Status updateLogCheck(boot_table_t *updateLog)
   }
   if(i == sizeof(boot_table_t))
     return Log_NotExist;
-  
-  if(updateLog->upgrade_type == 'U'){
-    if(updateLog->start_address != UPDATE_START_ADDRESS)
-      return Log_StartAddressERROR;
-    if(updateLog->type == 'B'){
-      destStartAddress = BOOT_START_ADDRESS;
-      destEndAddress = BOOT_END_ADDRESS;
-      destFlashType = MICO_FLASH_FOR_BOOT;
-      if(updateLog->length > BOOT_FLASH_SIZE)
-        return Log_dataLengthOverFlow;
-    }
-    else if(updateLog->type == 'A'){
-      destStartAddress = APPLICATION_START_ADDRESS;
-      destEndAddress = APPLICATION_END_ADDRESS;
-      destFlashType = MICO_FLASH_FOR_APPLICATION;
-      if(updateLog->length > APPLICATION_FLASH_SIZE)
-        return Log_dataLengthOverFlow;
-    }
-#ifdef MICO_FLASH_FOR_DRIVER
-    else if(updateLog->type == 'D'){
-      destStartAddress = DRIVER_START_ADDRESS;
-      destEndAddress = DRIVER_END_ADDRESS;
-      destFlashType = MICO_FLASH_FOR_DRIVER;
-      if(updateLog->length > DRIVER_FLASH_SIZE)
-        return Log_dataLengthOverFlow;
-    }
-#endif
-    else 
-      return Log_contentTypeNotExist;
-    
-    return Log_NeedUpdate;
-  }
-  else
+
+  if(updateLog->upgrade_type != 'U')
     return Log_UpdateTagNotExist;
+  
+  if(updateLog->start_address != MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP)->partition_start_addr)
+    return Log_StartAddressERROR;
+
+  if(updateLog->type == 'B')
+    *dest_partition_type = MICO_PARTITION_BOOTLOADER;
+  else if(updateLog->type == 'A')
+    *dest_partition_type = MICO_PARTITION_APPLICATION;
+  else if(updateLog->type == 'D')
+    *dest_partition_type = MICO_PARTITION_RF_DRIVER;
+  else 
+    return Log_contentTypeNotExist;
+
+  if( updateLog->length > MicoFlashGetInfo(*dest_partition_type)->partition_length )
+    return Log_dataLengthOverFlow;
+  
+  return Log_NeedUpdate;
 }
 
 
@@ -125,44 +102,51 @@ OSStatus update(void)
 {
   boot_table_t updateLog;
   uint32_t i, j, size;
-  uint32_t updateStartAddress;
-  uint32_t destStartAddress_tmp;
-  uint32_t paraStartAddress;
+  uint32_t update_data_offset = 0x0;
+  uint32_t dest_offset;
+  uint32_t boot_table_offset = 0x0;
+  uint32_t para_offset = 0x0;
   uint32_t copyLength;
+  //uint8_t *paraSaveInRam = NULL;
+  mico_logic_partition_t *ota_partition_info, *dest_partition_info, *para_partition_info;
+  mico_partition_t dest_partition;
   OSStatus err = kNoErr;
+  
+  require_action( MICO_PARTITION_OTA_TEMP <= MICO_PARTITION_MAX, exit, err = kUnsupportedErr );
+  ota_partition_info = MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP);
+
+  require_action( MICO_PARTITION_PARAMETER_1 <= MICO_PARTITION_MAX, exit, err = kUnsupportedErr );
+  para_partition_info = MicoFlashGetInfo(MICO_PARTITION_PARAMETER_1);
  
-  MicoFlashInitialize( (mico_flash_t)MICO_FLASH_FOR_UPDATE );
   memset(data, 0xFF, SizePerRW);
   memset(newData, 0xFF, SizePerRW);
-  memset(paraSaveInRam, 0xFF, PARA_FLASH_SIZE);
-  
-  updateStartAddress = UPDATE_START_ADDRESS;
-  
-  paraStartAddress = PARA_START_ADDRESS;  
-  err = MicoFlashRead(MICO_FLASH_FOR_PARA, &paraStartAddress, (uint8_t *)&updateLog, sizeof(boot_table_t));
+
+  //paraSaveInRam = malloc( para_partition_info->partition_length );
+  //require_action( paraSaveInRam, exit, err = kNoMemoryErr );
+  memset(paraSaveInRam, 0xFF, para_partition_info->partition_length);
+    
+  err = MicoFlashRead( MICO_PARTITION_PARAMETER_1, &boot_table_offset, (uint8_t *)&updateLog, sizeof(boot_table_t));
   require_noerr(err, exit);
 
   /*Not a correct record*/
-  if(updateLogCheck(&updateLog) != Log_NeedUpdate){
-    size = UPDATE_FLASH_SIZE/SizePerRW;
+  if(updateLogCheck( &updateLog, &dest_partition) != Log_NeedUpdate){
+    size = ( ota_partition_info->partition_length )/SizePerRW;
     for(i = 0; i <= size; i++){
       if( i==size ){
-        err = MicoFlashRead(MICO_FLASH_FOR_UPDATE, &updateStartAddress, data , UPDATE_FLASH_SIZE%SizePerRW);
+        err = MicoFlashRead( MICO_PARTITION_OTA_TEMP , &update_data_offset, data , ( ota_partition_info->partition_length )%SizePerRW );
         require_noerr(err, exit);
       }
       else{
-        err = MicoFlashRead(MICO_FLASH_FOR_UPDATE, &updateStartAddress, data , SizePerRW);
+        err = MicoFlashRead( MICO_PARTITION_OTA_TEMP, &update_data_offset, data , SizePerRW);
         require_noerr(err, exit);
       }
       
       for(j=0; j<SizePerRW; j++){
         if(data[j] != 0xFF){
           update_log("Update data need to be erased");
-          err = MicoFlashInitialize( MICO_FLASH_FOR_UPDATE );
+          err = MicoFlashDisableSecurity( MICO_PARTITION_OTA_TEMP, 0x0, ota_partition_info->partition_length );
           require_noerr(err, exit);
-          err = MicoFlashErase( MICO_FLASH_FOR_UPDATE, UPDATE_START_ADDRESS, UPDATE_END_ADDRESS );
-          require_noerr(err, exit);
-          err = MicoFlashFinalize( MICO_FLASH_FOR_UPDATE );
+          err = MicoFlashErase( MICO_PARTITION_OTA_TEMP, 0x0, ota_partition_info->partition_length );
           require_noerr(err, exit);
           goto exit;
         }
@@ -170,15 +154,18 @@ OSStatus update(void)
     }
     goto exit;
   }
+
+  require_action( dest_partition <= MICO_PARTITION_MAX, exit, err = kUnsupportedErr );
+  dest_partition_info = MicoFlashGetInfo( dest_partition );
   
-  update_log("Write OTA data to destination, type:%d, from 0x%08x to 0x%08x, length 0x%x", destFlashType, destStartAddress, destEndAddress, updateLog.length);
+  update_log("Write OTA data to destination, partition:%d, length 0x%x", dest_partition, updateLog.length);
   
-  destStartAddress_tmp = destStartAddress;
-  updateStartAddress = UPDATE_START_ADDRESS;
+  dest_offset = 0x0;
+  update_data_offset = 0x0;
   
-  err = MicoFlashInitialize( destFlashType );
+  err = MicoFlashDisableSecurity( dest_partition, 0x0, dest_partition_info->partition_length );
   require_noerr(err, exit);
-  err = MicoFlashErase( destFlashType, destStartAddress, destEndAddress );
+  err = MicoFlashErase( dest_partition, 0x0, dest_partition_info->partition_length );
   require_noerr(err, exit);
   size = (updateLog.length)/SizePerRW;
   
@@ -191,44 +178,42 @@ OSStatus update(void)
     }else{
       copyLength = SizePerRW;
     }
-    err = MicoFlashRead(MICO_FLASH_FOR_UPDATE, &updateStartAddress, data , copyLength);
+    err = MicoFlashRead( MICO_PARTITION_OTA_TEMP, &update_data_offset, data , copyLength);
     require_noerr(err, exit);
-    err = MicoFlashInitialize( destFlashType );
+    err = MicoFlashWrite( dest_partition, &dest_offset, data, copyLength);
     require_noerr(err, exit);
-    err = MicoFlashWrite(destFlashType, &destStartAddress_tmp, data, copyLength);
-    require_noerr(err, exit);
-    destStartAddress_tmp -= copyLength;
-    err = MicoFlashRead(destFlashType, &destStartAddress_tmp, newData , copyLength);
+    dest_offset -= copyLength;
+    err = MicoFlashRead( dest_partition, &dest_offset, newData , copyLength);
     require_noerr(err, exit);
     err = memcmp(data, newData, copyLength);
     require_noerr_action(err, exit, err = kWriteErr); 
- }  
+ }
 
   update_log("Update start to clear data...");
     
-  paraStartAddress = PARA_START_ADDRESS;
-  err = MicoFlashRead(MICO_FLASH_FOR_PARA, &paraStartAddress, paraSaveInRam, PARA_FLASH_SIZE);
+  para_offset = 0x0;
+  err = MicoFlashDisableSecurity( MICO_PARTITION_PARAMETER_1, 0x0, para_partition_info->partition_length );
+  require_noerr(err, exit);
+  err = MicoFlashRead( MICO_PARTITION_PARAMETER_1, &para_offset, paraSaveInRam, para_partition_info->partition_length );
   require_noerr(err, exit);
   memset(paraSaveInRam, 0xff, sizeof(boot_table_t));
-  
-  err = MicoFlashErase(MICO_FLASH_FOR_PARA, PARA_START_ADDRESS, PARA_END_ADDRESS);
+  err = MicoFlashErase( MICO_PARTITION_PARAMETER_1, 0x0, para_partition_info->partition_length );
   require_noerr(err, exit);
+  para_offset = 0x0;
+  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &para_offset, paraSaveInRam, para_partition_info->partition_length );
+  require_noerr(err, exit);
+  
 
-  paraStartAddress = PARA_START_ADDRESS;
-  err = MicoFlashWrite(MICO_FLASH_FOR_PARA, &paraStartAddress, paraSaveInRam, PARA_FLASH_SIZE);
-  require_noerr(err, exit);
-  
-  err = MicoFlashErase(MICO_FLASH_FOR_UPDATE, UPDATE_START_ADDRESS, UPDATE_END_ADDRESS);
+  err = MicoFlashDisableSecurity( MICO_PARTITION_OTA_TEMP, 0x0, ota_partition_info->partition_length );
+  require_noerr(err, exit);  
+  err = MicoFlashErase( MICO_PARTITION_OTA_TEMP, 0x0, ota_partition_info->partition_length );
   require_noerr(err, exit);
   update_log("Update success");
   
 exit:
   if(err != kNoErr) update_log("Update exit with err = %d", err);
-  MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
-  MicoFlashFinalize(destFlashType);
   return err;
 }
-#endif
 
 
 

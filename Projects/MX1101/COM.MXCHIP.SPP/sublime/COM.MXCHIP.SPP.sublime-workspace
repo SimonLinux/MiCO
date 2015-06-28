@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"MICO_PA",
+				"MICO_PARTITION_APPLICATION	macro"
+			],
+			[
+				"mico_pa",
+				"mico_logic_partition_t	typedef"
+			],
+			[
+				"MICOF",
+				"MICO_FLASH_NONE	mico_flash_t"
+			],
+			[
+				"MICO_P",
+				"MICO_PARTITION_PARAMETER_1	mico_partition_t"
+			],
+			[
+				"p",
+				"partition_length	uint32_t"
+			],
+			[
+				"PAR_OPT_RE",
+				"PAR_OPT_READ_WRITE	macro"
+			],
+			[
+				"PAR",
+				"PAR_OPT_NOT_ACCESSABLE	macro"
+			],
+			[
 				"m",
 				"wifi_mode	char"
 			],
@@ -420,10 +448,6 @@
 				"__strdup_trans_dot(char *src)	char *"
 			],
 			[
-				"p",
-				"protocol	char [32]"
-			],
-			[
 				"temp",
 				"temp2	WiFi_Status_Notify *"
 			],
@@ -490,122 +514,56 @@
 			[
 				"WAC_N",
 				"WAC_NetConfig	network_InitTypeDef_st *"
-			],
-			[
-				"de",
-				"destinationSSID	char*"
-			],
-			[
-				"page",
-				"pagesNumber	uint8_t"
-			],
-			[
-				"CP_",
-				"CP_I2C_RETRY_TIMES	macro"
-			],
-			[
-				"WAC",
-				"WAC_OUI_default	const uint8_t[]"
-			],
-			[
-				"OUI",
-				"OUI	uint8_t *"
-			],
-			[
-				"El",
-				"ElementsLength	uint16_t"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/wakeup.h",
+			"file": "/Users/William/Develop/MiCO/bootloader/BootloaderEntrance.c",
 			"settings":
 			{
-				"buffer_size": 7416,
+				"buffer_size": 3951,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "Searching 1896 files for \"platform_mcu_enter_standby\"\n\n/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h:\n  437   * @param[in] secondsToWakeup : seconds to wakeup\n  438   */\n  439: void platform_mcu_enter_standby( uint32_t secondsToWakeup );\n  440  \n  441  \n\n/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c:\n  293  void MicoSystemStandBy( uint32_t secondsToWakeup )\n  294  {\n  295:   platform_mcu_enter_standby( secondsToWakeup );\n  296  }\n  297  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_mcu_powersave.c:\n  386  \n  387  \n  388: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  389  {\n  390    platform_log(\"unimplemented\");\n\n/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c:\n  158  #define USE_DEEPSLEEP_MODE\n  159  \n  160: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  161  {\n  162    uint32_t Temp;\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_powersave.c:\n  412  \n  413  \n  414: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  415  { \n  416    mico_rtc_time_t time;\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_powersave.c:\n  412  \n  413  \n  414: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  415  { \n  416    mico_rtc_time_t time;\n\n/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c:\n   94  #endif\n   95      \n   96:   platform_mcu_enter_standby( MICO_WAIT_FOREVER );\n   97    \n   98    power_log( \"Enter standby mode error!\" );\n\n/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h:\n  437   * @param[in] secondsToWakeup : seconds to wakeup\n  438   */\n  439: void platform_mcu_enter_standby( uint32_t secondsToWakeup );\n  440  \n  441  \n\n8 matches across 8 files\n",
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
 			"settings":
 			{
-				"buffer_size": 1817,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/clk.h",
-			"settings":
-			{
-				"buffer_size": 9432,
+				"buffer_size": 5156,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "COM.MXCHIP.SPP.sublime-project",
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.c",
 			"settings":
 			{
-				"buffer_size": 1538,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_uart.c",
-			"settings":
-			{
-				"buffer_size": 17466,
+				"buffer_size": 18242,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
+			"file": "/Users/William/Develop/MiCO/bootloader/menu.c",
 			"settings":
 			{
-				"buffer_size": 24411,
+				"buffer_size": 17459,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/type.h",
+			"file": "/Users/william/Develop/MiCO/include/MicoPlatform.h",
 			"settings":
 			{
-				"buffer_size": 2466,
+				"buffer_size": 4732,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/William/Develop/MiCO/Board/EMW5088/platform.h",
+			"file": "/Users/william/Develop/MiCO/include/Debug.h",
 			"settings":
 			{
-				"buffer_size": 4088,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c",
-			"settings":
-			{
-				"buffer_size": 8106,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c",
-			"settings":
-			{
-				"buffer_size": 5814,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_peripheral.h",
-			"settings":
-			{
-				"buffer_size": 5731,
+				"buffer_size": 30615,
 				"line_ending": "Windows"
 			}
 		}
@@ -671,6 +629,42 @@
 	"file_history":
 	[
 		"/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_peripheral.h",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.c",
+		"/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverFlash.h",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
+		"/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h",
+		"/Users/William/Develop/MiCO/MICO/MICOConfigServer.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/platform_init.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/wlan_platform_common.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
+		"/Users/William/Develop/MiCO/Projects/MX1101/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/wlan_bus_driver/read_wifi_firmware.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_mcu_peripheral.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_peripheral.h",
+		"/Users/William/Develop/MiCO/MICO/Library/RF driver/wlan_firmware.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_flash.c",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform_config.h",
+		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverFlash.h",
+		"/Users/William/Develop/MiCO/MICO/MICOParaStorage.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_flash.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_peripheral.h",
+		"/Users/william/Develop/MiCO/Platform/include/PlatformLogging.h",
+		"/Users/william/Develop/MiCO/include/Debug.h",
+		"/Users/William/Develop/MiCO/Platform/Cortex-M3/platform_assert.h",
+		"/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/spi_flash.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/platform_init.c",
+		"/Users/William/Develop/MiCO/Platform/Cortex-M4/platform_assert.h",
+		"/Users/william/Develop/Clang_lib/ARMCC/include/stdlib.h",
+		"/Users/william/Develop/MiCO/Platform/drivers/spi_flash/spi_flash.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_uart.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/wakeup.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/clk.h",
+		"/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/type.h",
+		"/Users/William/Develop/MiCO/Board/EMW5088/platform.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/MicoDriverUart.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/MicoDriverFlash.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/BoardConfig/LPCXpresso54102/platform.h",
@@ -761,43 +755,7 @@
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/STM32F2xx_Drv/startup_stm32f2xx_IAR.s",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICOMfgtest.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/crt0.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/HTTPUtils.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICOParaStorage.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/HTTPUtils.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICOConfigServer.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/FatFs/src/ff_gen_drv.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/FatFs/src/diskio.h",
-		"/Users/william/Develop/Clang_lib/ARMCC/include/stdio.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.MXCHIP.SPP/MICOConfigDelegate.c",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_common_config.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.MXCHIP.HA/HaProtocol.c",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoRTOS.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICONotificationCenter.c",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2XX/STM32F2XX_Drv/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_rcc.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoWlan.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/FatFs/src/integer.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/HomeKitUserInterface.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/MICOAppDefine.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MICO.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/MicoDefaults.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/HTTPUtils.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/MICO_EVB_1/platform.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/EasyLink/EasyLink.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/include/platform_sleep.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/hardfault.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/rtc.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/rtc.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/wlan_platform.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/IAR/stdio_IAR.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/include/PlatformLogging.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/read_wifi_firmware.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoPlatform.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/TimeUtils.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/Mico.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_internal_gpio.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/inc/MICOWlan.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoDefaults.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoRTOS.h"
+		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/HTTPUtils.h"
 	],
 	"find":
 	{
@@ -805,7 +763,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"",
@@ -829,6 +787,27 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"SerialUpload",
+			"mico_partitions",
+			"FLASH_TYPE_SPI",
+			"configContext_t",
+			"_configContext_t",
+			"configContext_t",
+			"flashStorageAddress",
+			"MICO_FLASH_FOR_UPDATE",
+			"mico_partitions",
+			"platform_get_wifi_image",
+			"wifi_firmware_image",
+			"platform_flash_init",
+			"platform_flash_enable_security",
+			"MICO_ASSERTION_FAIL_ACTION",
+			"Heap_Mem",
+			"BME280_SPI_bus_write",
+			"MicoFlashInitialize",
+			"mico_logic_partition_t",
+			"FLASH_NONE_ERR",
+			"FlashUnlock",
+			"internalFlashWrite",
 			"platform_mcu_enter_standby",
 			"RtcGetRefCnt",
 			"host_platform_power_wifi",
@@ -935,28 +914,7 @@
 			"GPIO_NEG_EDGE_TRIGGER",
 			"gpio_irq_data",
 			"interrupt_line",
-			"gpio_irq_management_initted",
-			"gpio_irq_handler_t",
-			"GPIO_A_INT",
-			"owner_port",
-			"gpio_irq_data",
-			"NUMBER_OF_GPIO_IRQ_LINES",
-			"gpio_irq_management_initted",
-			"RESTORE_TO_GENERAL_IO",
-			"GPIO_A_INT",
-			"__IO",
-			"MicoSystemStandBy",
-			"hard_fault_handler_c",
-			"init_platform",
-			"mico_get_time",
-			"sys_command",
-			"sys_command.o",
-			"fwrite",
-			"fopen",
-			"freopen",
-			"fopen",
-			"mico_mutex_t",
-			"RTC_WKUP_irq"
+			"gpio_irq_management_initted"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -976,203 +934,163 @@
 	"groups":
 	[
 		{
-			"selected": 8,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/wakeup.h",
+					"file": "/Users/William/Develop/MiCO/bootloader/BootloaderEntrance.c",
 					"settings":
 					{
-						"buffer_size": 7416,
+						"buffer_size": 3951,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6621,
-								6621
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3081.0,
+						"translation.y": 1076.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
 					"settings":
 					{
-						"buffer_size": 1817,
+						"buffer_size": 5156,
 						"regions":
 						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										203,
-										229
-									],
-									[
-										417,
-										443
-									],
-									[
-										598,
-										624
-									],
-									[
-										841,
-										867
-									],
-									[
-										1045,
-										1071
-									],
-									[
-										1257,
-										1283
-									],
-									[
-										1460,
-										1486
-									],
-									[
-										1719,
-										1745
-									]
-								],
-								"scope": ""
-							}
 						},
 						"selection":
 						[
 							[
-								353,
-								370
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"detect_indentation": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2145.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/clk.h",
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.c",
 					"settings":
 					{
-						"buffer_size": 9432,
+						"buffer_size": 18242,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1159,
-								1159
+								8687,
+								8692
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 427.0,
+						"translation.y": 3349.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "COM.MXCHIP.SPP.sublime-project",
+					"file": "/Users/William/Develop/MiCO/bootloader/menu.c",
 					"settings":
 					{
-						"buffer_size": 1538,
+						"buffer_size": 17459,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1288,
-								1288
+								9472,
+								9484
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 88.0,
+						"translation.y": 1650.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_uart.c",
+					"file": "/Users/william/Develop/MiCO/include/MicoPlatform.h",
 					"settings":
 					{
-						"buffer_size": 17466,
+						"buffer_size": 4732,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1773,
+								1773
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.tmLanguage",
+							"syntax": "Packages/C++/C++.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4772.0,
+						"translation.y": 947.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
+					"file": "/Users/william/Develop/MiCO/include/Debug.h",
 					"settings":
 					{
-						"buffer_size": 24411,
+						"buffer_size": 30615,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1283,
+								1283
 							]
 						],
 						"settings":
@@ -1180,147 +1098,9 @@
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 12.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/type.h",
-					"settings":
-					{
-						"buffer_size": 2466,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1764,
-								1764
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/Users/William/Develop/MiCO/Board/EMW5088/platform.h",
-					"settings":
-					{
-						"buffer_size": 4088,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3426,
-								3426
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1520.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c",
-					"settings":
-					{
-						"buffer_size": 8106,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2933,
-								2933
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1056.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c",
-					"settings":
-					{
-						"buffer_size": 5814,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2805.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_peripheral.h",
-					"settings":
-					{
-						"buffer_size": 5731,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1943,
-								1943
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 375.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1361,7 +1141,7 @@
 	"menu_visible": true,
 	"output.clang":
 	{
-		"height": 138.0
+		"height": 171.0
 	},
 	"output.exec":
 	{
@@ -1404,6 +1184,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 327.0,
+	"side_bar_width": 326.0,
 	"status_bar_visible": true
 }

@@ -58,24 +58,24 @@ char menu[] =
 #else
 char menu[] =
 "\r\n"
-"MICO Bootloader for %s%s, HARDWARE_REVISION: %s\r\n"
+"MICO Bootloader for %s, %s, HARDWARE_REVISION: %s\r\n"
 "+ command -------------------------+ function ------------+\r\n"
 "| 0:BOOTUPDATE    <-r>             | Update bootloader    |\r\n"
 "| 1:FWUPDATE      <-r>             | Update application   |\r\n"
 "| 2:DRIVERUPDATE  <-r>             | Update RF driver     |\r\n"
 "| 3:PARAUPDATE    <-r><-e>         | Update MICO settings |\r\n"
-"| 4:FLASHUPDATE   <-i><-s><-e><-r> |                      |\r\n"
-"|    <-start address><-end address>| Update flash content |\r\n"
+"| 4:FLASHUPDATE   <-dev device >   |                      |\r\n"
+"|  <-e><-r><-start addr><-end addr>| Update flash content |\r\n"
 "| 5:MEMORYMAP                      | List flash memory map|\r\n"
 "| 6:BOOT                           | Excute application   |\r\n"
 "| 7:REBOOT                         | Reboot               |\r\n"
 "+----------------------------------+----------------------+\r\n"
 "|    (C) COPYRIGHT 2014 MXCHIP Corporation  By William Xu |\r\n"
 " Notes:\r\n"
-" -e Erase only  -r Read from flash -i internal flash  -s SPI flash\r\n"
+" -e Erase only  -r Read from flash -dev flash device number\r\n"
 "  -start flash start address -end flash start address\r\n"
-" Example: Input \"4 -i -start 0x400 -end 0x800\": Update internal\r\n"
-"          flash from 0x400 to 0x800\r\n";
+" Example: Input \"4 -dev 0 -start 0x400 -end 0x800\": Update \r\n"
+"          flash device 0 from 0x400 to 0x800\r\n";
 #endif
 #ifdef MICO_ENABLE_STDIO_TO_BOOT
 extern int stdio_break_in(void);
@@ -90,23 +90,24 @@ int main(void)
 
   mico_set_bootload_ver();
   
-#ifdef MICO_FLASH_FOR_UPDATE
   update();
-#endif
+
+  for( mico_partition_t i = MICO_PARTITION_1; i < MICO_PARTITION_MAX ; i++){
+    MicoFlashEnableSecurity( i, 0x0, MicoFlashGetInfo(i)->partition_length );
+  }
 
 #ifdef MICO_ENABLE_STDIO_TO_BOOT
   if (stdio_break_in() == 1)
     goto BOOT;
 #endif
-  if(MicoShouldEnterBootloader() == false)
-    startApplication();
-  else if(MicoShouldEnterMFGMode() == true)
-    startApplication();
-#ifdef MICO_ATE_START_ADDRESS
-  else if (MicoShouldEnterATEMode()) {
-    startATEApplication();
+  
+  if( MicoShouldEnterBootloader() == false) 
+    startApplication( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
+  else if( MicoShouldEnterMFGMode() == true )
+    startApplication( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
+  else if ( MicoShouldEnterATEMode() && MICO_PARTITION_NONE != MICO_PARTITION_ATE ) {
+    startApplication( (MicoFlashGetInfo(MICO_PARTITION_ATE))->partition_start_addr );
 	}
-#endif 
 
 BOOT:
   printf ( menu, MODEL, Bootloader_REVISION, HARDWARE_REVISION );

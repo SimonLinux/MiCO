@@ -49,8 +49,6 @@
 
 /* Private function prototypes -----------------------------------------------*/
 
-static bool FlashUnlock(void);
-
 #ifdef DEBUG_FLASH
 SPI_FLASH_INFO  FlashInfo;
 
@@ -401,60 +399,55 @@ void GetFlashInfo(void)
 
 #endif /* DEBUG_FLASH */
 
-OSStatus platform_flash_init( platform_flash_driver_t *driver, const platform_flash_t *peripheral )
+OSStatus platform_flash_init( const platform_flash_t *peripheral )
 {
   OSStatus err = kNoErr;
 
-  require_action_quiet( driver != NULL && peripheral != NULL, exit, err = kParamErr);
-  require_action_quiet( driver->initialized == false, exit, err = kNoErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
 
-  driver->peripheral = (platform_flash_t *)peripheral;
-
-  if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
+  if( peripheral->flash_type == FLASH_TYPE_SPI ){
     SpiFlashInfoInit();
 #ifdef  DEBUG_FLASH 
     SpiFlashGetInfo(&FlashInfo);
     GetFlashInfo();
 #endif
-    require_action(FlashUnlock(), exit, err = kUnknownErr);
+    //require_action(FlashUnlock(), exit, err = kUnknownErr);
   }
   else{
     err = kTypeErr;
     goto exit;
   }
 
-  driver->initialized = true;
-
 exit:
   return err;
 }
 
-#define MAX_ERASE_LEN (16*1024)
-OSStatus platform_flash_erase( platform_flash_driver_t *driver, uint32_t StartAddress, uint32_t EndAddress  )
+#define MAX_OPERATE_LEN (16*1024)
+
+OSStatus platform_flash_erase( const platform_flash_t *peripheral, uint32_t StartAddress, uint32_t EndAddress  )
 {
   OSStatus err = kNoErr;
-  int erase_len = MAX_ERASE_LEN, total_len = EndAddress - StartAddress +1;
+  int erase_len = MAX_OPERATE_LEN, total_len = EndAddress - StartAddress +1;
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
-  require_action_quiet( driver->initialized != false, exit, err = kNotInitializedErr);
-  require_action( StartAddress >= driver->peripheral->flash_start_addr 
-               && EndAddress   <= driver->peripheral->flash_start_addr + driver->peripheral->flash_length - 1, exit, err = kParamErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( StartAddress >= peripheral->flash_start_addr 
+               && EndAddress   < peripheral->flash_start_addr + peripheral->flash_length, exit, err = kParamErr);
   
 
-  if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
+  if( peripheral->flash_type == FLASH_TYPE_SPI ){
     while(total_len > 0) {
-        if (total_len > MAX_ERASE_LEN) {
-            erase_len = MAX_ERASE_LEN;
-            total_len -= MAX_ERASE_LEN;
+        if (total_len > MAX_OPERATE_LEN) {
+            erase_len = MAX_OPERATE_LEN;
+            total_len -= MAX_OPERATE_LEN;
         } else {
             erase_len = total_len;
             total_len = 0;
         }
         err = SpiFlashErase( StartAddress, erase_len );
 #ifndef MICO_DISABLE_WATCHDOG
-				WdgFeed();
+        WdgFeed();
 #endif
-    require_noerr(err, exit);
+        require_noerr(err, exit);
         StartAddress += erase_len;
     }
     
@@ -467,19 +460,33 @@ exit:
   return err;
 }
 
-OSStatus platform_flash_write( platform_flash_driver_t *driver, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
+OSStatus platform_flash_write( const platform_flash_t *peripheral, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
 {
   OSStatus err = kNoErr;
+  int write_len = MAX_OPERATE_LEN, total_len = DataLength;
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
-  require_action_quiet( driver->initialized != false, exit, err = kNotInitializedErr);
-  require_action( *FlashAddress >= driver->peripheral->flash_start_addr 
-               && *FlashAddress + DataLength <= driver->peripheral->flash_start_addr + driver->peripheral->flash_length, exit, err = kParamErr);
 
-  if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
-    err = SpiFlashWrite(*FlashAddress, Data, DataLength);
-    require_noerr(err, exit);
-    *FlashAddress += DataLength;
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( *FlashAddress >= peripheral->flash_start_addr 
+               && *FlashAddress + DataLength <= peripheral->flash_start_addr + peripheral->flash_length, exit, err = kParamErr);
+
+  if( peripheral->flash_type == FLASH_TYPE_SPI ){
+    while(total_len > 0) {
+        if (total_len > MAX_OPERATE_LEN) {
+            write_len = MAX_OPERATE_LEN;
+            total_len -= MAX_OPERATE_LEN;
+        } else {
+            write_len = total_len;
+            total_len = 0;
+        }
+        err = SpiFlashWrite( *FlashAddress, Data, write_len );
+#ifndef MICO_DISABLE_WATCHDOG
+        WdgFeed();
+#endif
+        require_noerr(err, exit);
+        *FlashAddress += write_len;
+        Data += write_len;
+    }
   }else{
     err = kTypeErr;
     goto exit;
@@ -489,20 +496,34 @@ exit:
   return err;
 }
 
-OSStatus platform_flash_read( platform_flash_driver_t *driver, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
+OSStatus platform_flash_read( const platform_flash_t *peripheral, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
 {
   OSStatus err = kNoErr;
+  int read_len = MAX_OPERATE_LEN, total_len = DataLength;
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
+
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
   require_action_quiet( DataLength != 0, exit, err = kNoErr);
-  require_action_quiet( driver->initialized != false, exit, err = kNotInitializedErr);
-  require_action( *FlashAddress >= driver->peripheral->flash_start_addr 
-               && *FlashAddress + DataLength <= driver->peripheral->flash_start_addr + driver->peripheral->flash_length, exit, err = kParamErr);
+  require_action( *FlashAddress >= peripheral->flash_start_addr 
+               && *FlashAddress + DataLength <= peripheral->flash_start_addr + peripheral->flash_length, exit, err = kParamErr);
   
-  if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
-    err = SpiFlashRead(*FlashAddress, Data, DataLength);
-    require_noerr(err, exit);
-    *FlashAddress += DataLength;
+  if( peripheral->flash_type == FLASH_TYPE_SPI ){
+    while(total_len > 0) {
+        if (total_len > MAX_OPERATE_LEN) {
+            read_len = MAX_OPERATE_LEN;
+            total_len -= MAX_OPERATE_LEN;
+        } else {
+            read_len = total_len;
+            total_len = 0;
+        }
+        err = SpiFlashRead( *FlashAddress, Data, read_len );
+#ifndef MICO_DISABLE_WATCHDOG
+        WdgFeed();
+#endif
+        require_noerr(err, exit);
+        *FlashAddress += read_len;
+        Data += read_len;
+    }
   }else{
     err = kTypeErr;
     goto exit;
@@ -512,50 +533,51 @@ exit:
   return err;
 }
 
+#define BP_Pos  2
+#define BP_Msk (0x1Fu << BP_Pos)
 
-OSStatus platform_flash_deinit( platform_flash_driver_t *driver)
+#define CMP_Pos 14
+#define CMP_Msk (0x1u << BP_Pos)
+
+
+OSStatus platform_flash_enable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
 {
   OSStatus err = kNoErr;
+  int32_t spi_err = 0;
+  int32_t status = SpiFlashIOCtl( IOCTL_STATUS_REGISTER );
+  UNUSED_PARAMETER( end_address );
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
 
-  driver->initialized = false;
+  if( ( 0x5 == ( status & BP_Msk ) >> BP_Pos ) && ( status&CMP_Msk ) )
+    return kNoErr;
 
-  if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
-    /* To Do */
-  }else
-    return kUnsupportedErr;
-  
+  spi_err = SpiFlashIOCtl(IOCTL_FLASH_PROTECT, FLASH_HALF_PROTECT);
+
+  require_action_quiet(spi_err == 0, exit, err = kUnexpectedErr);
+
 exit:
   return err;
 }
 
-OSStatus internalFlashWrite(volatile uint32_t* FlashAddress, uint32_t* Data ,uint32_t DataLength)
+OSStatus platform_flash_disable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
 {
-  platform_log_trace();
-  return kNoErr;
-}
-
-OSStatus internalFlashFinalize( void )
-{
-  return kNoErr;
-}
-
-
-OSStatus internalFlashByteWrite(__IO uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength)
-{
-  platform_log_trace();
-  return kNoErr;
-}
-
-bool FlashUnlock(void)
-{
+  OSStatus err = kNoErr;
   char cmd[3] = "\x35\xBA\x69";
-  
-  if(SpiFlashIOCtl(IOCTL_FLASH_UNPROTECT, cmd, sizeof(cmd)) != FLASH_NONE_ERR)
-  {
-    return false;
-  }
+  int32_t spi_err = 0;
+  int32_t status = SpiFlashIOCtl( IOCTL_STATUS_REGISTER );
+  UNUSED_PARAMETER( end_address );
 
-  return true;
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+
+  if( ( 0x0 == ( status & BP_Msk ) >> BP_Pos ) && !( status&CMP_Msk ) )
+    return kNoErr;
+
+  spi_err = SpiFlashIOCtl(IOCTL_FLASH_UNPROTECT, cmd, sizeof(cmd));
+
+  require_action_quiet(spi_err == 0, exit, err = kUnexpectedErr);
+
+exit:
+  return err;
 }
+

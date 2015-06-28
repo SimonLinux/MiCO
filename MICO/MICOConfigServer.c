@@ -49,7 +49,7 @@
 #define kMIMEType_MXCHIP_OTA    "application/ota-stream"
 
 typedef struct _configContext_t{
-  uint32_t flashStorageAddress;
+  uint32_t offset;
   bool     isFlashLocked;
 } configContext_t;
 
@@ -222,35 +222,29 @@ static OSStatus onReceivedData(struct _HTTPHeader_t * inHeader, uint32_t inPos, 
   const char *    value;
   size_t          valueSize;
   configContext_t *context = (configContext_t *)inUserContext;
+  mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
 
   err = HTTPGetHeaderField( inHeader->buf, inHeader->len, "Content-Type", NULL, NULL, &value, &valueSize, NULL );
   if(err == kNoErr && strnicmpx( value, valueSize, kMIMEType_MXCHIP_OTA ) == 0){
-    config_log("OTA data %d, %d to: %x", inPos, inLen, context->flashStorageAddress);
-#ifdef MICO_FLASH_FOR_UPDATE  
-    if(inPos == 0){
-      context->flashStorageAddress = UPDATE_START_ADDRESS;
-      mico_rtos_lock_mutex(&Context->flashContentInRam_mutex); //We are write the Flash content, no other write is possiable
-      context->isFlashLocked = true;
-      err = MicoFlashInitialize( MICO_FLASH_FOR_UPDATE );
-      require_noerr(err, flashErrExit);
-      err = MicoFlashErase(MICO_FLASH_FOR_UPDATE, UPDATE_START_ADDRESS, UPDATE_END_ADDRESS);
-      require_noerr(err, flashErrExit);
-      err = MicoFlashWrite(MICO_FLASH_FOR_UPDATE, &context->flashStorageAddress, (uint8_t *)inData, inLen);
-      require_noerr(err, flashErrExit);
-    }else{
-      err = MicoFlashWrite(MICO_FLASH_FOR_UPDATE, &context->flashStorageAddress, (uint8_t *)inData, inLen);
-      require_noerr(err, flashErrExit);
+    printf("%d/", inPos);
+
+    if( MICO_PARTITION_OTA_TEMP == MICO_PARTITION_NONE ){
+      config_log("OTA storage is not exist");
+      return kUnsupportedErr;
     }
-#else
-    config_log("OTA storage is not exist");
-    return kUnsupportedErr;
-#endif
-  }
-  else if(inHeader->chunkedData == true){
-    config_log("ChunkedData: %d, %d:", inPos, inLen);
-    for(uint32_t i = 0; i<inLen; i++)
-      printf("%c", inData[i]);
-    printf("\r\n");
+
+     if(inPos == 0){
+       context->offset = 0x0;
+       mico_rtos_lock_mutex(&Context->flashContentInRam_mutex); //We are write the Flash content, no other write is possiable
+       context->isFlashLocked = true;
+       err = MicoFlashErase( MICO_PARTITION_OTA_TEMP, 0x0, ota_partition->partition_length);
+       require_noerr(err, flashErrExit);
+       err = MicoFlashWrite( MICO_PARTITION_OTA_TEMP, &context->offset, (uint8_t *)inData, inLen);
+       require_noerr(err, flashErrExit);
+     }else{
+       err = MicoFlashWrite( MICO_PARTITION_OTA_TEMP, &context->offset, (uint8_t *)inData, inLen);
+       require_noerr(err, flashErrExit);
+     }
   }
   else{
     return kUnsupportedErr;
@@ -259,12 +253,9 @@ static OSStatus onReceivedData(struct _HTTPHeader_t * inHeader, uint32_t inPos, 
   if(err!=kNoErr)  config_log("onReceivedData");
   return err;
 
-#ifdef MICO_FLASH_FOR_UPDATE  
 flashErrExit:
-  MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
   mico_rtos_unlock_mutex(&Context->flashContentInRam_mutex);
   return err;
-#endif
 }
 
 static void onClearHTTPHeader(struct _HTTPHeader_t * inHeader, void * inUserContext )
@@ -287,6 +278,8 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
   uint8_t *httpResponse = NULL;
   size_t httpResponseLen = 0;
   json_object* report = NULL;
+  mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
+
   config_log_trace();
 
   if(HTTPHeaderMatchURL( inHeader, kCONFIGURLRead ) == kNoErr){    
@@ -347,27 +340,25 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
     }
     goto exit;
   }
-#ifdef MICO_FLASH_FOR_UPDATE
-  else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLOTA ) == kNoErr){
+  else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLOTA ) == kNoErr && MICO_PARTITION_OTA_TEMP != MICO_PARTITION_NONE){
     if(inHeader->contentLength > 0){
       config_log("Receive OTA data!");
       memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
       inContext->flashContentInRam.bootTable.length = inHeader->contentLength;
-      inContext->flashContentInRam.bootTable.start_address = UPDATE_START_ADDRESS;
+      inContext->flashContentInRam.bootTable.start_address = ota_partition->partition_start_addr;
       inContext->flashContentInRam.bootTable.type = 'A';
       inContext->flashContentInRam.bootTable.upgrade_type = 'U';
-      if(inContext->flashContentInRam.micoSystemConfig.configured != allConfigured)
+      if( inContext->flashContentInRam.micoSystemConfig.configured != allConfigured )
         inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_SOFT_AP_BYPASS;
-      MICOUpdateConfiguration(inContext);
-      SocketClose(&fd);
+      MICOUpdateConfiguration( inContext );
+      SocketClose( &fd );
       inContext->micoStatus.sys_state = eState_Software_Reset;
       if(inContext->micoStatus.sys_state_change_sem != NULL );
         mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
-      mico_thread_sleep(MICO_WAIT_FOREVER);
+      mico_thread_sleep( MICO_WAIT_FOREVER );
     }
     goto exit;
   }
-#endif
   else{
     return kNotFoundErr;
   };

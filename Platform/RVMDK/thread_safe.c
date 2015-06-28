@@ -6,7 +6,6 @@
  * Ver: 0.1
  * */
 #include "Common.h"
-#include "MicoDefaults.h"
 #include "MicoRTOS.h"
 
 #ifndef  NO_MICO_RTOS

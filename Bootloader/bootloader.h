@@ -32,11 +32,11 @@
 #ifndef __BOOTLOADER_H__
 #define __BOOTLOADER_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#define Bootloader_REVISION "v1.1"
-
-
-
+#define Bootloader_REVISION "v2.0"
 
 
 #ifdef __cplusplus

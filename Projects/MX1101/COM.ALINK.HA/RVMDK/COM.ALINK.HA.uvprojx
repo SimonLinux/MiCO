@@ -859,11 +859,6 @@
           <GroupName>Platform/MCU/MX1101/wlan_bus_driver</GroupName>
           <Files>
             <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
-            <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\wlan_bus_sdio.c</FilePath>
@@ -1649,7 +1644,7 @@
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc>--keep *.o(.mach*.init)  --keep *.o(.shell*.cmd)  --keep *.o(.notify*.init)  --keep *.o(.sched.stub*) --keep *.o(.driver*.isr) --keep *.o(CACHE.4KBMEM)
---diag_suppress=L6314W,L6319W --diag_warning=6218,6654,6238 --diag_suppress=6238,L6436W,L6432W,L6433W,L6915E --no_strict_wchar_size  --no_strict_enum_size</Misc>
+--diag_suppress=L6314W,L6319W --diag_warning=6218,6654,6238 --diag_suppress=6238,L6436W,L6432W,L6433W --no_strict_wchar_size  --no_strict_enum_size</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
@@ -2109,11 +2104,6 @@
           <GroupName>Platform/MCU/MX1101/wlan_bus_driver</GroupName>
           <Files>
             <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
-            <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\wlan_bus_sdio.c</FilePath>
@@ -2477,6 +2467,25 @@
               <FileName>RpcLib-DEBUG-ALINK_DEBUG_0325.a</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\..\External\rpc\RpcLib-DEBUG-ALINK_DEBUG_0325.a</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds/>
+              </FileOption>
             </File>
             <File>
               <FileName>RpcLib-NO-DEBUG-0325.a</FileName>

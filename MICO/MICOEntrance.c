@@ -274,12 +274,13 @@ mico_Context_t *getGlobalContext(void)
 
 void mico_write_ota_tbl(int len)
 {
-    memset(&context->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
-    context->flashContentInRam.bootTable.length = len;
-    context->flashContentInRam.bootTable.start_address = UPDATE_START_ADDRESS;
-    context->flashContentInRam.bootTable.type = 'A';
-    context->flashContentInRam.bootTable.upgrade_type = 'U';
-    MICOUpdateConfiguration(context);
+  mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
+  memset(&context->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
+  context->flashContentInRam.bootTable.length = len;
+  context->flashContentInRam.bootTable.start_address = ota_partition->partition_start_addr;
+  context->flashContentInRam.bootTable.type = 'A';
+  context->flashContentInRam.bootTable.upgrade_type = 'U';
+  MICOUpdateConfiguration(context);
 }
 
 int application_start(void)
@@ -329,7 +330,7 @@ int application_start(void)
   mico_log("Wi-Fi driver version %s, mac %s", wifi_ver, context->micoStatus.mac);
  
   /*Start system monotor thread*/
-  err = MICOStartSystemMonitor(context);
+  //err = MICOStartSystemMonitor(context);
   require_noerr_action( err, exit, mico_log("ERROR: Unable to start the system monitor.") );
 
   err = MICORegisterSystemMonitor(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);

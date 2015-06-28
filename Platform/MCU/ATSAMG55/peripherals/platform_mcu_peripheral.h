@@ -109,15 +109,6 @@ extern "C"
 /******************************************************
  *                   Enumerations
  ******************************************************/
- /**
- * SPI slave transfer direction
- */
-typedef enum
-{
-    FLASH_TYPE_INTERNAL, 
-    FLASH_TYPE_SPI,   
-} platform_flash_type_t;
-
 
 
 /******************************************************
@@ -128,6 +119,12 @@ typedef enum
 typedef Spi     platform_spi_port_t;
 typedef Adc     platform_adc_port_t;
 typedef Twi     platform_i2c_port_t;
+
+typedef enum
+{
+    FLASH_TYPE_EMBEDDED, 
+    FLASH_TYPE_SPI,
+} platform_flash_type_t;
 
 
 /******************************************************
@@ -253,6 +250,21 @@ typedef struct
     const platform_gpio_t*  scl_pin;
     ioport_mode_t           scl_pin_mux_mode;
 } platform_i2c_t;
+
+typedef struct
+{
+    platform_flash_type_t      flash_type;
+    uint32_t                   flash_start_addr;
+    uint32_t                   flash_length;
+    uint32_t                   flash_protect_opt;
+} platform_flash_t;
+
+typedef struct
+{
+    const platform_flash_t*    peripheral;
+    mico_mutex_t               flash_mutex;
+    volatile bool              initialized;
+} platform_flash_driver_t;
 
 /******************************************************
  *                 Global Variables

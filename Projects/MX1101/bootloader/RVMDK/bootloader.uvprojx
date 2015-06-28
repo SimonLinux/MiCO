@@ -1860,7 +1860,7 @@
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
-          <BrowseInformation>0</BrowseInformation>
+          <BrowseInformation>1</BrowseInformation>
           <ListingPath>..\..\..\..\Build\COM.MXCHIP.BASIC\MiCOKit-3088\lst_RVMDK\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
@@ -2171,7 +2171,7 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls>--diag_suppress=1,1293</MiscControls>
-              <Define>USE_STDPERIPH_DRIVER BOOTLOADER DEBUG NO_MICO_RTOS</Define>
+              <Define>BOOTLOADER DEBUG NO_MICO_RTOS</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\..\Bootloader;..\..\..\..\include;..\..\..\..\MICO;..\..\..\..\External;..\..\..\..\Support;..\..\..\..\Board\MiCOKit-3088;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU\MX1101\peripherals\Libraries\inc;..\..\..\..\Platform\MCU\MX1101\peripherals;..\..\..\..\Platform\MCU\MX1101\FileSystem\inc</IncludePath>
             </VariousControls>

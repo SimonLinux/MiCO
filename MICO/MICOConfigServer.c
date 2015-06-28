@@ -226,7 +226,7 @@ static OSStatus onReceivedData(struct _HTTPHeader_t * inHeader, uint32_t inPos, 
 
   err = HTTPGetHeaderField( inHeader->buf, inHeader->len, "Content-Type", NULL, NULL, &value, &valueSize, NULL );
   if(err == kNoErr && strnicmpx( value, valueSize, kMIMEType_MXCHIP_OTA ) == 0){
-    config_log("OTA data %d, %d to: %x", inPos, inLen, context->offset);
+    printf("%d/", inPos);
 
     if( MICO_PARTITION_OTA_TEMP == MICO_PARTITION_NONE ){
       config_log("OTA storage is not exist");

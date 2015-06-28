@@ -354,7 +354,7 @@ static void tftp_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char
     }
 
     ip = inet_addr(argv[1]);
-    parttype = atoi(argv[4]);
+    parttype = (mico_partition_t)atoi(argv[4]);
 
     partition = MicoFlashGetInfo( parttype );
     if (partition) {
@@ -405,6 +405,7 @@ static void uptime_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, ch
 
 static void ota_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char **argv)
 {
+extern void mico_force_ota(void);
     mico_force_ota();
 }
 

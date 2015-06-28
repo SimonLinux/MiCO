@@ -72,6 +72,9 @@ OSStatus MICOAddNotification          ( mico_notify_types_t notify_type, void *f
 
 OSStatus MICORemoveNotification       ( mico_notify_types_t notify_type, void *functionAddress );
 
+OSStatus MICORemoveAllNotification    ( mico_notify_types_t notify_type);
+
+
 void sendNotifySYSWillPowerOff(void);
 void system_version(char *str, int len);
 

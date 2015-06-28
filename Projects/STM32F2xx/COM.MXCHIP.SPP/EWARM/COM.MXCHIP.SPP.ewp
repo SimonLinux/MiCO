@@ -3239,6 +3239,9 @@
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
     </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\tftp\tftpc.o</name>
+    </file>
   </group>
   <group>
     <name>Platform</name>

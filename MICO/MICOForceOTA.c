@@ -12,6 +12,10 @@
 #define fota_log_trace() custom_log_trace("Force OTA")
 
 static int wifi_up = 0;
+extern void mico_write_ota_tbl(int len);
+
+
+void wlan_get_mac_address( uint8_t *mac );
 
 enum {
     OTA_SUCCESS = 0,
@@ -88,7 +92,7 @@ void mico_force_ota(void)
 	  MICORemoveAllNotification(mico_notify_EASYLINK_WPS_COMPLETED);
     MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)FOTA_WifiStatusHandler );
     micoWlanStopEasyLink();
-	micoWlanStopEasyLinkPlus();
+	  micoWlanStopEasyLinkPlus();
     micoWlanStopAirkiss();
 	msleep(10);
 		
@@ -101,7 +105,7 @@ void mico_force_ota(void)
     
     wlan_get_mac_address(mac);
     
-    sprintf(sta_ip_addr, "10.%d.%d.%d", 
+    sprintf((char *)sta_ip_addr, "10.%d.%d.%d", 
         mac[3], mac[4], mac[5]);
         
     fota_log("Staic IP = %s", sta_ip_addr);  
@@ -113,7 +117,7 @@ void mico_force_ota(void)
     
     conf.dhcpMode = DHCP_Disable;
     strcpy(conf.net_mask, DEFAULT_OTA_NETMASK);
-    strcpy(conf.local_ip_addr, sta_ip_addr);
+    strcpy(conf.local_ip_addr, (char *)sta_ip_addr);
     
     wifi_up = 0;
     fota_log("Connect to AP %s...", DEFAULT_OTA_AP);

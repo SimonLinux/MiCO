@@ -152,29 +152,29 @@ OSStatus host_platform_deinit_wlan_powersave_clock( void )
 
 #ifndef BOOTLOADER 
 
+#ifdef MICO_USE_BUILTIN_RF_DRIVER
 extern uint32_t wifi_firmware_image_size;
 extern unsigned char wifi_firmware_image[];
 
-static uint32_t platform_get_wifi_image_size_from_array(void)
+uint32_t platform_get_wifi_image_size(void)
 {
-
   return wifi_firmware_image_size;
 }
 
-uint32_t platform_get_wifi_image_from_array(unsigned char* buffer, uint32_t size, uint32_t offset)
+uint32_t platform_get_wifi_image(unsigned char* buffer, uint32_t size, uint32_t offset)
 {
-  
   uint32_t buffer_size;
-  buffer_size = MIN(size, (platform_get_wifi_image_size_from_array() - offset));
+  buffer_size = MIN(size, (platform_get_wifi_image_size() - offset));
   memcpy(buffer, &wifi_firmware_image[offset], buffer_size);
 
   return buffer_size;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
+#else
 static uint32_t image_size = 0x0;
 
-static uint32_t platform_get_wifi_image_size_from_flash(void)
+uint32_t platform_get_wifi_image_size(void)
 {
 #define READ_LEN 2048
     mico_logic_partition_t *driver_partition = MicoFlashGetInfo( MICO_PARTITION_RF_FIRMWARE );
@@ -203,7 +203,7 @@ EXIT:
 }
 
 
-static uint32_t platform_get_wifi_image_from_flash(unsigned char* buffer, uint32_t size, uint32_t offset)
+uint32_t platform_get_wifi_image(unsigned char* buffer, uint32_t size, uint32_t offset)
 {
     uint32_t buffer_size;
     uint32_t read_address = offset;
@@ -217,23 +217,7 @@ static uint32_t platform_get_wifi_image_from_flash(unsigned char* buffer, uint32
     MicoFlashRead( MICO_PARTITION_RF_FIRMWARE, &read_address, buffer, buffer_size);
     return buffer_size;
 }
-
-
-uint32_t platform_get_wifi_image_size(void)
-{
-#ifdef MICO_USE_BUILTIN_RF_DRIVER
-    return platform_get_wifi_image_size_from_array();
-#else
-    return platform_get_wifi_image_size_from_flash();
 #endif
-}
 
-uint32_t platform_get_wifi_image(unsigned char* buffer, uint32_t size, uint32_t offset)
-{
-#ifdef MICO_USE_BUILTIN_RF_DRIVER
-    return platform_get_wifi_image_from_array( buffer, size, offset );
-#else
-    return platform_get_wifi_image_from_flash( buffer, size, offset );
-#endif
-}
+
 #endif

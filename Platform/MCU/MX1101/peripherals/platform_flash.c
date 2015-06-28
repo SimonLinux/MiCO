@@ -422,9 +422,12 @@ exit:
   return err;
 }
 
+#define MAX_OPERATE_LEN (16*1024)
+
 OSStatus platform_flash_erase( const platform_flash_t *peripheral, uint32_t StartAddress, uint32_t EndAddress  )
 {
   OSStatus err = kNoErr;
+  int erase_len = MAX_OPERATE_LEN, total_len = EndAddress - StartAddress +1;
 
   require_action_quiet( peripheral != NULL, exit, err = kParamErr);
   require_action( StartAddress >= peripheral->flash_start_addr 
@@ -432,8 +435,22 @@ OSStatus platform_flash_erase( const platform_flash_t *peripheral, uint32_t Star
   
 
   if( peripheral->flash_type == FLASH_TYPE_SPI ){
-    err = SpiFlashErase( StartAddress, EndAddress - StartAddress + 1 );
-    require_noerr(err, exit);
+    while(total_len > 0) {
+        if (total_len > MAX_OPERATE_LEN) {
+            erase_len = MAX_OPERATE_LEN;
+            total_len -= MAX_OPERATE_LEN;
+        } else {
+            erase_len = total_len;
+            total_len = 0;
+        }
+        err = SpiFlashErase( StartAddress, erase_len );
+#ifndef MICO_DISABLE_WATCHDOG
+        WdgFeed();
+#endif
+        require_noerr(err, exit);
+        StartAddress += erase_len;
+    }
+    
   }else{
     err = kTypeErr;
     goto exit;
@@ -446,15 +463,30 @@ exit:
 OSStatus platform_flash_write( const platform_flash_t *peripheral, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
 {
   OSStatus err = kNoErr;
+  int write_len = MAX_OPERATE_LEN, total_len = DataLength;
+
 
   require_action_quiet( peripheral != NULL, exit, err = kParamErr);
   require_action( *FlashAddress >= peripheral->flash_start_addr 
                && *FlashAddress + DataLength <= peripheral->flash_start_addr + peripheral->flash_length, exit, err = kParamErr);
 
   if( peripheral->flash_type == FLASH_TYPE_SPI ){
-    err = SpiFlashWrite(*FlashAddress, Data, DataLength);
-    require_noerr(err, exit);
-    *FlashAddress += DataLength;
+    while(total_len > 0) {
+        if (total_len > MAX_OPERATE_LEN) {
+            write_len = MAX_OPERATE_LEN;
+            total_len -= MAX_OPERATE_LEN;
+        } else {
+            write_len = total_len;
+            total_len = 0;
+        }
+        err = SpiFlashWrite( *FlashAddress, Data, write_len );
+#ifndef MICO_DISABLE_WATCHDOG
+        WdgFeed();
+#endif
+        require_noerr(err, exit);
+        *FlashAddress += write_len;
+        Data += write_len;
+    }
   }else{
     err = kTypeErr;
     goto exit;
@@ -467,6 +499,8 @@ exit:
 OSStatus platform_flash_read( const platform_flash_t *peripheral, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
 {
   OSStatus err = kNoErr;
+  int read_len = MAX_OPERATE_LEN, total_len = DataLength;
+
 
   require_action_quiet( peripheral != NULL, exit, err = kParamErr);
   require_action_quiet( DataLength != 0, exit, err = kNoErr);
@@ -474,9 +508,22 @@ OSStatus platform_flash_read( const platform_flash_t *peripheral, volatile uint3
                && *FlashAddress + DataLength <= peripheral->flash_start_addr + peripheral->flash_length, exit, err = kParamErr);
   
   if( peripheral->flash_type == FLASH_TYPE_SPI ){
-    err = SpiFlashRead(*FlashAddress, Data, DataLength);
-    require_noerr(err, exit);
-    *FlashAddress += DataLength;
+    while(total_len > 0) {
+        if (total_len > MAX_OPERATE_LEN) {
+            read_len = MAX_OPERATE_LEN;
+            total_len -= MAX_OPERATE_LEN;
+        } else {
+            read_len = total_len;
+            total_len = 0;
+        }
+        err = SpiFlashRead( *FlashAddress, Data, read_len );
+#ifndef MICO_DISABLE_WATCHDOG
+        WdgFeed();
+#endif
+        require_noerr(err, exit);
+        *FlashAddress += read_len;
+        Data += read_len;
+    }
   }else{
     err = kTypeErr;
     goto exit;
@@ -506,8 +553,6 @@ OSStatus platform_flash_enable_protect( const platform_flash_t *peripheral, uint
     return kNoErr;
 
   spi_err = SpiFlashIOCtl(IOCTL_FLASH_PROTECT, FLASH_HALF_PROTECT);
-
-  platform_log("BP: %x", ( SpiFlashIOCtl( IOCTL_STATUS_REGISTER ) & BP_Msk ) >> BP_Pos );
 
   require_action_quiet(spi_err == 0, exit, err = kUnexpectedErr);
 

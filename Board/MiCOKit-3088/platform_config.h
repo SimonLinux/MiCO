@@ -83,6 +83,7 @@
 #define MICO_USE_WIFI_POWER_PIN_ACTIVE_HIGH
 
 #define MICO_USE_BUILTIN_RF_DRIVER
+
 /******************************************************
  *  Memory mapping
  ******************************************************/

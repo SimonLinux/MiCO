@@ -306,8 +306,8 @@ void init_platform( void )
   MicoGpioInitialize( MICO_SYS_LED, OUTPUT_PUSH_PULL );
   MicoSysLed(false);
   
+  MicoGpioInitialize( BOOT_SEL, INPUT_PULL_UP );
   MicoGpioInitialize( MFG_SEL, INPUT_PULL_UP );
-  
   //  Initialise EasyLink buttons
   MicoGpioInitialize( (mico_gpio_t)EasyLink_BUTTON, INPUT_PULL_UP );
   mico_init_timer(&_button_EL_timer, RestoreDefault_TimeOut, _button_EL_Timeout_handler, NULL);
@@ -338,9 +338,8 @@ void init_platform_bootloader( void )
   
   MicoGpioInitialize( BOOT_SEL, INPUT_PULL_UP );
   MicoGpioInitialize( MFG_SEL, INPUT_PULL_UP );
-#ifdef MICO_ATE_START_ADDRESS
-	MicoGpioInitialize( EasyLink_BUTTON, INPUT_PULL_UP );
-#endif  
+  MicoGpioInitialize( EasyLink_BUTTON, INPUT_PULL_UP );
+
   /* Check USB-HOST is inserted */
   err = MicoGpioInitialize( USB_DETECT, INPUT_PULL_DOWN );
   require_noerr(err, exit);
@@ -348,6 +347,7 @@ void init_platform_bootloader( void )
   
   require_string( MicoGpioInputGet( USB_DETECT ) == true, exit, "USB device is not inserted" );
 
+  ClkModuleEn( USB_CLK_EN );
   platform_log("USB device inserted");
   if( HardwareInit(DEV_ID_USB) ){
     FolderOpenByNum(&RootFolder, NULL, 1);
@@ -563,7 +563,7 @@ bool MicoShouldEnterBootloader(void)
     return false;
 }
 
-#ifdef MICO_ATE_START_ADDRESS
+
 /* Enter wifi manufacture mode */
 bool MicoShouldEnterATEMode(void)
 {
@@ -572,5 +572,5 @@ bool MicoShouldEnterATEMode(void)
   else
     return false;
 }
-#endif
+
 

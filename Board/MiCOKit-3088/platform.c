@@ -315,7 +315,7 @@ void init_platform( void )
   MicoSysLed(false);
   MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_PUSH_PULL );
   MicoRfLed(false);
-
+  MicoGpioInitialize( BOOT_SEL, INPUT_PULL_UP );
   MicoGpioInitialize( MFG_SEL, INPUT_PULL_UP );
   //  Initialise EasyLink buttons
   MicoGpioInitialize( (mico_gpio_t)EasyLink_BUTTON, INPUT_PULL_UP );
@@ -335,24 +335,50 @@ static FOLDER	 RootFolder;
 static void FileBrowse(FS_CONTEXT* FsContext);
 static bool UpgradeFileFound = false;
 
+static const mico_uart_config_t fuart_config =
+{
+  .baud_rate    = STDIO_UART_BAUDRATE,
+  .data_width   = DATA_WIDTH_8BIT,
+  .parity       = NO_PARITY,
+  .stop_bits    = STOP_BITS_1,
+  .flow_control = FLOW_CONTROL_DISABLED,
+  .flags        = 0,
+};
+static volatile uint8_t rx_data[100];
+static volatile ring_buffer_t rx_buffer;
+
+static void bootload_fuart_init(void)
+{
+    MicoUartInitialize(MICO_UART_1, &fuart_config,  (ring_buffer_t*)&rx_buffer);
+}
+
+static void fuart_send(char*str)
+{
+    MicoUartSend(MICO_UART_1, str, strlen(str));
+}
 
 void init_platform_bootloader( void )
 {
   uint32_t BootNvmInfo;
   OSStatus err;
+  char str[8];
   
   MicoGpioInitialize( BOOT_SEL, INPUT_PULL_UP );
   MicoGpioInitialize( MFG_SEL, INPUT_PULL_UP );
-#ifdef MICO_ATE_START_ADDRESS
-	MicoGpioInitialize( EasyLink_BUTTON, INPUT_PULL_UP );
-#endif  
+  MicoGpioInitialize( EasyLink_BUTTON, INPUT_PULL_UP );
+
   /* Check USB-HOST is inserted */
   err = MicoGpioInitialize( (mico_gpio_t)USB_DETECT, INPUT_PULL_DOWN );
   require_noerr(err, exit);
   mico_thread_msleep_no_os(2);
-  
-  require_string( MicoGpioInputGet( (mico_gpio_t)USB_DETECT ) == true, exit, "USB device is not inserted" );
 
+  bootload_fuart_init();
+  if (MicoGpioInputGet( (mico_gpio_t)USB_DETECT ) != true) {
+    fuart_send("**ASSERT** USB device is not inserted\r\n" );
+    goto exit;
+  }
+
+  ClkModuleEn( USB_CLK_EN );
   //platform_log("USB device inserted");
   if( HardwareInit(DEV_ID_USB) ){
     FolderOpenByNum(&RootFolder, NULL, 1);
@@ -369,26 +395,29 @@ void init_platform_bootloader( void )
       /*
        * boot up check for the last time
        */
-      platform_log("[UPGRADE]:upgrade successful completely");
+      fuart_send("[UPGRADE]:upgrade successful completely\r\n");
     }
     else if(BootNvmInfo == (uint32_t)UPGRADE_ERRNO_NOERR)
     {
-      platform_log("[UPGRADE]:no upgrade, boot normallly");
+      fuart_send("[UPGRADE]:no upgrade, boot normallly\r\n");
     }
     else if(BootNvmInfo == (uint32_t)UPGRADE_ERRNO_CODBUFDAT)
     {
-      platform_log("[UPGRADE]:upgrade successful partly, data fail");
+      fuart_send("[UPGRADE]:upgrade successful partly, data fail\r\n");
     }
     else
     {
-      platform_log("[UPGRADE]:upgrade error, errno = %d", (int32_t)BootNvmInfo);
+      sprintf(str, "%d", (int32_t)BootNvmInfo);
+      fuart_send("[UPGRADE]:upgrade error, errno = ");
+      fuart_send(str);
+      fuart_send("\r\n");
     }
   }
   else
   {
     if(BootNvmInfo == (uint32_t)UPGRADE_ERRNO_NOERR)
     {
-      platform_log("[UPGRADE]:found upgrade ball, prepare to boot upgrade");
+      fuart_send("[UPGRADE]:found upgrade ball, prepare to boot upgrade\r\n");
       BootNvmInfo = UPGRADE_REQT_MAGIC;
       NvmWrite(UPGRADE_NVM_ADDR, (uint8_t*)&BootNvmInfo, 4);
             //if you want PORRESET to reset GPIO only,uncomment it
@@ -400,13 +429,16 @@ void init_platform_bootloader( void )
     {
       BootNvmInfo = (uint32_t)UPGRADE_ERRNO_NOERR;
       NvmWrite(UPGRADE_NVM_ADDR, (uint8_t*)&BootNvmInfo, 4);
-      platform_log("[UPGRADE]:found upgrade ball file for the last time, re-plugin/out, if you want to upgrade again");
+      fuart_send("[UPGRADE]:found upgrade ball file for the last time, re-plugin/out, if you want to upgrade again\r\n");
     }
     else
     {
-      platform_log("[UPGRADE]:upgrade error, errno = %d", (int32_t)BootNvmInfo);
+      sprintf(str, "%d", (int32_t)BootNvmInfo);
+      fuart_send("[UPGRADE]:upgrade error, errno = ");
+      fuart_send(str);
+      fuart_send("\r\n");
       if( BootNvmInfo == -9 ) {
-        platform_log("[UPGRADE]:Same file, no need to update");
+        fuart_send("[UPGRADE]:Same file, no need to update\r\n");
         goto exit;
       }
       BootNvmInfo = (uint32_t)UPGRADE_ERRNO_NOERR;

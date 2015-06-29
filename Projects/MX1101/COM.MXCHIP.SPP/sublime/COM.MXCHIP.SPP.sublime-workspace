@@ -520,10 +520,74 @@
 	"buffers":
 	[
 		{
-			"file": "/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_internal.h",
+			"file": "COM.MXCHIP.SPP.sublime-project",
 			"settings":
 			{
-				"buffer_size": 5403,
+				"buffer_size": 1469,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Bootloader/BootloaderEntrance.c",
+			"settings":
+			{
+				"buffer_size": 4792,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverFlash.h",
+			"settings":
+			{
+				"buffer_size": 6716,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
+			"settings":
+			{
+				"buffer_size": 26888,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/platform_init.c",
+			"settings":
+			{
+				"buffer_size": 11229,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/platform_init.c",
+			"settings":
+			{
+				"buffer_size": 10044,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/platform_init.c",
+			"settings":
+			{
+				"buffer_size": 8974,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_flash.c",
+			"settings":
+			{
+				"buffer_size": 10893,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_flash.c",
+			"settings":
+			{
+				"buffer_size": 15348,
 				"line_ending": "Windows"
 			}
 		}
@@ -588,6 +652,7 @@
 	},
 	"file_history":
 	[
+		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_internal.h",
 		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_flash.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_flash.c",
@@ -714,8 +779,7 @@
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/JSON-C/json_util.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/STM32F2xx_Drv/startup_stm32f2xx_bootloader_IAR.s",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICODefine.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/MICO_EVB_1/platform.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/STM32F2xx_Drv/STM32F2xx_StdPeriph_Driver/CMSIS/core_cmInstr.h"
+		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/MICO_EVB_1/platform.c"
 	],
 	"find":
 	{
@@ -723,7 +787,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"",
@@ -747,6 +811,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"partition",
 			"_GetSector",
 			"FLASH_Sector_10",
 			"generic_sflash_command",
@@ -873,8 +938,7 @@
 			"_button_EL_Timeout_handler",
 			"GPIOC14",
 			"gpio_irq_data",
-			"gpio_irq_data_t",
-			"GpioGetReg"
+			"gpio_irq_data_t"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -898,18 +962,73 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_internal.h",
+					"file": "COM.MXCHIP.SPP.sublime-project",
 					"settings":
 					{
-						"buffer_size": 5403,
+						"buffer_size": 1469,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5001,
-								5001
+								478,
+								478
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/William/Develop/MiCO/Bootloader/BootloaderEntrance.c",
+					"settings":
+					{
+						"buffer_size": 4792,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3729,
+								3729
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1318.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverFlash.h",
+					"settings":
+					{
+						"buffer_size": 6716,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2226,
+								2242
 							]
 						],
 						"settings":
@@ -919,7 +1038,175 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1327.0,
+						"translation.y": 445.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
+					"settings":
+					{
+						"buffer_size": 26888,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								19845,
+								19989
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 9599.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/platform_init.c",
+					"settings":
+					{
+						"buffer_size": 11229,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4891,
+								4891
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2160.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/platform_init.c",
+					"settings":
+					{
+						"buffer_size": 10044,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6293,
+								6293
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2004.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/platform_init.c",
+					"settings":
+					{
+						"buffer_size": 8974,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1983.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_flash.c",
+					"settings":
+					{
+						"buffer_size": 10893,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4591.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_flash.c",
+					"settings":
+					{
+						"buffer_size": 15348,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14565,
+								14565
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 9087.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -37,6 +37,8 @@ extern "C" {
 #endif
 
 #define Bootloader_REVISION "v2.0"
+  
+void bootloader_start_app( uint32_t app_addr );
 
 
 #ifdef __cplusplus

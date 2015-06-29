@@ -41,6 +41,7 @@
 #include "StringUtils.h"
 #include "MicoRtos.h"
 #include "MicoPlatform.h"
+#include "bootloader.h"
 #include <ctype.h>                    
 
 /* Private typedef -----------------------------------------------------------*/
@@ -140,17 +141,14 @@ void SerialDownload(mico_flash_t flash, uint32_t flashdestination, int32_t maxRe
   Size = Ymodem_Receive( &tab_1024[0], flash, flashdestination, maxRecvSize );
   if (Size > 0)
   {
-    printf("\n\n\r Programming Successfully!\n\r\r\n Name: ");
-    printf("%s", FileName);
+    printf("\n\n\r Successfully!\n\r\r\n Name: %s", FileName);
     
     Int2Str((uint8_t *)Number, Size);
-    printf("\n\r Size: ");
-    printf("%s", Number);
-    printf(" Bytes\r\n");
+    printf("\n\r Size: %s Bytes\r\n", Number);
   }
   else if (Size == -1)
   {
-    printf("\n\n\rThe image size is higher than memory!\n\r");
+    printf("\n\n\rImage size is higher than memory!\n\r");
   }
   else if (Size == -2)
   {
@@ -158,11 +156,11 @@ void SerialDownload(mico_flash_t flash, uint32_t flashdestination, int32_t maxRe
   }
   else if (Size == -3)
   {
-    printf("\r\n\nAborted by user.\n\r");
+    printf("\r\n\nAborted.\n\r");
   }
   else
   {
-    printf("\n\rFailed to receive file!\n\r");
+    printf("\n\rReceive failed!\n\r");
   }
 }
 
@@ -186,11 +184,11 @@ void SerialUpload(mico_flash_t flash, uint32_t flashdestination, char * fileName
     
     if (status != 0)
     {
-      printf("\n\rError Occurred while Transmitting File\n\r");
+      printf("\n\rError while Transmitting\n\r");
     }
     else
     {
-      printf("\n\rFile uploaded successfully \n\r");
+      printf("\n\rSuccessfully\n\r");
     }
   }
 }
@@ -369,8 +367,8 @@ void Main_Menu(void)
     /***************** Command: MEMORYMAP *************************/
     else if(strcmp(cmdname, "MEMORYMAP") == 0 || strcmp(cmdname, "5") == 0)  {
       printf( MEMMAP_HEADER );
-      for( i = MICO_PARTITION_BOOTLOADER; i <= MICO_PARTITION_PARAMETER_2; i++ ){
-        partition = MicoFlashGetInfo( i );
+      for( i = 0; i <= MICO_PARTITION_PARAMETER_2; i++ ){
+        partition = MicoFlashGetInfo( (mico_partition_t)i );
         printf( "| %11s |  Dev:%d  | 0x%08x | 0x%08x |\r\n", partition->partition_description, partition->partition_owner, 
                partition->partition_start_addr, partition->partition_length);
       }
@@ -379,7 +377,8 @@ void Main_Menu(void)
     /***************** Command: Excute the application *************************/
     else if(strcmp(cmdname, "BOOT") == 0 || strcmp(cmdname, "6") == 0)	{
       printf ("\n\rBooting.......\n\r");
-      startApplication( (MicoFlashGetInfo(MICO_PARTITION_APPLICATION))->partition_start_addr );
+      partition = MicoFlashGetInfo( MICO_PARTITION_APPLICATION );
+      bootloader_start_app( partition->partition_start_addr );
     }
     
     /***************** Command: Reboot *************************/

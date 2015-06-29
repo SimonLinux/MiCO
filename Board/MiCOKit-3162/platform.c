@@ -502,3 +502,7 @@ bool MicoShouldEnterBootloader(void)
     return false;
 }
 
+bool MicoShouldEnterATEMode(void)
+{
+    return false;
+}

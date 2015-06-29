@@ -3,10 +3,8 @@
 #include "HomeKitProfiles.h"
 #include "StringUtils.h"
 #include "MDNSUtils.h"
-#include "rgb_led.h"
 
 extern void HKBonjourUpdateStateNumber( mico_Context_t * const inContext );
-
 
 HkStatus HKExcuteUnpairedIdentityRoutine( mico_Context_t * const inContext )
 {

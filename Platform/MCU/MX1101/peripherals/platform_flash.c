@@ -547,7 +547,7 @@ OSStatus platform_flash_enable_protect( const platform_flash_t *peripheral, uint
   int32_t status = SpiFlashIOCtl( IOCTL_STATUS_REGISTER );
   UNUSED_PARAMETER( end_address );
 
-  platform_log("protect %d, %x, %x", peripheral->flash_type, start_address, end_address);
+  //platform_log("protect %d, %x, %x", peripheral->flash_type, start_address, end_address);
 
   require_action_quiet( peripheral != NULL, exit, err = kParamErr);
 
@@ -556,7 +556,7 @@ OSStatus platform_flash_enable_protect( const platform_flash_t *peripheral, uint
 
   spi_err = SpiFlashIOCtl(IOCTL_FLASH_PROTECT, FLASH_HALF_PROTECT);
 
-  platform_log("status %x", ( SpiFlashIOCtl( IOCTL_STATUS_REGISTER ) & BP_Msk ) >> BP_Pos );
+  //platform_log("status %x", ( SpiFlashIOCtl( IOCTL_STATUS_REGISTER ) & BP_Msk ) >> BP_Pos );
 
   require_action_quiet(spi_err == 0, exit, err = kUnexpectedErr);
 

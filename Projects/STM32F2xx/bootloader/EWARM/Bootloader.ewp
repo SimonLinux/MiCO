@@ -173,8 +173,8 @@
         <option>
           <name>CCDefines</name>
           <state>USE_STDPERIPH_DRIVER</state>
-          <state>SIZE_OPTIMIZE</state>
           <state>DEBUG</state>
+          <state>SIZE_OPTIMIZE</state>
           <state>BOOTLOADER</state>
           <state>NO_MICO_RTOS</state>
         </option>
@@ -2952,9 +2952,6 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Bootloader\menu.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Bootloader\MicoDefaults.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Bootloader\Update_for_OTA.c</name>

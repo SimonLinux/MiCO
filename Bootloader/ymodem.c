@@ -35,6 +35,7 @@
 #include "ymodem.h"
 #include "string.h"
 #include "StringUtils.h"
+#include "CheckSumUtils.h"
 #include "MicoPlatform.h"
 
 extern const platform_flash_t platform_flash_peripherals[];
@@ -317,9 +318,6 @@ void Ymodem_PrepareIntialPacket(uint8_t *data, const uint8_t* fileName, uint32_t
     data[j] = 0;
   }
 }
-
-
-
 
 /**
   * @brief  Prepare the data packet

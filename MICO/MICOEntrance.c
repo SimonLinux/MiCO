@@ -71,9 +71,8 @@ WEAK void sendNotifySYSWillPowerOff(void){
 /* ========================================
 User provide callback functions 
 ======================================== */
-void micoNotify_ReadAppInfoHandler(char *str, int len, mico_Context_t * const inContext)
+void system_version(char *str, int len)
 {
-  (void)inContext;
   snprintf( str, len, "%s, build at %s %s", APP_INFO, __TIME__, __DATE__);
 }
 
@@ -303,9 +302,6 @@ int application_start(void)
 
   err = MICOInitNotificationCenter  ( context );
 
-  err = MICOAddNotification( mico_notify_READ_APP_INFO, (void *)micoNotify_ReadAppInfoHandler );
-  require_noerr( err, exit );  
-
   err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
   require_noerr( err, exit ); 
 
@@ -338,12 +334,6 @@ int application_start(void)
   mico_init_timer(&_watchdog_reload_timer,APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000/2, _watchdog_reload_timer_handler, NULL);
   mico_start_timer(&_watchdog_reload_timer);
 
-  /* Enter test mode, call a build-in test function amd output on MFG UART */
-  if(MicoShouldEnterMFGMode()==true){
-    mico_log( "Enter MFG mode by MFG button" );
-    mico_mfg_test(context);
-  }
-  
   /*Read current time from RTC.*/
   if( MicoRtcGetTime(&time) == kNoErr ){
     currentTime.tm_sec = time.sec;

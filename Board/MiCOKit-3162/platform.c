@@ -275,7 +275,7 @@ const platform_flash_t platform_flash_peripherals[] =
   {
     .flash_type                   = FLASH_TYPE_EMBEDDED,
     .flash_start_addr             = 0x08000000,
-    .flash_length                 = 0x80000,
+    .flash_length                 = 0x100000,
   },
 };
 
@@ -290,7 +290,7 @@ const mico_logic_partition_t mico_partitions[] =
     .partition_description     = "Bootloader",
     .partition_start_addr      = 0x08000000,
     .partition_length          =     0x4000,    //16k bytes
-    .partition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
   },
   [MICO_PARTITION_APPLICATION] =
   {
@@ -298,7 +298,7 @@ const mico_logic_partition_t mico_partitions[] =
     .partition_description     = "Application",
     .partition_start_addr      = 0x0800C000,
     .partition_length          =    0x54000,   //336k bytes
-    .partition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
   },
   [MICO_PARTITION_RF_FIRMWARE] =
   {
@@ -331,7 +331,12 @@ const mico_logic_partition_t mico_partitions[] =
     .partition_start_addr      = 0x08008000,
     .partition_length          = 0x4000, //16k bytes
     .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_ATE] =
+  {
+    .partition_owner           = MICO_FLASH_NONE,
   }
+    
 };
 
 

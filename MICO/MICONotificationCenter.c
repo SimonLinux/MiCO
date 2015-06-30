@@ -180,19 +180,6 @@ void dns_ip_set(uint8_t *hostname, uint32_t ip)
   }    
 }
 
-
-void system_version(char *str, int len){
-  _Notify_list_t *temp =  Notify_list[mico_notify_READ_APP_INFO];
-  if(Notify_list[mico_notify_READ_APP_INFO] == NULL)
-    return;
-  else{
-    do{
-      ((mico_notify_READ_APP_INFO_function)(temp->function))(str, len, _Context);
-      temp = temp->next;
-    }while(temp!=NULL);
-  }
-}
-
 void sendNotifySYSWillPowerOff(void)
 {
   _Notify_list_t *temp =  Notify_list[mico_notify_SYS_WILL_POWER_OFF];

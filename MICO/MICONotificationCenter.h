@@ -55,7 +55,6 @@ typedef enum{
   mico_notify_EASYLINK_GET_EXTRA_DATA,      //void (*function)(int datalen, char*data, mico_Context_t * const inContext);
   mico_notify_TCP_CLIENT_CONNECTED,         //void (*function)(char *str, int len, mico_Context_t * const inContext);
   mico_notify_DNS_RESOLVE_COMPLETED,        //void (*function)(char *str, int len, mico_Context_t * const inContext);
-  mico_notify_READ_APP_INFO,                //void (*function)(int fd, mico_Context_t * const inContext);
   mico_notify_SYS_WILL_POWER_OFF,           //void (*function)(mico_Context_t * const inContext);
   mico_notify_WIFI_CONNECT_FAILED,          //void join_fail(OSStatus err, mico_Context_t * const inContext);
   mico_notify_WIFI_SCAN_ADV_COMPLETED,      //void (*function)(ScanResult_adv *pApList, mico_Context_t * const inContext);

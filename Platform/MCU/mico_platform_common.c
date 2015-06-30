@@ -537,7 +537,9 @@ OSStatus MicoFlashErase(mico_partition_t partition, uint32_t off_set, uint32_t s
   OSStatus err = kNoErr;
   uint32_t start_addr = mico_partitions[ partition ].partition_start_addr + off_set;
   uint32_t end_addr = mico_partitions[ partition ].partition_start_addr + off_set + size - 1;
-  
+
+  if (size == 0)
+    goto exit;
   require_action_quiet( partition > MICO_PARTITION_ERROR, exit, err = kParamErr );
   require_action_quiet( partition < MICO_PARTITION_MAX, exit, err = kParamErr );  
 
@@ -569,6 +571,8 @@ OSStatus MicoFlashWrite( mico_partition_t partition, volatile uint32_t* off_set,
   uint32_t start_addr = mico_partitions[ partition ].partition_start_addr + *off_set;
   uint32_t end_addr = mico_partitions[ partition ].partition_start_addr + *off_set + inBufferLength - 1;
 
+  if (inBufferLength == 0)
+    goto exit;
   require_action_quiet( partition > MICO_PARTITION_ERROR, exit, err = kParamErr );
   require_action_quiet( partition < MICO_PARTITION_MAX, exit, err = kParamErr );
   
@@ -601,6 +605,8 @@ OSStatus MicoFlashRead( mico_partition_t partition, volatile uint32_t* off_set, 
   uint32_t start_addr = mico_partitions[ partition ].partition_start_addr + *off_set;
   uint32_t  end_addr = mico_partitions[ partition ].partition_start_addr + *off_set + inBufferLength - 1;
 
+  if (inBufferLength == 0)
+    goto exit;
   require_action_quiet( partition > MICO_PARTITION_ERROR, exit, err = kParamErr );
   require_action_quiet( partition < MICO_PARTITION_MAX, exit, err = kParamErr );
   
@@ -632,7 +638,9 @@ OSStatus MicoFlashEnableSecurity( mico_partition_t partition, uint32_t off_set, 
   OSStatus err = kNoErr;
   uint32_t start_addr = mico_partitions[ partition ].partition_start_addr + off_set;
   uint32_t end_addr = mico_partitions[ partition ].partition_start_addr + off_set + size - 1;
-  
+
+  if (size == 0)
+    goto exit;
   require_action_quiet( partition > MICO_PARTITION_ERROR, exit, err = kParamErr );
   require_action_quiet( partition < MICO_PARTITION_MAX, exit, err = kParamErr );
 
@@ -686,7 +694,7 @@ void mico_set_bootload_ver(void)
        if (ver[i] != 0xFF)
            return;
    }
-   snprintf(ver, 33, "%s %s", MODEL, Bootloader_REVISION );
+   snprintf(ver, 33, "%s %s %d", MODEL, Bootloader_REVISION , STDIO_UART_BAUDRATE);
    flashaddr =  boot_partition->partition_length - 0x20;
    MicoFlashDisableSecurity( MICO_PARTITION_BOOTLOADER, 0x0, boot_partition->partition_length );
    MicoFlashWrite( MICO_PARTITION_BOOTLOADER, &flashaddr, (uint8_t *)ver , 32);

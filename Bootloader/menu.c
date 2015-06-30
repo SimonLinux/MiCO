@@ -369,6 +369,8 @@ void Main_Menu(void)
       printf( MEMMAP_HEADER );
       for( i = 0; i <= MICO_PARTITION_PARAMETER_2; i++ ){
         partition = MicoFlashGetInfo( (mico_partition_t)i );
+        if (partition->partition_owner == MICO_FLASH_NONE)
+            continue;
         printf( "| %11s |  Dev:%d  | 0x%08x | 0x%08x |\r\n", partition->partition_description, partition->partition_owner, 
                partition->partition_start_addr, partition->partition_length);
       }

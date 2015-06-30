@@ -43,6 +43,7 @@ typedef int Log_Status;
 #define Log_dataLengthOverFlow  (5)
 #define Log_StartAddressERROR		(6)
 #define Log_UnkonwnERROR        (7)
+#define Log_CRCERROR             (8)
 
 #define SizePerRW 4096   /* Bootloader need 2xSizePerRW RAM heap size to operate, 
                             but it can boost the setup. */
@@ -59,11 +60,48 @@ typedef struct  _boot_table_t {
   uint8_t version[8];
   uint8_t type; // B:bootloader, P:boot_table, A:application, D: 8782 driver
   uint8_t upgrade_type; //u:upgrade, 
-  uint8_t reserved[6];
+  uint16_t crc;
+  uint8_t reserved[4];
 }boot_table_t;
 
 #define update_log(M, ...) custom_log("UPDATE", M, ##__VA_ARGS__)
 #define update_log_trace() custom_log_trace("UPDATE")
+
+static OSStatus checkcrc(uint16_t crc_in, int partition_type, int total_len)
+{
+    uint16_t crc = 0;
+    mico_logic_partition_t* part;
+    int i, j, len;
+    OSStatus err = kNoErr;
+    uint32_t update_data_offset = 0x0;
+    
+    if (crc_in == 0xFFFF)
+        goto exit;
+
+    part = MicoFlashGetInfo(partition_type);
+    if (part == NULL)
+        goto exit;
+
+    while(total_len > 0){
+      if( SizePerRW < total_len ){
+        len = SizePerRW;
+      } else {
+        len = total_len;
+      }
+      err = MicoFlashRead( MICO_PARTITION_OTA_TEMP, &update_data_offset, data , len);
+      require_noerr(err, exit);
+
+      total_len -= len;
+      for(j=0; j<len; j++)
+          crc = UpdateCRC16(crc, data[j]);
+    }
+
+    if (crc == crc_in)
+        err = kNoErr;
+exit:
+    update_log("CRC check return %d, got crc %x, calcuated crc %x\r\n", err, crc_in, crc);
+    return err;
+}
 
 Log_Status updateLogCheck(boot_table_t *updateLog, mico_partition_t *dest_partition_type)
 {
@@ -93,6 +131,9 @@ Log_Status updateLogCheck(boot_table_t *updateLog, mico_partition_t *dest_partit
 
   if( updateLog->length > MicoFlashGetInfo(*dest_partition_type)->partition_length )
     return Log_dataLengthOverFlow;
+
+  if (checkcrc(updateLog->crc, *dest_partition_type, updateLog->length) != kNoErr)
+    return Log_CRCERROR;
   
   return Log_NeedUpdate;
 }

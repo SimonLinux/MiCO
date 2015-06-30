@@ -445,7 +445,7 @@ void init_platform_bootloader( void )
     err = MicoFlashRead( MICO_FLASH_FOR_DRIVER, &destStartAddress_tmp, data, copyLength );
     require_noerr( err, exit );
     
-    targetCrcResult = CRC8_Table(targetCrcResult, data, copyLength);
+    targetCrcResult = mico_CRC8_Table(targetCrcResult, data, copyLength);
   }
   
   printf("\r\n");

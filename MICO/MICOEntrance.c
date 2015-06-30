@@ -271,7 +271,7 @@ mico_Context_t *getGlobalContext(void)
   return context;
 }
 
-void mico_write_ota_tbl(int len)
+void mico_write_ota_tbl(int len, uint16_t crc)
 {
   mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
   memset(&context->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
@@ -279,6 +279,7 @@ void mico_write_ota_tbl(int len)
   context->flashContentInRam.bootTable.start_address = ota_partition->partition_start_addr;
   context->flashContentInRam.bootTable.type = 'A';
   context->flashContentInRam.bootTable.upgrade_type = 'U';
+  context->flashContentInRam.bootTable.crc = crc;
   MICOUpdateConfiguration(context);
 }
 

@@ -229,6 +229,8 @@ static int ota_finished(uint8_t *md5_recv, uint8_t *temp_buf, int temp_buf_len, 
     uint32_t offset = 0x0;
     mico_Context_t *context = (mico_Context_t *)inUserContext;
     mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
+    uint16_t crc = 0;
+    int i;
     
     if( ota_partition->partition_owner == MICO_FLASH_NONE )
       return kNoErr;
@@ -241,6 +243,8 @@ static int ota_finished(uint8_t *md5_recv, uint8_t *temp_buf, int temp_buf_len, 
         }
         MicoFlashRead( MICO_PARTITION_OTA_TEMP, &offset, (uint8_t *)temp_buf, len);
         Md5Update( &ctx, (uint8_t *)temp_buf, len);
+        for(i=0; i<len; i++)
+          crc = UpdateCRC16(crc, temp_buf[i]);
     }
     Md5Final( &ctx, md5_ret );
     
@@ -253,6 +257,7 @@ static int ota_finished(uint8_t *md5_recv, uint8_t *temp_buf, int temp_buf_len, 
     context->flashContentInRam.bootTable.start_address =  MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP )->partition_start_addr ;
     context->flashContentInRam.bootTable.type = 'A';
     context->flashContentInRam.bootTable.upgrade_type = 'U';
+    context->flashContentInRam.bootTable.crc = crc;
     MICOUpdateConfiguration(context);
     ota_log("OTA Success!");
     context->micoStatus.sys_state = eState_Software_Reset;

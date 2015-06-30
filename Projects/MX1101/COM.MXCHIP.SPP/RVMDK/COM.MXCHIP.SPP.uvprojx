@@ -668,6 +668,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
             </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1779,6 +1784,11 @@
               <FileName>URLUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2911,6 +2921,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
             </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3683,7 +3698,7 @@
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0xd000</StartAddress>
+                <StartAddress>0xb000</StartAddress>
                 <Size>0xc0000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
@@ -4041,6 +4056,11 @@
               <FileName>URLUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -597,7 +597,7 @@
       <group>
         <name>MFiAuth</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCODriverMFiAuth\MicoDriverMFiAuth.a</name>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MicoDriverMFiAuth\MicoDriverMFiAuth.a</name>
         </file>
       </group>
       <group>
@@ -834,6 +834,9 @@
     <name>Support</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>

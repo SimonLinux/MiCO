@@ -12,7 +12,7 @@
 #define fota_log_trace() custom_log_trace("Force OTA")
 
 static int wifi_up = 0;
-extern void mico_write_ota_tbl(int len);
+extern void mico_write_ota_tbl(int len, uint16_t crc);
 
 
 void wlan_get_mac_address( uint8_t *mac );
@@ -81,6 +81,7 @@ void mico_force_ota(void)
     md5_context ctx;
     uint8_t mac[6], sta_ip_addr[16];
     mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
+    uint16_t crc = 0;
     
 #define TMP_BUF_LEN 1024
 
@@ -166,6 +167,8 @@ void mico_force_ota(void)
         left -= len;
         MicoFlashRead(MICO_PARTITION_OTA_TEMP, &flashaddr, (uint8_t *)tmpbuf, len);
         Md5Update( &ctx, (uint8_t *)tmpbuf, len);
+        for(i=0; i<len; i++)
+          crc = UpdateCRC16(crc, tmpbuf[i]);
     }
     Md5Final( &ctx, md5_calc );
     
@@ -185,10 +188,10 @@ void mico_force_ota(void)
         return;
     }
 
-    fota_log("OTA bin md5 check success, upgrading...");
+    fota_log("OTA bin md5 check success, CRC %x. upgrading...", crc);
 
-    mico_write_ota_tbl(filelen);
-
+    mico_write_ota_tbl(filelen, crc);
+    
     mico_ota_finished(OTA_SUCCESS, NULL);
     while(1)
         sleep(100);

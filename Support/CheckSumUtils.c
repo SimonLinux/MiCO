@@ -21,7 +21,7 @@
 
 #include "CheckSumUtils.h"
 
-const unsigned char CRC8Table[]={
+const unsigned char mico_CRC8Table[]={
   0, 94, 188, 226, 97, 63, 221, 131, 194, 156, 126, 32, 163, 253, 31, 65,
   157, 195, 33, 127, 252, 162, 64, 30, 95, 1, 227, 189, 62, 96, 130, 220,
   35, 125, 159, 193, 66, 28, 254, 160, 225, 191, 93, 3, 128, 222, 60, 98,
@@ -40,11 +40,11 @@ const unsigned char CRC8Table[]={
   116, 42, 200, 150, 21, 75, 169, 247, 182, 232, 10, 84, 215, 137, 107, 53
 };
 
-uint8_t CRC8_Table(uint8_t crc8_ori, uint8_t *p, uint32_t counter)
+uint8_t mico_CRC8_Table(uint8_t crc8_ori, uint8_t *p, uint32_t counter)
 {
   uint8_t crc8 = crc8_ori;
   for( ; counter > 0; counter--){
-    crc8 = CRC8Table[crc8^*p];
+    crc8 = mico_CRC8Table[crc8^*p];
     p++;
   }
   return(crc8);

@@ -330,11 +330,12 @@ int application_start(void)
   mico_init_timer(&_watchdog_reload_timer,APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000/2, _watchdog_reload_timer_handler, NULL);
   mico_start_timer(&_watchdog_reload_timer);
 
-  /* Enter test mode, call a build-in test function amd output on MFG UART */
-  if(MicoShouldEnterMFGMode()==true){
-    mico_log( "Enter MFG mode by MFG button" );
+#ifdef USE_MiCOKit_EXT
+  if(MicoShouldEnterTestMode()==true){
+    mico_log( "Enter test mode by user button" );
     mico_mfg_test(context);
   }
+#endif
   
   /*Read current time from RTC.*/
   if( MicoRtcGetTime(&time) == kNoErr ){

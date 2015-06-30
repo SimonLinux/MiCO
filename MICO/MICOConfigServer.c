@@ -37,6 +37,7 @@
 #include "HTTPUtils.h"
 #include "MICONotificationCenter.h"
 #include "StringUtils.h"
+#include "CheckSumUtils.h"
 
 #define config_log(M, ...) custom_log("CONFIG SERVER", M, ##__VA_ARGS__)
 #define config_log_trace() custom_log_trace("CONFIG SERVER")
@@ -51,6 +52,7 @@
 typedef struct _configContext_t{
   uint32_t offset;
   bool     isFlashLocked;
+  CRC16_Context crc16_contex;
 } configContext_t;
 
 extern OSStatus     ConfigIncommingJsonMessage( const char *input, mico_Context_t * const inContext );
@@ -235,15 +237,18 @@ static OSStatus onReceivedData(struct _HTTPHeader_t * inHeader, uint32_t inPos, 
 
      if(inPos == 0){
        context->offset = 0x0;
+       CRC16_Init( &context->crc16_contex );
        mico_rtos_lock_mutex(&Context->flashContentInRam_mutex); //We are write the Flash content, no other write is possiable
        context->isFlashLocked = true;
        err = MicoFlashErase( MICO_PARTITION_OTA_TEMP, 0x0, ota_partition->partition_length);
        require_noerr(err, flashErrExit);
        err = MicoFlashWrite( MICO_PARTITION_OTA_TEMP, &context->offset, (uint8_t *)inData, inLen);
        require_noerr(err, flashErrExit);
+       CRC16_Update( &context->crc16_contex, inData, inLen);
      }else{
        err = MicoFlashWrite( MICO_PARTITION_OTA_TEMP, &context->offset, (uint8_t *)inData, inLen);
        require_noerr(err, flashErrExit);
+       CRC16_Update( &context->crc16_contex, inData, inLen);
      }
   }
   else{
@@ -278,6 +283,8 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
   uint8_t *httpResponse = NULL;
   size_t httpResponseLen = 0;
   json_object* report = NULL;
+  uint16_t crc;
+  configContext_t *http_context = (configContext_t *)inHeader->userContext;
   mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
 
   config_log_trace();
@@ -343,11 +350,13 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
   else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLOTA ) == kNoErr && ota_partition->partition_owner != MICO_FLASH_NONE){
     if(inHeader->contentLength > 0){
       config_log("Receive OTA data!");
+      CRC16_Final( &http_context->crc16_contex, &crc);
       memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
       inContext->flashContentInRam.bootTable.length = inHeader->contentLength;
       inContext->flashContentInRam.bootTable.start_address = ota_partition->partition_start_addr;
       inContext->flashContentInRam.bootTable.type = 'A';
       inContext->flashContentInRam.bootTable.upgrade_type = 'U';
+      inContext->flashContentInRam.bootTable.crc = crc;
       if( inContext->flashContentInRam.micoSystemConfig.configured != allConfigured )
         inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_SOFT_AP_BYPASS;
       MICOUpdateConfiguration( inContext );

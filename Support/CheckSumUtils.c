@@ -76,40 +76,20 @@ uint16_t UpdateCRC16(uint16_t crcIn, uint8_t byte)
   return crc & 0xffffu;
 }
 
-
-/**
-  * @brief  Cal CRC16 for YModem Packet
-  * @param  data
-  * @param  length
-  * @retval None
-  */
-uint16_t Cal_CRC16(const uint8_t* data, uint32_t size)
+void CRC16_Init( CRC16_Context *inContext )
 {
-  uint32_t crc = 0;
-  const uint8_t* dataEnd = data+size;
-
-  while(data < dataEnd)
-    crc = UpdateCRC16(crc, *data++);
- 
-  crc = UpdateCRC16(crc, 0);
-  crc = UpdateCRC16(crc, 0);
-
-  return crc&0xffffu;
+  inContext->CRC = 0;
 }
 
-/**
-  * @brief  Cal Check sum for YModem Packet
-  * @param  data
-  * @param  length
-  * @retval None
-  */
-uint8_t CalChecksum(const uint8_t* data, uint32_t size)
+void CRC16_Update( CRC16_Context *inContext, const void *inSrc, size_t inLen )
 {
-  uint32_t sum = 0;
-  const uint8_t* dataEnd = data+size;
+  const uint8_t * src = (const uint8_t *) inSrc;
+  const uint8_t* srcEnd = src + inLen;
+  while( src < srcEnd )
+    inContext->CRC = UpdateCRC16(inContext->CRC, *src++);
+}
 
-  while(data < dataEnd )
-    sum += *data++;
-
-  return (sum & 0xffu);
+void CRC16_Final( CRC16_Context *inContext, uint16_t *outResult )
+{
+  *outResult = inContext->CRC&0xffffu;
 }

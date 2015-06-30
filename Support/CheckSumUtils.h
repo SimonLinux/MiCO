@@ -25,10 +25,16 @@
 
 #include "Common.h"
 
-uint16_t UpdateCRC16(uint16_t crcIn, uint8_t byte);
+typedef struct
+{
+    uint16_t        CRC;
+}   CRC16_Context;
 
-uint8_t CalChecksum(const uint8_t* data, uint32_t size);
+void CRC16_Init( CRC16_Context *inContext );
 
+void CRC16_Update( CRC16_Context *inContext, const void *inSrc, size_t inLen );
+
+void CRC16_Final( CRC16_Context *inContext, uint16_t *outResult );
 
 
 

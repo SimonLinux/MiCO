@@ -493,6 +493,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\RingBufferUtils.c</FilePath>
             </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1397,6 +1402,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\RingBufferUtils.c</FilePath>
             </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2300,6 +2310,11 @@
               <FileName>RingBufferUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\RingBufferUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3240,6 +3255,11 @@
               <FileName>RingBufferUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\RingBufferUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
             </File>
           </Files>
         </Group>

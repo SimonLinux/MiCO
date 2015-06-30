@@ -1,6 +1,7 @@
 #include "mico.h"
 #include "MICONotificationCenter.h"
 #include "tftp/tftp.h"
+#include "CheckSumUtils.h"
 
 #define DEFAULT_OTA_AP "MICO_OTA_AP"
 #define DEFAULT_OTA_NETMASK "255.0.0.0"
@@ -82,6 +83,7 @@ void mico_force_ota(void)
     uint8_t mac[6], sta_ip_addr[16];
     mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
     uint16_t crc = 0;
+    CRC16_Context contex;
     
 #define TMP_BUF_LEN 1024
 
@@ -156,6 +158,7 @@ void mico_force_ota(void)
     flashaddr = filelen;
     MicoFlashRead(MICO_PARTITION_OTA_TEMP, &flashaddr, (uint8_t *)md5_recv, 16);
     InitMd5( &ctx );
+    CRC16_Init( &contex );
     flashaddr = 0;
     left = filelen;
     while(left > 0) {
@@ -167,10 +170,10 @@ void mico_force_ota(void)
         left -= len;
         MicoFlashRead(MICO_PARTITION_OTA_TEMP, &flashaddr, (uint8_t *)tmpbuf, len);
         Md5Update( &ctx, (uint8_t *)tmpbuf, len);
-        for(i=0; i<len; i++)
-          crc = UpdateCRC16(crc, tmpbuf[i]);
+        CRC16_Update( &contex, tmpbuf, len );
     }
     Md5Final( &ctx, md5_calc );
+    CRC16_Final( &contex, &crc );
     
     if(memcmp(md5_calc, md5_recv, 16) != 0) {
         fota_log("ERROR!! MD5 Error.");

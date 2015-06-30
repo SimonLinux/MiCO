@@ -355,33 +355,6 @@ void Ymodem_PreparePacket(mico_flash_t flash, uint32_t flashdestination, uint8_t
 }
 
 /**
-  * @brief  Update CRC16 for input byte
-  * @param  CRC input value 
-  * @param  input byte
-  * @retval None
-  */
-uint16_t UpdateCRC16(uint16_t crcIn, uint8_t byte)
-{
-  uint32_t crc = crcIn;
-  uint32_t in = byte | 0x100;
-
-  do
-  {
-    crc <<= 1;
-    in <<= 1;
-    if(in & 0x100)
-      ++crc;
-    if(crc & 0x10000)
-      crc ^= 0x1021;
-  }
-  
-  while(!(in & 0x10000));
-
-  return crc & 0xffffu;
-}
-
-
-/**
   * @brief  Cal CRC16 for YModem Packet
   * @param  data
   * @param  length
@@ -389,16 +362,16 @@ uint16_t UpdateCRC16(uint16_t crcIn, uint8_t byte)
   */
 uint16_t Cal_CRC16(const uint8_t* data, uint32_t size)
 {
-  uint32_t crc = 0;
-  const uint8_t* dataEnd = data+size;
-
-  while(data < dataEnd)
-    crc = UpdateCRC16(crc, *data++);
- 
-  crc = UpdateCRC16(crc, 0);
-  crc = UpdateCRC16(crc, 0);
-
-  return crc&0xffffu;
+  CRC16_Context contex;
+  uint16_t ret;
+  uint8_t add_on = 0x0;
+  
+  CRC16_Init( &contex );
+  CRC16_Update( &contex, data, size );
+  CRC16_Update( &contex, &add_on, 1 );
+  CRC16_Update( &contex, &add_on, 1 );
+  CRC16_Final( &contex, &ret );
+  return ret;
 }
 
 /**
@@ -409,13 +382,13 @@ uint16_t Cal_CRC16(const uint8_t* data, uint32_t size)
   */
 uint8_t CalChecksum(const uint8_t* data, uint32_t size)
 {
-  uint32_t sum = 0;
-  const uint8_t* dataEnd = data+size;
-
-  while(data < dataEnd )
-    sum += *data++;
-
-  return (sum & 0xffu);
+  CRC16_Context contex;
+  uint16_t ret;
+  
+  CRC16_Init( &contex );
+  CRC16_Update( &contex, data, size );
+  CRC16_Final( &contex, &ret );
+  return ret;
 }
 
 /**

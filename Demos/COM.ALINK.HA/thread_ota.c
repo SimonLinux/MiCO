@@ -231,22 +231,24 @@ static int ota_finished(uint8_t *md5_recv, uint8_t *temp_buf, int temp_buf_len, 
     mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
     uint16_t crc = 0;
     int i;
-    
+    CRC16_Context contex;
+
     if( ota_partition->partition_owner == MICO_FLASH_NONE )
       return kNoErr;
 
     ota_log("Receive OTA data done!");
     InitMd5( &ctx );
+    CRC16_Init( &contex );
     while((len = write_offset - offset) > 0) {
         if (temp_buf_len < len) {
             len = temp_buf_len;
         }
         MicoFlashRead( MICO_PARTITION_OTA_TEMP, &offset, (uint8_t *)temp_buf, len);
         Md5Update( &ctx, (uint8_t *)temp_buf, len);
-        for(i=0; i<len; i++)
-          crc = UpdateCRC16(crc, temp_buf[i]);
+        CRC16_Update( &contex, temp_buf, len );
     }
     Md5Final( &ctx, md5_ret );
+    CRC16_Final( &contex, &crc );
     
     if(memcmp(md5_ret, md5_recv, 16) != 0) {
         return kGeneralErr;

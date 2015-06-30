@@ -34,6 +34,7 @@
 #include "MicoPlatform.h"
 #include "platform_config.h"
 #include "debug.h"
+#include "CheckSumUtils.h"
 
 typedef int Log_Status;					
 #define Log_NotExist				    (1)
@@ -71,9 +72,12 @@ static OSStatus checkcrc(uint16_t crc_in, int partition_type, int total_len)
 {
     uint16_t crc = 0;
     mico_logic_partition_t* part;
-    int i, j, len;
+    int len;
     OSStatus err = kNoErr;
     uint32_t update_data_offset = 0x0;
+    CRC16_Context contex;
+
+    CRC16_Init( &contex );
     
     if (crc_in == 0xFFFF)
         goto exit;
@@ -92,14 +96,15 @@ static OSStatus checkcrc(uint16_t crc_in, int partition_type, int total_len)
       require_noerr(err, exit);
 
       total_len -= len;
-      for(j=0; j<len; j++)
-          crc = UpdateCRC16(crc, data[j]);
+
+      CRC16_Update( &contex, data, len );
     }
 
+  CRC16_Final( &contex, &crc );
     if (crc == crc_in)
         err = kNoErr;
 exit:
-    update_log("CRC check return %d, got crc %x, calcuated crc %x\r\n", err, crc_in, crc);
+    update_log("CRC check return %d, got crc %x, calcuated crc %x", err, crc_in, crc);
     return err;
 }
 

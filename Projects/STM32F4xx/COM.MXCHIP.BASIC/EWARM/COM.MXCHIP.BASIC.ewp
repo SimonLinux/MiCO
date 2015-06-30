@@ -2131,7 +2131,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MICOPlatform.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
@@ -2203,6 +2203,15 @@
         <group>
           <name>sensors</name>
           <group>
+            <name>ambient_light_sensor</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\ambient_light_sensor\apds9930.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\ambient_light_sensor\apds9930.h</name>
+            </file>
+          </group>
+          <group>
             <name>dc_motor</name>
             <file>
               <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\dc_motor\dc_motor.c</name>
@@ -2254,6 +2263,60 @@
             </file>
             <file>
               <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\light\light_sensor.h</name>
+            </file>
+          </group>
+          <group>
+            <name>motion_sensor</name>
+            <group>
+              <name>BMA2x2</name>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMA2x2\bma2x2.c</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMA2x2\bma2x2.h</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMA2x2\bma2x2_user.c</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMA2x2\bma2x2_user.h</name>
+              </file>
+            </group>
+            <group>
+              <name>BMG160</name>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMG160\bmg160.c</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMG160\bmg160.h</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMG160\bmg160_user.c</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMG160\bmg160_user.h</name>
+              </file>
+            </group>
+            <group>
+              <name>BMM050</name>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMM050\bmm050.c</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMM050\bmm050.h</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMM050\bmm050_user.c</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMM050\bmm050_user.h</name>
+              </file>
+            </group>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\motion_sensor.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\motion_sensor.h</name>
             </file>
           </group>
           <group>

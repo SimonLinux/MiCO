@@ -139,6 +139,11 @@ typedef enum
   MICO_FLASH_NONE,
 } mico_flash_t;
 
+typedef enum
+{
+  MICO_PARTITION_USER_MAX
+} mico_user_partition_t;
+
 /* Components connected to external I/Os*/
 #define Standby_SEL         (MICO_GPIO_NONE)
 #define MICO_RF_LED         (MICO_GPIO_NONE)

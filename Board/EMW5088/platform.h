@@ -105,6 +105,10 @@ typedef enum
   MICO_FLASH_NONE,
 } mico_flash_t;
 
+typedef enum
+{
+  MICO_PARTITION_USER_MAX
+} mico_user_partition_t;
 
 #ifdef BOOTLOADER
 #define STDIO_UART       MICO_UART_2

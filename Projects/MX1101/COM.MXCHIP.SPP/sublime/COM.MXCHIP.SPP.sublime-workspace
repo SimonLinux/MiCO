@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"uint",
+				"uint16_t	typedef"
+			],
+			[
 				"MICO_PA",
 				"MICO_PARTITION_APPLICATION	macro"
 			],
@@ -38,10 +42,6 @@
 			[
 				"MicoUA",
 				"MicoUartSend(mico_uart_t uart, const void *data, uint32_t size)	OSStatus"
-			],
-			[
-				"uint",
-				"uint8_t	typedef"
 			],
 			[
 				"GPIOA",
@@ -519,6 +519,96 @@
 	},
 	"buffers":
 	[
+		{
+			"contents": "Searching 1875 files for \"checksum\"\n\n/Users/William/Develop/MiCO/include/Common.h:\n  119  #define kRequestErr                 -6711   //! Request was improperly formed or not appropriate.\n  120  #define kResponseErr                -6712   //! Response was incorrect or out of sequence.\n  121: #define kChecksumErr                -6713   //! Checksum does not match the actual data.\n  122  #define kNotHandledErr              -6714   //! Operation was not handled (or not handled completely).\n  123  #define kVersionErr                 -6715   //! Version is not correct or not compatible.\n\n/Users/William/Develop/MiCO/include/MicoAlgorithm.h:\n   72   *\n   73   * @param ctx      MD5 context\n   74:  * @param output   MD5 checksum result\n   75   */\n   76  void Md5Final(md5_context *ctx, unsigned char output[16]);\n\n/Users/William/Develop/MiCO/include/MicoSocket.h:\n  248    SO_ERROR                = 0x1007,     /**< Get socket error number. */\n  249    SO_TYPE                 = 0x1008,     /**< Get socket type. */\n  250:   SO_NO_CHECK             = 0x100a      /**< Don't create UDP checksum. */\n  251  } SOCK_OPT_VAL;\n  252  \n\n/Users/William/Develop/MiCO/include/EasyCloud/EasyCloudServiceDef.h:\n  147  typedef struct _dev_download_file_data_t {\n  148    char                   file_path[MAX_SIZE_FILE_PATH];\n  149:   char                   file_checksum[MAX_SIZE_FILE_MD5];\n  150    char                   file_version[MAX_SIZE_FW_VERSION];\n  151  } MVDDownloadFileRequestData_t;\n\n/Users/William/Develop/MiCO/include/FogCloud/FogCloudServiceDef.h:\n  147  typedef struct _dev_download_file_data_t {\n  148    char                   file_path[MAX_SIZE_FILE_PATH];\n  149:   char                   file_checksum[MAX_SIZE_FILE_MD5];\n  150    char                   file_version[MAX_SIZE_FW_VERSION];\n  151  } MVDDownloadFileRequestData_t;\n\n/Users/William/Develop/MiCO/Platform/BoardConfig/FRDM_K64/device/MK64F12/MK64F12_crc.h:\n  445   * Reset value: 0xFFFFFFFFU\n  446   *\n  447:  * The CRC Data register contains the value of the seed, data, and checksum.\n  448   * When CTRL[WAS] is set, any write to the data register is regarded as the seed\n  449   * value. When CTRL[WAS] is cleared, any write to the data register is regarded as\n  ...\n  493   *\n  494   * When CTRL[WAS] is 1, values written to this field are part of the seed value.\n  495:  * When CTRL[WAS] is 0, data written to this field is used for CRC checksum\n  496   * generation.\n  497   */\n  ...\n  515   *\n  516   * When CTRL[WAS] is 1, values written to this field are part of the seed value.\n  517:  * When CTRL[WAS] is 0, data written to this field is used for CRC checksum\n  518   * generation.\n  519   */\n  ...\n  539   * a seed value. In 32-bit CRC mode (CTRL[TCRC] is 1), values written to this\n  540   * field are part of the seed value when CTRL[WAS] is 1. When CTRL[WAS] is 0, data\n  541:  * written to this field is used for CRC checksum generation in both 16-bit and\n  542   * 32-bit CRC modes.\n  543   */\n  ...\n  563   * a seed value. In 32-bit CRC mode (CTRL[TCRC] is 1), values written to this\n  564   * field are part of the seed value when CTRL[WAS] is 1. When CTRL[WAS] is 0, data\n  565:  * written to this field is used for CRC checksum generation in both 16-bit and\n  566   * 32-bit CRC modes.\n  567   */\n  ...\n 1089   * @name Register CRC_CTRL, field FXOR[26] (RW)\n 1090   *\n 1091:  * Some CRC protocols require the final checksum to be XORed with 0xFFFFFFFF or\n 1092   * 0xFFFF. Asserting this bit enables on the fly complementing of read data.\n 1093   *\n\n/Users/William/Develop/MiCO/Platform/BoardConfig/FRDM_K64/device/MK64F12/MK64F12_enet.h:\n 3845   * changed before or after each frame, but it must remain unmodified during frame\n 3846   * writes into the transmit FIFO. The TFWR[STRFWD] field must be set to use the\n 3847:  * checksum feature.\n 3848   */\n 3849  typedef union _hw_enet_tacc\n ....\n 3907   * @name Register ENET_TACC, field IPCHK[3] (RW)\n 3908   *\n 3909:  * Enables insertion of IP header checksum.\n 3910   *\n 3911   * Values:\n 3912:  * - 0 - Checksum is not inserted.\n 3913:  * - 1 - If an IP frame is transmitted, the checksum is inserted automatically.\n 3914:  *     The IP header checksum field must be cleared. If a non-IP frame is\n 3915   *     transmitted the frame is not modified.\n 3916   */\n ....\n 3933   * @name Register ENET_TACC, field PROCHK[4] (RW)\n 3934   *\n 3935:  * Enables insertion of protocol checksum.\n 3936   *\n 3937   * Values:\n 3938:  * - 0 - Checksum not inserted.\n 3939:  * - 1 - If an IP frame with a known protocol is transmitted, the checksum is\n 3940:  *     inserted automatically into the frame. The checksum field must be cleared.\n 3941   *     The other frames are not modified.\n 3942   */\n ....\n 3973                                          * Frames */\n 3974          uint32_t IPDIS : 1;            /*!< [1] Enable Discard Of Frames With Wrong IPv4\n 3975:                                         * Header Checksum */\n 3976          uint32_t PRODIS : 1;           /*!< [2] Enable Discard Of Frames With Wrong\n 3977:                                         * Protocol Checksum */\n 3978          uint32_t RESERVED0 : 3;        /*!< [5:3]  */\n 3979          uint32_t LINEDIS : 1;          /*!< [6] Enable Discard Of Frames With MAC\n ....\n 4029   *\n 4030   * Values:\n 4031:  * - 0 - Frames with wrong IPv4 header checksum are not discarded.\n 4032:  * - 1 - If an IPv4 frame is received with a mismatching header checksum, the\n 4033:  *     frame is discarded. IPv6 has no header checksum and is not affected by this\n 4034   *     setting. Discarding is only available when the RX FIFO operates in store\n 4035   *     and forward mode (RSFL cleared).\n ....\n 4054   *\n 4055   * Values:\n 4056:  * - 0 - Frames with wrong checksum are not discarded.\n 4057   * - 1 - If a TCP/IP, UDP/IP, or ICMP/IP frame is received that has a wrong TCP,\n 4058:  *     UDP, or ICMP checksum, the frame is discarded. Discarding is only\n 4059   *     available when the RX FIFO operates in store and forward mode (RSFL cleared).\n 4060   */\n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/gmac/gmac.h:\n   89  #define GMAC_TXD_EXHAUSTED      (1ul << 27) /**< Buffer exhausted */\n   90  #define GMAC_TXD_LATE           (1ul << 26) /**< Late collision,transmit  error  */\n   91: #define GMAC_TXD_CHECKSUM_ERROR (7ul << 20) /**< Checksum error */\n   92  #define GMAC_TXD_NOCRC          (1ul << 16) /**< No CRC */\n   93  #define GMAC_TXD_LAST           (1ul << 15) /**< Last buffer in frame */\n   ..\n  176  			b_vlan_detected:1,     /**< VLAN tag detected */\n  177  			b_type_id_match:2,     /**< Type ID match */\n  178: 			b_checksumoffload:1,   /**< Checksum offload specific function */\n  179  			b_addrmatch:2,         /**< Address register match */\n  180  			b_ext_addr_match:1,    /**< External address match found */\n  ...\n  199  			b_no_crc:1,      /**< No CRC */\n  200  			reserved1:3,\n  201: 			b_checksumoffload:3,    /**< Transmit checksum generation offload errors */\n  202  			reserved2:3,\n  203  			b_lco:1,         /**< Late collision, transmit error detected */\n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/usart/usart.c:\n  876  \n  877  /**\n  878:  * \\brief Disable the checksum during the LIN communication.\n  879   *\n  880   * \\param p_usart Pointer to a USART instance.\n  881   */\n  882: void usart_lin_disable_checksum(Usart *p_usart)\n  883  {\n  884  	p_usart->US_LINMR |= US_LINMR_CHKDIS;\n  ...\n  886  \n  887  /**\n  888:  * \\brief Enable the checksum during the LIN communication.\n  889   *\n  890   * \\param p_usart Pointer to a USART instance.\n  891   */\n  892: void usart_lin_enable_checksum(Usart *p_usart)\n  893  {\n  894  	p_usart->US_LINMR &= ~US_LINMR_CHKDIS;\n  ...\n  896  \n  897  /**\n  898:  * \\brief Configure the checksum type during the LIN communication.\n  899   *\n  900   * \\param p_usart Pointer to a USART instance.\n  901:  * \\param uc_type 0 for LIN 2.0 Enhanced checksum or 1 for LIN 1.3 Classic\n  902:  *  checksum.\n  903   */\n  904: void usart_lin_set_checksum_type(Usart *p_usart, uint8_t uc_type)\n  905  {\n  906  	p_usart->US_LINMR = (p_usart->US_LINMR & ~US_LINMR_CHKTYP) |\n  ...\n  946   *\n  947   * \\param p_usart Pointer to a USART instance.\n  948:  * \\param uc_type Indicate the checksum type: 0 if the wakeup signal is a\n  949   * LIN 2.0 wakeup signal; 1 if the wakeup signal is a LIN 1.3 wakeup signal.\n  950   */\n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/usart/usart.h:\n  238  void usart_lin_disable_parity(Usart *p_usart);\n  239  void usart_lin_enable_parity(Usart *p_usart);\n  240: void usart_lin_disable_checksum(Usart *p_usart);\n  241: void usart_lin_enable_checksum(Usart *p_usart);\n  242: void usart_lin_set_checksum_type(Usart *p_usart, uint8_t uc_type);\n  243  void usart_lin_set_data_len_mode(Usart *p_usart, uint8_t uc_mode);\n  244  void usart_lin_disable_frame_slot(Usart *p_usart);\n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/services/network/lin/lin.c:\n   74   */\n   75  \n   76: /** Enhanced checksum used in the LIN 2.x */\n   77: #define USART_LIN_ENHANCED_CHECKSUM    0\n   78  \n   79: /** Classic checksum used in the LIN 1.x */\n   80: #define USART_LIN_CLASSIC_CHECKSUM    1\n   81  \n   82  /** The response data length is defined by the field DLC of DLM */\n   ..\n  279  			/* Configure Parity */\n  280  			usart_lin_enable_parity(usart_lin_node[uc_node]);\n  281: 			/* Configure Checksum */\n  282: 			usart_lin_enable_checksum(usart_lin_node[uc_node]);\n  283: 			/* Configure Checksum Type */\n  284: 			usart_lin_set_checksum_type(usart_lin_node[uc_node],\n  285: 					USART_LIN_ENHANCED_CHECKSUM);\n  286  			/* Configure Frameslot */\n  287  			usart_lin_enable_frame_slot(usart_lin_node[uc_node]);\n  ...\n  295  			/* Configure Parity */\n  296  			usart_lin_enable_parity(usart_lin_node[uc_node]);\n  297: 			/* Configure Checksum */\n  298: 			usart_lin_enable_checksum(usart_lin_node[uc_node]);\n  299: 			/* Configure Checksum Type */\n  300: 			usart_lin_set_checksum_type(usart_lin_node[uc_node],\n  301: 					USART_LIN_CLASSIC_CHECKSUM);\n  302  			/* Configure Frameslot */\n  303  			usart_lin_enable_frame_slot(usart_lin_node[uc_node]);\n  ...\n  310  			if ((usart_lin_read_identifier(usart_lin_node[uc_node]) >=\n  311  					USART_LIN_DIAGNOSTIC_FRAME_ID)) {\n  312: 				usart_lin_set_checksum_type(\n  313  						usart_lin_node[uc_node],\n  314: 						USART_LIN_CLASSIC_CHECKSUM);\n  315  				/* Configure Frame Length */\n  316  				usart_lin_set_data_len_mode(\n  ...\n  431  		/* Configure Parity */\n  432  		usart_lin_enable_parity(usart_lin_node[uc_node]);\n  433: 		/* Configure Checksum */\n  434: 		usart_lin_enable_checksum(usart_lin_node[uc_node]);\n  435: 		/* Configure Checksum Type */\n  436: 		usart_lin_set_checksum_type(usart_lin_node[uc_node],\n  437: 				USART_LIN_ENHANCED_CHECKSUM);\n  438  		/* Configure Frameslot */\n  439  		usart_lin_enable_frame_slot(usart_lin_node[uc_node]);\n  ...\n  449  		/* Configure Parity */\n  450  		usart_lin_enable_parity(usart_lin_node[uc_node]);\n  451: 		/* Configure Checksum */\n  452: 		usart_lin_enable_checksum(usart_lin_node[uc_node]);\n  453: 		/* Configure Checksum Type */\n  454: 		usart_lin_set_checksum_type(usart_lin_node[uc_node],\n  455: 				USART_LIN_CLASSIC_CHECKSUM);\n  456  		/* Configure Frameslot */\n  457  		usart_lin_enable_frame_slot(usart_lin_node[uc_node]);\n  ...\n  461  #endif\n  462  \n  463: 		/* Switch to Classic Checksum if diagnostic ID request */\n  464  		if (lin_descript_list_node[uc_node][uc_handle].uc_id >=\n  465  				USART_LIN_DIAGNOSTIC_FRAME_ID) {\n  466: 			usart_lin_set_checksum_type(usart_lin_node[uc_node],\n  467: 					USART_LIN_CLASSIC_CHECKSUM);\n  468  			/* Configure Frame Length */\n  469  			usart_lin_set_data_len_mode(usart_lin_node[uc_node],\n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/component/usart.h:\n  195  #define US_IER_LINISFE (0x1u << 26) /**< \\brief (US_IER) LIN Inconsistent Synch Field Error Interrupt Enable */\n  196  #define US_IER_LINIPE (0x1u << 27) /**< \\brief (US_IER) LIN Identifier Parity Interrupt Enable */\n  197: #define US_IER_LINCE (0x1u << 28) /**< \\brief (US_IER) LIN Checksum Error Interrupt Enable */\n  198  #define US_IER_LINSNRE (0x1u << 29) /**< \\brief (US_IER) LIN Slave Not Responding Error Interrupt Enable */\n  199  #define US_IER_LINSTE (0x1u << 30) /**< \\brief (US_IER) LIN Synch Tolerance Error Interrupt Enable */\n  ...\n  223  #define US_IDR_LINISFE (0x1u << 26) /**< \\brief (US_IDR) LIN Inconsistent Synch Field Error Interrupt Disable */\n  224  #define US_IDR_LINIPE (0x1u << 27) /**< \\brief (US_IDR) LIN Identifier Parity Interrupt Disable */\n  225: #define US_IDR_LINCE (0x1u << 28) /**< \\brief (US_IDR) LIN Checksum Error Interrupt Disable */\n  226  #define US_IDR_LINSNRE (0x1u << 29) /**< \\brief (US_IDR) LIN Slave Not Responding Error Interrupt Disable */\n  227  #define US_IDR_LINSTE (0x1u << 30) /**< \\brief (US_IDR) LIN Synch Tolerance Error Interrupt Disable */\n  ...\n  251  #define US_IMR_LINISFE (0x1u << 26) /**< \\brief (US_IMR) LIN Inconsistent Synch Field Error Interrupt Mask */\n  252  #define US_IMR_LINIPE (0x1u << 27) /**< \\brief (US_IMR) LIN Identifier Parity Interrupt Mask */\n  253: #define US_IMR_LINCE (0x1u << 28) /**< \\brief (US_IMR) LIN Checksum Error Interrupt Mask */\n  254  #define US_IMR_LINSNRE (0x1u << 29) /**< \\brief (US_IMR) LIN Slave Not Responding Error Interrupt Mask */\n  255  #define US_IMR_LINSTE (0x1u << 30) /**< \\brief (US_IMR) LIN Synch Tolerance Error Interrupt Mask */\n  ...\n  281  #define US_CSR_LINISFE (0x1u << 26) /**< \\brief (US_CSR) LIN Inconsistent Synch Field Error (cleared by US_CR.RSTSTA command) */\n  282  #define US_CSR_LINIPE (0x1u << 27) /**< \\brief (US_CSR) LIN Identifier Parity Error (cleared by US_CR.RSTSTA command) */\n  283: #define US_CSR_LINCE (0x1u << 28) /**< \\brief (US_CSR) LIN Checksum Error (cleared by US_CR.RSTSTA command) */\n  284  #define US_CSR_LINSNRE (0x1u << 29) /**< \\brief (US_CSR) LIN Slave Not Responding Error (cleared by US_CR.RSTSTA command) */\n  285  #define US_CSR_LINSTE (0x1u << 30) /**< \\brief (US_CSR) LIN Synch Tolerance Error (cleared by US_CR.RSTSTA command) */\n  ...\n  323  #define   US_LINMR_NACT_IGNORE (0x2u << 0) /**< \\brief (US_LINMR) The USART does not transmit and does not receive the response. */\n  324  #define US_LINMR_PARDIS (0x1u << 2) /**< \\brief (US_LINMR) Parity Disable */\n  325: #define US_LINMR_CHKDIS (0x1u << 3) /**< \\brief (US_LINMR) Checksum Disable */\n  326: #define US_LINMR_CHKTYP (0x1u << 4) /**< \\brief (US_LINMR) Checksum Type */\n  327  #define US_LINMR_DLM (0x1u << 5) /**< \\brief (US_LINMR) Data Length Mode */\n  328  #define US_LINMR_FSDIS (0x1u << 6) /**< \\brief (US_LINMR) Frame Slot Mode Disable */\n\n/Users/William/Develop/MiCO/Platform/MCU/MX1101/FileSystem/inc/fsinfo.h:\n  134  	uint8_t		Attribute;\n  135  	uint8_t		Type;\n  136: 	uint8_t		CheckSum;\n  137  	uint8_t		Name2[12];\n  138  	uint8_t		Resv[2];\n\n/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/breakpoint.h:\n  150  bool EraseFlashOfUserArea(void);\n  151  void BP_InfoLog(void);\n  152: uint8_t GetCrc8CheckSum(uint8_t* ptr, uint32_t len);	// ¼ÆËãCRC\n  153  void BP_LoadInfo(void);\n  154  void* BP_GetInfo(BP_INFO_TYPE InfoType);\n\n/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/sd_card.h:\n   33  	uint16_t	Rsv : 4;		/**< reserved CID[23:20]*/\n   34  	uint16_t	MDT : 12;		/**< Manufacturing date CID[19:8]*/\n   35: 	uint8_t	CRC : 7;		/**< CRC7 checksum CID[7:1]*/\n   36  	uint8_t	NoUse : 1;		/**< not used, always 1  CID[0:0]*/\n   37  \n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_flash.c:\n  282      dataInRam = *(Data+i);\n  283      require_action(FLASH_ProgramWord(*FlashAddress, dataInRam) == FLASH_COMPLETE, exit, err = kWriteErr); \n  284:     require_action(*(uint32_t*)*FlashAddress == dataInRam, exit, err = kChecksumErr); \n  285      /* Increment FLASH destination address */\n  286      *FlashAddress += 4;\n  ...\n  308      \n  309      require_action(FLASH_ProgramByte(*FlashAddress, dataInRam) == FLASH_COMPLETE, exit, err = kWriteErr); \n  310:     require_action(*(uint8_t*)*FlashAddress == dataInRam, exit, err = kChecksumErr); \n  311      *FlashAddress +=1;\n  312    }\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx.h:\n 7307  #define ETH_MACCR_LM      ((uint32_t)0x00001000)  /* loopback mode */\n 7308  #define ETH_MACCR_DM      ((uint32_t)0x00000800)  /* Duplex mode */\n 7309: #define ETH_MACCR_IPCO    ((uint32_t)0x00000400)  /* IP Checksum offload */\n 7310  #define ETH_MACCR_RD      ((uint32_t)0x00000200)  /* Retry disable */\n 7311  #define ETH_MACCR_APCS    ((uint32_t)0x00000080)  /* Automatic Pad/CRC stripping */\n ....\n 7657  \n 7658  /* Bit definition for Ethernet DMA Operation Mode Register */\n 7659: #define ETH_DMAOMR_DTCEFD    ((uint32_t)0x04000000)  /* Disable Dropping of TCP/IP checksum error frames */\n 7660  #define ETH_DMAOMR_RSF       ((uint32_t)0x02000000)  /* Receive store and forward */\n 7661  #define ETH_DMAOMR_DFRF      ((uint32_t)0x01000000)  /* Disable flushing of received frames */\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_flash.c:\n  273      dataInRam = *(Data+i);\n  274      require_action(FLASH_ProgramWord(*FlashAddress, dataInRam) == FLASH_COMPLETE, exit, err = kWriteErr); \n  275:     require_action(*(uint32_t*)*FlashAddress == dataInRam, exit, err = kChecksumErr); \n  276      /* Increment FLASH destination address */\n  277      *FlashAddress += 4;\n  ...\n  299      \n  300      require_action(FLASH_ProgramByte(*FlashAddress, dataInRam) == FLASH_COMPLETE, exit, err = kWriteErr); \n  301:     require_action(*(uint8_t*)*FlashAddress == dataInRam, exit, err = kChecksumErr); \n  302      *FlashAddress +=1;\n  303    }\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/Libraries/stm32f4xx.h:\n 8683  #define ETH_MACCR_LM      ((uint32_t)0x00001000)  /* loopback mode */\n 8684  #define ETH_MACCR_DM      ((uint32_t)0x00000800)  /* Duplex mode */\n 8685: #define ETH_MACCR_IPCO    ((uint32_t)0x00000400)  /* IP Checksum offload */\n 8686  #define ETH_MACCR_RD      ((uint32_t)0x00000200)  /* Retry disable */\n 8687  #define ETH_MACCR_APCS    ((uint32_t)0x00000080)  /* Automatic Pad/CRC stripping */\n ....\n 9034  \n 9035  /* Bit definition for Ethernet DMA Operation Mode Register */\n 9036: #define ETH_DMAOMR_DTCEFD    ((uint32_t)0x04000000)  /* Disable Dropping of TCP/IP checksum error frames */\n 9037  #define ETH_DMAOMR_RSF       ((uint32_t)0x02000000)  /* Receive store and forward */\n 9038  #define ETH_DMAOMR_DFRF      ((uint32_t)0x01000000)  /* Disable flushing of received frames */\n\n/Users/William/Develop/MiCO/Platform/vendor/Freescale/MK64FxxL12/SSD_Types.h:\n  139                                          pFLASHCOMMANDSEQUENCE FlashCommandSequence);                                                \n  140                                     \n  141: /* Flash checksum */\n  142: typedef UINT32 (*pFLASHCHECKSUM) (PFLASH_SSD_CONFIG PSSDConfig, \\\n  143                                    UINT32 destination, \\\n  144                                    UINT32 size, \\\n\n/Users/William/Develop/MiCO/Platform/vendor/nxp/LPC54xx/NXP_drivers/chip_540xx/crc_540xx.c:\n   79  }\n   80  \n   81: /* configure CRC engine and compute CCITT checksum from 8-bit data */\n   82  uint32_t Chip_CRC_CRC8(const uint8_t *data, uint32_t bytes)\n   83  {\n   ..\n   92  }\n   93  \n   94: /* Convenience function for computing a standard CRC16 checksum from 16-bit data block */\n   95  uint32_t Chip_CRC_CRC16(const uint16_t *data, uint32_t hwords)\n   96  {\n   ..\n  105  }\n  106  \n  107: /* Convenience function for computing a standard CRC32 checksum from 32-bit data block */\n  108  uint32_t Chip_CRC_CRC32(const uint32_t *data, uint32_t words)\n  109  {\n\n/Users/William/Develop/MiCO/Platform/vendor/nxp/LPC54xx/NXP_drivers/chip_540xx/crc_540xx.h:\n   49  	__IO    uint32_t    SEED;		/*!< CRC SEED Register */\n   50  	union {\n   51: 		__I     uint32_t    SUM;	/*!< CRC Checksum Register. */\n   52  		__O     uint32_t    WRDATA32;	/*!< CRC Data Register: write size 32-bit*/\n   53  		__O     uint16_t    WRDATA16;	/*!< CRC Data Register: write size 16-bit*/\n   ..\n  221  /**\n  222   * @brief	Gets the CRC Sum based on the Mode and Seed as previously configured\n  223:  * @return	CRC Checksum value\n  224   */\n  225  STATIC INLINE uint32_t Chip_CRC_Sum(void)\n  ...\n  229  \n  230  /**\n  231:  * @brief	Convenience function for computing a standard CCITT checksum from an 8-bit data block\n  232   * @param	data	: Pointer to the block of 8-bit data\n  233   * @param   bytes	: The number of bytes pointed to by data\n  ...\n  237  \n  238  /**\n  239:  * @brief	Convenience function for computing a standard CRC16 checksum from 16-bit data block\n  240   * @param	data	: Pointer to the block of 16-bit data\n  241   * @param   hwords	: The number of 16 byte entries pointed to by data\n  ...\n  245  \n  246  /**\n  247:  * @brief	Convenience function for computing a standard CRC32 checksum from 32-bit data block\n  248   * @param	data	: Pointer to the block of 32-bit data\n  249   * @param   words	: The number of 32-bit entries pointed to by data\n\n/Users/William/Develop/MiCO/Bootloader/ymodem.c:\n  410    * @retval None\n  411    */\n  412: uint8_t CalChecksum(const uint8_t* data, uint32_t size)\n  413  {\n  414    uint32_t sum = 0;\n  ...\n  447    uint8_t packet_data[PACKET_1K_SIZE + PACKET_OVERHEAD];\n  448    uint8_t filename[FILE_NAME_LENGTH];\n  449:   uint8_t tempCheckSum;\n  450    uint32_t buf_ptr;\n  451    uint16_t tempCRC;\n  ...\n  479      else\n  480      {\n  481:        tempCheckSum = CalChecksum (&packet_data[3], PACKET_SIZE);\n  482:        Send_Byte(tempCheckSum);\n  483      }\n  484    \n  ...\n  540        else\n  541        {\n  542:         tempCheckSum = CalChecksum (&packet_data[3], pktSize);\n  543:         Send_Byte(tempCheckSum);\n  544        }\n  545        \n\n110 matches across 23 files\n\n\nSearching 1891 files for \"HTTPHeaderCreateWithCallback\"\n\n/Users/William/Develop/MiCO/Support/HTTPUtils.c:\n  692  }\n  693  \n  694: HTTPHeader_t * HTTPHeaderCreateWithCallback( onReceivedDataCallback inRecvFunc, onClearCallback onClearFunc, void * context )\n  695  {\n  696    HTTPHeader_t *httpHeader;\n\n/Users/William/Develop/MiCO/Support/HTTPUtils.h:\n  164  HTTPHeader_t * HTTPHeaderCreate( void );\n  165  \n  166: HTTPHeader_t * HTTPHeaderCreateWithCallback( onReceivedDataCallback , onClearCallback , void * context );\n  167  \n  168  void HTTPHeaderClear( HTTPHeader_t *inHeader );\n\n/Users/William/Develop/MiCO/MICO/MICOConfigServer.c:\n  134  \n  135    config_log_trace();\n  136:   httpHeader = HTTPHeaderCreateWithCallback(onReceivedData, onClearHTTPHeader, &httpContext);\n  137    require_action( httpHeader, exit, err = kNoMemoryErr );\n  138    HTTPHeaderClear( httpHeader );\n\n/Users/William/Develop/MiCO/Demos/COM.ALINK.HA/thread_ota.c:\n  429    write_offset = 0x0;\n  430    \n  431:   httpHeader = HTTPHeaderCreateWithCallback(onReceivedData, NULL, inContext);\n  432    require_action( httpHeader, threadexit, err = kNoMemoryErr );\n  433    HTTPHeaderClear( httpHeader );\n  ...\n  461              ota_fd = -1;\n  462              HTTPHeaderClear( httpHeader );\n  463:             httpHeader = HTTPHeaderCreateWithCallback(onReceivedData, NULL, inContext);\n  464              require_action( httpHeader, threadexit, err = kNoMemoryErr );\n  465              msleep(500);\n\n/Users/william/Develop/MiCO/Support/HTTPUtils.h:\n  164  HTTPHeader_t * HTTPHeaderCreate( void );\n  165  \n  166: HTTPHeader_t * HTTPHeaderCreateWithCallback( onReceivedDataCallback , onClearCallback , void * context );\n  167  \n  168  void HTTPHeaderClear( HTTPHeader_t *inHeader );\n\n6 matches across 5 files\n",
+			"settings":
+			{
+				"buffer_size": 23968,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Support/HTTPUtils.c",
+			"settings":
+			{
+				"buffer_size": 35608,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Bootloader/ymodem.c",
+			"settings":
+			{
+				"buffer_size": 16562,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Support/CheckSumUtils.c",
+			"settings":
+			{
+				"buffer_size": 3287,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Support/CheckSumUtils.h",
+			"settings":
+			{
+				"buffer_size": 1360,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
+			"settings":
+			{
+				"buffer_size": 18072,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Support/AESUtils.h",
+			"settings":
+			{
+				"buffer_size": 13643,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Bootloader/Update_for_OTA.c",
+			"settings":
+			{
+				"buffer_size": 9368,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Demos/COM.ALINK.HA/thread_ota.c",
+			"settings":
+			{
+				"buffer_size": 15013,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/MICO/MICOConfigServer.c",
+			"settings":
+			{
+				"buffer_size": 15555,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
+			"settings":
+			{
+				"buffer_size": 4607,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -580,9 +670,11 @@
 	},
 	"file_history":
 	[
+		"/Users/william/Develop/MiCO/Support/HTTPUtils.h",
+		"/Users/William/Develop/MiCO/MICO/MICOForceOTA.c",
+		"/Users/William/Develop/MiCO/Projects/MX1101/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
 		"/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverFlash.h",
 		"/Users/William/Develop/MiCO/MICO/MICOEntrance.c",
-		"/Users/William/Develop/MiCO/Projects/MX1101/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
 		"/Users/William/Develop/MiCO/Bootloader/BootloaderEntrance.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/platform_init.c",
@@ -705,9 +797,7 @@
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/MicoDriverRtc.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/Common.h",
 		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/include/PlatformLogging.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/STM32F2xx_Drv/startup_stm32f2xx_RVMDK.s",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M4/STM32F4xx/STM32F4xx_Drv/startup_stm32f2xx_IAR.s",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/IDEs/Keil/patch_keil.c"
+		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/STM32F2xx_Drv/startup_stm32f2xx_RVMDK.s"
 	],
 	"find":
 	{
@@ -715,7 +805,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
 			"",
@@ -739,6 +829,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"userContext",
+			"crc16_context",
+			"HTTPHeaderCreateWithCallback",
+			"uint8_t *",
+			"AES_ECB_Update",
+			"data",
+			"CRC16_F",
+			"Cal_CRC16",
+			"CalChecksum",
+			"checksum",
+			"crc",
 			"MICORestoreMFG",
 			"partition",
 			"_GetSector",
@@ -855,18 +956,7 @@
 			"SD_PORT_NUM\nSD_PORT_NUM",
 			"sdio_prepare_data_transfer",
 			"sdio_block_size_t",
-			"sdio_oob_irq_handler",
-			"FuartSend",
-			"rx_dma_stream->NDTR",
-			"rx_buffer->size",
-			"platform_uart_receive_bytes",
-			"optional_rx_buffer",
-			"MicoUartSend",
-			"sppWlanCommandProcess",
-			"GpioIntDis",
-			"_button_EL_Timeout_handler",
-			"GPIOC14",
-			"gpio_irq_data"
+			"sdio_oob_irq_handler"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -886,8 +976,792 @@
 	"groups":
 	[
 		{
+			"selected": 10,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"settings":
+					{
+						"buffer_size": 23968,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										302,
+										310
+									],
+									[
+										341,
+										349
+									],
+									[
+										721,
+										729
+									],
+									[
+										1086,
+										1094
+									],
+									[
+										1350,
+										1358
+									],
+									[
+										1703,
+										1711
+									],
+									[
+										2046,
+										2054
+									],
+									[
+										2412,
+										2420
+									],
+									[
+										2632,
+										2640
+									],
+									[
+										2903,
+										2911
+									],
+									[
+										3210,
+										3218
+									],
+									[
+										3406,
+										3414
+									],
+									[
+										3816,
+										3824
+									],
+									[
+										3993,
+										4001
+									],
+									[
+										4047,
+										4055
+									],
+									[
+										4124,
+										4132
+									],
+									[
+										4188,
+										4196
+									],
+									[
+										4418,
+										4426
+									],
+									[
+										4472,
+										4480
+									],
+									[
+										4568,
+										4576
+									],
+									[
+										4637,
+										4645
+									],
+									[
+										4946,
+										4954
+									],
+									[
+										5107,
+										5115
+									],
+									[
+										5349,
+										5357
+									],
+									[
+										5448,
+										5456
+									],
+									[
+										5515,
+										5523
+									],
+									[
+										5754,
+										5762
+									],
+									[
+										5897,
+										5905
+									],
+									[
+										6353,
+										6361
+									],
+									[
+										6385,
+										6393
+									],
+									[
+										6681,
+										6689
+									],
+									[
+										6707,
+										6715
+									],
+									[
+										6962,
+										6970
+									],
+									[
+										6998,
+										7006
+									],
+									[
+										7293,
+										7301
+									],
+									[
+										7437,
+										7445
+									],
+									[
+										7570,
+										7578
+									],
+									[
+										7713,
+										7721
+									],
+									[
+										7850,
+										7858
+									],
+									[
+										8006,
+										8014
+									],
+									[
+										8051,
+										8059
+									],
+									[
+										8098,
+										8106
+									],
+									[
+										8331,
+										8339
+									],
+									[
+										8717,
+										8725
+									],
+									[
+										8772,
+										8780
+									],
+									[
+										8824,
+										8832
+									],
+									[
+										9159,
+										9167
+									],
+									[
+										9225,
+										9233
+									],
+									[
+										9266,
+										9274
+									],
+									[
+										9331,
+										9339
+									],
+									[
+										9549,
+										9557
+									],
+									[
+										9588,
+										9596
+									],
+									[
+										9646,
+										9654
+									],
+									[
+										9687,
+										9695
+									],
+									[
+										9757,
+										9765
+									],
+									[
+										9990,
+										9998
+									],
+									[
+										10029,
+										10037
+									],
+									[
+										10087,
+										10095
+									],
+									[
+										10128,
+										10136
+									],
+									[
+										10197,
+										10205
+									],
+									[
+										10454,
+										10462
+									],
+									[
+										10538,
+										10546
+									],
+									[
+										10748,
+										10756
+									],
+									[
+										10786,
+										10794
+									],
+									[
+										10843,
+										10851
+									],
+									[
+										10883,
+										10891
+									],
+									[
+										10952,
+										10960
+									],
+									[
+										11180,
+										11188
+									],
+									[
+										11218,
+										11226
+									],
+									[
+										11275,
+										11283
+									],
+									[
+										11315,
+										11323
+									],
+									[
+										11383,
+										11391
+									],
+									[
+										11550,
+										11558
+									],
+									[
+										11720,
+										11728
+									],
+									[
+										11789,
+										11797
+									],
+									[
+										12331,
+										12339
+									],
+									[
+										12888,
+										12896
+									],
+									[
+										13442,
+										13450
+									],
+									[
+										14031,
+										14039
+									],
+									[
+										14636,
+										14644
+									],
+									[
+										14722,
+										14730
+									],
+									[
+										15056,
+										15064
+									],
+									[
+										15301,
+										15309
+									],
+									[
+										15669,
+										15677
+									],
+									[
+										16070,
+										16078
+									],
+									[
+										16379,
+										16387
+									],
+									[
+										16768,
+										16776
+									],
+									[
+										17129,
+										17137
+									],
+									[
+										17657,
+										17665
+									],
+									[
+										17966,
+										17974
+									],
+									[
+										18324,
+										18332
+									],
+									[
+										18685,
+										18693
+									],
+									[
+										19182,
+										19190
+									],
+									[
+										19224,
+										19232
+									],
+									[
+										19545,
+										19553
+									],
+									[
+										19734,
+										19742
+									],
+									[
+										19933,
+										19941
+									],
+									[
+										20259,
+										20267
+									],
+									[
+										20572,
+										20580
+									],
+									[
+										20741,
+										20749
+									],
+									[
+										20994,
+										21002
+									],
+									[
+										21257,
+										21265
+									],
+									[
+										21528,
+										21536
+									],
+									[
+										21745,
+										21753
+									],
+									[
+										21862,
+										21870
+									],
+									[
+										21876,
+										21884
+									],
+									[
+										21945,
+										21953
+									],
+									[
+										22037,
+										22045
+									],
+									[
+										22051,
+										22059
+									],
+									[
+										22117,
+										22125
+									],
+									[
+										22333,
+										22361
+									],
+									[
+										22616,
+										22644
+									],
+									[
+										22883,
+										22911
+									],
+									[
+										23190,
+										23218
+									],
+									[
+										23484,
+										23512
+									],
+									[
+										23788,
+										23816
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								22353,
+								22353
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"output_tag": 2,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 8024.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/William/Develop/MiCO/Support/HTTPUtils.c",
+					"settings":
+					{
+						"buffer_size": 35608,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								26470,
+								26470
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 11390.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/William/Develop/MiCO/Bootloader/ymodem.c",
+					"settings":
+					{
+						"buffer_size": 16562,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2479,
+								2479
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 721.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/William/Develop/MiCO/Support/CheckSumUtils.c",
+					"settings":
+					{
+						"buffer_size": 3287,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2702,
+								2702
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 971.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/William/Develop/MiCO/Support/CheckSumUtils.h",
+					"settings":
+					{
+						"buffer_size": 1360,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1325,
+								1325
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 87.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
+					"settings":
+					{
+						"buffer_size": 18072,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14729,
+								14729
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5867.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/Users/William/Develop/MiCO/Support/AESUtils.h",
+					"settings":
+					{
+						"buffer_size": 13643,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10353,
+								10367
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3993.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/Users/William/Develop/MiCO/Bootloader/Update_for_OTA.c",
+					"settings":
+					{
+						"buffer_size": 9368,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3681,
+								3687
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1305.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/Users/William/Develop/MiCO/Demos/COM.ALINK.HA/thread_ota.c",
+					"settings":
+					{
+						"buffer_size": 15013,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6370,
+								6392
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3780.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/Users/William/Develop/MiCO/MICO/MICOConfigServer.c",
+					"settings":
+					{
+						"buffer_size": 15555,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3954,
+								3954
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1289.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
+					"settings":
+					{
+						"buffer_size": 4607,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4153,
+								4154
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2166.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -924,7 +1798,7 @@
 	"menu_visible": true,
 	"output.clang":
 	{
-		"height": 171.0
+		"height": 138.0
 	},
 	"output.exec":
 	{

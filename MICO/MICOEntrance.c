@@ -44,12 +44,10 @@
 #include "WAC/MFi_WAC.h"
 #include "StringUtils.h"
 
-#if defined (CONFIG_MODE_EASYLINK) || defined (CONFIG_MODE_EASYLINK_WITH_SOFTAP)
-#include "EasyLink/EasyLink.h"
-#endif
+#include "wifi_config.h"
 
-#if defined (CONFIG_MODE_AIRKISS)
-#include "Airkiss/Airkiss.h"
+#ifdef USE_MiCOKit_EXT
+  #include "micokit_ext.h"
 #endif
 
 static mico_Context_t *context;
@@ -333,7 +331,7 @@ int application_start(void)
 #ifdef USE_MiCOKit_EXT
   if(MicoShouldEnterTestMode()==true){
     mico_log( "Enter test mode by user button" );
-    mico_mfg_test(context);
+    micokit_ext_mfg_test(context);  // MicoKit-EXT board mfg test
   }
 #endif
   
@@ -364,14 +362,11 @@ int application_start(void)
       context->flashContentInRam.micoSystemConfig.configured == unConfigured){
     mico_log("Empty configuration. Starting configuration mode...");
 
-#if (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK) || (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK_WITH_SOFTAP)
-    err = startEasyLink( context );
+#if (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK) || (MICO_CONFIG_MODE == CONFIG_MODE_AIRKISS)
+    err = startWifiConfig( context );
     require_noerr( err, exit );
 #elif (MICO_CONFIG_MODE == CONFIG_MODE_SOFT_AP)
     err = startEasyLinkSoftAP( context );
-    require_noerr( err, exit );
-#elif (MICO_CONFIG_MODE == CONFIG_MODE_AIRKISS)
-    err = startAirkiss( context );
     require_noerr( err, exit );
 #elif (MICO_CONFIG_MODE == CONFIG_MODE_WPS) || MICO_CONFIG_MODE == defined (CONFIG_MODE_WPS_WITH_SOFTAP)
     err = startWPS( context );

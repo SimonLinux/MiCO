@@ -605,6 +605,15 @@
       </file>
     </group>
     <group>
+      <name>wifi_config</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\wifi_config.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\wifi_config.h</name>
+      </file>
+    </group>
+    <group>
       <name>WPS</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\WPS\WPS.c</name>
@@ -620,7 +629,7 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MiCODefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>

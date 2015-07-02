@@ -46,12 +46,6 @@
 
 #include "wifi_config.h"
 
-#ifdef USE_MiCOKit_EXT
-  #include "micokit_ext.h"
-#endif
-
-
-
 static mico_Context_t *context;
 static mico_timer_t _watchdog_reload_timer;
 
@@ -64,6 +58,9 @@ const char *eaProtocols[1] = {EA_PROTOCOL};
 
 void _sys_state_thread(void *arg);
 
+#ifdef USE_MiCOKit_EXT
+  extern void micokit_ext_mfg_test(mico_Context_t *inContext);
+#endif
 
 WEAK void sendNotifySYSWillPowerOff(void){
 

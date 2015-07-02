@@ -50,7 +50,6 @@ typedef enum {
 static mico_semaphore_t      wificonfig_sem;
 static mico_semaphore_t      config_finished_sem;
 static bool                  wificonfig_thread_should_exit = false;
-static bool                  wificonfig_wlan_should_close = false;
 static uint8_t               airkiss_data;
 static wifi_config_type_t    get_wifi_config_type = WIFI_CONFIG_UNKNOWN;
 
@@ -62,6 +61,11 @@ extern void         ConfigAirkissIsSuccess        ( mico_Context_t * const inCon
 extern OSStatus     ConfigELRecvAuthData          ( char * userInfo, mico_Context_t * const inContext );
 
 
+void EasyLinkNotify_SYSWillPowerOffHandler(mico_Context_t * const inContext)
+{
+  stopWifiConfig(inContext);
+}
+
 void EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inContext)
 {
   wifi_config_log_trace();
@@ -70,6 +74,7 @@ void EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const in
   require(inContext, exit);
   switch (event) {
   case NOTIFY_STATION_UP:
+    MicoRfLed(true);
     wifi_config_log("Access point connected");
     mico_rtos_set_semaphore(&wificonfig_sem);
     micoWlanGetIPStatus(&para, Station);
@@ -79,6 +84,7 @@ void EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const in
     strncpy(inContext->flashContentInRam.micoSystemConfig.dnsServer, para.dns, maxIpLen);
     break;
   case NOTIFY_STATION_DOWN:
+    MicoRfLed(false);
     break;
   default:
     break;
@@ -142,15 +148,6 @@ void EasyLinkNotify_EasyLinkCompleteHandler(network_InitTypeDef_st *nwkpara, mic
 /*EasyLink timeout or error*/    
 exit:
   wifi_config_log("ERROR, err: %d", err);
-  /*so roll back to previous settings  (if it has) and connect*/
-  if(inContext->flashContentInRam.micoSystemConfig.configured != unConfigured){
-    inContext->flashContentInRam.micoSystemConfig.configured = allConfigured;
-    MICOUpdateConfiguration(inContext);
-  }else{
-    /*module should pow down in default setting*/
-    wificonfig_wlan_should_close = true;
-    micoWlanPowerOff();
-  }
   wificonfig_thread_should_exit = true;
   mico_rtos_set_semaphore(&wificonfig_sem);
 
@@ -249,7 +246,9 @@ OSStatus startWifiConfig( mico_Context_t * const inContext)
   err = MICOAddNotification( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)EasyLinkNotify_EasyLinkGetExtraDataHandler );
   require_noerr(err, exit);
   err = MICOAddNotification( mico_notify_DHCP_COMPLETED, (void *)EasyLinkNotify_DHCPCompleteHandler );
-  require_noerr( err, exit );    
+  require_noerr( err, exit );
+  err = MICOAddNotification( mico_notify_SYS_WILL_POWER_OFF, (void *)EasyLinkNotify_SYSWillPowerOffHandler );
+  require_noerr( err, exit );
   
   // Start the EasyLink thread
   ConfigWillStart(inContext);
@@ -324,6 +323,7 @@ void _cleanEasyLinkResource( mico_Context_t * const inContext )
   MICORemoveNotification( mico_notify_EASYLINK_WPS_COMPLETED, (void *)EasyLinkNotify_EasyLinkCompleteHandler );
   MICORemoveNotification( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)EasyLinkNotify_EasyLinkGetExtraDataHandler );
   MICORemoveNotification( mico_notify_DHCP_COMPLETED, (void *)EasyLinkNotify_DHCPCompleteHandler );
+  MICORemoveNotification( mico_notify_SYS_WILL_POWER_OFF, (void *)EasyLinkNotify_SYSWillPowerOffHandler );
 
   mico_rtos_deinit_semaphore(&wificonfig_sem);
   wificonfig_sem = NULL;
@@ -355,19 +355,29 @@ void easylink_thread(void *inContext)
     wifi_config_log("Start EasyLink(Airkiss)");
     micoWlanStartEasyLink(WifiConfig_TimeOut/1000);
     mico_rtos_get_semaphore(&wificonfig_sem, MICO_WAIT_FOREVER);
-    /* EasyLink  success or failed and roll back to previous settings, connect new wlan */
-    if( wificonfig_wlan_should_close == false ){
-      connect_wifi_normal( Context );
-    }
+  
+    // get ssid/key timeout, config thread should exit
     if( wificonfig_thread_should_exit == true ){
-        goto threadexit;
+      /*so roll back to previous settings  (if it has) and connect*/
+      if(Context->flashContentInRam.micoSystemConfig.configured != unConfigured){
+        wifi_config_log("WARNING: Timeout, roll back to previous settings...");
+        Context->flashContentInRam.micoSystemConfig.configured = allConfigured;
+        MICOUpdateConfiguration(Context);
+        connect_wifi_normal( Context );
+      }else{
+        goto reboot;  // reboot && start EasyLink again
+      }
+      goto threadexit;
+    }else{
+      connect_wifi_normal( Context );  // get ssid/key, try to connect ap
     }
   }
 
+  // wait for ap connecting, or reboot
   err = mico_rtos_get_semaphore(&wificonfig_sem, WifiConfig_ConnectWlan_Timeout);
   require_noerr(err, reboot); 
   
-  // arikiss udp response
+  // config success, arikiss udp response
   if( WIFI_CONFIG_AIRKISS == get_wifi_config_type){
     fd = socket( AF_INET, SOCK_DGRM, IPPROTO_UDP );
     if (fd < 0)
@@ -391,6 +401,7 @@ void easylink_thread(void *inContext)
 
 threadexit:
   ConfigWillStop( Context );
+  micoWlanStopEasyLink();
   _cleanEasyLinkResource( Context );
   mico_rtos_set_semaphore( &config_finished_sem ); 
   mico_rtos_delete_thread( NULL );
@@ -398,6 +409,7 @@ threadexit:
   
 /*SSID or Password is not correct, module cannot connect to wlan, so reboot and enter EasyLink again*/
 reboot:
+  wifi_config_log("Wi-Fi config failed, system reboot...");
   MicoSystemReboot();
   return;
 }

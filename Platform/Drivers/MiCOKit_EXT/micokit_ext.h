@@ -23,7 +23,6 @@
 #define __MICOKIT_EXT_H_
 
 #include "Common.h"
-#include "MICODefine.h"
 
 //------------------------- MicoKit-EXT board modules drivers ------------------
 #include "rgb_led/rgb_led.h"
@@ -45,6 +44,5 @@
 
 OSStatus micokit_ext_init(void);    // MicoKit-EXT board init
 OSStatus user_modules_init(void);   // init modules on MicoKit-EXT board
-void micokit_ext_mfg_test(mico_Context_t *inContext);
 
 #endif  // __MICOKIT_EXT_H_

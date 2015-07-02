@@ -135,7 +135,7 @@ const platform_spi_slave_driver_t *platform_spi_slave_drivers = NULL;
 
 const platform_uart_t platform_uart_peripherals[] =
 {
-  [MICO_UART_1] =
+  [MICO_UART_DEBUG] =
   {
     .uart                            = FUART,
     .pin_tx                          = &platform_gpio_pins[STDIO_UART_TX],
@@ -143,7 +143,7 @@ const platform_uart_t platform_uart_peripherals[] =
     .pin_cts                         = NULL,
     .pin_rts                         = NULL,
   },
-  [MICO_UART_2] =
+  [MICO_UART_DATA] =
   {
     .uart                            = BUART,
     .pin_tx                          = &platform_gpio_pins[APP_UART_TX],
@@ -255,12 +255,12 @@ const platform_gpio_t wifi_sdio_pins[] =
 
 MICO_RTOS_DEFINE_ISR( FuartInterrupt )
 {
-  platform_uart_irq( &platform_uart_drivers[MICO_UART_1] );
+  platform_uart_irq( &platform_uart_drivers[MICO_UART_DEBUG] );
 }
 
 MICO_RTOS_DEFINE_ISR( BuartInterrupt )
 {
-  platform_uart_irq( &platform_uart_drivers[MICO_UART_2] );
+  platform_uart_irq( &platform_uart_drivers[MICO_UART_DATA] );
 }
 
 /******************************************************
@@ -390,16 +390,6 @@ void init_platform_bootloader( void )
   }
   else
   {
-    mico_uart_config_t uart_config;
-    
-    uart_config.baud_rate    = 115200;
-    uart_config.data_width   = DATA_WIDTH_8BIT;
-    uart_config.parity       = NO_PARITY;
-    uart_config.stop_bits    = STOP_BITS_1;
-    uart_config.flow_control = FLOW_CONTROL_DISABLED;
-    uart_config.flags = UART_WAKEUP_DISABLE;
-    MicoUartInitialize( MICO_UART_1, &uart_config, (ring_buffer_t *)NULL );
-
     if(BootNvmInfo == (uint32_t)UPGRADE_ERRNO_NOERR)
     {
       platform_log("[UPGRADE]:found upgrade ball, prepare to boot upgrade");
@@ -414,7 +404,6 @@ void init_platform_bootloader( void )
     {
       BootNvmInfo = (uint32_t)UPGRADE_ERRNO_NOERR;
       NvmWrite(UPGRADE_NVM_ADDR, (uint8_t*)&BootNvmInfo, 4);
-      MicoUartSend( MICO_UART_1, "PASS", 4 ); // report PASS to MFG
       platform_log("[UPGRADE]:found upgrade ball file for the last time, re-plugin/out, if you want to upgrade again");
     }
     else
@@ -424,7 +413,6 @@ void init_platform_bootloader( void )
         platform_log("[UPGRADE]:Same file, no need to update");
         goto exit;
       }
-      MicoUartSend( MICO_UART_1, "FAIL", 4 );
       BootNvmInfo = (uint32_t)UPGRADE_ERRNO_NOERR;
       NvmWrite(UPGRADE_NVM_ADDR, (uint8_t*)&BootNvmInfo, 4);
       BootNvmInfo = UPGRADE_REQT_MAGIC;
@@ -434,7 +422,6 @@ void init_platform_bootloader( void )
       mico_thread_msleep_no_os(10);
       NVIC_SystemReset();
     }
-    MicoUartFinalize(MICO_UART_1);
   }
 exit:
   return;

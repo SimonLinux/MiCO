@@ -45,6 +45,8 @@ operation
 //static mico_semaphore_t _wifi_station_on_sem = NULL;
 mico_semaphore_t _fogcloud_connect_sem = NULL;
 
+static volatile bool device_need_delete = false;   // flag to delete device from cloud.
+
 
 /*******************************************************************************
  *                                  FUNCTIONS
@@ -54,6 +56,12 @@ extern void set_RF_LED_cloud_connected     ( mico_Context_t * const inContext );
 extern void set_RF_LED_cloud_disconnected  ( mico_Context_t * const inContext );
 extern void wait_for_wifi_info_delegate( mico_Context_t * const inContext );
 extern void fogcloud_working_info_delegate( mico_Context_t * const inContext );
+
+void user_key1_long_pressed_callback(void)
+{
+  device_need_delete = true;
+  return;
+}
   
 // override by user in user_main.c
 WEAK OSStatus user_fogcloud_msg_handler(mico_Context_t* context, 
@@ -147,6 +155,8 @@ void fogcloud_main_thread(void *arg)
   OSStatus err = kUnknownErr;
   mico_Context_t *inContext = (mico_Context_t *)arg;
   
+  MVDResetRequestData_t devResetRequestData;
+  
 #ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
   MVDActivateRequestData_t devDefaultActivateData;
   uint32_t auto_activate_retry_cnt = MAX_AUTO_ACTIVATE_RETRY_COUNTS;
@@ -165,9 +175,11 @@ void fogcloud_main_thread(void *arg)
                        fogcloud_log("ERROR: MicoFogCloudCloudInterfaceStart failed!") );
   
   /* start configServer for fogcloud (server for activate/authorize/reset/ota cmd from user APP) */
-  err = MicoStartFogCloudConfigServer( inContext);
-  require_noerr_action(err, exit, 
-                       fogcloud_log("ERROR: start FogCloud configServer failed!") );
+  if(false == inContext->flashContentInRam.appConfig.fogcloudConfig.owner_binding){
+    err = MicoStartFogCloudConfigServer( inContext);
+    require_noerr_action(err, exit, 
+                         fogcloud_log("ERROR: start FogCloud configServer failed!") );
+  }
   
  #ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
   /* activate when wifi on */
@@ -217,6 +229,38 @@ void fogcloud_main_thread(void *arg)
 #endif  // DISABLE_FOGCLOUD_OTA_CHECK
   
   while(1){
+    // device info reset
+    if(device_need_delete){
+      fogcloud_log("delete device from cloud ...");
+      memset((void*)&devResetRequestData, 0, sizeof(devResetRequestData));
+      strncpy(devResetRequestData.loginId,
+              inContext->flashContentInRam.appConfig.fogcloudConfig.loginId,
+              MAX_SIZE_LOGIN_ID);
+      strncpy(devResetRequestData.devPasswd,
+              inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd,
+              MAX_SIZE_DEV_PASSWD);
+      strncpy(devResetRequestData.user_token,
+              inContext->flashContentInRam.appConfig.fogcloudConfig.userToken,
+                MAX_SIZE_USER_TOKEN);
+      err = fogCloudResetCloudDevInfo(inContext, devResetRequestData);
+      if(kNoErr == err){
+        device_need_delete = false;
+        fogcloud_log("delete device success, system need reboot...");
+        mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
+        MicoFogCloudRestoreDefault(inContext);
+        MICOUpdateConfiguration(inContext);
+        mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
+        // system restart
+        inContext->micoStatus.sys_state = eState_Software_Reset;
+        if(inContext->micoStatus.sys_state_change_sem){
+          mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
+        }
+      }
+      else{
+        fogcloud_log("delete device failed, err = %d.", err);
+      }
+    }
+    
     mico_thread_sleep(1);
     if(inContext->appStatus.fogcloudStatus.isOTAInProgress){
       continue;  // ota is in progress, the oled && system led will be holding
@@ -248,6 +292,7 @@ void MicoFogCloudRestoreDefault(mico_Context_t* const context)
          0, sizeof(fogcloud_config_t));
   
   context->flashContentInRam.appConfig.fogcloudConfig.isActivated = false;
+  context->flashContentInRam.appConfig.fogcloudConfig.owner_binding = false;
   sprintf(context->flashContentInRam.appConfig.fogcloudConfig.deviceId, DEFAULT_DEVICE_ID);
   sprintf(context->flashContentInRam.appConfig.fogcloudConfig.masterDeviceKey, DEFAULT_DEVICE_KEY);
   sprintf(context->flashContentInRam.appConfig.fogcloudConfig.romVersion, DEFAULT_ROM_VERSION);
@@ -337,18 +382,22 @@ OSStatus MicoFogCloudActivate(mico_Context_t* const context,
 {
   OSStatus err = kUnknownErr;
   
-  if(context->flashContentInRam.appConfig.fogcloudConfig.isActivated){
-    // already activated, just do authorize
-    err = fogCloudDevAuthorize(context, activateData);
-    require_noerr_action(err, exit, 
-                         fogcloud_log("ERROR: device authorize failed! err=%d", err) );
-  }
-  else {
-    // activate
-    err = fogCloudDevActivate(context, activateData);
-    require_noerr_action(err, exit, 
-                         fogcloud_log("ERROR: device activate failed! err=%d", err) );
-  }
+//  if(context->flashContentInRam.appConfig.fogcloudConfig.isActivated){
+//    // already activated, just do authorize
+//    err = fogCloudDevAuthorize(context, activateData);
+//    require_noerr_action(err, exit, 
+//                         fogcloud_log("ERROR: device authorize failed! err=%d", err) );
+//  }
+//  else {
+//    // activate
+//    err = fogCloudDevActivate(context, activateData);
+//    require_noerr_action(err, exit, 
+//                         fogcloud_log("ERROR: device activate failed! err=%d", err) );
+//  }   
+  // activate
+  err = fogCloudDevActivate(context, activateData);
+  require_noerr_action(err, exit, 
+                       fogcloud_log("ERROR: device activate failed! err=%d", err) );
   return kNoErr;
   
 exit:
@@ -417,26 +466,26 @@ OSStatus MicoFogCloudGetState(mico_Context_t* const context,
   mico_Context_t *inContext = context;
   json_object* report = (json_object*)outDevState;
   
-  uint16_t login_id_cmp_len = 0;
-  uint16_t dev_passwd_cmp_len = 0;
+//  uint16_t login_id_cmp_len = 0;
+//  uint16_t dev_passwd_cmp_len = 0;
   
   if((NULL == context) || (NULL == outDevState)){
     return kParamErr;
   }
   
-  // login_id/dev_passwd ok ?
-  login_id_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) > strlen(getStateRequestData.loginId) ?
-                     strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) : strlen(getStateRequestData.loginId);
-  dev_passwd_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) > strlen(getStateRequestData.devPasswd) ?
-                       strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) : strlen(getStateRequestData.devPasswd);
- 
-  if((0 != strncmp(context->flashContentInRam.appConfig.fogcloudConfig.loginId, 
-                   getStateRequestData.loginId, login_id_cmp_len)) ||
-     (0 != strncmp(context->flashContentInRam.appConfig.fogcloudConfig.devPasswd, 
-                   getStateRequestData.devPasswd, dev_passwd_cmp_len))){
-    fogcloud_log("ERROR: MVDGetState: loginId/devPasswd mismatch!");
-    return kMismatchErr;
-  }
+//  // login_id/dev_passwd ok ?
+//  login_id_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) > strlen(getStateRequestData.loginId) ?
+//                     strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) : strlen(getStateRequestData.loginId);
+//  dev_passwd_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) > strlen(getStateRequestData.devPasswd) ?
+//                       strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) : strlen(getStateRequestData.devPasswd);
+// 
+//  if((0 != strncmp(context->flashContentInRam.appConfig.fogcloudConfig.loginId, 
+//                   getStateRequestData.loginId, login_id_cmp_len)) ||
+//     (0 != strncmp(context->flashContentInRam.appConfig.fogcloudConfig.devPasswd, 
+//                   getStateRequestData.devPasswd, dev_passwd_cmp_len))){
+//    fogcloud_log("ERROR: MVDGetState: loginId/devPasswd mismatch!");
+//    return kMismatchErr;
+//  }
   
   json_object_object_add(report, "isActivated",
                          json_object_new_boolean(inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated)); 

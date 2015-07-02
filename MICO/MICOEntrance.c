@@ -44,12 +44,10 @@
 #include "WAC/MFi_WAC.h"
 #include "StringUtils.h"
 
-#if defined (CONFIG_MODE_EASYLINK) || defined (CONFIG_MODE_EASYLINK_WITH_SOFTAP)
-#include "EasyLink/EasyLink.h"
-#endif
+#include "wifi_config.h"
 
-#if defined (CONFIG_MODE_AIRKISS)
-#include "Airkiss/Airkiss.h"
+#ifdef USE_MiCOKit_EXT
+  #include "micokit_ext.h"
 #endif
 
 
@@ -342,11 +340,12 @@ int application_start(void)
   mico_init_timer(&_watchdog_reload_timer,APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000/2, _watchdog_reload_timer_handler, NULL);
   mico_start_timer(&_watchdog_reload_timer);
 
-  /* Enter test mode, call a build-in test function amd output on MFG UART */
-  if(MicoShouldEnterMFGMode()==true){
-    mico_log( "Enter MFG mode by MFG button" );
-    mico_mfg_test(context);
+#ifdef USE_MiCOKit_EXT
+  if(MicoShouldEnterTestMode()==true){
+    mico_log( "Enter test mode by user button" );
+    micokit_ext_mfg_test(context);  // MicoKit-EXT board mfg test
   }
+#endif
   
   /*Read current time from RTC.*/
   if( MicoRtcGetTime(&time) == kNoErr ){
@@ -375,14 +374,11 @@ int application_start(void)
       context->flashContentInRam.micoSystemConfig.configured == unConfigured){
     mico_log("Empty configuration. Starting configuration mode...");
 
-#if (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK) || (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK_WITH_SOFTAP)
-    err = startEasyLink( context );
+#if (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK) || (MICO_CONFIG_MODE == CONFIG_MODE_AIRKISS)
+    err = startWifiConfig( context );
     require_noerr( err, exit );
 #elif (MICO_CONFIG_MODE == CONFIG_MODE_SOFT_AP)
     err = startEasyLinkSoftAP( context );
-    require_noerr( err, exit );
-#elif (MICO_CONFIG_MODE == CONFIG_MODE_AIRKISS)
-    err = startAirkiss( context );
     require_noerr( err, exit );
 #elif (MICO_CONFIG_MODE == CONFIG_MODE_WPS) || MICO_CONFIG_MODE == defined (CONFIG_MODE_WPS_WITH_SOFTAP)
     err = startWPS( context );

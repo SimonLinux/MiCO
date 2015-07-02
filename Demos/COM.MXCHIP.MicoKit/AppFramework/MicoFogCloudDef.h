@@ -37,7 +37,7 @@
 #define DEFAULT_DEVICE_ID                "null"
 #define DEFAULT_DEVICE_KEY               "null"
 
-#define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0x400
+#define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0x800
 #define STACK_SIZE_FOGCLOUD_OTA_THREAD    0xC00
 #define FOGCLOUD_CONFIG_SERVER_PORT       8001    // fogcloud config server port
 
@@ -45,7 +45,7 @@
 //#define DISABLE_FOGCLOUD_OTA_CHECK
 
 // enalbe FogCloud auto activate function (user_token=MAC)
-//#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
+#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
 
 
 /*******************************************************************************
@@ -57,6 +57,7 @@ typedef struct _fogcloud_config_t
 {
   /* cloud connect params */
   bool              isActivated;                         // device activate flag
+  bool              owner_binding;                       // first owner binding flag
   char              deviceId[MAX_SIZE_DEVICE_ID];        // get from cloud server
   char              masterDeviceKey[MAX_SIZE_DEVICE_KEY];// get from cloud server
   char              romVersion[MAX_SIZE_FW_VERSION];     // get from cloud server

@@ -156,7 +156,7 @@ typedef enum
 #define STDIO_UART       MICO_UART_DATA
 #define STDIO_UART_BAUDRATE (115200) 
 #else
-#define STDIO_UART       MICO_UART_DEBUG
+#define STDIO_UART       MICO_UART_DEBUG    /**>Should nerver changed this */
 #define STDIO_UART_BAUDRATE (115200) 
 #endif
 

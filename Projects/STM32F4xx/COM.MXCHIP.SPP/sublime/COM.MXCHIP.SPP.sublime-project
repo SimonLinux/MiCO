@@ -12,7 +12,7 @@
 			"path": "../../../../Support"
 		},
 		{
-			"path": "../../../../Board/MiCOKit-3288"
+			"path": "../../../../Board/MiCOKit-F411B"
 		},
 		{
 			"path": "../../../../Demos/COM.MXCHIP.BASIC"
@@ -40,6 +40,7 @@
 			"-D__value_in_regs=__attribute__(())",
 			"-DUSE_STDPERIPH_DRIVER",
 			"-DDEBUG",
+			"-DBOOTLOADER",
 			"-I/Users/william/Develop/MiCO/Demos/COM.APPLE.HOMEKIT/",
 			"-I/Users/william/Develop/MiCO/External/",
 			"-I/Users/william/Develop/MiCO/Platform/",
@@ -52,7 +53,7 @@
 			"-I/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/",
 			"-I/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/Libraries/",
 			"-I/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/Libraries/STM32F4xx_StdPeriph_Driver/inc/",
-			"-I/Users/william/Develop/MiCO/Board/MiCOKit-3288/",
+			"-I/Users/william/Develop/MiCO/Board/MiCOKit-F411B/",
 			"-I/Users/william/Develop/MiCO/include/",
 			"-I/Users/william/Develop/MiCO/MICO/",
 			"-I/Users/william/Develop/MiCO/Support/",

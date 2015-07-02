@@ -14,8 +14,6 @@ extern char* system_lib_version(void);
 extern void wlan_get_mac_address(char *mac);
 
 static char cmd_str[64];
-static void uartRecvMfg_thread(void *inContext);
-static size_t _uart_get_one_packet(uint8_t* inBuf, int inBufLen);
 
 static int _mfg_mode_ = 0;
 
@@ -182,6 +180,10 @@ exit:
   mico_thread_sleep(MICO_NEVER_TIMEOUT);
 }
 
+#ifdef MFG_MODE_AUTO
+static void uartRecvMfg_thread(void *inContext);
+static size_t _uart_get_one_packet(uint8_t* inBuf, int inBufLen);
+
 void mico_mfg_test(mico_Context_t *inContext)
 {
   network_InitTypeDef_adv_st wNetConfig;
@@ -313,9 +315,8 @@ static size_t _uart_get_one_packet(uint8_t* inBuf, int inBufLen)
     }
     
   }
-  
 }
-
+#endif
 
 /* MFG test demo END */
 

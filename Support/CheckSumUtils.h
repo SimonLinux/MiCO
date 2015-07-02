@@ -27,14 +27,16 @@
 
 typedef struct
 {
-    uint16_t        CRC;
-}   CRC16_Context;
+  uint16_t crc;
+} CRC16_Context;
 
 void CRC16_Init( CRC16_Context *inContext );
 
 void CRC16_Update( CRC16_Context *inContext, const void *inSrc, size_t inLen );
 
 void CRC16_Final( CRC16_Context *inContext, uint16_t *outResult );
+
+uint8_t mico_CRC8_Table(uint8_t crc8_ori, uint8_t *p, uint32_t counter);
 
 
 

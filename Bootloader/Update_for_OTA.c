@@ -82,7 +82,7 @@ static OSStatus checkcrc(uint16_t crc_in, int partition_type, int total_len)
     if (crc_in == 0xFFFF)
         goto exit;
 
-    part = MicoFlashGetInfo(partition_type);
+    part = MicoFlashGetInfo((mico_partition_t)partition_type);
     if (part == NULL)
         goto exit;
 

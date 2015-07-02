@@ -746,6 +746,9 @@
       <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>
     </file>
     <file>

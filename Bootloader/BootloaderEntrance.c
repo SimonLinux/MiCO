@@ -46,15 +46,15 @@ extern OSStatus update(void);
 #ifdef SIZE_OPTIMIZE
 char menu[] =
 "\r\n"
-"MICO Bootloader for %s, HARDWARE_REVISION: %s\r\n"
-"0:BOOTUPDATE <-r>\r\n"
-"1:FWUPDATE <-r>\r\n"
-"2:DRIVERUPDATE <-r>\r\n"
-"3:PARAUPDATE <-r><-e>\r\n"
-"4:FLASHUPDATE  <-i><-s><-e><-r><-start><-end>\r\n"
-"5:MEMORYMAP\r\n"
-"6:BOOT\r\n"
-"7:REBOOT\r\n";
+"MICO bootloader for %s, %s, HARDWARE_REVISION: %s\r\n"
+"0:BOOTUPDATE,"
+"1:FWUPDATE,"
+"2:DRIVERUPDAT,"
+"3:PARAUPDATE,"
+"4:FLASHUPDATE,"
+"5:MEMORYMAP,"
+"6:BOOT,"
+"7:REBOOT";
 #else
 char menu[] =
 "\r\n"
@@ -92,6 +92,21 @@ static void enable_protection( void )
     if( PAR_OPT_WRITE_DIS == ( partition->partition_options & PAR_OPT_WRITE_MASK )  )
       MicoFlashEnableSecurity( i, 0x0, MicoFlashGetInfo(i)->partition_length );
   }
+}
+
+WEAK bool MicoShouldEnterBootloader( void )
+{
+  return false;
+}
+
+WEAK bool MicoShouldEnterMFGMode( void )
+{
+  return false;
+}
+
+WEAK bool MicoShouldEnterATEMode( void )
+{
+  return false;
 }
 
 void bootloader_start_app( uint32_t app_addr )

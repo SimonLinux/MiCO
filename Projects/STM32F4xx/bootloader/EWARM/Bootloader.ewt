@@ -521,21 +521,6 @@
       </file>
     </group>
     <group>
-      <name>EMW5288</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\EMW5288\platform.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\EMW5288\platform.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\EMW5288\platform_common_config.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\EMW5288\platform_spi_flash.c</name>
-      </file>
-    </group>
-    <group>
       <name>MiCOKit-3165</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3165\platform.c</name>
@@ -865,6 +850,9 @@
   </group>
   <group>
     <name>Support</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
+    </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>
     </file>

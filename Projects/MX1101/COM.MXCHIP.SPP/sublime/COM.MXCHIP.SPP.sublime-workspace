@@ -520,18 +520,18 @@
 	"buffers":
 	[
 		{
-			"file": "/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverFlash.h",
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
 			"settings":
 			{
-				"buffer_size": 6773,
+				"buffer_size": 4745,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
+			"file": "/Users/William/Develop/MiCO/Board/EMW5088/platform.h",
 			"settings":
 			{
-				"buffer_size": 4674,
+				"buffer_size": 4326,
 				"line_ending": "Windows"
 			}
 		},
@@ -539,25 +539,15 @@
 			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.c",
 			"settings":
 			{
-				"buffer_size": 19560,
+				"buffer_size": 19569,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "Searching 1886 files for \"mico_ota_finished\"\n\n/Users/William/Develop/MiCO/MICO/MICOForceOTA.c:\n   27  };\n   28  /* Call back for OTA finished */\n   29: __weak void mico_ota_finished(int result, uint8_t *reserved)\n   30  {\n   31      switch(result) {\n   ..\n  103      if (tmpbuf == NULL) {\n  104          fota_log(\"ERROR!! Can't get enough memory\");\n  105:         mico_ota_finished(OTA_NO_MEM, NULL);\n  106          return;\n  107      }\n  ...\n  132          if (i > 100) {\n  133              fota_log(\"ERROR!! Can't find the OTA AP\");\n  134:             mico_ota_finished(OTA_NO_AP, NULL);\n  135              return;\n  136          }\n  ...\n  149              fota_log(\"ERROR!! Can't get OTA image.\");\n  150              free(tmpbuf);\n  151:             mico_ota_finished(OTA_NO_FILE, NULL);\n  152              return;\n  153          }\n  ...\n  188                   md5_calc[8],md5_calc[9],md5_calc[10],md5_calc[11],\n  189                   md5_calc[12],md5_calc[13],md5_calc[14],md5_calc[15]);\n  190:         mico_ota_finished(OTA_MD5_FAIL, NULL);\n  191          return;\n  192      }\n  ...\n  196      mico_write_ota_tbl(filelen, crc);\n  197      \n  198:     mico_ota_finished(OTA_SUCCESS, NULL);\n  199      while(1)\n  200          sleep(100);\n\n6 matches in 1 file\n",
+			"file": "/Users/William/Develop/MiCO/Board/EMW5088/platform.c",
 			"settings":
 			{
-				"buffer_size": 1264,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/MICO/MICOForceOTA.c",
-			"settings":
-			{
-				"buffer_size": 6044,
+				"buffer_size": 18279,
 				"line_ending": "Windows"
 			}
 		}
@@ -622,7 +612,9 @@
 	},
 	"file_history":
 	[
+		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverFlash.h",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.c",
+		"/Users/William/Develop/MiCO/MICO/MICOForceOTA.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform.c",
 		"/Users/William/Develop/MiCO/Support/CheckSumUtils.h",
 		"/Users/William/Develop/MiCO/Support/HTTPUtils.c",
@@ -635,7 +627,6 @@
 		"/Users/William/Develop/MiCO/MICO/MICOConfigServer.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
 		"/Users/william/Develop/MiCO/Support/HTTPUtils.h",
-		"/Users/William/Develop/MiCO/MICO/MICOForceOTA.c",
 		"/Users/William/Develop/MiCO/Projects/MX1101/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
 		"/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverFlash.h",
 		"/Users/William/Develop/MiCO/MICO/MICOEntrance.c",
@@ -666,7 +657,6 @@
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_peripheral.h",
 		"/Users/William/Develop/MiCO/MICO/Library/RF driver/wlan_firmware.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform_config.h",
-		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverFlash.h",
 		"/Users/William/Develop/MiCO/MICO/MICOParaStorage.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_peripheral.h",
 		"/Users/william/Develop/MiCO/Platform/include/PlatformLogging.h",
@@ -757,7 +747,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"",
@@ -928,23 +918,22 @@
 	"groups":
 	[
 		{
-			"selected": 4,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverFlash.h",
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
 					"settings":
 					{
-						"buffer_size": 6773,
+						"buffer_size": 4745,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6636,
-								6734
+								4462,
+								4477
 							]
 						],
 						"settings":
@@ -954,35 +943,35 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2411.0,
+						"translation.y": 2225.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
+					"file": "/Users/William/Develop/MiCO/Board/EMW5088/platform.h",
 					"settings":
 					{
-						"buffer_size": 4674,
+						"buffer_size": 4326,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3859,
-								3794
+								2910,
+								2910
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2186.0,
+						"translation.y": 1702.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -992,15 +981,15 @@
 					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.c",
 					"settings":
 					{
-						"buffer_size": 19560,
+						"buffer_size": 19569,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9962,
-								9970
+								6921,
+								6935
 							]
 						],
 						"settings":
@@ -1010,98 +999,35 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3971.0,
+						"translation.y": 2106.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
+					"file": "/Users/William/Develop/MiCO/Board/EMW5088/platform.c",
 					"settings":
 					{
-						"buffer_size": 1264,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										164,
-										181
-									],
-									[
-										364,
-										381
-									],
-									[
-										554,
-										571
-									],
-									[
-										753,
-										770
-									],
-									[
-										1009,
-										1026
-									],
-									[
-										1158,
-										1175
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								171,
-								171
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/Users/William/Develop/MiCO/MICO/MICOForceOTA.c",
-					"settings":
-					{
-						"buffer_size": 6044,
+						"buffer_size": 18279,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5926,
-								5944
+								9954,
+								9954
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 2704.0,
+						"translation.x": 37.0,
+						"translation.y": 6723.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

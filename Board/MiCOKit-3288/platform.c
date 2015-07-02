@@ -41,10 +41,6 @@
 #include "spi_flash_platform_interface.h"
 #include "wlan_platform_common.h"
 
-//#ifdef USE_MiCOKit_EXT
-//#include "rgb_led.h"
-//#endif
-
 /******************************************************
 *                      Macros
 ******************************************************/
@@ -291,7 +287,7 @@ const mico_logic_partition_t mico_partitions[] =
     .partition_description     = "Bootloader",
     .partition_start_addr      = 0x08000000,
     .partition_length          =     0x8000,    //32k bytes
-    .partition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
   },
   [MICO_PARTITION_APPLICATION] =
   {
@@ -299,7 +295,7 @@ const mico_logic_partition_t mico_partitions[] =
     .partition_description     = "Application",
     .partition_start_addr      = 0x0800C000,
     .partition_length          =    0x74000,   //480k bytes
-    .partition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
   },
   [MICO_PARTITION_RF_FIRMWARE] =
   {
@@ -334,8 +330,6 @@ const mico_logic_partition_t mico_partitions[] =
     .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
   }
 };
-
-
 
 /******************************************************
 *           Interrupt Handler Definitions
@@ -481,12 +475,7 @@ void MicoRfLed(bool onoff)
 // add long press key2 on ext-board when restart to enter MFG MODE
 bool MicoShouldEnterMFGMode(void)
 {
-#ifdef USE_MiCOKit_EXT
-  if( (MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false) ||
-     (MicoGpioInputGet((mico_gpio_t)Arduino_D5) == false) )
-#else
   if( MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false )
-#endif
   {
     return true;
   }
@@ -501,10 +490,5 @@ bool MicoShouldEnterBootloader(void)
   if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==true)
     return true;
   else
-    return false;
-}
-
-bool MicoShouldEnterATEMode(void)
-{
     return false;
 }

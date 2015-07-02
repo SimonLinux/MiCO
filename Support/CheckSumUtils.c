@@ -78,7 +78,7 @@ uint16_t UpdateCRC16(uint16_t crcIn, uint8_t byte)
 
 void CRC16_Init( CRC16_Context *inContext )
 {
-  inContext->CRC = 0;
+  inContext->crc = 0;
 }
 
 void CRC16_Update( CRC16_Context *inContext, const void *inSrc, size_t inLen )
@@ -86,10 +86,10 @@ void CRC16_Update( CRC16_Context *inContext, const void *inSrc, size_t inLen )
   const uint8_t * src = (const uint8_t *) inSrc;
   const uint8_t* srcEnd = src + inLen;
   while( src < srcEnd )
-    inContext->CRC = UpdateCRC16(inContext->CRC, *src++);
+    inContext->crc = UpdateCRC16(inContext->crc, *src++);
 }
 
 void CRC16_Final( CRC16_Context *inContext, uint16_t *outResult )
 {
-  *outResult = inContext->CRC&0xffffu;
+  *outResult = inContext->crc&0xffffu;
 }

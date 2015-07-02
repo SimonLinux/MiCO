@@ -56,13 +56,6 @@ uint8_t tab_1024[1024] =
   0
 };
 
-//#if defined MICO_FLASH_FOR_UPDATE && defined MICO_FLASH_FOR_DRIVER
-char MEMMAP_HEADER[] = "\r\n\
-+******************* MICO Flash Map **************+\r\n\
-  +-- Content --+- Device +-- Start ---+--- End ----+\r\n";
-    
-    char MEMMAP_TAILER[] = "+-------------+---------+------------+------------+\r\n";
-
 char FileName[FILE_NAME_LENGTH];
 char ERROR_STR [] = "\n\r*** ERROR: %s\n\r";    /* ERROR message string in code   */
 
@@ -229,7 +222,7 @@ void Main_Menu(void)
     if(strcmp(cmdname, "BOOTUPDATE") == 0 || strcmp(cmdname, "0") == 0) {
       partition = MicoFlashGetInfo( MICO_PARTITION_BOOTLOADER );
       if (findCommandPara(cmdbuf, "r", NULL, 0) != -1){
-        printf ("\n\rRead Bootloader only...\n\r");
+        printf ("\n\rRead Bootloader...\n\r");
         SerialUpload( partition->partition_owner, partition->partition_start_addr, "BootLoaderImage.bin", partition->partition_length );
         continue;
       }
@@ -244,11 +237,11 @@ void Main_Menu(void)
     else if(strcmp(cmdname, "FWUPDATE") == 0 || strcmp(cmdname, "1") == 0)	{
       partition = MicoFlashGetInfo( MICO_PARTITION_APPLICATION );
       if (findCommandPara(cmdbuf, "r", NULL, 0) != -1){
-        printf ("\n\rRead MICO application only...\n\r");
+        printf ("\n\rRead application...\n\r");
         SerialUpload( partition->partition_owner, partition->partition_start_addr, "ApplicationImage.bin", partition->partition_length );
         continue;
       }
-      printf ("\n\rUpdating MICO application...\n\r");
+      printf ("\n\rUpdating application...\n\r");
       err = MicoFlashDisableSecurity( MICO_PARTITION_APPLICATION, 0x0, partition->partition_length );
       require_noerr( err, exit);
       SerialDownload( partition->partition_owner, partition->partition_start_addr, partition->partition_length ); 							   	
@@ -258,12 +251,12 @@ void Main_Menu(void)
     else if(strcmp(cmdname, "DRIVERUPDATE") == 0 || strcmp(cmdname, "2") == 0) {
       partition = MicoFlashGetInfo( MICO_PARTITION_RF_FIRMWARE );
       if( partition == NULL ){
-        printf ("\n\rNo independ flash memory for RF driver, exiting...\n\r");
+        printf ("\n\rNo flash memory for RF firmware, exiting...\n\r");
         continue;
       }
       
       if (findCommandPara(cmdbuf, "r", NULL, 0) != -1){
-        printf ("\n\rRead RF driver only...\n\r");
+        printf ("\n\rRead RF firmware...\n\r");
         SerialUpload( partition->partition_owner, partition->partition_start_addr, "DriverImage.bin", partition->partition_length );
         continue;
       }
@@ -278,7 +271,7 @@ void Main_Menu(void)
       partition = MicoFlashGetInfo( MICO_PARTITION_PARAMETER_1 );
 
       if (findCommandPara(cmdbuf, "e", NULL, 0) != -1){
-        printf ("\n\rErasing MICO settings only...\n\r");
+        printf ("\n\rErasing settings...\n\r");
 
         err = MicoFlashDisableSecurity( MICO_PARTITION_PARAMETER_1, 0x0, partition->partition_length );
         require_noerr( err, exit);
@@ -286,11 +279,11 @@ void Main_Menu(void)
         continue;
       }
       if (findCommandPara(cmdbuf, "r", NULL, 0) != -1){
-        printf ("\n\rRead MICO settings only...\n\r");
+        printf ("\n\rRead settings...\n\r");
         SerialUpload( partition->partition_owner, partition->partition_start_addr, "DriverImage.bin", partition->partition_length );
         continue;
       }
-      printf ("\n\rUpdating MICO settings...\n\r");
+      printf ("\n\rUpdating settings...\n\r");
       err = MicoFlashDisableSecurity( MICO_PARTITION_PARAMETER_1, 0x0, partition->partition_length );
       require_noerr( err, exit);
       SerialDownload( partition->partition_owner, partition->partition_start_addr, partition->partition_length );                        
@@ -304,11 +297,11 @@ void Main_Menu(void)
       }
       
       if(Str2Int((uint8_t *)flash_dev_str, (int32_t *)&flash_dev)==0){ 
-        printf ("\n\rFlash device input error! Exiting...\n\r");
+        printf ("\n\rDevice Number Err! Exiting...\n\r");
         continue;
       }
       if( flash_dev >= MICO_FLASH_MAX ){
-        printf ("\n\rUnkown target type! Exiting...\n\r");
+        printf ("\n\rDevice Err! Exiting...\n\r");
         continue;
       }
       
@@ -334,7 +327,7 @@ void Main_Menu(void)
       }
       
       if(endAddress<startAddress && inputFlashArea == true) {
-        printf ("\n\rIllegal flash address.\n\r");
+        printf ("\n\rIllegal address.\n\r");
         continue;
       }
       
@@ -366,7 +359,7 @@ void Main_Menu(void)
     
     /***************** Command: MEMORYMAP *************************/
     else if(strcmp(cmdname, "MEMORYMAP") == 0 || strcmp(cmdname, "5") == 0)  {
-      printf( MEMMAP_HEADER );
+      printf("\r");
       for( i = 0; i <= MICO_PARTITION_PARAMETER_2; i++ ){
         partition = MicoFlashGetInfo( (mico_partition_t)i );
         if (partition->partition_owner == MICO_FLASH_NONE)
@@ -374,7 +367,6 @@ void Main_Menu(void)
         printf( "| %11s |  Dev:%d  | 0x%08x | 0x%08x |\r\n", partition->partition_description, partition->partition_owner, 
                partition->partition_start_addr, partition->partition_length);
       }
-      printf( MEMMAP_TAILER );
     }
     /***************** Command: Excute the application *************************/
     else if(strcmp(cmdname, "BOOT") == 0 || strcmp(cmdname, "6") == 0)	{
@@ -391,7 +383,7 @@ void Main_Menu(void)
     }
     
     else if(strcmp(cmdname, "HELP") == 0 || strcmp(cmdname, "?") == 0)	{
-      printf ( menu, MODEL, HARDWARE_REVISION );                       /* display command menu        */
+        printf ( menu, MODEL, Bootloader_REVISION, HARDWARE_REVISION );  /* display command menu        */
       break;
     }
     

@@ -33,7 +33,7 @@
 #include "PlatformLogging.h"
 #include "MicoPlatform.h"
 #include "platform.h"
-//#include "platform_config.h"
+#include "platform_config.h"
 #include "stdio.h"
 
 #ifdef USE_MICO_SPI_FLASH
@@ -67,11 +67,14 @@ static sflash_handle_t sflash_handle = {0x0, 0x0, SFLASH_WRITE_NOT_ALLOWED};
 #endif
 /* Private function prototypes -----------------------------------------------*/
 static uint32_t _GetSector( uint32_t Address );
+static uint32_t _GetWRPSector(uint32_t Address);
 static OSStatus _GetAddress(uint32_t sector, uint32_t *startAddress, uint32_t *endAddress);
 static OSStatus internalFlashInitialize( void );
 static OSStatus internalFlashErase(uint32_t StartAddress, uint32_t EndAddress);
 static OSStatus internalFlashWrite(volatile uint32_t* FlashAddress, uint32_t* Data ,uint32_t DataLength);
 static OSStatus internalFlashByteWrite( volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength );
+static OSStatus internalFlashProtect(uint32_t StartAddress, uint32_t EndAddress, bool enable);
+
 #ifdef USE_MICO_SPI_FLASH
 static OSStatus spiFlashErase(uint32_t StartAddress, uint32_t EndAddress);
 #endif
@@ -186,12 +189,58 @@ exit:
 
 OSStatus platform_flash_enable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
 {
-  return kNoErr;
+  OSStatus err = kNoErr;
+
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( start_address >= peripheral->flash_start_addr 
+               && end_address   <= peripheral->flash_start_addr + peripheral->flash_length - 1, exit, err = kParamErr);
+
+  if( peripheral->flash_type == FLASH_TYPE_EMBEDDED ){
+#ifdef MCU_EBANLE_FLASH_PROTECT
+    err = internalFlashProtect( start_address, end_address, true );  
+#endif  
+    require_noerr(err, exit);
+  }
+#ifdef USE_MICO_SPI_FLASH
+  else if( peripheral->flash_type == FLASH_TYPE_SPI ){
+    err = kNoErr;
+    goto exit;
+  }
+#endif
+  else{
+    err = kTypeErr;
+    goto exit;
+  }
+
+exit:
+  return err;  
 }
 
 OSStatus platform_flash_disable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
 {
-  return kNoErr;
+  OSStatus err = kNoErr;
+
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( start_address >= peripheral->flash_start_addr 
+               && end_address   <= peripheral->flash_start_addr + peripheral->flash_length - 1, exit, err = kParamErr);
+
+  if( peripheral->flash_type == FLASH_TYPE_EMBEDDED ){
+    err = internalFlashProtect( start_address, end_address, false );    
+    require_noerr(err, exit);
+  }
+#ifdef USE_MICO_SPI_FLASH
+  else if( peripheral->flash_type == FLASH_TYPE_SPI ){
+    err = kNoErr;
+    goto exit;
+  }
+#endif
+  else{
+    err = kTypeErr;
+    goto exit;
+  }
+
+exit:
+  return err;  
 }
 
 OSStatus internalFlashInitialize( void )
@@ -231,6 +280,44 @@ OSStatus internalFlashErase(uint32_t StartAddress, uint32_t EndAddress)
 exit:
   return err;
 }
+
+OSStatus internalFlashProtect(uint32_t StartAddress, uint32_t EndAddress, bool enable)
+{
+  OSStatus err = kNoErr;
+  uint16_t WRP = 0x0;
+  uint32_t StartSector, EndSector, i = 0;
+  bool needupdate = false;
+  
+  /* Get the sector where start the user flash area */
+  StartSector = _GetWRPSector(StartAddress);
+  EndSector = _GetWRPSector(EndAddress);
+  
+  for(i = StartSector; i <= EndSector; i=i<<1)
+  {
+    WRP = FLASH_OB_GetWRP();
+
+    if( ( enable == true && (WRP & i) == 0x0 ) ||
+        ( enable == false && (WRP & i) ) ) {
+      continue;
+    }
+    if( needupdate == false){
+      FLASH_OB_Unlock( );
+      needupdate = true;
+    }
+    if( enable == true )
+      FLASH_OB_WRPConfig( i, ENABLE );
+    else
+      FLASH_OB_WRPConfig( i, DISABLE );
+  }
+  
+  if( needupdate == true){
+    FLASH_OB_Launch( );
+    FLASH_OB_Lock( );
+  }
+
+  return err;
+}
+
 
 #ifdef USE_MICO_SPI_FLASH
 OSStatus spiFlashErase(uint32_t StartAddress, uint32_t EndAddress)
@@ -375,6 +462,65 @@ static uint32_t _GetSector(uint32_t Address)
   return sector;
 }
 
+/**
+* @brief  Gets the sector of a given address
+* @param  Address: Flash address
+* @retval The sector of a given address
+*/
+static uint32_t _GetWRPSector(uint32_t Address)
+{
+  uint32_t sector = 0;
+  
+  if((Address < ADDR_FLASH_SECTOR_1) && (Address >= ADDR_FLASH_SECTOR_0))
+  {
+    sector = OB_WRP_Sector_0;  
+  }
+  else if((Address < ADDR_FLASH_SECTOR_2) && (Address >= ADDR_FLASH_SECTOR_1))
+  {
+    sector = OB_WRP_Sector_1;  
+  }
+  else if((Address < ADDR_FLASH_SECTOR_3) && (Address >= ADDR_FLASH_SECTOR_2))
+  {
+    sector = OB_WRP_Sector_2;  
+  }
+  else if((Address < ADDR_FLASH_SECTOR_4) && (Address >= ADDR_FLASH_SECTOR_3))
+  {
+    sector = OB_WRP_Sector_3;  
+  }
+  else if((Address < ADDR_FLASH_SECTOR_5) && (Address >= ADDR_FLASH_SECTOR_4))
+  {
+    sector = OB_WRP_Sector_4;  
+  }
+  else if((Address < ADDR_FLASH_SECTOR_6) && (Address >= ADDR_FLASH_SECTOR_5))
+  {
+    sector = OB_WRP_Sector_5;  
+  }
+  else if((Address < ADDR_FLASH_SECTOR_7) && (Address >= ADDR_FLASH_SECTOR_6))
+  {
+    sector = OB_WRP_Sector_6;  
+  }
+  else if((Address < ADDR_FLASH_SECTOR_8) && (Address >= ADDR_FLASH_SECTOR_7))
+  {
+    sector = OB_WRP_Sector_7;  
+  }
+  else if((Address < ADDR_FLASH_SECTOR_9) && (Address >= ADDR_FLASH_SECTOR_8))
+  {
+    sector = OB_WRP_Sector_8;  
+  }
+  else if((Address < ADDR_FLASH_SECTOR_10) && (Address >= ADDR_FLASH_SECTOR_9))
+  {
+    sector = OB_WRP_Sector_9;  
+  }
+  else if((Address < ADDR_FLASH_SECTOR_11) && (Address >= ADDR_FLASH_SECTOR_10))
+  {
+    sector = OB_WRP_Sector_10;  
+  }
+  else/*(Address < FLASH_END_ADDR) && (Address >= ADDR_FLASH_SECTOR_11))*/
+  {
+    sector = OB_WRP_Sector_11;  
+  }
+  return sector;
+}
 
 /**
 * @brief  Gets the address of a given sector

@@ -209,23 +209,78 @@ const platform_spi_t platform_spi_peripherals[] =
 
 platform_spi_driver_t platform_spi_drivers[MICO_SPI_MAX];
 
+/* Flash memory devices */
 const platform_flash_t platform_flash_peripherals[] =
 {
-  [MICO_SPI_FLASH] =
+  [MICO_FLASH_EMBEDDED] =
+  {
+    .flash_type                   = FLASH_TYPE_EMBEDDED,
+    .flash_start_addr             = 0x08000000,
+    .flash_length                 = 0x80000,
+  },
+  [MICO_FLASH_SPI] =
   {
     .flash_type                   = FLASH_TYPE_SPI,
     .flash_start_addr             = 0x000000,
     .flash_length                 = 0x200000,
   },
-  [MICO_INTERNAL_FLASH] =
-  {
-    .flash_type                   = FLASH_TYPE_INTERNAL,
-    .flash_start_addr             = 0x08000000,
-    .flash_length                 = 0x80000,
-  },
 };
 
 platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
+
+/* Logic partition on flash devices */
+const mico_logic_partition_t mico_partitions[] =
+{
+  [MICO_PARTITION_BOOTLOADER] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "Bootloader",
+    .partition_start_addr      = 0x08000000,
+    .partition_length          =     0x8000,    //32k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_APPLICATION] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "Application",
+    .partition_start_addr      = 0x0800C000,
+    .partition_length          =    0x74000,   //464k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_RF_FIRMWARE] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "RF Firmware",
+    .partition_start_addr      = 0x2000,
+    .partition_length          = 0x3E000,  //248k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_OTA_TEMP] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "OTA Storage",
+    .partition_start_addr      = 0x40000,
+    .partition_length          = 0x70000, //448k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_1] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "PARAMETER1",
+    .partition_start_addr      = 0x0,
+    .partition_length          = 0x1000, // 4k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_2] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "PARAMETER1",
+    .partition_start_addr      = 0x1000,
+    .partition_length          = 0x1000, //4k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  }
+};
+
 
 #if defined ( USE_MICO_SPI_FLASH )
 const mico_spi_device_t mico_spi_flash =
@@ -373,6 +428,7 @@ static uint8_t data[SizePerRW];
 void init_platform_bootloader( void )
 {
   OSStatus err = kNoErr;
+  mico_logic_partition_t *rf_partition = MicoFlashGetInfo( MICO_PARTITION_RF_FIRMWARE );
   
   MicoGpioInitialize( (mico_gpio_t)MICO_SYS_LED, OUTPUT_PUSH_PULL );
   MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
@@ -388,12 +444,12 @@ void init_platform_bootloader( void )
 #define TEMP_RF_DRIVER_END          ((uint32_t)0x0807FFFF)
   
   const uint8_t isDriverNeedCopy = *(uint8_t *)(NEED_RF_DRIVER_COPY_BASE);
-  const uint32_t totalLength = ( DRIVER_FLASH_SIZE < 0x40000)?  DRIVER_FLASH_SIZE:0x40000;
+  const uint32_t totalLength = rf_partition->partition_length;
   const uint8_t crcResult = *(uint8_t *)(TEMP_RF_DRIVER_END);
   uint8_t targetCrcResult = 0;
   
   uint32_t copyLength;
-  uint32_t destStartAddress_tmp = DRIVER_START_ADDRESS;
+  uint32_t destStartAddress_tmp = rf_partition->partition_start_addr;
   uint32_t sourceStartAddress_tmp = TEMP_RF_DRIVER_BASE;
   uint32_t i;
   
@@ -402,11 +458,13 @@ void init_platform_bootloader( void )
   
   platform_log( "Bootloader start to copy RF driver..." );
   /* Copy RF driver to SPI flash */
-  err = MicoFlashInitialize( (mico_flash_t)MICO_FLASH_FOR_DRIVER );
+
+  err = platform_flash_init( &platform_flash_peripherals[ MICO_FLASH_SPI ] );
   require_noerr(err, exit);
-  err = MicoFlashInitialize( (mico_flash_t)MICO_INTERNAL_FLASH );
+  err = platform_flash_init( &platform_flash_peripherals[ MICO_FLASH_EMBEDDED ] );
   require_noerr(err, exit);
-  err = MicoFlashErase( MICO_FLASH_FOR_DRIVER, DRIVER_START_ADDRESS, DRIVER_END_ADDRESS );
+  err = platform_flash_erase( &platform_flash_peripherals[ MICO_FLASH_SPI ], 
+    rf_partition->partition_start_addr, rf_partition->partition_start_addr + rf_partition->partition_length - 1 );
   require_noerr(err, exit);
   platform_log( "Time: %d", mico_get_time_no_os() );
   
@@ -420,9 +478,9 @@ void init_platform_bootloader( void )
       copyLength = SizePerRW;
     }
     printf(".");
-    err = MicoFlashRead( MICO_INTERNAL_FLASH, &sourceStartAddress_tmp, data , copyLength );
+    err = platform_flash_read( &platform_flash_peripherals[ MICO_FLASH_EMBEDDED ], &sourceStartAddress_tmp, data , copyLength );
     require_noerr( err, exit );
-    err = MicoFlashWrite( MICO_FLASH_FOR_DRIVER, &destStartAddress_tmp, data, copyLength);
+    err = platform_flash_write( &platform_flash_peripherals[ MICO_FLASH_SPI ], &destStartAddress_tmp, data, copyLength );
     require_noerr(err, exit);
   }
   
@@ -430,7 +488,7 @@ void init_platform_bootloader( void )
   /* Check CRC-8 check-sum */
   platform_log( "Bootloader start to verify RF driver..." );
   sourceStartAddress_tmp = TEMP_RF_DRIVER_BASE;
-  destStartAddress_tmp = DRIVER_START_ADDRESS;
+  destStartAddress_tmp = rf_partition->partition_start_addr;
   
   for(i = 0; i <= totalLength/SizePerRW; i++){
     if( i == totalLength/SizePerRW ){
@@ -442,7 +500,7 @@ void init_platform_bootloader( void )
       copyLength = SizePerRW;
     }
     printf(".");
-    err = MicoFlashRead( MICO_FLASH_FOR_DRIVER, &destStartAddress_tmp, data, copyLength );
+    err = platform_flash_read( &platform_flash_peripherals[ MICO_FLASH_SPI ], &destStartAddress_tmp, data, copyLength );
     require_noerr( err, exit );
     
     targetCrcResult = mico_CRC8_Table(targetCrcResult, data, copyLength);
@@ -457,16 +515,12 @@ void init_platform_bootloader( void )
   /* Clear RF driver from temperary storage */
   platform_log("Bootloader start to clear RF driver temporary storage...");
   
-  err = MicoFlashInitialize( (mico_flash_t)MICO_INTERNAL_FLASH );
-  require_noerr(err, exit);  
-  
   /* Clear copy tag */
-  err = MicoFlashErase(MICO_INTERNAL_FLASH, NEED_RF_DRIVER_COPY_BASE, NEED_RF_DRIVER_COPY_BASE);
+  err = platform_flash_erase( &platform_flash_peripherals[ MICO_FLASH_EMBEDDED ], NEED_RF_DRIVER_COPY_BASE, NEED_RF_DRIVER_COPY_BASE);
   require_noerr(err, exit);
   
 exit:
-  MicoFlashFinalize( MICO_INTERNAL_FLASH );
-  MicoFlashFinalize( MICO_FLASH_FOR_DRIVER );
+  return;
 }
 
 #endif

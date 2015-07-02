@@ -9,6 +9,7 @@
 #include "HTTPUtils.h"
 #include "SocketUtils.h"
 #include "alink_vendor_mico.h"
+#include "CheckSumUtils.h"
 
 #define ota_log(M, ...) custom_log("OTA", M, ##__VA_ARGS__)
 #define ota_log_trace() custom_log_trace("OTA")

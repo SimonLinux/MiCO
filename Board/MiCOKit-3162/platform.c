@@ -336,7 +336,6 @@ const mico_logic_partition_t mico_partitions[] =
   {
     .partition_owner           = MICO_FLASH_NONE,
   }
-    
 };
 
 
@@ -504,10 +503,5 @@ bool MicoShouldEnterBootloader(void)
   if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==true)
     return true;
   else
-    return false;
-}
-
-bool MicoShouldEnterATEMode(void)
-{
     return false;
 }

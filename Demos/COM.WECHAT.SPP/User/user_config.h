@@ -64,7 +64,7 @@
 //#define DISABLE_FOGCLOUD_AUTO_ACTIVATE
 
 // disalbe FogCloud OTA check when system start
-#define DISABLE_FOGCLOUD_OTA_CHECK
+//#define DISABLE_FOGCLOUD_OTA_CHECK
    
 /*******************************************************************************
  *                             RESOURCES

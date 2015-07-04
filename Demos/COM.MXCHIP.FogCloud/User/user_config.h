@@ -50,7 +50,7 @@
 
 #endif
 
-#define DEFAULT_ROM_VERSION                "v1.0.0"
+#define DEFAULT_ROM_VERSION                "v1.0.1"
 #define DEFAULT_DEVICE_NAME                "MiCO_FOG"      // device name upload to cloud
 #define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
 

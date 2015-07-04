@@ -49,7 +49,7 @@
 #define MICO_CLOUD_TYPE                    CLOUD_FOGCLOUD
 
 /* disable OTA check */
-#define DISABLE_FOGCLOUD_OTA_CHECK
+//#define DISABLE_FOGCLOUD_OTA_CHECK
 
 /*******************************************************************************
  *                             RESOURCES

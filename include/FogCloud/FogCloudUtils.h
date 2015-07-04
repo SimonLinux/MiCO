@@ -200,8 +200,6 @@ OSStatus ECS_CreateHTTPFailedMessage(const uint8_t *errCode, const uint8_t *errM
 int ECS_SocketReadHTTPHeaderEx( int inSock, ECS_HTTPHeader_t *inHeader );
 OSStatus ECS_SocketReadHTTPBodyEx( int inSock, ECS_HTTPHeader_t *inHeader );
 
-//#ifdef MICO_FLASH_FOR_UPDATE
-
 // OTA flash address
 typedef struct _ecs_ota_flash_params_t {
   mico_partition_t update_partion;             // mico partion to read && write

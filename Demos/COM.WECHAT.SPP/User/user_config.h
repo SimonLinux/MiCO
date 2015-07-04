@@ -34,10 +34,19 @@
 
 /* product type */
 // NOTE: create your own product on fogcloud developper center and replace it.
-#define PRODUCT_ID                         "2bed1355"
-#define PRODUCT_KEY                        "d98963de-97c9-11e4-ae3a-f23c9150064b"
 
-#define DEFAULT_ROM_VERSION                "v1.0.0"
+
+#ifdef EMW3162
+  #define PRODUCT_ID                        "2bed1355"
+  #define PRODUCT_KEY                       "d98963de-97c9-11e4-ae3a-f23c9150064b"
+#elif MICOKIT_3288
+  #define PRODUCT_ID                        "6ae1c159"
+  #define PRODUCT_KEY                       "b0d07f9d-e081-4250-82a6-c1807fb0f9bf"
+#else
+
+#endif
+
+#define DEFAULT_ROM_VERSION                "v1.0.1"
 #define DEFAULT_DEVICE_NAME                "MiCO Wechat"      // device name upload to cloud
 #define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
 

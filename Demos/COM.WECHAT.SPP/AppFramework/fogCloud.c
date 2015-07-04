@@ -25,7 +25,7 @@
 
 #include "fogcloud.h"   
 #include "FogCloudService.h"
-
+#include "CheckSumUtils.h"
 
 #define cloud_if_log(M, ...) custom_log("FOGCLOUD_IF", M, ##__VA_ARGS__)
 #define cloud_if_log_trace() custom_log_trace("FOGCLOUD_IF")
@@ -325,17 +325,30 @@ exit:
   return err;
 }
 
+uint16_t ota_crc = 0;
+#define SizePerRW 1024   /* Bootloader need 2xSizePerRW RAM heap size to operate, 
+                            but it can boost the setup. */
 OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
                                             MVDOTARequestData_t devOTARequestData)
 {
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;
   ecs_ota_flash_params_t ota_flash_params = {
-    MICO_FLASH_FOR_UPDATE,
-    UPDATE_START_ADDRESS,
-    UPDATE_END_ADDRESS,
-    UPDATE_FLASH_SIZE
+    MICO_PARTITION_OTA_TEMP,
+    0x0,
   };
+  
+  md5_context md5;
+  unsigned char md5_16[16] = {0};
+  char *pmd5_32 = NULL;
+  char rom_file_md5[32] = {0};
+  uint8_t data[SizePerRW] = {0};
+  uint32_t updateStartAddress = 0;
+  uint32_t readLength = 0;
+  uint32_t i = 0, size = 0;
+  
+  // crc16
+  CRC16_Context contex;
 
   cloud_if_log("fogCloudDevFirmwareUpdate: start ...");
   
@@ -389,6 +402,62 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   err = FogCloudGetRomData(&easyCloudContext, ota_flash_params);
   require_noerr_action( err, exit, 
                        cloud_if_log("ERROR: FogCloudGetRomData failed! err=%d", err) );
+  
+  //------------------------------ OTA DATA VERIFY -----------------------------
+  // md5 init
+  InitMd5(&md5);
+  CRC16_Init( &contex );
+  memset(rom_file_md5, 0, 32);
+  memset(data, 0xFF, SizePerRW);
+  updateStartAddress = ota_flash_params.update_offset;
+  size = (easyCloudContext.service_status.bin_file_size)/SizePerRW;
+  
+  // read flash, md5 update
+  for(i = 0; i <= size; i++){
+    if( i == size ){
+      if( (easyCloudContext.service_status.bin_file_size)%SizePerRW ){
+        readLength = (easyCloudContext.service_status.bin_file_size)%SizePerRW;
+      }
+      else{
+        break;
+      }
+    }
+    else{
+      readLength = SizePerRW;
+    }
+    err = MicoFlashRead(ota_flash_params.update_partion, &updateStartAddress, data, readLength);
+    require_noerr(err, exit);
+    Md5Update(&md5, (uint8_t *)data, readLength);
+    CRC16_Update( &contex, data, readLength );
+  } 
+  
+ // read done, calc MD5
+  Md5Final(&md5, md5_16);
+  CRC16_Final( &contex, &ota_crc );
+  pmd5_32 = ECS_DataToHexStringLowercase(md5_16,  sizeof(md5_16));  //convert hex data to hex string
+  cloud_if_log("ota_data_in_flash_md5[%d]=%s", strlen(pmd5_32), pmd5_32);
+  
+  if (NULL != pmd5_32){
+    strncpy(rom_file_md5, pmd5_32, strlen(pmd5_32));
+    free(pmd5_32);
+    pmd5_32 = NULL;
+  }
+  else{
+    err = kNoMemoryErr;
+    goto exit;
+  }
+  
+  // check md5
+  if(0 != strncmp( easyCloudContext.service_status.bin_md5, (char*)&(rom_file_md5[0]), 
+                  strlen( easyCloudContext.service_status.bin_md5))){
+    cloud_if_log("ERROR: ota data wrote in flash md5 checksum err!!!");
+    err = kChecksumErr;
+    goto exit;
+   }
+  else{
+    cloud_if_log("OTA data in flash md5 check success, crc16=%d.", ota_crc);
+  }
+  //----------------------------------------------------------------------------
   
   //update rom version in flash
   cloud_if_log("fogCloudDevFirmwareUpdate: return rom version && file size.");

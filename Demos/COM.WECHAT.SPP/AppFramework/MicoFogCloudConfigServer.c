@@ -54,6 +54,8 @@ extern OSStatus getMVDResetRequestData(const char *input, MVDResetRequestData_t 
 extern OSStatus getMVDOTARequestData(const char *input, MVDOTARequestData_t *OTAData);
 extern OSStatus getMVDGetStateRequestData(const char *input, MVDGetStateRequestData_t *devGetStateData);
 
+extern uint16_t ota_crc;
+
 static void fogCloudConfigServer_listener_thread(void *inContext);
 static void localConfig_thread(void *inFd);
 static mico_Context_t *Context;
@@ -305,7 +307,6 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
     }
     goto exit;
   }
-#ifdef MICO_FLASH_FOR_UPDATE
   else if(ECS_HTTPHeaderMatchURL( inHeader, kCONFIGURLDevFWUpdate ) == kNoErr){
     if(inHeader->contentLength > 0){
       fogcloud_config_log("Recv device fw_update request.");
@@ -332,9 +333,10 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
       memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
       inContext->flashContentInRam.bootTable.length = inContext->appStatus.fogcloudStatus.RecvRomFileSize;
-      inContext->flashContentInRam.bootTable.start_address = UPDATE_START_ADDRESS;
+      inContext->flashContentInRam.bootTable.start_address = MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP)->partition_start_addr;;
       inContext->flashContentInRam.bootTable.type = 'A';
       inContext->flashContentInRam.bootTable.upgrade_type = 'U';
+      inContext->flashContentInRam.bootTable.crc = ota_crc;
       MICOUpdateConfiguration(inContext);
       
       mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
@@ -344,7 +346,6 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
     }
     goto exit;
   }
-#endif
   else{
     return kNotFoundErr;
   };

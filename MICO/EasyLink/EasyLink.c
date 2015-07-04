@@ -549,13 +549,12 @@ OSStatus _FTCRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico_Context
           mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
           mico_thread_sleep(MICO_WAIT_FOREVER);
         }
-#ifdef MICO_FLASH_FOR_UPDATE
         else if(strnicmpx( value, strlen(kMIMEType_JSON), kMIMEType_MXCHIP_OTA ) == 0){
           easylink_log("Receive OTA data!");
           mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
           memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
           inContext->flashContentInRam.bootTable.length = inHeader->contentLength;
-          inContext->flashContentInRam.bootTable.start_address = UPDATE_START_ADDRESS;
+          inContext->flashContentInRam.bootTable.start_address = MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP)->partition_start_addr;
           inContext->flashContentInRam.bootTable.type = 'A';
           inContext->flashContentInRam.bootTable.upgrade_type = 'U';
           inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_BYPASS;
@@ -567,7 +566,6 @@ OSStatus _FTCRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico_Context
           mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
           mico_thread_sleep(MICO_WAIT_FOREVER);
         }
-#endif
         else{
           return kUnsupportedDataErr;
         }

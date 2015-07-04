@@ -306,99 +306,6 @@
     </group>
     <group>
       <name>User</name>
-      <group>
-        <name>drivers</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\AsciiLib.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\AsciiLib.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280_user.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280_user.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\dc_motor.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\dc_motor.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\DHT11.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\DHT11.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\hsb2rgb_led.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\hsb2rgb_led.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\infrared_reflective.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\infrared_reflective.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\keys.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\keys.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\light_sensor.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\light_sensor.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oled.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oled.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oledfont.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\rgb_led.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\rgb_led.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\temp_hum_sensor.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\temp_hum_sensor.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\uart.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\uart.h</name>
-        </file>
-      </group>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext_def.h</name>
-      </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_config.h</name>
       </file>
@@ -410,6 +317,12 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_uart.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_uart.h</name>
       </file>
     </group>
   </group>
@@ -645,6 +558,93 @@
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4_release.a</name>
       </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudMQTTClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudMQTTClient.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudService.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudService.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudServiceDef.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudServiceVersion.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudUtils.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTClient.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTConnect.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTConnectClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTConnectServer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTDeserializePublish.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTFormat.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTFormat.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTMICO.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTMICO.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTPacket.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTPacket.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTPublish.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSerializePublish.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSubscribe.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSubscribeClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSubscribeServer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTUnsubscribe.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTUnsubscribeClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTUnsubscribeServer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\StackTrace.h</name>
+      </file>
     </group>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\Library\MICOConfig.c</name>
@@ -707,10 +707,13 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MiCODefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOForceOTA.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOMfgtest.c</name>
@@ -726,6 +729,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\tftp\tftpc.o</name>
     </file>
   </group>
   <group>
@@ -745,6 +751,126 @@
         <name>MFiAuth</name>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MicoDriverMFiAuth\MicoDriverMFiAuth.a</name>
+        </file>
+      </group>
+      <group>
+        <name>MiCOKit-EXT</name>
+        <group>
+          <name>sensors</name>
+          <group>
+            <name>dc_motor</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\dc_motor\dc_motor.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\dc_motor\dc_motor.h</name>
+            </file>
+          </group>
+          <group>
+            <name>infrared_reflective</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\infrared_reflective\infrared_reflective.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\infrared_reflective\infrared_reflective.h</name>
+            </file>
+          </group>
+          <group>
+            <name>key</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\key\keys.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\key\keys.h</name>
+            </file>
+          </group>
+          <group>
+            <name>lcd</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\lcd\AsciiLib.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\lcd\AsciiLib.h</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\lcd\oled.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\lcd\oled.h</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\lcd\oledfont.h</name>
+            </file>
+          </group>
+          <group>
+            <name>light</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\light\light_sensor.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\light\light_sensor.h</name>
+            </file>
+          </group>
+          <group>
+            <name>rgb_led</name>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\rgb_led\hsb2rgb_led.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\rgb_led\hsb2rgb_led.h</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\rgb_led\rgb_led.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\rgb_led\rgb_led.h</name>
+            </file>
+          </group>
+          <group>
+            <name>temp_hum_sensor</name>
+            <group>
+              <name>BME280</name>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\temp_hum_sensor\BME280\bme280.c</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\temp_hum_sensor\BME280\bme280.h</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\temp_hum_sensor\BME280\bme280_user.c</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\temp_hum_sensor\BME280\bme280_user.h</name>
+              </file>
+            </group>
+            <group>
+              <name>DHT11</name>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\temp_hum_sensor\DHT11\DHT11.c</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\temp_hum_sensor\DHT11\DHT11.h</name>
+              </file>
+            </group>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\temp_hum_sensor\temp_hum_sensor.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\temp_hum_sensor\temp_hum_sensor.h</name>
+            </file>
+          </group>
+        </group>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext_def.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext_mfg.c</name>
         </file>
       </group>
       <group>
@@ -954,6 +1080,9 @@
     <name>Support</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>

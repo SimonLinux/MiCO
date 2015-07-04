@@ -30,7 +30,9 @@
  ******************************************************************************/
 #ifdef USE_MiCOKit_EXT
   #include "micokit_ext_def.h"
-  #define UART_FOR_USER                     (MICO_EXT_USER_UART)
+  #define USER_UART                     (Arduino_UART)
+#else
+  #define USER_UART                     (MICO_UART_NONE)
 #endif
    
 #define UART_RECV_TIMEOUT                   100

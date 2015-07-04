@@ -60,7 +60,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>5</state>
         </option>
         <option>
@@ -87,7 +87,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.1.7765</state>
+          <state>7.30.4.8186</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -625,6 +625,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1015,7 +1016,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>5</state>
         </option>
         <option>
@@ -1042,7 +1043,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.1.7765</state>
+          <state>7.30.4.8186</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -1273,8 +1274,8 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework</state>
           <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User</state>
-          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers</state>
-          <state>$PROJ_DIR$\..\..\..\..\include\FogCloud</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud</state>
+          <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1584,6 +1585,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1974,7 +1976,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>5</state>
         </option>
         <option>
@@ -2539,6 +2541,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -2923,99 +2926,6 @@
     </group>
     <group>
       <name>User</name>
-      <group>
-        <name>drivers</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\AsciiLib.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\AsciiLib.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280_user.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\bme280_user.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\dc_motor.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\dc_motor.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\DHT11.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\DHT11.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\hsb2rgb_led.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\hsb2rgb_led.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\infrared_reflective.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\infrared_reflective.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\keys.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\keys.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\light_sensor.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\light_sensor.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oled.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oled.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\oledfont.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\rgb_led.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\rgb_led.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\temp_hum_sensor.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\temp_hum_sensor.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\uart.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\drivers\uart.h</name>
-        </file>
-      </group>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\micokit_ext_def.h</name>
-      </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_config.h</name>
       </file>
@@ -3027,6 +2937,12 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_uart.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_uart.h</name>
       </file>
     </group>
   </group>
@@ -3203,6 +3119,9 @@
     <name>include</name>
     <group>
       <name>FogCloud</name>
+      <excluded>
+        <configuration>MiCOKit-3288</configuration>
+      </excluded>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\include\FogCloud\FogCloudService.h</name>
       </file>
@@ -3280,12 +3199,102 @@
       <name>FogCloud</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4_debug.a</name>
+        <excluded>
+          <configuration>MiCOKit-3288</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4_release.a</name>
         <excluded>
           <configuration>MiCOKit-3288</configuration>
         </excluded>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudMQTTClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudMQTTClient.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudService.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudService.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudServiceDef.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudServiceVersion.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\FogCloudUtils.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTClient.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTConnect.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTConnectClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTConnectServer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTDeserializePublish.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTFormat.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTFormat.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTMICO.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTMICO.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTPacket.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTPacket.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTPublish.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSerializePublish.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSubscribe.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSubscribeClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTSubscribeServer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTUnsubscribe.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTUnsubscribeClient.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\MQTTUnsubscribeServer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\FogCloud\StackTrace.h</name>
       </file>
     </group>
     <file>
@@ -3361,10 +3370,13 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MiCODefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOForceOTA.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOMfgtest.c</name>
@@ -3380,6 +3392,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\tftp\tftpc.o</name>
     </file>
   </group>
   <group>
@@ -3401,7 +3416,7 @@
           <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MicoDriverMFiAuth\MicoDriverMFiAuth.a</name>
         </file>
       </group>
-<group>
+      <group>
         <name>MiCOKit-EXT</name>
         <group>
           <name>sensors</name>
@@ -3969,6 +3984,9 @@
         <name>Wi-Fi_Bus_Driver</name>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\read_wifi_firmware.c</name>
+          <excluded>
+            <configuration>MiCOKit-3288</configuration>
+          </excluded>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\wlan_bus_sdio.c</name>
@@ -3999,6 +4017,9 @@
     <name>Support</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>

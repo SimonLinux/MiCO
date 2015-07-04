@@ -23,7 +23,7 @@
 #include <stdio.h>
 
 #include "MicoPlatform.h"
-#include "uart.h"
+#include "user_uart.h"
 
 #define user_uart_log(M, ...) custom_log("USER_UART", M, ##__VA_ARGS__)
 #define user_uart_log_trace() custom_log_trace("USER_UART")
@@ -52,7 +52,7 @@ OSStatus user_uartInit(mico_Context_t* const inContext)
     uart_config.flags = UART_WAKEUP_DISABLE;
   ring_buffer_init  ( (ring_buffer_t *)&rx_buffer, (uint8_t *)rx_data, UART_BUFFER_LENGTH );
   
-  MicoUartInitialize( UART_FOR_USER, &uart_config, (ring_buffer_t *)&rx_buffer );
+  MicoUartInitialize( USER_UART, &uart_config, (ring_buffer_t *)&rx_buffer );
   
   return kNoErr;
 }
@@ -62,7 +62,7 @@ OSStatus user_uartSend(unsigned char *inBuf, unsigned int inBufLen)
   OSStatus err = kUnknownErr;
 
   user_uart_log("MVD => MCU:[%d]=%.*s", inBufLen, inBufLen, inBuf);
-  err = MicoUartSend(UART_FOR_USER, inBuf, inBufLen);
+  err = MicoUartSend(USER_UART, inBuf, inBufLen);
   require_noerr_action( err, exit, user_uart_log("ERROR: send to USART error! err=%d", err) );
   return kNoErr;
   
@@ -74,13 +74,13 @@ uint32_t user_uartRecv(unsigned char *outBuf, unsigned int getLen)
 {
   unsigned int data_len = 0;
 
-  if( MicoUartRecv( UART_FOR_USER, outBuf, getLen, UART_RECV_TIMEOUT) == kNoErr){
+  if( MicoUartRecv( USER_UART, outBuf, getLen, UART_RECV_TIMEOUT) == kNoErr){
     data_len = getLen;
   }
   else{
-    data_len = MicoUartGetLengthInBuffer( UART_FOR_USER );
+    data_len = MicoUartGetLengthInBuffer( USER_UART );
     if(data_len){
-      MicoUartRecv(UART_FOR_USER, outBuf, data_len, UART_RECV_TIMEOUT);
+      MicoUartRecv(USER_UART, outBuf, data_len, UART_RECV_TIMEOUT);
     }
     else{
       data_len = 0;

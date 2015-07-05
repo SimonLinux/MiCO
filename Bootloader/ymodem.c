@@ -364,12 +364,9 @@ uint16_t Cal_CRC16(const uint8_t* data, uint32_t size)
 {
   CRC16_Context contex;
   uint16_t ret;
-  uint8_t add_on = 0x0;
   
   CRC16_Init( &contex );
   CRC16_Update( &contex, data, size );
-  CRC16_Update( &contex, &add_on, 1 );
-  CRC16_Update( &contex, &add_on, 1 );
   CRC16_Final( &contex, &ret );
   return ret;
 }
@@ -382,13 +379,13 @@ uint16_t Cal_CRC16(const uint8_t* data, uint32_t size)
   */
 uint8_t CalChecksum(const uint8_t* data, uint32_t size)
 {
-  CRC16_Context contex;
-  uint16_t ret;
-  
-  CRC16_Init( &contex );
-  CRC16_Update( &contex, data, size );
-  CRC16_Final( &contex, &ret );
-  return ret;
+  uint32_t sum = 0;
+  const uint8_t* dataEnd = data+size;
+
+  while(data < dataEnd )
+    sum += *data++;
+
+  return (sum & 0xffu);
 }
 
 /**

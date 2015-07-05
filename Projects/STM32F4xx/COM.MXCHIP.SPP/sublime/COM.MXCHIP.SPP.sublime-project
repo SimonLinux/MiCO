@@ -12,7 +12,7 @@
 			"path": "../../../../Support"
 		},
 		{
-			"path": "../../../../Board/MiCOKit-F411B"
+			"path": "../../../../Board/MiCOKit-3288"
 		},
 		{
 			"path": "../../../../Demos/COM.MXCHIP.BASIC"
@@ -53,7 +53,7 @@
 			"-I/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/",
 			"-I/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/Libraries/",
 			"-I/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/Libraries/STM32F4xx_StdPeriph_Driver/inc/",
-			"-I/Users/william/Develop/MiCO/Board/MiCOKit-F411B/",
+			"-I/Users/william/Develop/MiCO/Board/MiCOKit-3288/",
 			"-I/Users/william/Develop/MiCO/include/",
 			"-I/Users/william/Develop/MiCO/MICO/",
 			"-I/Users/william/Develop/MiCO/Support/",

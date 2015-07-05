@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"UNS",
+				"UNUSED_PARAMETER	macro"
+			],
+			[
 				"ID_F",
 				"ID_FLEXCOM3	macro"
 			],
@@ -510,15 +514,51 @@
 			[
 				"mico_re",
 				"mico_rtos_init_mutex(mico_mutex_t *mutex)	MxchipStatus"
-			],
-			[
-				"E",
-				"ENABLE	FunctionalState"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_flash.c",
+			"settings":
+			{
+				"buffer_size": 11649,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/platform_init.c",
+			"settings":
+			{
+				"buffer_size": 8732,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.c",
+			"settings":
+			{
+				"buffer_size": 16436,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Bootloader/ymodem.c",
+			"settings":
+			{
+				"buffer_size": 16111,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Support/CheckSumUtils.c",
+			"settings":
+			{
+				"buffer_size": 3390,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -734,6 +774,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"internalFlashProtect",
+			"platform_flash_deinit",
 			"_initBonjourForEasyLink",
 			"pmc_enable_periph_clk",
 			"sysclk_disable_peripheral_clock",
@@ -859,9 +901,7 @@
 			"platform_idle_hook",
 			"platform_mcu_powersave_exit_notify",
 			"wake_up_interrupt_notify",
-			"WUT_COUNTER_MAX",
-			"wake_up_interrupt_triggered",
-			"host_platform_init"
+			"WUT_COUNTER_MAX"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -882,8 +922,149 @@
 	"groups":
 	[
 		{
+			"selected": 3,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_flash.c",
+					"settings":
+					{
+						"buffer_size": 11649,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1325.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/platform_init.c",
+					"settings":
+					{
+						"buffer_size": 8732,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3097,
+								3097
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1087.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.c",
+					"settings":
+					{
+						"buffer_size": 16436,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5293,
+								5386
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1524.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/William/Develop/MiCO/Bootloader/ymodem.c",
+					"settings":
+					{
+						"buffer_size": 16111,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10847,
+								10847
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5994.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/William/Develop/MiCO/Support/CheckSumUtils.c",
+					"settings":
+					{
+						"buffer_size": 3390,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 945.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -920,7 +1101,7 @@
 	"menu_visible": true,
 	"output.clang":
 	{
-		"height": 188.0
+		"height": 27.0
 	},
 	"output.exec":
 	{

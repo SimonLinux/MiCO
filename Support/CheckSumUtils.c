@@ -91,5 +91,8 @@ void CRC16_Update( CRC16_Context *inContext, const void *inSrc, size_t inLen )
 
 void CRC16_Final( CRC16_Context *inContext, uint16_t *outResult )
 {
+  inContext->crc = UpdateCRC16(inContext->crc, 0);
+  inContext->crc = UpdateCRC16(inContext->crc, 0);
+
   *outResult = inContext->crc&0xffffu;
 }

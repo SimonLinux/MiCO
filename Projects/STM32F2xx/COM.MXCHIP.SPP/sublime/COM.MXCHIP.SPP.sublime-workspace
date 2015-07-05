@@ -547,7 +547,7 @@
 			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform_config.h",
 			"settings":
 			{
-				"buffer_size": 6773,
+				"buffer_size": 7089,
 				"line_ending": "Windows"
 			}
 		},
@@ -555,7 +555,7 @@
 			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform_config.h",
 			"settings":
 			{
-				"buffer_size": 6432,
+				"buffer_size": 6743,
 				"line_ending": "Windows"
 			}
 		}
@@ -922,7 +922,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -948,7 +948,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5685.0,
+						"translation.y": 9303.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -965,8 +965,8 @@
 						"selection":
 						[
 							[
-								257,
-								257
+								189,
+								192
 							]
 						],
 						"settings":
@@ -1013,15 +1013,15 @@
 					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform_config.h",
 					"settings":
 					{
-						"buffer_size": 6773,
+						"buffer_size": 7089,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4802,
-								4622
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1039,15 +1039,15 @@
 					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform_config.h",
 					"settings":
 					{
-						"buffer_size": 6432,
+						"buffer_size": 6743,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5660,
-								5660
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1055,7 +1055,7 @@
 							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1634.0,
+						"translation.y": 1828.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

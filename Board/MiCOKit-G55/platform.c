@@ -409,6 +409,11 @@ void init_platform_bootloader( void )
   
   MicoGpioInitialize(BOOT_SEL, INPUT_PULL_UP);
   MicoGpioInitialize(MFG_SEL, INPUT_PULL_UP);
+
+#ifdef USE_MiCOKit_EXT
+  MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );
+  MicoGpioOutputLow( Arduino_D9 );
+#endif
   
 }
 

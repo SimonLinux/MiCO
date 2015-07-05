@@ -506,6 +506,9 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOForceOTA.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOMfgtest.c</name>
     </file>
     <file>
@@ -519,6 +522,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\tftp\tftpc.o</name>
     </file>
   </group>
   <group>

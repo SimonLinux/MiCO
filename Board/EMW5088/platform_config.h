@@ -46,7 +46,6 @@
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 
-#define MCU_CLOCK_HZ                                96000000
 /************************************************************************
  * Uncomment to disable watchdog. For debugging only */
 //#define MICO_DISABLE_WATCHDOG
@@ -70,6 +69,14 @@
 /************************************************************************
  * Uncomment to enable go to bootloader mode when stdio received many continuous spaces. */
 #define MICO_ENABLE_STDIO_TO_BOOT
+
+/************************************************************************
+ * Restore default and start easylink after press down EasyLink button for 3 seconds. */
+#define MCU_CLOCK_HZ            (96000000)
+
+/************************************************************************
+ * How many bits are used in NVIC priority configuration */
+#define CORTEX_NVIC_PRIO_BITS   (3)
 
 /******************************************************
  *  EMW1088 Options

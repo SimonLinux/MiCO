@@ -46,7 +46,6 @@
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 
-#define MCU_CLOCK_HZ                                120000000
 /************************************************************************
  * Uncomment to disable watchdog. For debugging only */
 //#define MICO_DISABLE_WATCHDOG
@@ -66,6 +65,18 @@
 /************************************************************************
  * Restore default and start easylink after press down EasyLink button for 3 seconds. */
 #define RestoreDefault_TimeOut                      (3000)
+
+/************************************************************************
+ * Restore default and start easylink after press down EasyLink button for 3 seconds. */
+#define MCU_CLOCK_HZ            (120000000)
+
+/************************************************************************
+ * How many bits are used in NVIC priority configuration */
+#define CORTEX_NVIC_PRIO_BITS   (4)
+
+/************************************************************************
+ * Enable write protection to write-disabled embedded flash sectors */
+//#define MCU_EBANLE_FLASH_PROTECT 
 
 
 /******************************************************
@@ -87,11 +98,6 @@
 #define SYSTEM_CLOCK_SOURCE     RCC_SYSCLKSource_PLLCLK  /* System clock source = PLL clock      */
 #define SYSTICK_CLOCK_SOURCE    SysTick_CLKSource_HCLK   /* SysTick clock source = AHB clock     */
 #define INT_FLASH_WAIT_STATE    FLASH_Latency_3          /* Internal flash wait state = 3 cycles */
-
-/************************************************************************
- * Enable write protection to write-disabled embedded flash sectors */
-//#define MCU_EBANLE_FLASH_PROTECT 
-
 
 /******************************************************
  *  EMW1062 Options

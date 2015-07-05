@@ -81,10 +81,6 @@ extern const platform_flash_t   platform_flash_peripherals[];
 extern platform_flash_driver_t  platform_flash_drivers[];
 extern const mico_logic_partition_t     mico_partitions[];
 
-  
-/* mico_cpu_clock_hz is used by MICO RTOS */
-const uint32_t  mico_cpu_clock_hz = MCU_CLOCK_HZ;
-const int CFG_PRIO_BITS = 3;
 
 #ifndef MICO_DISABLE_STDIO
 static const mico_uart_config_t stdio_uart_config =
@@ -193,7 +189,7 @@ void init_clocks( void )
   //Disable Watchdog
   WdgDis();
 #ifdef NO_MICO_RTOS  
-  SysTick_Config( mico_cpu_clock_hz / 1000 );
+  SysTick_Config( MCU_CLOCK_HZ / 1000 );
 #endif
 }
 

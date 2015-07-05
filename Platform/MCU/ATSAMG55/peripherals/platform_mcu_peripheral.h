@@ -142,22 +142,8 @@ typedef struct
 
 typedef struct
 {
-    adc_channel_num channel;
+    int channel;
 } platform_adc_t;
-
-// typedef struct {
-//     Usart                         *usart;
-//     ioport_mode_t                 mux_mode;
-//     ioport_port_t                 gpio_bank;
-//     ioport_port_mask_t            pin_tx;
-//     ioport_port_mask_t            pin_rx;
-//     ioport_port_mask_t            pin_cts;
-//     ioport_port_mask_t            pin_rts;
-//     Flexcom                       *flexcom_base;
-//     uint32_t                      id_peripheral_clock;
-//     IRQn_Type                     usart_irq;
-//     Pdc                           *dma_base;
-// } platform_uart_t;
 
 typedef struct {
     uint8_t                uart_id;
@@ -193,20 +179,6 @@ typedef struct
     volatile OSStatus          last_receive_result;
     volatile OSStatus          last_transmit_result;
 } platform_uart_driver_t;
-
-typedef struct
-{
-    platform_flash_type_t      flash_type;
-    uint32_t                   flash_start_addr;
-    uint32_t                   flash_length;
-} platform_flash_t;
-
-typedef struct
-{
-    platform_flash_t*          peripheral;
-    volatile bool              initialized;
-    mico_mutex_t               flash_mutex;
-} platform_flash_driver_t;
 
 typedef struct
 {

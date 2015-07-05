@@ -205,24 +205,6 @@ const platform_i2c_t platform_i2c_peripherals[] =
   },
 };
 
-const platform_flash_t platform_flash_peripherals[] =
-{
-  [MICO_SPI_FLASH] =
-  {
-    .flash_type                   = FLASH_TYPE_SPI,
-    .flash_start_addr             = 0x000000,
-    .flash_length                 = 0x200000,
-  },
-  [MICO_INTERNAL_FLASH] =
-  {
-    .flash_type                   = FLASH_TYPE_INTERNAL,
-    .flash_start_addr             = 0x00400000,
-    .flash_length                 = 0x80000,
-  },
-};
-
-platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
-
 /* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c
 * SDIO: EMW1062_PIN_BOOTSTRAP[1:0] = b'00
 * gSPI: EMW1062_PIN_BOOTSTRAP[1:0] = b'01
@@ -265,6 +247,78 @@ const mico_spi_device_t mico_spi_flash =
   .bits        = 8,
 };
 #endif
+
+/* Flash memory devices */
+const platform_flash_t platform_flash_peripherals[] =
+{
+  [MICO_FLASH_EMBEDDED] =
+  {
+    .flash_type                   = FLASH_TYPE_EMBEDDED,
+    .flash_start_addr             = 0x00400000,
+    .flash_length                 = 0x80000,
+  },
+  [MICO_FLASH_SPI] =
+  {
+    .flash_type                   = FLASH_TYPE_SPI,
+    .flash_start_addr             = 0x000000,
+    .flash_length                 = 0x200000,
+  },
+};
+
+platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
+
+/* Logic partition on flash devices */
+const mico_logic_partition_t mico_partitions[] =
+{
+  [MICO_PARTITION_BOOTLOADER] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "Bootloader",
+    .partition_start_addr      = 0x00400000,
+    .partition_length          =     0x8000,    //32k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_APPLICATION] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "Application",
+    .partition_start_addr      = 0x00420000,
+    .partition_length          =    0x60000,   //384k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_RF_FIRMWARE] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "RF Firmware",
+    .partition_start_addr      = 0x2000,
+    .partition_length          = 0x4E000,  //312k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_OTA_TEMP] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "OTA Storage",
+    .partition_start_addr      = 0x50000,
+    .partition_length          = 0x60000, //384k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_1] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "PARAMETER1",
+    .partition_start_addr      = 0x0,
+    .partition_length          = 0x1000, // 4k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_2] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "PARAMETER1",
+    .partition_start_addr      = 0x1000,
+    .partition_length          = 0x1000, //4k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  }
+};
 
 
 /******************************************************
@@ -344,9 +398,6 @@ void init_platform( void )
   mico_init_timer(&_button_EL_timer, RestoreDefault_TimeOut, _button_EL_Timeout_handler, NULL);
   MicoGpioEnableIRQ( EasyLink_BUTTON, IRQ_TRIGGER_FALLING_EDGE, _button_EL_irq_handler, NULL );
 
-#if defined ( USE_MICO_SPI_FLASH )
-  MicoFlashInitialize( MICO_SPI_FLASH );
-#endif
 }
 
 void init_platform_bootloader( void )
@@ -359,9 +410,6 @@ void init_platform_bootloader( void )
   MicoGpioInitialize(BOOT_SEL, INPUT_PULL_UP);
   MicoGpioInitialize(MFG_SEL, INPUT_PULL_UP);
   
-#if defined ( USE_MICO_SPI_FLASH )
-  MicoFlashInitialize( MICO_SPI_FLASH );
-#endif
 }
 
 void MicoSysLed(bool onoff)

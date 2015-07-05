@@ -580,9 +580,11 @@
 	},
 	"file_history":
 	[
+		"/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.h",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.c",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform_config.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/pmc/pmc.c",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.c",
 		"/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/samg55j19.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/adc/adc2.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/pdc/pdc.c",
@@ -607,9 +609,7 @@
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/paltform_rtc.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_mcu_peripheral.h",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/common/services/ioport/sam/ioport_gpio.h",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-G55/platform_config.h",
 		"/Users/william/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/drivers/flexcom/flexcom.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h",
 		"/Users/William/Develop/MiCO/Projects/ATSAMG55/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",

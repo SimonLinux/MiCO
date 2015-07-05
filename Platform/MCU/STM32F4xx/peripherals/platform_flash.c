@@ -67,14 +67,15 @@ static sflash_handle_t sflash_handle = {0x0, 0x0, SFLASH_WRITE_NOT_ALLOWED};
 #endif
 /* Private function prototypes -----------------------------------------------*/
 static uint32_t _GetSector( uint32_t Address );
-static uint32_t _GetWRPSector(uint32_t Address);
 static OSStatus _GetAddress(uint32_t sector, uint32_t *startAddress, uint32_t *endAddress);
 static OSStatus internalFlashInitialize( void );
 static OSStatus internalFlashErase(uint32_t StartAddress, uint32_t EndAddress);
 static OSStatus internalFlashWrite(volatile uint32_t* FlashAddress, uint32_t* Data ,uint32_t DataLength);
 static OSStatus internalFlashByteWrite( volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength );
+#ifdef MCU_EBANLE_FLASH_PROTECT
+static uint32_t _GetWRPSector(uint32_t Address);
 static OSStatus internalFlashProtect(uint32_t StartAddress, uint32_t EndAddress, bool enable);
-
+#endif
 #ifdef USE_MICO_SPI_FLASH
 static OSStatus spiFlashErase(uint32_t StartAddress, uint32_t EndAddress);
 #endif
@@ -225,7 +226,9 @@ OSStatus platform_flash_disable_protect( const platform_flash_t *peripheral, uin
                && end_address   <= peripheral->flash_start_addr + peripheral->flash_length - 1, exit, err = kParamErr);
 
   if( peripheral->flash_type == FLASH_TYPE_EMBEDDED ){
-    err = internalFlashProtect( start_address, end_address, false );    
+#ifdef MCU_EBANLE_FLASH_PROTECT
+    err = internalFlashProtect( start_address, end_address, false );   
+#endif 
     require_noerr(err, exit);
   }
 #ifdef USE_MICO_SPI_FLASH
@@ -281,6 +284,7 @@ exit:
   return err;
 }
 
+#ifdef MCU_EBANLE_FLASH_PROTECT
 OSStatus internalFlashProtect(uint32_t StartAddress, uint32_t EndAddress, bool enable)
 {
   OSStatus err = kNoErr;
@@ -317,7 +321,7 @@ OSStatus internalFlashProtect(uint32_t StartAddress, uint32_t EndAddress, bool e
 
   return err;
 }
-
+#endif
 
 #ifdef USE_MICO_SPI_FLASH
 OSStatus spiFlashErase(uint32_t StartAddress, uint32_t EndAddress)
@@ -462,6 +466,8 @@ static uint32_t _GetSector(uint32_t Address)
   return sector;
 }
 
+
+#ifdef MCU_EBANLE_FLASH_PROTECT
 /**
 * @brief  Gets the sector of a given address
 * @param  Address: Flash address
@@ -521,6 +527,7 @@ static uint32_t _GetWRPSector(uint32_t Address)
   }
   return sector;
 }
+#endif
 
 /**
 * @brief  Gets the address of a given sector

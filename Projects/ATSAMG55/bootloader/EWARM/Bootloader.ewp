@@ -341,6 +341,7 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\common\boards</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\sam\drivers\twi</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
+          <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\sam\drivers\adc</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1413,6 +1414,9 @@
   </group>
   <group>
     <name>Support</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
+    </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>
     </file>

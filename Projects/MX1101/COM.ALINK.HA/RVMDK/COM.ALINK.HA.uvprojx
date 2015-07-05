@@ -554,6 +554,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICOCli.c</FilePath>
             </File>
+            <File>
+              <FileName>MICOForceOTA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
+            </File>
+            <File>
+              <FileName>tftpc.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -657,6 +667,11 @@
               <FileName>URLUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1799,6 +1814,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICOCli.c</FilePath>
             </File>
+            <File>
+              <FileName>MICOForceOTA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
+            </File>
+            <File>
+              <FileName>tftpc.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1902,6 +1927,11 @@
               <FileName>URLUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
             </File>
           </Files>
         </Group>

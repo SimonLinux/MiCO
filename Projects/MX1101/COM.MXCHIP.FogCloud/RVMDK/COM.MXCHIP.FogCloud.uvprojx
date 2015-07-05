@@ -559,6 +559,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICOCli.c</FilePath>
             </File>
+            <File>
+              <FileName>tftpc.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
+            </File>
+            <File>
+              <FileName>MICOForceOTA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -672,6 +682,11 @@
               <FileName>URLUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -853,11 +868,6 @@
             </GroupArmAds>
           </GroupOption>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
@@ -1700,6 +1710,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICOCli.c</FilePath>
             </File>
+            <File>
+              <FileName>tftpc.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
+            </File>
+            <File>
+              <FileName>MICOForceOTA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1794,6 +1814,11 @@
               <FileName>URLUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1975,11 +2000,6 @@
             </GroupArmAds>
           </GroupOption>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
@@ -2822,6 +2842,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICOCli.c</FilePath>
             </File>
+            <File>
+              <FileName>tftpc.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
+            </File>
+            <File>
+              <FileName>MICOForceOTA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2955,6 +2985,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
             </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3075,11 +3110,6 @@
         <Group>
           <GroupName>Platform/MCU/MX1101/wlan_bus_driver</GroupName>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
@@ -3982,6 +4012,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICOCli.c</FilePath>
             </File>
+            <File>
+              <FileName>tftpc.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
+            </File>
+            <File>
+              <FileName>MICOForceOTA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4115,6 +4155,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
             </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4235,11 +4280,6 @@
         <Group>
           <GroupName>Platform/MCU/MX1101/wlan_bus_driver</GroupName>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>

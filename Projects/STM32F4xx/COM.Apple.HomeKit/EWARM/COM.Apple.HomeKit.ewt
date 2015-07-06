@@ -208,9 +208,6 @@
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.Apple.HomeKit\MICOConfigDelegate.c</name>
     </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.Apple.HomeKit\MicoDefaults.h</name>
-    </file>
   </group>
   <group>
     <name>Board</name>

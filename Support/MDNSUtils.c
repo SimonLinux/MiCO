@@ -52,6 +52,7 @@ static WiFi_Interface _interface;
 static bool _suspend_MFi_bonjour;
 static int _bonjour_announce_time = 0;
 static int _bonjour_announce = 0;
+static bool _bonjour_suspended = false;
 
 
 //#define  debug_out 
@@ -597,9 +598,11 @@ void mfi_bonjour_remove_record(int fd)
     if(dns_create_message( &response, 512 )){
       dns_write_header( &response, 0x0, 0x8400, 0, 4, 0 );
       dns_write_record( &response, available_services[b].service_name, RR_CLASS_IN, RR_TYPE_PTR, 0, (uint8_t*) available_services[b].instance_name );
-      dns_write_record( &response, available_services[b].instance_name, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_TXT, 0, (uint8_t*) available_services[b].txt_att );
-      dns_write_record( &response, available_services[b].instance_name, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_SRV, 0, (uint8_t*) &available_services[b]);
-      dns_write_record( &response, available_services[b].hostname, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_A, 0, (uint8_t*) &myip);
+      //dns_write_record( &response, available_services[b].instance_name, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_TXT, 0, (uint8_t*) available_services[b].txt_att );
+      //dns_write_record( &response, available_services[b].instance_name, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_SRV, 0, (uint8_t*) &available_services[b]);
+      //dns_write_record( &response, available_services[b].hostname, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_A, 0, (uint8_t*) &myip);
+      mdns_send_message(fd, &response );
+      mico_thread_msleep(20);
       mdns_send_message(fd, &response );
       mico_thread_msleep(20);
       mdns_send_message(fd, &response );
@@ -617,10 +620,12 @@ void suspend_bonjour_service(bool state)
 {
   mico_rtos_lock_mutex( &bonjour_mutex );
   if(state == true){
+    _bonjour_suspended = true;
     _bonjour_announce = 0;
     mfi_bonjour_remove_record(mDNS_fd);
   }
   else{
+    _bonjour_suspended = false;
     _bonjour_announce = 1;
     _bonjour_announce_time = 0;
   }
@@ -662,7 +667,7 @@ void _bonjour_thread(void *arg)
       mfi_bonjour_send(mDNS_fd);
      
       _bonjour_announce_time ++;
-      if(_bonjour_announce_time > 1){
+      if(_bonjour_announce_time > 3){
         _bonjour_announce_time = 0;
         _bonjour_announce = 0;
       }
@@ -677,6 +682,8 @@ void _bonjour_thread(void *arg)
     /*Read data from udp and send data back */ 
     if (FD_ISSET(mDNS_fd, &readfds)) {
       con = recvfrom(mDNS_fd, buf, 1500, 0, &addr, &addrLen); 
+      if(_bonjour_suspended == true )
+        continue;
       mico_rtos_lock_mutex( &bonjour_mutex );
       mfi_mdns_handler(mDNS_fd, (uint8_t *)buf, con);
       mico_rtos_unlock_mutex( &bonjour_mutex );

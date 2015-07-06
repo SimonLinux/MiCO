@@ -107,7 +107,7 @@ void localConfiglistener_thread(void *inContext)
     if(FD_ISSET(localConfiglistener_fd, &readfds)){
       sockaddr_t_size = sizeof(struct sockaddr_t);
       j = accept(localConfiglistener_fd, &addr, &sockaddr_t_size);
-      if (j > 0) {
+      if (IsValidFD( j )) {
         inet_ntoa(ip_address, addr.s_ip );
         config_log("Config Client %s:%d connected, fd: %d", ip_address, addr.s_port, j);
         err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Clients", localConfig_thread, STACK_SIZE_LOCAL_CONFIG_CLIENT_THREAD, &j);  
@@ -129,7 +129,7 @@ void localConfig_thread(void *inFd)
   fd_set readfds;
   struct timeval_t t;
   HTTPHeader_t *httpHeader = NULL;
-  configContext_t httpContext = {0, false};
+  configContext_t httpContext = {0, false, 0};
 
   config_log_trace();
   httpHeader = HTTPHeaderCreateWithCallback(onReceivedData, onClearHTTPHeader, &httpContext);

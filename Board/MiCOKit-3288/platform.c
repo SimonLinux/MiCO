@@ -41,6 +41,10 @@
 #include "spi_flash_platform_interface.h"
 #include "wlan_platform_common.h"
 
+#ifdef USE_MiCOKit_EXT
+#include "micokit_ext.h"
+#endif
+
 /******************************************************
 *                      Macros
 ******************************************************/
@@ -432,8 +436,8 @@ void init_platform( void )
    MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_BOTH_EDGES, _button_EL_irq_handler, NULL );
    
 #ifdef USE_MiCOKit_EXT
-  MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );
-  MicoGpioOutputLow( Arduino_D9 );
+  dc_motor_init( );
+  dc_motor_set( 0 );
 #endif
 }
 
@@ -446,10 +450,10 @@ void init_platform_bootloader( void )
   
   MicoGpioInitialize((mico_gpio_t)BOOT_SEL, INPUT_PULL_UP);
   MicoGpioInitialize((mico_gpio_t)MFG_SEL, INPUT_HIGH_IMPEDANCE);
-  
+
 #ifdef USE_MiCOKit_EXT
-  MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );
-  MicoGpioOutputLow( Arduino_D9 );
+  dc_motor_init( );
+  dc_motor_set( 0 );
 #endif
 }
 

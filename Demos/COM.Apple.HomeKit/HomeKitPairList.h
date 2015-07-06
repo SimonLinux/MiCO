@@ -32,7 +32,7 @@ typedef struct _pair_t {
 } _pair_t;
 
 typedef struct _pair_list_in_flash_t {
-  _pair_t          pairInfo[1024];
+  _pair_t          pairInfo[32];
 } pair_list_in_flash_t;
 
 

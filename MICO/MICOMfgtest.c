@@ -169,6 +169,56 @@ void mico_mfg_test(mico_Context_t *inContex)
 exit:
   mico_thread_sleep(MICO_NEVER_TIMEOUT);
 }
+
+void mxchip_mfg_test(void)
+{
+  char str[64];
+  char mac[6];
+  char *ssid;
+  mico_uart_config_t uart_config;
+  volatile ring_buffer_t  rx_buffer;
+  volatile uint8_t *      rx_data;
+  
+  rx_data = malloc(50);
+  require(rx_data, exit);
+  
+  /* Initialize UART interface */
+  uart_config.baud_rate    = 115200;
+  uart_config.data_width   = DATA_WIDTH_8BIT;
+  uart_config.parity       = NO_PARITY;
+  uart_config.stop_bits    = STOP_BITS_1;
+  uart_config.flow_control = FLOW_CONTROL_DISABLED;
+  uart_config.flags = UART_WAKEUP_DISABLE;
+  
+  ring_buffer_init  ( (ring_buffer_t *)&rx_buffer, (uint8_t *)rx_data, 50 );
+  MicoUartInitialize( MFG_TEST, &uart_config, (ring_buffer_t *)&rx_buffer );  
+  
+  sprintf(str, "Library Version: %s\r\n", system_lib_version());
+  mf_printf(str);
+  mf_printf("APP Version: ");
+  memset(str, 0, sizeof(str));
+  system_version(str, sizeof(str));
+  mf_printf(str);
+  mf_printf("\r\n");
+  memset(str, 0, sizeof(str));
+  wlan_driver_version(str, sizeof(str));
+  mf_printf("Driver: ");
+  mf_printf(str);
+  mf_printf("\r\n");
+  wlan_get_mac_address(mac);
+  sprintf(str, "MAC: %02X-%02X-%02X-%02X-%02X-%02X\r\n",
+          mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  mf_printf(str);
+  
+  mfg_scan();
+  
+  ssid = ssid_get();
+  mfg_connect(ssid);
+  
+exit:
+  mico_thread_sleep(MICO_NEVER_TIMEOUT);
+}
+
 #elif (MFG_FUNCTION == 2)
 void mico_mfg_test(mico_Context_t *inContext)
 {

@@ -34,8 +34,13 @@
 #define DEFAULT_DEV_PASSWD               "88888888"
    
 // default device info
-#define DEFAULT_DEVICE_ID                "null"
-#define DEFAULT_DEVICE_KEY               "null"
+#define DEFAULT_DEVICE_ID                "none"
+#define DEFAULT_DEVICE_KEY               "none"
+
+#define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0xC00
+
+/* MQTT topic sub-level, device_id/out/status */
+#define PUBLISH_TOPIC_CHANNEL_STATUS     "status"
 
 #define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0x400
 #define STACK_SIZE_FOGCLOUD_OTA_THREAD    0xC00

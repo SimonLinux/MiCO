@@ -431,6 +431,7 @@ OSStatus micoWlanStartEasyLinkPlus(int inTimeout);
  *  @retval kNoErr.
  */
 OSStatus micoWlanStopEasyLink(void);
+OSStatus micoWlanStopEasyLinkPlus(void);
 
 /** @brief  Start WPS configuration procedure
  *

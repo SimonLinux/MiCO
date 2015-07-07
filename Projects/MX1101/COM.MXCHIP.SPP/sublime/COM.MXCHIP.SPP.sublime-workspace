@@ -4,16 +4,44 @@
 		"selected_items":
 		[
 			[
+				"uint",
+				"uint16_t	typedef"
+			],
+			[
+				"MICO_PA",
+				"MICO_PARTITION_APPLICATION	macro"
+			],
+			[
+				"mico_pa",
+				"mico_logic_partition_t	typedef"
+			],
+			[
+				"MICOF",
+				"MICO_FLASH_NONE	mico_flash_t"
+			],
+			[
+				"MICO_P",
+				"MICO_PARTITION_PARAMETER_1	mico_partition_t"
+			],
+			[
+				"p",
+				"partition_length	uint32_t"
+			],
+			[
+				"PAR_OPT_RE",
+				"PAR_OPT_READ_WRITE	macro"
+			],
+			[
+				"PAR",
+				"PAR_OPT_NOT_ACCESSABLE	macro"
+			],
+			[
 				"m",
 				"wifi_mode	char"
 			],
 			[
 				"MicoUA",
 				"MicoUartSend(mico_uart_t uart, const void *data, uint32_t size)	OSStatus"
-			],
-			[
-				"uint",
-				"uint8_t	typedef"
 			],
 			[
 				"GPIOA",
@@ -420,10 +448,6 @@
 				"__strdup_trans_dot(char *src)	char *"
 			],
 			[
-				"p",
-				"protocol	char [32]"
-			],
-			[
 				"temp",
 				"temp2	WiFi_Status_Notify *"
 			],
@@ -490,122 +514,66 @@
 			[
 				"WAC_N",
 				"WAC_NetConfig	network_InitTypeDef_st *"
-			],
-			[
-				"de",
-				"destinationSSID	char*"
-			],
-			[
-				"page",
-				"pagesNumber	uint8_t"
-			],
-			[
-				"CP_",
-				"CP_I2C_RETRY_TIMES	macro"
-			],
-			[
-				"WAC",
-				"WAC_OUI_default	const uint8_t[]"
-			],
-			[
-				"OUI",
-				"OUI	uint8_t *"
-			],
-			[
-				"El",
-				"ElementsLength	uint16_t"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/wakeup.h",
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_flash.c",
 			"settings":
 			{
-				"buffer_size": 7416,
+				"buffer_size": 18727,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "Searching 1896 files for \"platform_mcu_enter_standby\"\n\n/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h:\n  437   * @param[in] secondsToWakeup : seconds to wakeup\n  438   */\n  439: void platform_mcu_enter_standby( uint32_t secondsToWakeup );\n  440  \n  441  \n\n/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c:\n  293  void MicoSystemStandBy( uint32_t secondsToWakeup )\n  294  {\n  295:   platform_mcu_enter_standby( secondsToWakeup );\n  296  }\n  297  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_mcu_powersave.c:\n  386  \n  387  \n  388: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  389  {\n  390    platform_log(\"unimplemented\");\n\n/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c:\n  158  #define USE_DEEPSLEEP_MODE\n  159  \n  160: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  161  {\n  162    uint32_t Temp;\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_powersave.c:\n  412  \n  413  \n  414: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  415  { \n  416    mico_rtc_time_t time;\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_powersave.c:\n  412  \n  413  \n  414: void platform_mcu_enter_standby(uint32_t secondsToWakeup)\n  415  { \n  416    mico_rtc_time_t time;\n\n/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c:\n   94  #endif\n   95      \n   96:   platform_mcu_enter_standby( MICO_WAIT_FOREVER );\n   97    \n   98    power_log( \"Enter standby mode error!\" );\n\n/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h:\n  437   * @param[in] secondsToWakeup : seconds to wakeup\n  438   */\n  439: void platform_mcu_enter_standby( uint32_t secondsToWakeup );\n  440  \n  441  \n\n8 matches across 8 files\n",
+			"file": "/Users/William/Develop/MiCO/MICO/Library/MICOConfig.c",
 			"settings":
 			{
-				"buffer_size": 1817,
+				"buffer_size": 2484,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 1883 files for \"__NVIC_PRIO_BITS\"\n\n/Users/William/Develop/MiCO/Platform/BoardConfig/FRDM_K64/device/MK64F12/MK64F12.h:\n  278  \n  279  #define __MPU_PRESENT                  0         /**< Defines if an MPU is present or not */\n  280: #define __NVIC_PRIO_BITS               4         /**< Number of priority bits implemented in the NVIC */\n  281  #define __Vendor_SysTickConfig         0         /**< Vendor specific implementation of SysTickConfig is defined */\n  282  #define __FPU_PRESENT                  1         /**< Defines if an FPU is present or not */\n\n/Users/William/Develop/MiCO/Platform/Cortex-M3/CMSIS/core_cm3.h:\n  167    #endif\n  168  \n  169:   #ifndef __NVIC_PRIO_BITS\n  170:     #define __NVIC_PRIO_BITS          4\n  171:     #warning \"__NVIC_PRIO_BITS not defined in device header file; using default!\"\n  172    #endif\n  173  \n  ...\n 1296    Only values from 0..7 are used.\n 1297    In case of a conflict between priority grouping and available\n 1298:   priority bits (__NVIC_PRIO_BITS), the smallest possible priority group is set.\n 1299  \n 1300      \\param [in]      PriorityGroup  Priority grouping field.\n ....\n 1417  {\n 1418    if(IRQn < 0) {\n 1419:     SCB->SHP[((uint32_t)(IRQn) & 0xF)-4] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff); } /* set Priority for Cortex-M  System Interrupts */\n 1420    else {\n 1421:     NVIC->IP[(uint32_t)(IRQn)] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff);    }        /* set Priority for device specific Interrupts  */\n 1422  }\n 1423  \n ....\n 1438  \n 1439    if(IRQn < 0) {\n 1440:     return((uint32_t)(SCB->SHP[((uint32_t)(IRQn) & 0xF)-4] >> (8 - __NVIC_PRIO_BITS)));  } /* get priority for Cortex-M  system interrupts */\n 1441    else {\n 1442:     return((uint32_t)(NVIC->IP[(uint32_t)(IRQn)]           >> (8 - __NVIC_PRIO_BITS)));  } /* get priority for device specific interrupts  */\n 1443  }\n 1444  \n ....\n 1449      preemptive priority value, and subpriority value.\n 1450      In case of a conflict between priority grouping and available\n 1451:     priority bits (__NVIC_PRIO_BITS), the samllest possible priority group is set.\n 1452  \n 1453      \\param [in]     PriorityGroup  Used priority group.\n ....\n 1462    uint32_t SubPriorityBits;\n 1463  \n 1464:   PreemptPriorityBits = ((7 - PriorityGroupTmp) > __NVIC_PRIO_BITS) ? __NVIC_PRIO_BITS : 7 - PriorityGroupTmp;\n 1465:   SubPriorityBits     = ((PriorityGroupTmp + __NVIC_PRIO_BITS) < 7) ? 0 : PriorityGroupTmp - 7 + __NVIC_PRIO_BITS;\n 1466  \n 1467    return (\n ....\n 1477      preemptive priority value and subpriority value.\n 1478      In case of a conflict between priority grouping and available\n 1479:     priority bits (__NVIC_PRIO_BITS) the samllest possible priority group is set.\n 1480  \n 1481      \\param [in]         Priority   Priority value, which can be retrieved with the function \\ref NVIC_GetPriority().\n ....\n 1490    uint32_t SubPriorityBits;\n 1491  \n 1492:   PreemptPriorityBits = ((7 - PriorityGroupTmp) > __NVIC_PRIO_BITS) ? __NVIC_PRIO_BITS : 7 - PriorityGroupTmp;\n 1493:   SubPriorityBits     = ((PriorityGroupTmp + __NVIC_PRIO_BITS) < 7) ? 0 : PriorityGroupTmp - 7 + __NVIC_PRIO_BITS;\n 1494  \n 1495    *pPreemptPriority = (Priority >> SubPriorityBits) & ((1 << (PreemptPriorityBits)) - 1);\n ....\n 1546  \n 1547    SysTick->LOAD  = ticks - 1;                                  /* set reload register */\n 1548:   NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);  /* set Priority for Systick Interrupt */\n 1549    SysTick->VAL   = 0;                                          /* Load the SysTick Counter Value */\n 1550    SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |\n\n/Users/William/Develop/MiCO/Platform/Cortex-M4/CMSIS/core_cm4.h:\n  180    #endif\n  181  \n  182:   #ifndef __NVIC_PRIO_BITS\n  183:     #define __NVIC_PRIO_BITS          4\n  184:     #warning \"__NVIC_PRIO_BITS not defined in device header file; using default!\"\n  185    #endif\n  186  \n  ...\n 1414    Only values from 0..7 are used.\n 1415    In case of a conflict between priority grouping and available\n 1416:   priority bits (__NVIC_PRIO_BITS), the smallest possible priority group is set.\n 1417  \n 1418      \\param [in]      PriorityGroup  Priority grouping field.\n ....\n 1536  {\n 1537    if(IRQn < 0) {\n 1538:     SCB->SHP[((uint32_t)(IRQn) & 0xF)-4] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff); } /* set Priority for Cortex-M  System Interrupts */\n 1539    else {\n 1540:     NVIC->IP[(uint32_t)(IRQn)] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff);    }        /* set Priority for device specific Interrupts  */\n 1541  }\n 1542  \n ....\n 1557  \n 1558    if(IRQn < 0) {\n 1559:     return((uint32_t)(SCB->SHP[((uint32_t)(IRQn) & 0xF)-4] >> (8 - __NVIC_PRIO_BITS)));  } /* get priority for Cortex-M  system interrupts */\n 1560    else {\n 1561:     return((uint32_t)(NVIC->IP[(uint32_t)(IRQn)]           >> (8 - __NVIC_PRIO_BITS)));  } /* get priority for device specific interrupts  */\n 1562  }\n 1563  \n ....\n 1568      preemptive priority value, and subpriority value.\n 1569      In case of a conflict between priority grouping and available\n 1570:     priority bits (__NVIC_PRIO_BITS), the samllest possible priority group is set.\n 1571  \n 1572      \\param [in]     PriorityGroup  Used priority group.\n ....\n 1581    uint32_t SubPriorityBits;\n 1582  \n 1583:   PreemptPriorityBits = ((7 - PriorityGroupTmp) > __NVIC_PRIO_BITS) ? __NVIC_PRIO_BITS : 7 - PriorityGroupTmp;\n 1584:   SubPriorityBits     = ((PriorityGroupTmp + __NVIC_PRIO_BITS) < 7) ? 0 : PriorityGroupTmp - 7 + __NVIC_PRIO_BITS;\n 1585  \n 1586    return (\n ....\n 1596      preemptive priority value and subpriority value.\n 1597      In case of a conflict between priority grouping and available\n 1598:     priority bits (__NVIC_PRIO_BITS) the samllest possible priority group is set.\n 1599  \n 1600      \\param [in]         Priority   Priority value, which can be retrieved with the function \\ref NVIC_GetPriority().\n ....\n 1609    uint32_t SubPriorityBits;\n 1610  \n 1611:   PreemptPriorityBits = ((7 - PriorityGroupTmp) > __NVIC_PRIO_BITS) ? __NVIC_PRIO_BITS : 7 - PriorityGroupTmp;\n 1612:   SubPriorityBits     = ((PriorityGroupTmp + __NVIC_PRIO_BITS) < 7) ? 0 : PriorityGroupTmp - 7 + __NVIC_PRIO_BITS;\n 1613  \n 1614    *pPreemptPriority = (Priority >> SubPriorityBits) & (((uint32_t)1 << (PreemptPriorityBits)) - 1);\n ....\n 1665  \n 1666    SysTick->LOAD  = (ticks & SysTick_LOAD_RELOAD_Msk) - 1;      /* set reload register */\n 1667:   NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);  /* set Priority for Systick Interrupt */\n 1668    SysTick->VAL   = 0;                                          /* Load the SysTick Counter Value */\n 1669    SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |\n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/platform_init.c:\n  202    }\n  203    \n  204:   NVIC_SetPriorityGrouping( 7 - __NVIC_PRIO_BITS );\n  205  \n  206    /* Initialise the interrupt priorities to a priority lower than 0 so that the BASEPRI register can mask them */\n  207    NVIC_SetPriority(SVCall_IRQn,                 0);\n  208    NVIC_SetPriority(DebugMonitor_IRQn,           0);\n  209:   NVIC_SetPriority(PendSV_IRQn,                 ((1 << __NVIC_PRIO_BITS) - 1));\n  210:   NVIC_SetPriority(SysTick_IRQn,                ((1 << __NVIC_PRIO_BITS) - 1));\n  211    \n  212    /*\n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg51/include/samg51g18.h:\n  256  #define __MPU_PRESENT          1      /**< SAMG51G18 does provide a MPU */\n  257  #define __FPU_PRESENT          1      /**< SAMG51G18 does provide a FPU */\n  258: #define __NVIC_PRIO_BITS       4      /**< SAMG51G18 uses 4 Bits for the Priority Levels */\n  259  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  260  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg53/include/samg53g19.h:\n  269  #define __MPU_PRESENT          1      /**< SAMG53G19 does provide a MPU */\n  270  #define __FPU_PRESENT          1      /**< SAMG53G19 does provide a FPU */\n  271: #define __NVIC_PRIO_BITS       4      /**< SAMG53G19 uses 4 Bits for the Priority Levels */\n  272  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  273  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg53/include/samg53n19.h:\n  269  #define __MPU_PRESENT          1      /**< SAMG53N19 does not provide a MPU */\n  270  #define __FPU_PRESENT          1      /**< SAMG53N19 does provide a FPU */\n  271: #define __NVIC_PRIO_BITS       4      /**< SAMG53N19 uses 4 Bits for the Priority Levels */\n  272  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  273  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg54/include/samg54g19.h:\n  269  #define __MPU_PRESENT          1      /**< SAMG54G19 does provide a MPU */\n  270  #define __FPU_PRESENT          1      /**< SAMG54G19 does provide a FPU */\n  271: #define __NVIC_PRIO_BITS       4      /**< SAMG54G19 uses 4 Bits for the Priority Levels */\n  272  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  273  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg54/include/samg54j19.h:\n  270  #define __MPU_PRESENT          1      /**< SAMG54J19 does provide a MPU */\n  271  #define __FPU_PRESENT          1      /**< SAMG54J19 does provide a FPU */\n  272: #define __NVIC_PRIO_BITS       4      /**< SAMG54J19 uses 4 Bits for the Priority Levels */\n  273  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  274  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg54/include/samg54n19.h:\n  271  #define __MPU_PRESENT          1      /**< SAMG54N19 does provide a MPU */\n  272  #define __FPU_PRESENT          1      /**< SAMG54N19 does provide a FPU */\n  273: #define __NVIC_PRIO_BITS       4      /**< SAMG54N19 uses 4 Bits for the Priority Levels */\n  274  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  275  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/samg55g18.h:\n  319  #define __MPU_PRESENT          1      /**< SAMG55G18 does provide a MPU */\n  320  #define __FPU_PRESENT          1      /**< SAMG55G18 does provide a FPU */\n  321: #define __NVIC_PRIO_BITS       4      /**< SAMG55G18 uses 4 Bits for the Priority Levels */\n  322  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  323  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/samg55g19.h:\n  277  #define __MPU_PRESENT          1      /**< SAMG55G19 does provide a MPU */\n  278  #define __FPU_PRESENT          1      /**< SAMG55G19 does provide a FPU */\n  279: #define __NVIC_PRIO_BITS       4      /**< SAMG55G19 uses 4 Bits for the Priority Levels */\n  280  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  281  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/samg55j18.h:\n  327  #define __MPU_PRESENT          1      /**< SAMG55J18 does provide a MPU */\n  328  #define __FPU_PRESENT          1      /**< SAMG55J18 does provide a FPU */\n  329: #define __NVIC_PRIO_BITS       4      /**< SAMG55J18 uses 4 Bits for the Priority Levels */\n  330  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  331  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/samg55j19.h:\n  281  #define __MPU_PRESENT          1      /**< SAMG55J19 does provide a MPU */\n  282  #define __FPU_PRESENT          1      /**< SAMG55J19 does provide a FPU */\n  283: #define __NVIC_PRIO_BITS       4      /**< SAMG55J19 uses 4 Bits for the Priority Levels */\n  284  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  285  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/utils/cmsis/samg/samg55/include/samg55n19.h:\n  327  #define __MPU_PRESENT          1      /**< SAMG55N19 does provide a MPU */\n  328  #define __FPU_PRESENT          1      /**< SAMG55N19 does provide a FPU */\n  329: #define __NVIC_PRIO_BITS       4      /**< SAMG55N19 uses 4 Bits for the Priority Levels */\n  330  #define __Vendor_SysTickConfig 0      /**< Set to 1 if different SysTick Config is used */\n  331  \n\n/Users/William/Develop/MiCO/Platform/MCU/MX1101/platform_init.c:\n  201  void init_architecture( void )\n  202  { \n  203:   NVIC_SetPriorityGrouping(__NVIC_PRIO_BITS + 1);\n  204    \n  205    /* Initialise the interrupt priorities to a priority lower than 0 so that the BASEPRI register can mask them */\n\n/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/AP80xx.h:\n  135  #define __CM3_REV                 0x0200  /*!< Core Revision r2p0                            */\n  136  #define __MPU_PRESENT             1       /*!< STM32F2XX provides an MPU                     */\n  137: #define __NVIC_PRIO_BITS          3       /*!< STM32F2XX uses 3 Bits for the Priority Levels */\n  138  #define __Vendor_SysTickConfig    0       /*!< Set to 1 if different SysTick Config is used  */\n  139  \n\n/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/irqs.h:\n   26   * define SOC priority bits depend on the specific family\n   27   */\n   28: #define	__NVIC_PRIO_BITS	(3)\n   29  \n   30  typedef enum IRQn\n   ..\n   65  \n   66  #define	IRQ_PRIO_HIGHEST	(1)/* 0 for reserved,do not change the highest exteran interrupt priority at will!!!*/\n   67: #define	IRQ_PRIO_LOWEST		((1 << __NVIC_PRIO_BITS) - 1)\n   68  \n   69  typedef enum IRQn_PRIO\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx.h:\n  135  #define __CM3_REV                 0x0200  /*!< Core Revision r2p0                            */\n  136  #define __MPU_PRESENT             1       /*!< STM32F2XX provides an MPU                     */\n  137: #define __NVIC_PRIO_BITS          4       /*!< STM32F2XX uses 4 Bits for the Priority Levels */\n  138  #define __Vendor_SysTickConfig    0       /*!< Set to 1 if different SysTick Config is used  */\n  139  \n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/Libraries/stm32f4xx.h:\n  162  #define __CM4_REV                 0x0001  /*!< Core revision r0p1                            */\n  163  #define __MPU_PRESENT             1       /*!< STM32F4XX provides an MPU                     */\n  164: #define __NVIC_PRIO_BITS          4       /*!< STM32F4XX uses 4 Bits for the Priority Levels */\n  165  #define __Vendor_SysTickConfig    0       /*!< Set to 1 if different SysTick Config is used  */\n  166  #define __FPU_PRESENT             1       /*!< FPU present                                   */\n\n/Users/William/Develop/MiCO/Platform/vendor/nxp/LPC54xx/NXP_drivers/chip_540xx/config/cmsis.h:\n   78  #define __CM4_REV                 0x0000	/*!< Cortex-M4 Core Revision                          */\n   79  #define __MPU_PRESENT             0			/*!< MPU present or not                               */\n   80: #define __NVIC_PRIO_BITS          3			/*!< Number of Bits used for Priority Levels          */\n   81  #define __Vendor_SysTickConfig    0			/*!< Set to 1 if different SysTick Config is used     */\n   82  #define __FPU_PRESENT             1\n   ..\n   87  #define __CM0PLUS_REV             0x0000	/*!< Cortex-M0PLUS Core Revision                          */\n   88  #define __MPU_PRESENT             0			/*!< MPU present or not                               */\n   89: #define __NVIC_PRIO_BITS          2			/*!< Number of Bits used for Priority Levels          */\n   90  #define __Vendor_SysTickConfig    0			/*!< Set to 1 if different SysTick Config is used     */\n   91  #define __VTOR_PRESENT            1\n\n61 matches across 21 files\n",
+			"settings":
+			{
+				"buffer_size": 16269,
 				"line_ending": "Unix",
 				"name": "Find Results",
 				"scratch": true
 			}
 		},
 		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/clk.h",
+			"file": "/Users/William/Develop/MiCO/Platform/Cortex-M4/CMSIS/core_cm4.h",
 			"settings":
 			{
-				"buffer_size": 9432,
+				"buffer_size": 106658,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "COM.MXCHIP.SPP.sublime-project",
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/platform_init.c",
 			"settings":
 			{
-				"buffer_size": 1538,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_uart.c",
-			"settings":
-			{
-				"buffer_size": 17466,
+				"buffer_size": 9780,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/platform_init.c",
 			"settings":
 			{
-				"buffer_size": 24411,
+				"buffer_size": 9716,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/type.h",
+			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/platform_init.c",
 			"settings":
 			{
-				"buffer_size": 2466,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Board/EMW5088/platform.h",
-			"settings":
-			{
-				"buffer_size": 4088,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c",
-			"settings":
-			{
-				"buffer_size": 8106,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c",
-			"settings":
-			{
-				"buffer_size": 5814,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_peripheral.h",
-			"settings":
-			{
-				"buffer_size": 5731,
+				"buffer_size": 11102,
 				"line_ending": "Windows"
 			}
 		}
@@ -670,7 +638,70 @@
 	},
 	"file_history":
 	[
+		"/Users/William/Develop/MiCO/Platform/Cortex-M3/CMSIS/core_cm3.h",
+		"/Users/William/Develop/MiCO/Projects/MX1101/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
+		"/Users/William/Develop/MiCO/Board/EMW5088/platform.c",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.c",
+		"/Users/William/Develop/MiCO/Board/EMW5088/platform.h",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.h",
+		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverFlash.h",
+		"/Users/William/Develop/MiCO/MICO/MICOForceOTA.c",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform.c",
+		"/Users/William/Develop/MiCO/Support/CheckSumUtils.h",
+		"/Users/William/Develop/MiCO/Support/HTTPUtils.c",
+		"/Users/William/Develop/MiCO/Bootloader/ymodem.c",
+		"/Users/William/Develop/MiCO/Support/CheckSumUtils.c",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
+		"/Users/William/Develop/MiCO/Support/AESUtils.h",
+		"/Users/William/Develop/MiCO/Bootloader/Update_for_OTA.c",
+		"/Users/William/Develop/MiCO/Demos/COM.ALINK.HA/thread_ota.c",
+		"/Users/William/Develop/MiCO/MICO/MICOConfigServer.c",
+		"/Users/william/Develop/MiCO/Support/HTTPUtils.h",
+		"/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverFlash.h",
+		"/Users/William/Develop/MiCO/MICO/MICOEntrance.c",
+		"/Users/William/Develop/MiCO/Bootloader/BootloaderEntrance.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/platform_init.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/platform_init.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/platform_init.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_flash.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_flash.c",
+		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_internal.h",
+		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_flash.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_flash.c",
+		"/Users/William/Develop/MiCO/MICO/tftp/tftp.h",
+		"/Users/william/Develop/MiCO/Board/MiCOKit-F205/platform.h",
+		"/Users/William/Develop/MiCO/bootloader/BootloaderEntrance.c",
+		"/Users/William/Develop/MiCO/bootloader/menu.c",
+		"/Users/william/Develop/MiCO/include/MicoPlatform.h",
+		"/Users/william/Develop/MiCO/include/Debug.h",
+		"/Users/William/Develop/MiCO/Bootloader/bootloader.h",
 		"/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_peripheral.h",
+		"/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/wlan_platform_common.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/wlan_bus_driver/read_wifi_firmware.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/platform_mcu_peripheral.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_peripheral.h",
+		"/Users/William/Develop/MiCO/MICO/Library/RF driver/wlan_firmware.c",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform_config.h",
+		"/Users/William/Develop/MiCO/MICO/MICOParaStorage.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_peripheral.h",
+		"/Users/william/Develop/MiCO/Platform/include/PlatformLogging.h",
+		"/Users/William/Develop/MiCO/Platform/Cortex-M3/platform_assert.h",
+		"/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/spi_flash.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/platform_init.c",
+		"/Users/William/Develop/MiCO/Platform/Cortex-M4/platform_assert.h",
+		"/Users/william/Develop/Clang_lib/ARMCC/include/stdlib.h",
+		"/Users/william/Develop/MiCO/Platform/drivers/spi_flash/spi_flash.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_uart.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/wakeup.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/clk.h",
+		"/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/type.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/MicoDriverUart.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/MicoDriverFlash.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/BoardConfig/LPCXpresso54102/platform.h",
@@ -734,70 +765,7 @@
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoDrivers/MicoDriverUart.h",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform.h",
 		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/AP80xx_Drv/inc/type.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/Debug.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M4/STM32F4xx/EMW1062_Driver/SDIO/wlan_bus.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/RingBufferUtils.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.MXCHIP.SPP/SppProtocol.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/gpio_irq.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/gpio_irq.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/AP80xx_Drv/startup_AP80xx_RVMDK.c",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/MicoDriverMapping.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/AP80xx/MicoDriverRtc.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/Common.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/include/PlatformLogging.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/STM32F2xx_Drv/startup_stm32f2xx_RVMDK.s",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M4/STM32F4xx/STM32F4xx_Drv/startup_stm32f2xx_IAR.s",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/IDEs/Keil/patch_keil.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/JSON-C/json_util.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/STM32F2xx_Drv/startup_stm32f2xx_bootloader_IAR.s",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICODefine.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/MICO_EVB_1/platform.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/STM32F2xx_Drv/STM32F2xx_StdPeriph_Driver/CMSIS/core_cmInstr.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoAlgorithm.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoSocket.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/StringUtils.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/StringUtils.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/crt0_IAR.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/STM32F2xx_Drv/startup_stm32f2xx_IAR.s",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICOMfgtest.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/crt0.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/HTTPUtils.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICOParaStorage.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/HTTPUtils.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICOConfigServer.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/FatFs/src/ff_gen_drv.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/FatFs/src/diskio.h",
-		"/Users/william/Develop/Clang_lib/ARMCC/include/stdio.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.MXCHIP.SPP/MICOConfigDelegate.c",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_common_config.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.MXCHIP.HA/HaProtocol.c",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoRTOS.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICONotificationCenter.c",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2XX/STM32F2XX_Drv/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_rcc.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoWlan.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/FatFs/src/integer.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/HomeKitUserInterface.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/MICOAppDefine.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MICO.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/MicoDefaults.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/HTTPUtils.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/MICO_EVB_1/platform.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/EasyLink/EasyLink.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/include/platform_sleep.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/hardfault.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/rtc.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/rtc.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2xx/wlan_platform.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/IAR/stdio_IAR.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/include/PlatformLogging.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/read_wifi_firmware.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoPlatform.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/TimeUtils.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/Mico.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_internal_gpio.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/inc/MICOWlan.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoDefaults.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoRTOS.h"
+		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/Debug.h"
 	],
 	"find":
 	{
@@ -829,6 +797,48 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"__NVIC_PRIO_BITS",
+			"CFG_PRIO_BITS",
+			"mico_ota_finished",
+			"MICO_PARTITION_BOOTLOADER",
+			"userContext",
+			"crc16_context",
+			"HTTPHeaderCreateWithCallback",
+			"uint8_t *",
+			"AES_ECB_Update",
+			"data",
+			"CRC16_F",
+			"Cal_CRC16",
+			"CalChecksum",
+			"checksum",
+			"crc",
+			"MICORestoreMFG",
+			"partition",
+			"_GetSector",
+			"FLASH_Sector_10",
+			"generic_sflash_command",
+			"tsend",
+			"SerialUpload",
+			"mico_partitions",
+			"FLASH_TYPE_SPI",
+			"configContext_t",
+			"_configContext_t",
+			"configContext_t",
+			"flashStorageAddress",
+			"MICO_FLASH_FOR_UPDATE",
+			"mico_partitions",
+			"platform_get_wifi_image",
+			"wifi_firmware_image",
+			"platform_flash_init",
+			"platform_flash_enable_security",
+			"MICO_ASSERTION_FAIL_ACTION",
+			"Heap_Mem",
+			"BME280_SPI_bus_write",
+			"MicoFlashInitialize",
+			"mico_logic_partition_t",
+			"FLASH_NONE_ERR",
+			"FlashUnlock",
+			"internalFlashWrite",
 			"platform_mcu_enter_standby",
 			"RtcGetRefCnt",
 			"host_platform_power_wifi",
@@ -914,49 +924,7 @@
 			"host_platform_sdio_transfer",
 			"SDIO_ENUMERATION_TIMEOUT_MS",
 			"GpioSdIoConfig",
-			"SD_PORT_NUM",
-			"SD_PORT_NUM\nSD_PORT_NUM",
-			"sdio_prepare_data_transfer",
-			"sdio_block_size_t",
-			"sdio_oob_irq_handler",
-			"FuartSend",
-			"rx_dma_stream->NDTR",
-			"rx_buffer->size",
-			"platform_uart_receive_bytes",
-			"optional_rx_buffer",
-			"MicoUartSend",
-			"sppWlanCommandProcess",
-			"GpioIntDis",
-			"_button_EL_Timeout_handler",
-			"GPIOC14",
-			"gpio_irq_data",
-			"gpio_irq_data_t",
-			"GpioGetReg",
-			"GPIO_NEG_EDGE_TRIGGER",
-			"gpio_irq_data",
-			"interrupt_line",
-			"gpio_irq_management_initted",
-			"gpio_irq_handler_t",
-			"GPIO_A_INT",
-			"owner_port",
-			"gpio_irq_data",
-			"NUMBER_OF_GPIO_IRQ_LINES",
-			"gpio_irq_management_initted",
-			"RESTORE_TO_GENERAL_IO",
-			"GPIO_A_INT",
-			"__IO",
-			"MicoSystemStandBy",
-			"hard_fault_handler_c",
-			"init_platform",
-			"mico_get_time",
-			"sys_command",
-			"sys_command.o",
-			"fwrite",
-			"fopen",
-			"freopen",
-			"fopen",
-			"mico_mutex_t",
-			"RTC_WKUP_irq"
+			"SD_PORT_NUM"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -976,40 +944,67 @@
 	"groups":
 	[
 		{
-			"selected": 8,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/wakeup.h",
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_flash.c",
 					"settings":
 					{
-						"buffer_size": 7416,
+						"buffer_size": 18727,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6621,
-								6621
+								10224,
+								11074
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3081.0,
+						"translation.y": 4897.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "/Users/William/Develop/MiCO/MICO/Library/MICOConfig.c",
 					"settings":
 					{
-						"buffer_size": 1817,
+						"buffer_size": 2484,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2267,
+								2267
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 493.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"settings":
+					{
+						"buffer_size": 16269,
 						"regions":
 						{
 							"match":
@@ -1018,36 +1013,248 @@
 								"regions":
 								[
 									[
-										203,
-										229
+										252,
+										268
 									],
 									[
-										417,
-										443
+										679,
+										695
 									],
 									[
-										598,
-										624
+										715,
+										731
 									],
 									[
-										841,
-										867
+										764,
+										780
 									],
 									[
-										1045,
-										1071
+										998,
+										1014
 									],
 									[
-										1257,
-										1283
+										1246,
+										1262
 									],
 									[
-										1460,
-										1486
+										1402,
+										1418
 									],
 									[
-										1719,
-										1745
+										1622,
+										1638
+									],
+									[
+										1787,
+										1803
+									],
+									[
+										2045,
+										2061
+									],
+									[
+										2286,
+										2302
+									],
+									[
+										2306,
+										2322
+									],
+									[
+										2399,
+										2415
+									],
+									[
+										2451,
+										2467
+									],
+									[
+										2660,
+										2676
+									],
+									[
+										2961,
+										2977
+									],
+									[
+										2981,
+										2997
+									],
+									[
+										3074,
+										3090
+									],
+									[
+										3126,
+										3142
+									],
+									[
+										3404,
+										3420
+									],
+									[
+										3739,
+										3755
+									],
+									[
+										3775,
+										3791
+									],
+									[
+										3824,
+										3840
+									],
+									[
+										4058,
+										4074
+									],
+									[
+										4306,
+										4322
+									],
+									[
+										4462,
+										4478
+									],
+									[
+										4682,
+										4698
+									],
+									[
+										4847,
+										4863
+									],
+									[
+										5105,
+										5121
+									],
+									[
+										5346,
+										5362
+									],
+									[
+										5366,
+										5382
+									],
+									[
+										5459,
+										5475
+									],
+									[
+										5511,
+										5527
+									],
+									[
+										5720,
+										5736
+									],
+									[
+										6021,
+										6037
+									],
+									[
+										6041,
+										6057
+									],
+									[
+										6134,
+										6150
+									],
+									[
+										6186,
+										6202
+									],
+									[
+										6474,
+										6490
+									],
+									[
+										6830,
+										6846
+									],
+									[
+										7159,
+										7175
+									],
+									[
+										7246,
+										7262
+									],
+									[
+										7605,
+										7621
+									],
+									[
+										8107,
+										8123
+									],
+									[
+										8613,
+										8629
+									],
+									[
+										9115,
+										9131
+									],
+									[
+										9617,
+										9633
+									],
+									[
+										10119,
+										10135
+									],
+									[
+										10621,
+										10637
+									],
+									[
+										11123,
+										11139
+									],
+									[
+										11625,
+										11641
+									],
+									[
+										12127,
+										12143
+									],
+									[
+										12629,
+										12645
+									],
+									[
+										12967,
+										12983
+									],
+									[
+										13427,
+										13443
+									],
+									[
+										13800,
+										13816
+									],
+									[
+										14026,
+										14042
+									],
+									[
+										14426,
+										14442
+									],
+									[
+										14933,
+										14949
+									],
+									[
+										15545,
+										15561
+									],
+									[
+										16009,
+										16025
 									]
 								],
 								"scope": ""
@@ -1056,8 +1263,8 @@
 						"selection":
 						[
 							[
-								353,
-								370
+								3746,
+								3746
 							]
 						],
 						"settings":
@@ -1071,80 +1278,53 @@
 							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/clk.h",
-					"settings":
-					{
-						"buffer_size": 9432,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1159,
-								1159
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 427.0,
+						"translation.y": 1107.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "COM.MXCHIP.SPP.sublime-project",
+					"file": "/Users/William/Develop/MiCO/Platform/Cortex-M4/CMSIS/core_cm4.h",
 					"settings":
 					{
-						"buffer_size": 1538,
+						"buffer_size": 106658,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1288,
-								1288
+								7014,
+								6857
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 88.0,
+						"translation.y": 2657.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_uart.c",
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/platform_init.c",
 					"settings":
 					{
-						"buffer_size": 17466,
+						"buffer_size": 9780,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								3176,
+								3176
 							]
 						],
 						"settings":
@@ -1154,107 +1334,53 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4772.0,
+						"translation.y": 1162.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/platform_init.c",
 					"settings":
 					{
-						"buffer_size": 24411,
+						"buffer_size": 9716,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								3176,
+								3176
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 12.0,
+						"translation.y": 1269.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "/Users/william/Develop/MiCO/Platform/MCU/MX1101/peripherals/Libraries/inc/type.h",
+					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/platform_init.c",
 					"settings":
 					{
-						"buffer_size": 2466,
+						"buffer_size": 11102,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1764,
-								1764
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/Users/William/Develop/MiCO/Board/EMW5088/platform.h",
-					"settings":
-					{
-						"buffer_size": 4088,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3426,
-								3426
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1520.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/power_measure/main.c",
-					"settings":
-					{
-						"buffer_size": 8106,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2933,
-								2933
+								3286,
+								3286
 							]
 						],
 						"settings":
@@ -1264,63 +1390,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1056.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_powersave.c",
-					"settings":
-					{
-						"buffer_size": 5814,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2805.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_mcu_peripheral.h",
-					"settings":
-					{
-						"buffer_size": 5731,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1943,
-								1943
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 375.0,
+						"translation.y": 1356.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1361,7 +1431,7 @@
 	"menu_visible": true,
 	"output.clang":
 	{
-		"height": 138.0
+		"height": 125.0
 	},
 	"output.exec":
 	{
@@ -1404,6 +1474,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 327.0,
+	"side_bar_width": 326.0,
 	"status_bar_visible": true
 }

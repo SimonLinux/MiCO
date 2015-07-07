@@ -37,7 +37,6 @@
 #include "PlatformLogging.h"
 #include <string.h> // For memcmp
 #include "crt0.h"
-#include "MICODefaults.h"
 #include "MicoRTOS.h"
 #include "platform_init.h"
 

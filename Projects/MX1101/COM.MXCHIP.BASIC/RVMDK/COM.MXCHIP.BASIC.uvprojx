@@ -469,6 +469,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICONotificationCenter.c</FilePath>
             </File>
+            <File>
+              <FileName>MICOMfgtest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOMfgtest.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -753,11 +758,6 @@
             </GroupArmAds>
           </GroupOption>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
@@ -1510,6 +1510,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICONotificationCenter.c</FilePath>
             </File>
+            <File>
+              <FileName>MICOMfgtest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOMfgtest.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1775,11 +1780,6 @@
             </GroupArmAds>
           </GroupOption>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
@@ -2110,7 +2110,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>..\..\..\..\Build\COM.MXCHIP.BASIC\MiCOKit-3088\obj_RVMDK\</OutputDirectory>
-          <OutputName>COM.MXCHIP.BASIC.axf</OutputName>
+          <OutputName>COM.MXCHIP.BASIC</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -2532,6 +2532,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICONotificationCenter.c</FilePath>
             </File>
+            <File>
+              <FileName>MICOMfgtest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOMfgtest.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2756,11 +2761,6 @@
         <Group>
           <GroupName>Platform/MCU/MX1101/wlan_bus_driver</GroupName>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>
@@ -3573,6 +3573,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\MICONotificationCenter.c</FilePath>
             </File>
+            <File>
+              <FileName>MICOMfgtest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOMfgtest.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3797,11 +3802,6 @@
         <Group>
           <GroupName>Platform/MCU/MX1101/wlan_bus_driver</GroupName>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\MX1101\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>

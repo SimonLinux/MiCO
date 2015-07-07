@@ -404,6 +404,9 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOCli.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOMfgtest.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICONotificationCenter.c</name>
     </file>
     <file>
@@ -789,9 +792,6 @@
       <group>
         <name>Wi-Fi_Bus_Driver</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\read_wifi_firmware.c</name>
-        </file>
-        <file>
           <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\wlan_bus_sdio.c</name>
         </file>
         <file>
@@ -816,6 +816,9 @@
     <name>Support</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>

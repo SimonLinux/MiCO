@@ -200,27 +200,17 @@ OSStatus ECS_CreateHTTPFailedMessage(const uint8_t *errCode, const uint8_t *errM
 int ECS_SocketReadHTTPHeaderEx( int inSock, ECS_HTTPHeader_t *inHeader );
 OSStatus ECS_SocketReadHTTPBodyEx( int inSock, ECS_HTTPHeader_t *inHeader );
 
-//#ifdef MICO_FLASH_FOR_UPDATE
-
 // OTA flash address
 typedef struct _ecs_ota_flash_params_t {
-  mico_flash_t flash_type;             // internal flash or spi flash
-  uint32_t update_flashStartAddress;
-  uint32_t update_flashEndAddress;
-  uint32_t update_flashSize;
+  mico_partition_t update_partion;             // mico partion to read && write
+  uint32_t update_offset;                      // write offset of the partion
 }ecs_ota_flash_params_t;
 
-void ECS_initFlashStorageParams(ecs_ota_flash_params_t flashStorageParams);
+void ECS_initOTAFlashStorageParams(ecs_ota_flash_params_t flashStorageParams);
+void ECS_resetOTAPartionOffset(void);
+uint32_t ECS_getOTAPartionOffset(void);
 
-uint32_t ECS_getFlashStorageAddress(void);
-void ECS_resetFlashStorageAddress(void);
 uint64_t ECS_getDownloadedFileSize(void);
-void ECS_FlashWriteDone(void);
-char* ECS_getRomFileMD5_32(void);
-
-
-//#endif
-
 
 // ============================= STRING UTILS ==============================
 

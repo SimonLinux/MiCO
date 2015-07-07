@@ -6,13 +6,6 @@
 #include "MICONotificationCenter.h"
 #include "platform_config.h"
 
-#ifdef USE_MiCOKit_EXT
-  #include "micokit_ext.h"
-  #define MFG_FUNCTION            3
-#else
-  #define MFG_FUNCTION            1
-#endif
-
 /* MFG test demo BEGIN */
 extern int mfg_connect(char *ssid);
 extern int mfg_scan(void);
@@ -21,11 +14,21 @@ extern char* system_lib_version(void);
 extern void wlan_get_mac_address(char *mac);
 
 static char cmd_str[64];
-static void uartRecvMfg_thread(void *inContext);
-static size_t _uart_get_one_packet(uint8_t* inBuf, int inBufLen);
 
+static int _mfg_mode_ = 0;
 
+int is_mfg_mode(void)
+{
+    return _mfg_mode_;
+}
 
+void init_mfg_mode(void)
+{
+    if (MicoShouldEnterMFGMode())
+        _mfg_mode_ = 1;
+    else
+        _mfg_mode_ = 0;
+}
 
 void mf_printf(char *str)
 {
@@ -123,13 +126,12 @@ static char * ssid_get(void)
   mfg_option(is_use_udp, remote_addr);
 }
 
-#if (MFG_FUNCTION == 1) 
-void mico_mfg_test(mico_Context_t *inContex)
+/* mxchip library manufacture test. */
+void mxchip_mfg_test(void)
 {
   char str[64];
   char mac[6];
   char *ssid;
-  UNUSED_PARAMETER(inContex);
   mico_uart_config_t uart_config;
   volatile ring_buffer_t  rx_buffer;
   volatile uint8_t *      rx_data;
@@ -147,7 +149,11 @@ void mico_mfg_test(mico_Context_t *inContex)
   
   ring_buffer_init  ( (ring_buffer_t *)&rx_buffer, (uint8_t *)rx_data, 50 );
   MicoUartInitialize( MFG_TEST, &uart_config, (ring_buffer_t *)&rx_buffer );  
-  
+
+  mf_printf("==== MXCHIP Manufacture Test ====\r\n");
+  mf_printf("Bootloader Version: ");
+  mf_printf(mico_get_bootloader_ver());
+  mf_printf("\r\n");
   sprintf(str, "Library Version: %s\r\n", system_lib_version());
   mf_printf(str);
   mf_printf("APP Version: ");
@@ -173,7 +179,11 @@ void mico_mfg_test(mico_Context_t *inContex)
 exit:
   mico_thread_sleep(MICO_NEVER_TIMEOUT);
 }
-#elif (MFG_FUNCTION == 2)
+
+#ifdef MFG_MODE_AUTO
+static void uartRecvMfg_thread(void *inContext);
+static size_t _uart_get_one_packet(uint8_t* inBuf, int inBufLen);
+
 void mico_mfg_test(mico_Context_t *inContext)
 {
   network_InitTypeDef_adv_st wNetConfig;
@@ -262,13 +272,6 @@ exit:
   if(buf) free(buf);  
 }
 
-#elif (MFG_FUNCTION == 3)   // MicoKit MFG TEST
-void mico_mfg_test(mico_Context_t *inContext)
-{
-  micokit_ext_mfg_test(inContext);  // MicoKit-EXT board mfg test
-}
-#endif
-
 void uartRecvMfg_thread(void *inContext)
 {
   mico_Context_t *Context = inContext;
@@ -312,9 +315,8 @@ static size_t _uart_get_one_packet(uint8_t* inBuf, int inBufLen)
     }
     
   }
-  
 }
-
+#endif
 
 /* MFG test demo END */
 

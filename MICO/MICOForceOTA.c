@@ -1,6 +1,7 @@
 #include "mico.h"
 #include "MICONotificationCenter.h"
 #include "tftp/tftp.h"
+#include "CheckSumUtils.h"
 
 #define DEFAULT_OTA_AP "MICO_OTA_AP"
 #define DEFAULT_OTA_NETMASK "255.0.0.0"
@@ -12,6 +13,10 @@
 #define fota_log_trace() custom_log_trace("Force OTA")
 
 static int wifi_up = 0;
+extern void mico_write_ota_tbl(int len, uint16_t crc);
+
+
+void wlan_get_mac_address( uint8_t *mac );
 
 enum {
     OTA_SUCCESS = 0,
@@ -76,6 +81,9 @@ void mico_force_ota(void)
     uint8_t *tmpbuf;
     md5_context ctx;
     uint8_t mac[6], sta_ip_addr[16];
+    mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
+    uint16_t crc = 0;
+    CRC16_Context contex;
     
 #define TMP_BUF_LEN 1024
 
@@ -88,8 +96,8 @@ void mico_force_ota(void)
     MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)FOTA_WifiStatusHandler );
     micoWlanStopEasyLink();
 	  micoWlanStopEasyLinkPlus();
-		micoWlanStopAirkiss();
-	  msleep(10);
+    micoWlanStopAirkiss();
+	msleep(10);
 		
     tmpbuf = (uint8_t*)malloc(TMP_BUF_LEN);
     if (tmpbuf == NULL) {
@@ -100,7 +108,7 @@ void mico_force_ota(void)
     
     wlan_get_mac_address(mac);
     
-    sprintf(sta_ip_addr, "10.%d.%d.%d", 
+    sprintf((char *)sta_ip_addr, "10.%d.%d.%d", 
         mac[3], mac[4], mac[5]);
         
     fota_log("Staic IP = %s", sta_ip_addr);  
@@ -112,7 +120,7 @@ void mico_force_ota(void)
     
     conf.dhcpMode = DHCP_Disable;
     strcpy(conf.net_mask, DEFAULT_OTA_NETMASK);
-    strcpy(conf.local_ip_addr, sta_ip_addr);
+    strcpy(conf.local_ip_addr, (char *)sta_ip_addr);
     
     wifi_up = 0;
     fota_log("Connect to AP %s...", DEFAULT_OTA_AP);
@@ -129,9 +137,9 @@ void mico_force_ota(void)
     }
     fota_log("AP connected, tftp download image...");
 
-    fileinfo.filelen = UPDATE_FLASH_SIZE-1;
-    fileinfo.flashaddr = UPDATE_START_ADDRESS;
-    fileinfo.flashtype = MICO_FLASH_FOR_UPDATE;
+    fileinfo.filelen = ota_partition->partition_length;
+    fileinfo.flashaddr = 0;
+    fileinfo.flashtype = MICO_PARTITION_OTA_TEMP;
     strcpy(fileinfo.filename, "mico_ota.bin");
 
     while((filelen = tget (&fileinfo, ipaddr)) < 0) {
@@ -147,10 +155,11 @@ void mico_force_ota(void)
 
     filelen -= 16; // remove md5.
     fota_log("tftp download image finished, OTA bin len %d", filelen);
-    flashaddr = UPDATE_START_ADDRESS + filelen;
-    MicoFlashRead(MICO_FLASH_FOR_UPDATE, &flashaddr, (uint8_t *)md5_recv, 16);
+    flashaddr = filelen;
+    MicoFlashRead(MICO_PARTITION_OTA_TEMP, &flashaddr, (uint8_t *)md5_recv, 16);
     InitMd5( &ctx );
-    flashaddr = UPDATE_START_ADDRESS;
+    CRC16_Init( &contex );
+    flashaddr = 0;
     left = filelen;
     while(left > 0) {
         if (left > TMP_BUF_LEN) {
@@ -159,10 +168,12 @@ void mico_force_ota(void)
             len = left;
         }
         left -= len;
-        MicoFlashRead(MICO_FLASH_FOR_UPDATE, &flashaddr, (uint8_t *)tmpbuf, len);
+        MicoFlashRead(MICO_PARTITION_OTA_TEMP, &flashaddr, (uint8_t *)tmpbuf, len);
         Md5Update( &ctx, (uint8_t *)tmpbuf, len);
+        CRC16_Update( &contex, tmpbuf, len );
     }
     Md5Final( &ctx, md5_calc );
+    CRC16_Final( &contex, &crc );
     
     if(memcmp(md5_calc, md5_recv, 16) != 0) {
         fota_log("ERROR!! MD5 Error.");
@@ -180,10 +191,10 @@ void mico_force_ota(void)
         return;
     }
 
-    fota_log("OTA bin md5 check success, upgrading...");
+    fota_log("OTA bin md5 check success, CRC %x. upgrading...", crc);
 
-    mico_write_ota_tbl(filelen);
-
+    mico_write_ota_tbl(filelen, crc);
+    
     mico_ota_finished(OTA_SUCCESS, NULL);
     while(1)
         sleep(100);

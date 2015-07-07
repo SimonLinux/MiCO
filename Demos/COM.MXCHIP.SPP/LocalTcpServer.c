@@ -70,7 +70,7 @@ void localTcpServer_thread(void *inContext)
     if(FD_ISSET(localTcpListener_fd, &readfds)){
       sockaddr_t_size = sizeof(struct sockaddr_t);
       j = accept(localTcpListener_fd, &addr, &sockaddr_t_size);
-      if (j > 0) {
+	  if (IsValidFD(j)) {
         inet_ntoa(ip_address, addr.s_ip );
         server_log("Client %s:%d connected, fd: %d", ip_address, addr.s_port, j);
         if(kNoErr != mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Local Clients", localTcpClient_thread, STACK_SIZE_LOCAL_TCP_CLIENT_THREAD, &j) ) 

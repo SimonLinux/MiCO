@@ -89,8 +89,86 @@ void fogNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inConte
   return;
 }
 
-#ifndef DISABLE_FOGCLOUD_OTA_CHECK
-void fogcloud_ota_thread(void *arg)
+#define DEVICE_RESET_RETRY_CNT    3
+OSStatus easycloud_reset_cloud_info(mico_Context_t * const context)
+{
+  OSStatus err = kUnknownErr;
+  MVDResetRequestData_t devDefaultResetData;
+  mico_Context_t *inContext = (mico_Context_t *)context;
+  int retry_cnt = 1;
+  
+  do{
+    /* cloud context init */
+    err = fogCloudInit(inContext);
+    if(kNoErr == err){
+      fogcloud_log("[MicoFogCloud]Device FogCloud context init [OK]");
+    }
+    else{
+      fogcloud_log("[MicoFogCloud]Device FogCloud context init [FAILED]");
+      retry_cnt++;
+      continue;
+    }
+    
+    /* cloud info reset */
+    fogcloud_log("[MicoFogCloud]Device reset FogCloud info try[%d] ...", retry_cnt);
+    memset((void*)&devDefaultResetData, 0, sizeof(devDefaultResetData));
+    strncpy(devDefaultResetData.loginId,
+            inContext->flashContentInRam.appConfig.fogcloudConfig.loginId,
+            MAX_SIZE_LOGIN_ID);
+    strncpy(devDefaultResetData.devPasswd,
+            inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd,
+            MAX_SIZE_DEV_PASSWD);
+    strncpy(devDefaultResetData.user_token,
+            inContext->micoStatus.mac,
+            MAX_SIZE_USER_TOKEN);
+    err = fogCloudResetCloudDevInfo(inContext, devDefaultResetData);
+    if(kNoErr == err){
+      fogcloud_log("[MicoFogCloud]Device reset FogCloud info [OK]");
+    }
+    else{
+      fogcloud_log("[MicoFogCloud]Device reset FogCloud info [FAILED]");
+      retry_cnt++;
+    }
+    
+  }while((kNoErr != err) && (retry_cnt <= DEVICE_RESET_RETRY_CNT));
+  
+  return err;
+}
+
+void MicoFogCloudDevCloudInfoResetThread(void *arg)
+{
+  OSStatus err = kUnknownErr;
+  mico_Context_t *inContext = (mico_Context_t *)arg;
+  
+  // stop FogCloud service first
+  err = fogCloudStop(inContext);
+  require_noerr_action( err, exit, fogcloud_log("ERROR: stop FogCloud service failed!") );
+      
+  err = easycloud_reset_cloud_info(inContext);
+  if(kNoErr == err){
+    inContext->appStatus.fogcloudStatus.isCloudConnected = false;
+    
+    mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
+    inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated = false;
+    MICOUpdateConfiguration(inContext);
+    mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
+    
+    fogcloud_log("[MicoFogCloud]MicoFogCloudDevCloudInfoResetThread: cloud reset success!");
+    
+    // send ok semaphore
+    mico_rtos_set_semaphore(&_reset_cloud_info_sem);
+  }
+  
+exit:
+  if(kNoErr != err){
+    fogcloud_log("MicoFogCloudDevCloudInfoResetThread EXIT: err=%d",err);
+  }
+  mico_rtos_delete_thread(NULL);
+  return;
+}
+
+extern uint16_t ota_crc;
+void MicoFogCloudMainThread(void *arg)
 {
   OSStatus err = kUnknownErr;
   MVDOTARequestData_t devOTARequestData;
@@ -115,12 +193,12 @@ void fogcloud_ota_thread(void *arg)
       mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
       memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
       inContext->flashContentInRam.bootTable.length = inContext->appStatus.fogcloudStatus.RecvRomFileSize;
-      inContext->flashContentInRam.bootTable.start_address = UPDATE_START_ADDRESS;
+      inContext->flashContentInRam.bootTable.start_address = MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP)->partition_start_addr;
       inContext->flashContentInRam.bootTable.type = 'A';
       inContext->flashContentInRam.bootTable.upgrade_type = 'U';
-      if(inContext->flashContentInRam.micoSystemConfig.configured != allConfigured)
-        inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_SOFT_AP_BYPASS;
+      inContext->flashContentInRam.bootTable.crc = ota_crc;
       MICOUpdateConfiguration(inContext);
+      
       mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
       inContext->micoStatus.sys_state = eState_Software_Reset;
       if(inContext->micoStatus.sys_state_change_sem != NULL ){
@@ -293,7 +371,6 @@ OSStatus MicoStartFogCloudService(mico_Context_t* const inContext)
   err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "fogcloud_main", 
                                 fogcloud_main_thread, STACK_SIZE_FOGCLOUD_MAIN_THREAD, 
                                 inContext );
-  
 exit:
   return err;
 }

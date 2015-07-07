@@ -48,12 +48,11 @@ extern "C"
 #define HARDWARE_REVISION   "MK3165_1"
 #define DEFAULT_NAME        "MiCOKit 3165"
 #define MODEL               "MiCOKit-3165"
-#define Bootloader_REVISION "V 0.1"
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 
-#define MCU_CLOCK_HZ                                100000000
-/************************************************************************
+
+  /************************************************************************
  * Uncomment to disable watchdog. For debugging only */
 //#define MICO_DISABLE_WATCHDOG
 
@@ -73,8 +72,17 @@ extern "C"
  * Restore default and start easylink after press down EasyLink button for 3 seconds. */
 #define RestoreDefault_TimeOut                      (3000)
 
+/************************************************************************
+ * Restore default and start easylink after press down EasyLink button for 3 seconds. */
+#define MCU_CLOCK_HZ            (100000000)
 
-#define MCU_CLOCK_HZ            100000000
+/************************************************************************
+ * How many bits are used in NVIC priority configuration */
+#define CORTEX_NVIC_PRIO_BITS   (4)
+
+/************************************************************************
+ * Enable write protection to write-disabled embedded flash sectors */
+//#define MCU_EBANLE_FLASH_PROTECT 
 
 #define HSE_SOURCE              RCC_HSE_ON               /* Use external crystal                 */
 #define AHB_CLOCK_DIVIDER       RCC_SYSCLK_Div1          /* AHB clock = System clock             */
@@ -88,7 +96,6 @@ extern "C"
 #define SYSTEM_CLOCK_SOURCE     RCC_SYSCLKSource_PLLCLK  /* System clock source = PLL clock      */
 #define SYSTICK_CLOCK_SOURCE    SysTick_CLKSource_HCLK   /* SysTick clock source = AHB clock     */
 #define INT_FLASH_WAIT_STATE    FLASH_Latency_3          /* Internal flash wait state = 3 cycles */
-
 
 /******************************************************
  *  EMW1062 Options
@@ -124,37 +131,7 @@ extern "C"
  */
 #define MICO_USE_WIFI_32K_CLOCK_MCO
 
-/* Memory map */
-
-#define MICO_FLASH_FOR_BOOT         MICO_INTERNAL_FLASH
-#define BOOT_START_ADDRESS          (uint32_t)0x08000000
-#define BOOT_END_ADDRESS            (uint32_t)0x08007FFF
-#define BOOT_FLASH_SIZE             (BOOT_END_ADDRESS - BOOT_START_ADDRESS + 1) /* 32k bytes*/
-
-#define MICO_FLASH_FOR_PARA         MICO_SPI_FLASH
-#define PARA_START_ADDRESS          (uint32_t)0x00000000
-#define PARA_END_ADDRESS            (uint32_t)0x00000FFF
-#define PARA_FLASH_SIZE             (PARA_END_ADDRESS - PARA_START_ADDRESS + 1)   /* 4k bytes*/
-
-#define MICO_FLASH_FOR_EX_PARA      MICO_SPI_FLASH
-#define EX_PARA_START_ADDRESS       (uint32_t)0x00001000
-#define EX_PARA_END_ADDRESS         (uint32_t)0x00001FFF
-#define EX_PARA_FLASH_SIZE          (EX_PARA_END_ADDRESS - EX_PARA_START_ADDRESS + 1)   /* 4k bytes*/
-
-#define MICO_FLASH_FOR_APPLICATION  MICO_INTERNAL_FLASH
-#define APPLICATION_START_ADDRESS   (uint32_t)0x0800C000
-#define APPLICATION_END_ADDRESS     (uint32_t)0x0807FFFF
-#define APPLICATION_FLASH_SIZE      (APPLICATION_END_ADDRESS - APPLICATION_START_ADDRESS + 1) /* 464 bytes*/
-
-#define MICO_FLASH_FOR_UPDATE       MICO_SPI_FLASH  /* Optional */
-#define UPDATE_START_ADDRESS        (uint32_t)0x00040000 /* Optional */
-#define UPDATE_END_ADDRESS          (uint32_t)0x000BFFFF /* Optional */
-#define UPDATE_FLASH_SIZE           (UPDATE_END_ADDRESS - UPDATE_START_ADDRESS + 1) /* 512k bytes, optional*/
-
-#define MICO_FLASH_FOR_DRIVER       MICO_SPI_FLASH
-#define DRIVER_START_ADDRESS        (uint32_t)0x00002000
-#define DRIVER_END_ADDRESS          (uint32_t)0x0003FFFF
-#define DRIVER_FLASH_SIZE           (DRIVER_END_ADDRESS - DRIVER_START_ADDRESS + 1) /* 248k bytes*/
+//#define MICO_USE_BUILTIN_RF_DRIVER
 
 #ifdef __cplusplus
 } /*extern "C" */

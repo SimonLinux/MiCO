@@ -60,7 +60,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>3</version>
+          <version>2</version>
           <state>5</state>
         </option>
         <option>
@@ -175,6 +175,7 @@
           <state>USE_STDPERIPH_DRIVER</state>
           <state>DEBUG</state>
           <state>HSE_VALUE=26000000</state>
+          <state>EMW3165</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -628,7 +629,6 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
-        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1019,7 +1019,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>3</version>
+          <version>2</version>
           <state>5</state>
         </option>
         <option>
@@ -1134,6 +1134,7 @@
           <state>USE_STDPERIPH_DRIVER</state>
           <state>DEBUG</state>
           <state>HSE_VALUE=16000000</state>
+          <state>MICOKIT_3288</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1588,7 +1589,6 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
-        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -2132,34 +2132,34 @@
     <group>
       <name>MicoDriver</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverAdc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverAdc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverGpio.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverGpio.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverI2c.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverI2c.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverMFiAuth.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverMFiAuth.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverPwm.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverPwm.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRng.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRng.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRtc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRtc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverSpi.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverSpi.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverUART.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverUart.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverWdg.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverWdg.h</name>
       </file>
     </group>
     <file>
@@ -2172,7 +2172,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICOPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
@@ -2280,7 +2280,7 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MiCODefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
@@ -2628,9 +2628,6 @@
         <group>
           <name>Wi-Fi_Bus_Driver</name>
           <file>
-            <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\read_wifi_firmware.c</name>
-          </file>
-          <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\wlan_bus_sdio.c</name>
           </file>
           <file>
@@ -2660,6 +2657,9 @@
     <name>Support</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>

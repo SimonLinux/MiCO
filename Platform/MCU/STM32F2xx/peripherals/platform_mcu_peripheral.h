@@ -76,14 +76,6 @@ extern "C"
 /******************************************************
  *                   Enumerations
  ******************************************************/
- /**
- * SPI slave transfer direction
- */
-typedef enum
-{
-    FLASH_TYPE_INTERNAL, 
-    FLASH_TYPE_SPI,   
-} platform_flash_type_t;
 
 /******************************************************
  *                 Type Definitions
@@ -110,6 +102,12 @@ typedef void (*platform_peripheral_clock_function_t)(uint32_t clock, FunctionalS
 typedef DMA_TypeDef     dma_registers_t;
 typedef FunctionalState functional_state_t;
 typedef uint32_t        peripheral_clock_t;
+
+typedef enum
+{
+    FLASH_TYPE_EMBEDDED, 
+    FLASH_TYPE_SPI,
+} platform_flash_type_t;
 
 /******************************************************
  *                    Structures
@@ -229,15 +227,15 @@ typedef struct
     platform_flash_type_t      flash_type;
     uint32_t                   flash_start_addr;
     uint32_t                   flash_length;
+    uint32_t                   flash_protect_opt;
 } platform_flash_t;
 
 typedef struct
 {
-    platform_flash_t*          peripheral;
-    volatile bool              initialized;
+    const platform_flash_t*    peripheral;
     mico_mutex_t               flash_mutex;
+    volatile bool              initialized;
 } platform_flash_driver_t;
-
 
 /******************************************************
  *                 Global Variables

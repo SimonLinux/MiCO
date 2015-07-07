@@ -88,26 +88,27 @@ static sflash_handle_t sflash_handle = {0x0, 0x0, SFLASH_WRITE_NOT_ALLOWED};
 static OSStatus internalFlashInitialize( void );
 static OSStatus internalFlashErase(uint32_t StartAddress, uint32_t EndAddress);
 static OSStatus internalFlashWrite(volatile uint32_t* FlashAddress, uint32_t* Data ,uint32_t DataLength);
-static OSStatus internalFlashFinalize( void );
+
+#ifdef MCU_EBANLE_FLASH_PROTECT
+static OSStatus internalFlashProtect(uint32_t StartAddress, uint32_t EndAddress, bool enable);
+#endif
+
 #ifdef USE_MICO_SPI_FLASH
 static OSStatus spiFlashErase(uint32_t StartAddress, uint32_t EndAddress);
 #endif
 
-OSStatus platform_flash_init( platform_flash_driver_t *driver, const platform_flash_t *peripheral )
+OSStatus platform_flash_init( const platform_flash_t *peripheral )
 {
   OSStatus err = kNoErr;
 
-  require_action_quiet( driver != NULL && peripheral != NULL, exit, err = kParamErr);
-  require_action_quiet( driver->initialized == false, exit, err = kNoErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
 
-  driver->peripheral = (platform_flash_t *)peripheral;
-
-  if( driver->peripheral->flash_type == FLASH_TYPE_INTERNAL ){
+  if( peripheral->flash_type == FLASH_TYPE_EMBEDDED ){
     err = internalFlashInitialize();
     require_noerr(err, exit);
   }
 #ifdef USE_MICO_SPI_FLASH
-  else if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
+  else if( peripheral->flash_type == FLASH_TYPE_SPI ){
     err = init_sflash( &sflash_handle, 0, SFLASH_WRITE_ALLOWED );
     require_noerr(err, exit);
   }
@@ -116,30 +117,25 @@ OSStatus platform_flash_init( platform_flash_driver_t *driver, const platform_fl
     err = kTypeErr;
     goto exit;
   }
-
-  require_noerr(err, exit);
-  driver->initialized = true;
-
 exit:
   return err;
 }
 
-OSStatus platform_flash_erase( platform_flash_driver_t *driver, uint32_t StartAddress, uint32_t EndAddress  )
+OSStatus platform_flash_erase( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
 {
   OSStatus err = kNoErr;
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
-  require_action_quiet( driver->initialized != false, exit, err = kNotInitializedErr);
-  require_action( StartAddress >= driver->peripheral->flash_start_addr 
-               && EndAddress   <= driver->peripheral->flash_start_addr + driver->peripheral->flash_length - 1, exit, err = kParamErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( start_address >= peripheral->flash_start_addr 
+               && end_address   <= peripheral->flash_start_addr + peripheral->flash_length - 1, exit, err = kParamErr);
 
-  if( driver->peripheral->flash_type == FLASH_TYPE_INTERNAL ){
-    err = internalFlashErase(StartAddress, EndAddress);    
+  if( peripheral->flash_type == FLASH_TYPE_EMBEDDED ){
+    err = internalFlashErase( start_address, end_address );    
     require_noerr(err, exit);
   }
 #ifdef USE_MICO_SPI_FLASH
-  else if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
-    err = spiFlashErase(StartAddress, EndAddress);
+  else if( peripheral->flash_type == FLASH_TYPE_SPI ){
+    err = spiFlashErase( start_address, end_address );
     require_noerr(err, exit);
   }
 #endif
@@ -152,24 +148,23 @@ exit:
   return err;
 }
 
-OSStatus platform_flash_write( platform_flash_driver_t *driver, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
+OSStatus platform_flash_write( const platform_flash_t *peripheral, volatile uint32_t* start_address, uint8_t* data ,uint32_t length  )
 {
   OSStatus err = kNoErr;
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
-  require_action_quiet( driver->initialized != false, exit, err = kNotInitializedErr);
-  require_action( *FlashAddress >= driver->peripheral->flash_start_addr 
-               && *FlashAddress + DataLength <= driver->peripheral->flash_start_addr + driver->peripheral->flash_length, exit, err = kParamErr);
-
-  if( driver->peripheral->flash_type == FLASH_TYPE_INTERNAL ){
-    err = internalFlashWrite(FlashAddress, (uint32_t *)Data, DataLength); 
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( *start_address >= peripheral->flash_start_addr 
+               && *start_address + length <= peripheral->flash_start_addr + peripheral->flash_length, exit, err = kParamErr);
+    
+  if( peripheral->flash_type == FLASH_TYPE_EMBEDDED ){
+    err = internalFlashWrite( start_address, (uint32_t *)data, length); 
     require_noerr(err, exit);
   }
 #ifdef USE_MICO_SPI_FLASH
-  else if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
-    err = sflash_write( &sflash_handle, *FlashAddress, Data, DataLength );
+  else if( peripheral->flash_type == FLASH_TYPE_SPI ){
+    err = sflash_write( &sflash_handle, *start_address, data, length );
     require_noerr(err, exit);
-    *FlashAddress += DataLength;
+    *start_address += length;
   }
 #endif
   else{
@@ -181,24 +176,23 @@ exit:
   return err;
 }
 
-OSStatus platform_flash_read( platform_flash_driver_t *driver, volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength  )
+OSStatus platform_flash_read( const platform_flash_t *peripheral, volatile uint32_t* start_address, uint8_t* data ,uint32_t length  )
 {
   OSStatus err = kNoErr;
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
-  require_action_quiet( driver->initialized != false, exit, err = kNotInitializedErr);
-  require_action( (*FlashAddress >= driver->peripheral->flash_start_addr) 
-               && (*FlashAddress + DataLength) <= (driver->peripheral->flash_start_addr + driver->peripheral->flash_length), exit, err = kParamErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( (*start_address >= peripheral->flash_start_addr) 
+               && (*start_address + length) <= ( peripheral->flash_start_addr + peripheral->flash_length), exit, err = kParamErr);
 
-  if( driver->peripheral->flash_type == FLASH_TYPE_INTERNAL ){
-    memcpy(Data, (void *)(*FlashAddress), DataLength);
-    *FlashAddress += DataLength;
+  if( peripheral->flash_type == FLASH_TYPE_EMBEDDED ){
+    memcpy(data, (void *)(*start_address), length);
+    *start_address += length;
   }
 #ifdef USE_MICO_SPI_FLASH
-  else if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
-    err = sflash_read( &sflash_handle, *FlashAddress, Data, DataLength );
+  else if( peripheral->flash_type == FLASH_TYPE_SPI ){
+    err = sflash_read( &sflash_handle, *start_address, data, length );
     require_noerr(err, exit);
-    *FlashAddress += DataLength;
+    *start_address += length;
   }
 #endif
   else{
@@ -210,28 +204,62 @@ exit:
   return err;
 }
 
-OSStatus platform_flash_deinit( platform_flash_driver_t *driver)
+OSStatus platform_flash_enable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
 {
   OSStatus err = kNoErr;
 
-  require_action_quiet( driver != NULL, exit, err = kParamErr);
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( start_address >= peripheral->flash_start_addr 
+               && end_address   <= peripheral->flash_start_addr + peripheral->flash_length - 1, exit, err = kParamErr);
 
-  driver->initialized = false;
-
-  if( driver->peripheral->flash_type == FLASH_TYPE_INTERNAL){
-    err = internalFlashFinalize();   
-    require_noerr(err, exit); 
+  if( peripheral->flash_type == FLASH_TYPE_EMBEDDED ){
+#ifdef MCU_EBANLE_FLASH_PROTECT
+    err = internalFlashProtect( start_address, end_address, true );  
+#endif  
+    require_noerr(err, exit);
   }
 #ifdef USE_MICO_SPI_FLASH
-  else if( driver->peripheral->flash_type == FLASH_TYPE_SPI ){
-    sflash_handle.device_id = 0x0;
+  else if( peripheral->flash_type == FLASH_TYPE_SPI ){
+    err = kNoErr;
+    goto exit;
   }
 #endif
-  else
-    return kUnsupportedErr;
-  
+  else{
+    err = kTypeErr;
+    goto exit;
+  }
+
 exit:
-  return err;
+  return err;  
+}
+
+OSStatus platform_flash_disable_protect( const platform_flash_t *peripheral, uint32_t start_address, uint32_t end_address )
+{
+  OSStatus err = kNoErr;
+
+  require_action_quiet( peripheral != NULL, exit, err = kParamErr);
+  require_action( start_address >= peripheral->flash_start_addr 
+               && end_address   <= peripheral->flash_start_addr + peripheral->flash_length - 1, exit, err = kParamErr);
+
+  if( peripheral->flash_type == FLASH_TYPE_EMBEDDED ){
+#ifdef MCU_EBANLE_FLASH_PROTECT
+    err = internalFlashProtect( start_address, end_address, false );   
+#endif 
+    require_noerr(err, exit);
+  }
+#ifdef USE_MICO_SPI_FLASH
+  else if( peripheral->flash_type == FLASH_TYPE_SPI ){
+    err = kNoErr;
+    goto exit;
+  }
+#endif
+  else{
+    err = kTypeErr;
+    goto exit;
+  }
+
+exit:
+  return err;  
 }
 
 static OSStatus internalFlashInitialize( void )
@@ -300,10 +328,18 @@ exit:
   return err;
 }
 
-OSStatus internalFlashFinalize( void )
+#ifdef MCU_EBANLE_FLASH_PROTECT 
+OSStatus internalFlashProtect(uint32_t StartAddress, uint32_t EndAddress, bool enable)
 {
-  return kNoErr;
+  OSStatus err = kNoErr;
+  UNUSED_PARAMETER( StartAddress );
+  UNUSED_PARAMETER( EndAddress );
+  UNUSED_PARAMETER( enable );
+
+  return err;
 }
+#endif
+
 
 #ifdef USE_MICO_SPI_FLASH
 OSStatus spiFlashErase(uint32_t StartAddress, uint32_t EndAddress)

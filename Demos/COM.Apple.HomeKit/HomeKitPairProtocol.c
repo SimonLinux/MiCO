@@ -1415,6 +1415,7 @@ OSStatus HKPairAddRemoveEngine( int inFd, HTTPHeader_t* inHeader, security_sessi
     require_noerr( err, exit );
 
   }else if(methold == Pair_List){ //List
+    uint32_t MAXPairNumber = (MicoFlashGetInfo( MICO_PARTITION_PARAMETER_2 )->partition_length-64)/(MaxControllerNameLen+32+4);
 
     pairList = calloc(1, sizeof(pair_list_in_flash_t));
     require_action(pairList, exit, err = kNoMemoryErr);

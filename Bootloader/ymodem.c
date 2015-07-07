@@ -35,7 +35,10 @@
 #include "ymodem.h"
 #include "string.h"
 #include "StringUtils.h"
+#include "CheckSumUtils.h"
 #include "MicoPlatform.h"
+
+extern const platform_flash_t platform_flash_peripherals[];
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -145,7 +148,7 @@ int32_t Ymodem_Receive (uint8_t *buf, mico_flash_t flash, uint32_t flashdestinat
   uint8_t packet_data[PACKET_1K_SIZE + PACKET_OVERHEAD], file_size[FILE_SIZE_LENGTH], *file_ptr, *buf_ptr;
   int32_t i, packet_length, session_done, file_done, packets_received, errors, session_begin, size = 0;
   uint32_t  ramsource;
-  MicoFlashInitialize(flash);
+  platform_flash_init( &platform_flash_peripherals[flash] );
 
   for (session_done = 0, errors = 0, session_begin = 0; ;)
   {
@@ -160,7 +163,6 @@ int32_t Ymodem_Receive (uint8_t *buf, mico_flash_t flash, uint32_t flashdestinat
             /* Abort by sender */
             case - 1:
               Send_Byte(ACK);
-              MicoFlashFinalize(flash);
               return 0;
             /* End of transmission */
             case 0:
@@ -200,11 +202,10 @@ int32_t Ymodem_Receive (uint8_t *buf, mico_flash_t flash, uint32_t flashdestinat
                       /* End session */
                       Send_Byte(CA);
                       Send_Byte(CA);
-                      MicoFlashFinalize(flash);
                       return -1;
                     }
                     /* erase user application area */
-                    MicoFlashErase(flash, flashdestination, flashdestination + maxRecvSize - 1);
+                    platform_flash_erase(&platform_flash_peripherals[flash], flashdestination, flashdestination + maxRecvSize - 1);
                     Send_Byte(ACK);
                     Send_Byte(CRC16);
                   }
@@ -224,7 +225,7 @@ int32_t Ymodem_Receive (uint8_t *buf, mico_flash_t flash, uint32_t flashdestinat
                   ramsource = (uint32_t)buf;
 
                   /* Write received data in Flash */
-                  if (MicoFlashWrite(flash, &flashdestination, (uint8_t*) ramsource, (uint32_t) packet_length)  == 0)
+                  if (platform_flash_write(&platform_flash_peripherals[flash], &flashdestination, (uint8_t*) ramsource, (uint32_t) packet_length)  == 0)
                   {
                     Send_Byte(ACK);
                   }
@@ -233,7 +234,6 @@ int32_t Ymodem_Receive (uint8_t *buf, mico_flash_t flash, uint32_t flashdestinat
                     /* End session */
                     Send_Byte(CA);
                     Send_Byte(CA);
-                    MicoFlashFinalize(flash);
                     return -2;
                   }
                 }
@@ -245,7 +245,6 @@ int32_t Ymodem_Receive (uint8_t *buf, mico_flash_t flash, uint32_t flashdestinat
         case 1:
           Send_Byte(CA);
           Send_Byte(CA);
-          MicoFlashFinalize(flash);
           return -3;
         default:
           if (session_begin > 0)
@@ -256,7 +255,6 @@ int32_t Ymodem_Receive (uint8_t *buf, mico_flash_t flash, uint32_t flashdestinat
           {
             Send_Byte(CA);
             Send_Byte(CA);
-            MicoFlashFinalize(flash);
             return 0;
           }
           Send_Byte(CRC16);
@@ -272,7 +270,6 @@ int32_t Ymodem_Receive (uint8_t *buf, mico_flash_t flash, uint32_t flashdestinat
       break;
     }
   }
-  MicoFlashFinalize(flash);
   return (int32_t)size;
 }
 
@@ -322,9 +319,6 @@ void Ymodem_PrepareIntialPacket(uint8_t *data, const uint8_t* fileName, uint32_t
   }
 }
 
-
-
-
 /**
   * @brief  Prepare the data packet
   * @param  timeout
@@ -349,7 +343,7 @@ void Ymodem_PreparePacket(mico_flash_t flash, uint32_t flashdestination, uint8_t
   data[1] = pktNo;
   data[2] = (~pktNo);
 
-  MicoFlashRead(flash, &flashdestination, data + PACKET_HEADER, size);
+  platform_flash_read( &platform_flash_peripherals[flash], &flashdestination, data + PACKET_HEADER, size );
 
   if ( size  <= packetSize)
   {
@@ -361,33 +355,6 @@ void Ymodem_PreparePacket(mico_flash_t flash, uint32_t flashdestination, uint8_t
 }
 
 /**
-  * @brief  Update CRC16 for input byte
-  * @param  CRC input value 
-  * @param  input byte
-  * @retval None
-  */
-uint16_t UpdateCRC16(uint16_t crcIn, uint8_t byte)
-{
-  uint32_t crc = crcIn;
-  uint32_t in = byte | 0x100;
-
-  do
-  {
-    crc <<= 1;
-    in <<= 1;
-    if(in & 0x100)
-      ++crc;
-    if(crc & 0x10000)
-      crc ^= 0x1021;
-  }
-  
-  while(!(in & 0x10000));
-
-  return crc & 0xffffu;
-}
-
-
-/**
   * @brief  Cal CRC16 for YModem Packet
   * @param  data
   * @param  length
@@ -395,16 +362,13 @@ uint16_t UpdateCRC16(uint16_t crcIn, uint8_t byte)
   */
 uint16_t Cal_CRC16(const uint8_t* data, uint32_t size)
 {
-  uint32_t crc = 0;
-  const uint8_t* dataEnd = data+size;
-
-  while(data < dataEnd)
-    crc = UpdateCRC16(crc, *data++);
- 
-  crc = UpdateCRC16(crc, 0);
-  crc = UpdateCRC16(crc, 0);
-
-  return crc&0xffffu;
+  CRC16_Context contex;
+  uint16_t ret;
+  
+  CRC16_Init( &contex );
+  CRC16_Update( &contex, data, size );
+  CRC16_Final( &contex, &ret );
+  return ret;
 }
 
 /**

@@ -134,8 +134,6 @@ const platform_gpio_t platform_gpio_pins[] =
     [MICO_GPIO_30]                        = {GPIOB, 25}, // status
 };
 
-
-
 const platform_adc_t *platform_adc_peripherals = NULL;
 
 const platform_pwm_t *platform_pwm_peripherals = NULL;
@@ -146,21 +144,9 @@ platform_spi_driver_t *platform_spi_drivers = NULL;
 
 const platform_spi_slave_driver_t *platform_spi_slave_drivers = NULL;
 
-const platform_flash_t platform_flash_peripherals[] =
-{
-  [MICO_SPI_FLASH] =
-  {
-    .flash_type                   = FLASH_TYPE_SPI,
-    .flash_start_addr             = 0x000000,
-    .flash_length                 = 0x200000,
-  },
-};
-
-platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
-
 const platform_uart_t platform_uart_peripherals[] =
 {
-[MICO_UART_1] =
+  [MICO_UART_DEBUG] =
   {
     .uart                            = FUART,
     .pin_tx                          = &platform_gpio_pins[STDIO_UART_TX],
@@ -168,7 +154,7 @@ const platform_uart_t platform_uart_peripherals[] =
     .pin_cts                         = NULL,
     .pin_rts                         = NULL,
   },
-  [MICO_UART_2] =
+  [MICO_UART_DATA] =
   {
     .uart                            = BUART,
     .pin_tx                          = &platform_gpio_pins[APP_UART_TX],
@@ -184,8 +170,7 @@ platform_uart_driver_t platform_uart_drivers[MICO_UART_MAX];
 const platform_i2c_t *platform_i2c_peripherals = NULL;
 
 
-/* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c
-*/
+/* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c */
 const platform_gpio_t wifi_control_pins[] =
 {
   [WIFI_PIN_POWER        ]  = { GPIOB, 5 },
@@ -200,18 +185,95 @@ const platform_gpio_t wifi_sdio_pins[] =
   [WIFI_PIN_SDIO_D0     ] = { GPIOB, 19 },
 };
 
+/* Flash memory devices */
+const platform_flash_t platform_flash_peripherals[] =
+{
+  [MICO_FLASH_SPI] =
+  {
+    .flash_type                   = FLASH_TYPE_SPI,
+    .flash_start_addr             = 0x000000,
+    .flash_length                 = 0x200000,
+    .flash_protect_opt            = FLASH_HALF_PROTECT,
+  }
+};
+
+platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
+
+/* Logic partition on flash devices */
+const mico_logic_partition_t mico_partitions[] =
+{
+  [MICO_PARTITION_BOOTLOADER] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "Bootloader",
+    .partition_start_addr      = 0x0,
+    .partition_length          = 0xA000,    //40k bytes + 4k bytes empty space
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_APPLICATION] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "Application",
+    .partition_start_addr      = 0xB000,
+    .partition_length          = 0xC0000,   //768k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_ATE] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "ATE",
+    .partition_start_addr      = 0xCB000,
+    .partition_length          = 0x50000,  //320k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_RF_FIRMWARE] =
+  {
+    .partition_owner           = MICO_FLASH_NONE,
+    .partition_description     = "RF Firmware",
+    .partition_start_addr      = 0x0,
+    .partition_length          = 0x0, 
+    .partition_options         = PAR_OPT_READ_DIS | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_OTA_TEMP] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "OTAStorage",
+    .partition_start_addr      = 0x11B000,
+    .partition_length          = 0xC0000, //768k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_1] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "PARAMETER1",
+    .partition_start_addr      = 0x1DB000,
+    .partition_length          = 0x1000, // 4k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_2] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "PARAMETER2",
+    .partition_start_addr      = 0x1DC000,
+    .partition_length          = 0x1000, //4k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  }
+};
+
+
+
 /******************************************************
 *           Interrupt Handler Definitions
 ******************************************************/
 
 MICO_RTOS_DEFINE_ISR( FuartInterrupt )
 {
-  platform_uart_irq( &platform_uart_drivers[MICO_UART_1] );
+  platform_uart_irq( &platform_uart_drivers[MICO_UART_DEBUG] );
 }
 
 MICO_RTOS_DEFINE_ISR( BuartInterrupt )
 {
-  platform_uart_irq( &platform_uart_drivers[MICO_UART_2] );
+  platform_uart_irq( &platform_uart_drivers[MICO_UART_DATA] );
 }
 
 /******************************************************
@@ -243,12 +305,6 @@ static void _button_EL_irq_handler( void* arg )
   }
 }
 
-//static void _button_STANDBY_irq_handler( void* arg )
-//{
-//  (void)(arg);
-//  PlatformStandbyButtonClickedCallback();
-//}
-
 static void _button_EL_Timeout_handler( void* arg )
 {
   (void)(arg);
@@ -267,16 +323,12 @@ void init_platform( void )
   MicoSysLed(false);
   MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_PUSH_PULL );
   MicoRfLed(false);
-
+  MicoGpioInitialize( BOOT_SEL, INPUT_PULL_UP );
   MicoGpioInitialize( MFG_SEL, INPUT_PULL_UP );
   //  Initialise EasyLink buttons
   MicoGpioInitialize( (mico_gpio_t)EasyLink_BUTTON, INPUT_PULL_UP );
   mico_init_timer(&_button_EL_timer, RestoreDefault_TimeOut, _button_EL_Timeout_handler, NULL);
   MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_FALLING_EDGE, _button_EL_irq_handler, NULL );
-//  
-//  //  Initialise Standby/wakeup switcher
-//  MicoGpioInitialize( Standby_SEL, INPUT_PULL_UP );
-//  MicoGpioEnableIRQ( Standby_SEL , IRQ_TRIGGER_FALLING_EDGE, _button_STANDBY_irq_handler, NULL);
 
 }
 
@@ -286,31 +338,51 @@ void init_platform( void )
 #include "host_hcd.h"
 #include "dir.h"
 
-
-
 static bool HardwareInit(DEV_ID DevId);
 static FOLDER	 RootFolder;
 static void FileBrowse(FS_CONTEXT* FsContext);
 static bool UpgradeFileFound = false;
 
+static const mico_uart_config_t fuart_config =
+{
+  .baud_rate    = STDIO_UART_BAUDRATE,
+  .data_width   = DATA_WIDTH_8BIT,
+  .parity       = NO_PARITY,
+  .stop_bits    = STOP_BITS_1,
+  .flow_control = FLOW_CONTROL_DISABLED,
+  .flags        = 0,
+};
+static volatile uint8_t rx_data[100];
+static volatile ring_buffer_t rx_buffer;
+
+
+static void debug_uart_send(char*str)
+{
+    MicoUartSend(MICO_UART_DEBUG, str, strlen(str));
+}
 
 void init_platform_bootloader( void )
 {
   uint32_t BootNvmInfo;
   OSStatus err;
+  char str[8];
   
   MicoGpioInitialize( BOOT_SEL, INPUT_PULL_UP );
   MicoGpioInitialize( MFG_SEL, INPUT_PULL_UP );
-#ifdef MICO_ATE_START_ADDRESS
-	MicoGpioInitialize( EasyLink_BUTTON, INPUT_PULL_UP );
-#endif  
+  MicoGpioInitialize( EasyLink_BUTTON, INPUT_PULL_UP );
+
   /* Check USB-HOST is inserted */
   err = MicoGpioInitialize( (mico_gpio_t)USB_DETECT, INPUT_PULL_DOWN );
   require_noerr(err, exit);
   mico_thread_msleep_no_os(2);
-  
-  require_string( MicoGpioInputGet( (mico_gpio_t)USB_DETECT ) == true, exit, "USB device is not inserted" );
 
+  MicoUartInitialize(MICO_UART_DEBUG, &fuart_config,  (ring_buffer_t*)&rx_buffer);
+  if (MicoGpioInputGet( (mico_gpio_t)USB_DETECT ) != true) {
+    debug_uart_send("**ASSERT** USB device is not inserted\r\n" );
+    goto exit;
+  }
+
+  ClkModuleEn( USB_CLK_EN );
   //platform_log("USB device inserted");
   if( HardwareInit(DEV_ID_USB) ){
     FolderOpenByNum(&RootFolder, NULL, 1);
@@ -327,26 +399,29 @@ void init_platform_bootloader( void )
       /*
        * boot up check for the last time
        */
-      platform_log("[UPGRADE]:upgrade successful completely");
+      debug_uart_send("[UPGRADE]:upgrade successful completely\r\n");
     }
     else if(BootNvmInfo == (uint32_t)UPGRADE_ERRNO_NOERR)
     {
-      platform_log("[UPGRADE]:no upgrade, boot normallly");
+      debug_uart_send("[UPGRADE]:no upgrade, boot normallly\r\n");
     }
     else if(BootNvmInfo == (uint32_t)UPGRADE_ERRNO_CODBUFDAT)
     {
-      platform_log("[UPGRADE]:upgrade successful partly, data fail");
+      debug_uart_send("[UPGRADE]:upgrade successful partly, data fail\r\n");
     }
     else
     {
-      platform_log("[UPGRADE]:upgrade error, errno = %d", (int32_t)BootNvmInfo);
+      sprintf(str, "%d", (int32_t)BootNvmInfo);
+      debug_uart_send("[UPGRADE]:upgrade error, errno = ");
+      debug_uart_send(str);
+      debug_uart_send("\r\n");
     }
   }
   else
   {
     if(BootNvmInfo == (uint32_t)UPGRADE_ERRNO_NOERR)
     {
-      platform_log("[UPGRADE]:found upgrade ball, prepare to boot upgrade");
+      debug_uart_send("[UPGRADE]:found upgrade ball, prepare to boot upgrade\r\n");
       BootNvmInfo = UPGRADE_REQT_MAGIC;
       NvmWrite(UPGRADE_NVM_ADDR, (uint8_t*)&BootNvmInfo, 4);
             //if you want PORRESET to reset GPIO only,uncomment it
@@ -358,13 +433,16 @@ void init_platform_bootloader( void )
     {
       BootNvmInfo = (uint32_t)UPGRADE_ERRNO_NOERR;
       NvmWrite(UPGRADE_NVM_ADDR, (uint8_t*)&BootNvmInfo, 4);
-      platform_log("[UPGRADE]:found upgrade ball file for the last time, re-plugin/out, if you want to upgrade again");
+      debug_uart_send("[UPGRADE]:found upgrade ball file for the last time, re-plugin/out, if you want to upgrade again\r\n");
     }
     else
     {
-      platform_log("[UPGRADE]:upgrade error, errno = %d", (int32_t)BootNvmInfo);
-      if( BootNvmInfo == -9 ) {
-        platform_log("[UPGRADE]:Same file, no need to update");
+      sprintf(str, "%d", (int32_t)BootNvmInfo);
+      debug_uart_send("[UPGRADE]:upgrade error, errno = ");
+      debug_uart_send(str);
+      debug_uart_send("\r\n");
+      if( BootNvmInfo == (uint32_t)UPGRADE_ERRNO_EBADF ) {
+        debug_uart_send("[UPGRADE]:Same file, no need to update\r\n");
         goto exit;
       }
       BootNvmInfo = (uint32_t)UPGRADE_ERRNO_NOERR;
@@ -510,7 +588,6 @@ bool MicoShouldEnterBootloader(void)
   }
 }
 
-#ifdef MICO_ATE_START_ADDRESS
 bool MicoShouldEnterATEMode(void)
 {
   if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)EasyLink_BUTTON)==false)
@@ -518,5 +595,4 @@ bool MicoShouldEnterATEMode(void)
   else
     return false;
 }
-#endif
 

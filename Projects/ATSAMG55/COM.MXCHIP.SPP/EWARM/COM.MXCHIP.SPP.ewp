@@ -1245,6 +1245,12 @@
       </file>
     </group>
     <group>
+      <name>TFTP</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\tftp\tftpc.o</name>
+      </file>
+    </group>
+    <group>
       <name>WAC</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Debug.a</name>
@@ -1276,6 +1282,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOForceOTA.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOMfgtest.c</name>
@@ -1689,9 +1698,6 @@
         <group>
           <name>wlan_bus_driver</name>
           <file>
-            <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\wlan_bus_driver\read_wifi_firmware.c</name>
-          </file>
-          <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\wlan_bus_driver\wlan_bus_spi.c</name>
           </file>
           <file>
@@ -1714,6 +1720,9 @@
     <name>Support</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>

@@ -278,10 +278,15 @@ typedef enum
 
 typedef enum
 {
-  MICO_SPI_FLASH,
-  MICO_INTERNAL_FLASH,
+  MICO_FLASH_EMBEDDED,
   MICO_FLASH_MAX,
+  MICO_FLASH_NONE,
 } mico_flash_t;
+
+typedef enum
+{
+  MICO_PARTITION_USER_MAX
+} mico_user_partition_t;
 
 #ifdef BOOTLOADER
 #define STDIO_UART          MICO_UART_1

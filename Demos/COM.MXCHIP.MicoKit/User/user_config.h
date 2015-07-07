@@ -66,14 +66,13 @@
  *                             CONNECTING
  ******************************************************************************/
 /* Wi-Fi configuration mode */
-#define MICO_CONFIG_MODE                   CONFIG_MODE_EASYLINK_WITH_SOFTAP
+#define MICO_CONFIG_MODE                   CONFIG_MODE_EASYLINK
 
 /* MICO cloud service type */
 #define MICO_CLOUD_TYPE                    CLOUD_FOGCLOUD
 
-// disalbe FogCloud OTA check when system start
+/* disable OTA check */
 //#define DISABLE_FOGCLOUD_OTA_CHECK
-
 
 /*******************************************************************************
  *                             RESOURCES
@@ -84,6 +83,6 @@
 
 
 /*User provided configurations*/
-#define CONFIGURATION_VERSION               0x00000001 // if default configuration is changed, update this number
+#define CONFIGURATION_VERSION               0x00000002 // if default configuration is changed, update this number
    
 #endif  // __USER_CONFIG_H_

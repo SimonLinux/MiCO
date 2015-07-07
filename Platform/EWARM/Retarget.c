@@ -49,7 +49,7 @@ size_t __write( int handle, const unsigned char * buffer, size_t size )
   {
     return 0;
   }
-  
+
   MicoUartSend( STDIO_UART, (const char*)buffer, size );
   
   return size;

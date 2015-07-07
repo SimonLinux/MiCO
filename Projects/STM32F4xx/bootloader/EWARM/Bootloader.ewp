@@ -4809,28 +4809,6 @@
       </file>
     </group>
     <group>
-      <name>EMW5288</name>
-      <excluded>
-        <configuration>MiCOKit-3165</configuration>
-        <configuration>MiCOKit-3288</configuration>
-        <configuration>MiCOKit-F411B</configuration>
-        <configuration>MiCOKit-F411A</configuration>
-        <configuration>EMW3265</configuration>
-      </excluded>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\EMW5288\platform.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\EMW5288\platform.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\EMW5288\platform_common_config.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\EMW5288\platform_spi_flash.c</name>
-      </file>
-    </group>
-    <group>
       <name>MiCOKit-3165</name>
       <excluded>
         <configuration>MiCOKit-3288</configuration>
@@ -5304,6 +5282,9 @@
   </group>
   <group>
     <name>Support</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
+    </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>
     </file>

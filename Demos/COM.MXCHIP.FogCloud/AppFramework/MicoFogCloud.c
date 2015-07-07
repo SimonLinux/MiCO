@@ -83,6 +83,7 @@ void fogNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inConte
 }
 
 #ifndef DISABLE_FOGCLOUD_OTA_CHECK
+extern uint16_t ota_crc;
 void fogcloud_ota_thread(void *arg)
 {
   OSStatus err = kUnknownErr;
@@ -108,11 +109,10 @@ void fogcloud_ota_thread(void *arg)
       mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
       memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
       inContext->flashContentInRam.bootTable.length = inContext->appStatus.fogcloudStatus.RecvRomFileSize;
-      inContext->flashContentInRam.bootTable.start_address = UPDATE_START_ADDRESS;
+      inContext->flashContentInRam.bootTable.start_address = MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP)->partition_start_addr;
       inContext->flashContentInRam.bootTable.type = 'A';
       inContext->flashContentInRam.bootTable.upgrade_type = 'U';
-      if(inContext->flashContentInRam.micoSystemConfig.configured != allConfigured)
-        inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_SOFT_AP_BYPASS;
+      inContext->flashContentInRam.bootTable.crc = ota_crc;
       MICOUpdateConfiguration(inContext);
       mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
       inContext->micoStatus.sys_state = eState_Software_Reset;

@@ -105,7 +105,8 @@ typedef struct  _boot_table_t {
   uint8_t version[8];
   uint8_t type; // B:bootloader, P:boot_table, A:application, D: 8782 driver
   uint8_t upgrade_type; //u:upgrade, 
-  uint8_t reserved[6];
+  uint16_t crc;
+  uint8_t reserved[4];
 }boot_table_t;
 
 typedef struct _mico_sys_config_t

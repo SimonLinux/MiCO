@@ -1418,6 +1418,9 @@
   <group>
     <name>Support</name>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>
     </file>
     <file>

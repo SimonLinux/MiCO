@@ -170,159 +170,75 @@
       </data>
     </settings>
   </configuration>
-  <configuration>
-    <name>EMW5288</name>
-    <toolchain>
-      <name>ARM</name>
-    </toolchain>
-    <debug>0</debug>
-    <settings>
-      <name>RuntimeChecking</name>
-      <archiveVersion>0</archiveVersion>
-      <data>
-        <version>2</version>
-        <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
-        <option>
-          <name>GenRtcDebugHeap</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcEnableBoundsChecking</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcCheckPtrsNonInstrMem</name>
-          <state>1</state>
-        </option>
-        <option>
-          <name>GenRtcTrackPointerBounds</name>
-          <state>1</state>
-        </option>
-        <option>
-          <name>GenRtcCheckAccesses</name>
-          <state>1</state>
-        </option>
-        <option>
-          <name>GenRtcGenerateEntries</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcNrTrackedPointers</name>
-          <state>1000</state>
-        </option>
-        <option>
-          <name>GenRtcIntOverflow</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcIncUnsigned</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcIntConversion</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcInclExplicit</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcIntShiftOverflow</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcInclUnsignedShiftOverflow</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcUnhandledCase</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcDivByZero</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcEnable</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GenRtcCheckPtrsNonInstrFunc</name>
-          <state>1</state>
-        </option>
-      </data>
-    </settings>
-  </configuration>
   <group>
     <name>Application</name>
     <group>
       <name>AppFramework</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogCloud.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogCloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogCloud.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogcloud_msg_dispatch.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogcloud_msg_dispatch.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\fogcloud_msg_dispatch.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogcloud_msg_dispatch.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOAppDefine.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOAppDefine.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOAppEntrance.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOAppEntrance.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOBonjour.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOBonjour.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MICOConfigDelegate.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOConfigDelegate.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoDefaults.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoDefaults.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloud.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloud.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloudConfigServer.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloudConfigServer.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\MicoFogCloudDef.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloudDef.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\properties.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\properties.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\AppFramework\properties.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\properties.h</name>
       </file>
     </group>
     <group>
       <name>User</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\uart.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_config.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\uart.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_main.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_config.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_main.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_properties.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_uart.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_properties.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_uart.h</name>
       </file>
     </group>
   </group>
@@ -490,37 +406,37 @@
     <group>
       <name>MicoDriver</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverAdc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverAdc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverGpio.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverGpio.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverI2c.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverI2c.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverMFiAuth.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverMFiAuth.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverNanoSecond.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverPwm.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverPwm.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRng.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRng.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRtc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRtc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverSpi.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverSpi.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverUART.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverUart.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverWdg.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverWdg.h</name>
       </file>
     </group>
     <file>
@@ -663,22 +579,13 @@
       <group>
         <name>MFiAuth</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MicoDriverMFiAuth\MicoDriverMFiAuth.a</name>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCODriverMFiAuth\MicoDriverMFiAuth.a</name>
         </file>
       </group>
       <group>
         <name>MiCOKit-EXT</name>
         <group>
           <name>sensors</name>
-          <group>
-            <name>ambient_light_sensor</name>
-            <file>
-              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\ambient_light_sensor\apds9930.c</name>
-            </file>
-            <file>
-              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\ambient_light_sensor\apds9930.h</name>
-            </file>
-          </group>
           <group>
             <name>dc_motor</name>
             <file>
@@ -731,60 +638,6 @@
             </file>
             <file>
               <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\light\light_sensor.h</name>
-            </file>
-          </group>
-          <group>
-            <name>motion_sensor</name>
-            <group>
-              <name>BMA2x2</name>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMA2x2\bma2x2.c</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMA2x2\bma2x2.h</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMA2x2\bma2x2_user.c</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMA2x2\bma2x2_user.h</name>
-              </file>
-            </group>
-            <group>
-              <name>BMG160</name>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMG160\bmg160.c</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMG160\bmg160.h</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMG160\bmg160_user.c</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMG160\bmg160_user.h</name>
-              </file>
-            </group>
-            <group>
-              <name>BMM050</name>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMM050\bmm050.c</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMM050\bmm050.h</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMM050\bmm050_user.c</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\BMM050\bmm050_user.h</name>
-              </file>
-            </group>
-            <file>
-              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\motion_sensor.c</name>
-            </file>
-            <file>
-              <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT\motion_sensor\motion_sensor.h</name>
             </file>
           </group>
           <group>
@@ -1005,7 +858,7 @@
           <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_mcu_powersave.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_nano_second.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_nanosensend.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_pwm.c</name>
@@ -1056,6 +909,9 @@
     <name>Support</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>

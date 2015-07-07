@@ -241,16 +241,6 @@ const platform_i2c_t platform_i2c_peripherals[] =
   },
 };
 
-const platform_flash_t platform_flash_peripherals[] =
-{
-  [MICO_INTERNAL_FLASH] =
-  {
-    .flash_type                   = FLASH_TYPE_INTERNAL,
-    .flash_start_addr             = 0x08000000,
-    .flash_length                 = 0x100000,
-  },
-};
-
 platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
 
 /* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c
@@ -276,6 +266,76 @@ const platform_gpio_t wifi_sdio_pins[] =
   [WIFI_PIN_SDIO_D1     ] = { GPIOC,  9 },
   [WIFI_PIN_SDIO_D2     ] = { GPIOC, 10 },
   [WIFI_PIN_SDIO_D3     ] = { GPIOC, 11 },
+};
+
+/* Flash memory devices */
+const platform_flash_t platform_flash_peripherals[] =
+{
+  [MICO_FLASH_EMBEDDED] =
+  {
+    .flash_type                   = FLASH_TYPE_EMBEDDED,
+    .flash_start_addr             = 0x08000000,
+    .flash_length                 = 0x100000,
+  },
+};
+
+platform_flash_driver_t platform_flash_drivers[MICO_FLASH_MAX];
+
+/* Logic partition on flash devices */
+const mico_logic_partition_t mico_partitions[] =
+{
+  [MICO_PARTITION_BOOTLOADER] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "Bootloader",
+    .partition_start_addr      = 0x08000000,
+    .partition_length          =     0x4000,    //16k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_APPLICATION] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "Application",
+    .partition_start_addr      = 0x0800C000,
+    .partition_length          =    0x54000,   //336k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_RF_FIRMWARE] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "RF Firmware",
+    .partition_start_addr      = 0x080C0000,
+    .partition_length          = 0x40000,  //256k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_OTA_TEMP] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "OTA Storage",
+    .partition_start_addr      = 0x08060000,
+    .partition_length          = 0x60000, //384k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_1] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "PARAMETER1",
+    .partition_start_addr      = 0x08004000,
+    .partition_length          = 0x4000, // 16k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_2] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "PARAMETER1",
+    .partition_start_addr      = 0x08008000,
+    .partition_length          = 0x4000, //16k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_ATE] =
+  {
+    .partition_owner           = MICO_FLASH_NONE,
+  }
 };
 
 
@@ -445,4 +505,3 @@ bool MicoShouldEnterBootloader(void)
   else
     return false;
 }
-

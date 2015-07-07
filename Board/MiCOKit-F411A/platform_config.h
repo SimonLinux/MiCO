@@ -48,11 +48,9 @@ extern "C"
 #define HARDWARE_REVISION   "MKF411A_1"
 #define DEFAULT_NAME        "MiCOKit F411A"
 #define MODEL               "MiCOKit-F411A"
-#define Bootloader_REVISION "V 0.1"
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 
-#define MCU_CLOCK_HZ                                100000000
 
 /************************************************************************
  * Uncomment to disable watchdog. For debugging only */
@@ -74,8 +72,17 @@ extern "C"
  * Restore default and start easylink after press down EasyLink button for 3 seconds. */
 #define RestoreDefault_TimeOut                      (3000)
 
+/************************************************************************
+ * Restore default and start easylink after press down EasyLink button for 3 seconds. */
+#define MCU_CLOCK_HZ            (100000000)
 
-#define MCU_CLOCK_HZ            100000000
+/************************************************************************
+ * How many bits are used in NVIC priority configuration */
+#define CORTEX_NVIC_PRIO_BITS   (4)
+
+/************************************************************************
+ * Enable write protection to write-disabled embedded flash sectors */
+//#define MCU_EBANLE_FLASH_PROTECT 
 
 #define HSE_SOURCE              RCC_HSE_ON               /* Use external crystal                 */
 #define AHB_CLOCK_DIVIDER       RCC_SYSCLK_Div1          /* AHB clock = System clock             */
@@ -90,7 +97,6 @@ extern "C"
 #define SYSTICK_CLOCK_SOURCE    SysTick_CLKSource_HCLK   /* SysTick clock source = AHB clock     */
 #define INT_FLASH_WAIT_STATE    FLASH_Latency_3          /* Internal flash wait state = 3 cycles */
 
-
 /******************************************************
  *  EMW1088 Options
  ******************************************************/
@@ -104,8 +110,9 @@ extern "C"
 #define SDIO_1_BIT
 
 /* Wi-Fi power pin is active high */
-//#define MICO_USE_WIFI_POWER_PIN_ACTIVE_HIGH
+#define MICO_USE_WIFI_POWER_PIN_ACTIVE_HIGH
 
+//#define MICO_USE_BUILTIN_RF_DRIVER
   
 /* Memory map */
 

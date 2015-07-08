@@ -56,10 +56,11 @@ OSStatus user_main( mico_Context_t * const mico_context )
                        user_log("ERROR: user uart init failed!") );
   
   while(1){
+    mico_thread_msleep(100);
     
     // get msg from cloud
     // msg format: recv_msg->data = <topic><data>
-    err = MicoFogCloudMsgRecv(mico_context, &recv_msg, 200);
+    err = MicoFogCloudMsgRecv(mico_context, &recv_msg, 0);
     if(kNoErr == err){
       user_log("Cloud => Module: topic[%d]=[%.*s]\tdata[%d]=[%.*s]", 
                recv_msg->topic_len, recv_msg->topic_len, recv_msg->data, 
@@ -95,7 +96,7 @@ OSStatus user_main( mico_Context_t * const mico_context )
         ptr += recv_msg->data_len;
         memcpy(ptr, '\0', 1);
         
-        err = MicoFogCloudMsgSend(mico_context, NULL, 0, responseMsg, responseMsgLen);
+        err = MicoFogCloudMsgSend(mico_context, NULL, responseMsg, responseMsgLen);
         if(NULL != responseMsg){
           ptr = NULL;
           free(responseMsg);

@@ -50,7 +50,7 @@ void uartRecv_thread(void *inContext)
     user_uart_log("UART => Module: [%d]=%.*s", recvlen, recvlen, inDataBuffer);
     
     // transfer msg to cloud
-    err = MicoFogCloudMsgSend(Context, NULL, 0, inDataBuffer, recvlen);
+    err = MicoFogCloudMsgSend(Context, NULL, inDataBuffer, recvlen);
     if(kNoErr == err){
       user_uart_log("Msg send to cloud success!");
     }

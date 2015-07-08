@@ -32,13 +32,15 @@
 #include "MICO.h"
 #include "MICODefine.h"
 #include "SocketUtils.h"
+#include "MDNSUtils.h"
+#include "StringUtils.h"
 #include "MicoFogCloud.h"
 
 #define fogcloud_config_log(M, ...) custom_log("FogCloud_ConfigServer", M, ##__VA_ARGS__)
 #define fogcloud_config_log_trace() custom_log_trace("FogCloud_ConfigServer")
 
 #define STACK_SIZE_FOGCLOUD_CONFIG_SERVER_THREAD   0x300
-#define STACK_SIZE_FOGCLOUD_CONFIG_CLIENT_THREAD   0x800
+#define STACK_SIZE_FOGCLOUD_CONFIG_CLIENT_THREAD   0xD00
 
 #define kCONFIGURLDevState               "/dev-state"
 #define kCONFIGURLDevActivate            "/dev-activate"
@@ -46,7 +48,6 @@
 #define kCONFIGURLResetCloudDevInfo      "/dev-cloud_reset"
 #define kCONFIGURLDevFWUpdate            "/dev-fw_update"
 
-extern OSStatus ConfigIncommingJsonMessage( const char *input, mico_Context_t * const inContext );
 extern json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext );
 extern OSStatus getMVDActivateRequestData(const char *input, MVDActivateRequestData_t *activateData);
 extern OSStatus getMVDAuthorizeRequestData(const char *input, MVDAuthorizeRequestData_t *authorizeData);
@@ -57,15 +58,16 @@ extern OSStatus getMVDGetStateRequestData(const char *input, MVDGetStateRequestD
 extern uint16_t ota_crc;
 
 static void fogCloudConfigServer_listener_thread(void *inContext);
-static void localConfig_thread(void *inFd);
+static void fogCloudConfigClient_thread(void *inFd);
 static mico_Context_t *Context;
+static volatile bool fog_config_server_running = true;
 static OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
                                                    mico_Context_t * const inContext);
 
 OSStatus MicoStartFogCloudConfigServer ( mico_Context_t * const inContext )
 {
   return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, 
-                                 "fogcloud_configserver", 
+                                 "fog_server", 
                                  fogCloudConfigServer_listener_thread, 
                                  STACK_SIZE_FOGCLOUD_CONFIG_SERVER_THREAD, (void*)inContext );
 }
@@ -95,6 +97,10 @@ void fogCloudConfigServer_listener_thread(void *inContext)
                       FOGCLOUD_CONFIG_SERVER_PORT, localConfiglistener_fd);
   
   while(1){
+    if(false == fog_config_server_running){
+      break;
+    }
+    
     FD_ZERO(&readfds);
     FD_SET(localConfiglistener_fd, &readfds);
     select(1, &readfds, NULL, NULL, NULL);
@@ -106,19 +112,20 @@ void fogCloudConfigServer_listener_thread(void *inContext)
       if (j > 0) {
         inet_ntoa(ip_address, addr.s_ip );
         fogcloud_config_log("fogCloud Config Client %s:%d connected, fd: %d", ip_address, addr.s_port, j);
-        err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "fogcloud_config_client", 
-                                      localConfig_thread, STACK_SIZE_FOGCLOUD_CONFIG_CLIENT_THREAD, &j);
+        err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "fog_client", 
+                                      fogCloudConfigClient_thread, STACK_SIZE_FOGCLOUD_CONFIG_CLIENT_THREAD, &j);
       }
     }
   }
   
 exit:
-  fogcloud_config_log("Exit: Local controller exit with err = %d", err);
+  fogcloud_config_log("Exit: Fog config Server exit with err = %d", err);
+  SocketClose(&localConfiglistener_fd);
   mico_rtos_delete_thread(NULL);
   return;
 }
 
-void localConfig_thread(void *inFd)
+void fogCloudConfigClient_thread(void *inFd)
 {
   OSStatus err;
   int clientFd = *(int *)inFd;
@@ -130,7 +137,7 @@ void localConfig_thread(void *inFd)
   httpHeader = ECS_HTTPHeaderCreate();
   require_action( httpHeader, exit, err = kNoMemoryErr );
   ECS_HTTPHeaderClear( httpHeader );
-  t.tv_sec = 60;
+  t.tv_sec = 10;
   t.tv_usec = 0;
   while(1){
     FD_ZERO(&readfds);
@@ -138,28 +145,28 @@ void localConfig_thread(void *inFd)
     clientFdIsSet = 0;
     if(httpHeader->len == 0){
       err = select(1, &readfds, NULL, NULL, &t);
+      require( err > 0, exit );
       clientFdIsSet = FD_ISSET(clientFd, &readfds);
     }
     if(clientFdIsSet||httpHeader->len){
       err = ECS_SocketReadHTTPHeader( clientFd, httpHeader );
+      fogcloud_config_log("httpHeader: %s", httpHeader->buf);
       switch ( err )
       {
       case kNoErr:
         // Read the rest of the HTTP body if necessary
-        do{
-          err = ECS_SocketReadHTTPBody( clientFd, httpHeader );
-          require_noerr(err, exit);
-          // Call the HTTPServer owner back with the acquired HTTP header
+        err = ECS_SocketReadHTTPBody( clientFd, httpHeader );
+        if(httpHeader->dataEndedbyClose == true){
           err = _LocalConfigRespondInComingMessage( clientFd, httpHeader, Context );
-          //require_noerr( err, exit );
-          if(kConnectionErr == err){
-            goto exit; // connect err mean client closed.
-          }
-          if(httpHeader->contentLength == 0)
-            break;
-        } while( httpHeader->chunkedData == true || httpHeader->dataEndedbyClose == true);
-        // Reuse HTTPHeader
-        ECS_HTTPHeaderClear( httpHeader );
+          require_noerr(err, exit);
+          err = kConnectionErr;
+          goto exit;
+        }else{
+          require_noerr(err, exit);
+          err = _LocalConfigRespondInComingMessage( clientFd, httpHeader, Context );
+          //require_noerr(err, exit);
+          goto exit;
+        }
         break;
       case EWOULDBLOCK:
         // NO-OP, keep reading
@@ -182,8 +189,11 @@ void localConfig_thread(void *inFd)
   }
   
 exit:
-  if(kConnectionErr != err){
-    fogcloud_config_log("Exit: Client exit with err = %d", err);
+  if(kNoErr != err){
+    fogcloud_config_log("Exit: fogCloud config client exit with err = %d", err);
+  }
+  else{
+    fogcloud_config_log("Exit: fogcloud config client exit with success!");
   }
   SocketClose(&clientFd);
   ECS_HTTPHeaderClear( httpHeader );
@@ -200,6 +210,8 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
   size_t httpResponseLen = 0;
   json_object* report = NULL;
   char err_msg[32] = {0};
+  char *bonjour_txt_record = NULL;
+  char *bonjour_txt_field = NULL;
   
   MVDActivateRequestData_t devActivateRequestData;
   MVDAuthorizeRequestData_t devAuthorizeRequestData;
@@ -226,7 +238,6 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       require( httpResponse, exit );
       err = SocketSend( fd, httpResponse, httpResponseLen );
       SocketClose(&fd);
-      err = kConnectionErr; //Return an err to close the current thread
     }
     goto exit;
   }
@@ -239,6 +250,57 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       err = MicoFogCloudActivate(inContext, devActivateRequestData);
       require_noerr( err, exit );
       fogcloud_config_log("Device activate success!");
+      //------------------------------------------------------------------------
+      fog_config_server_running = false;  // stop fog config server
+      fogcloud_config_log("update bonjour txt record.");
+      // update owner binding flag in txt record of bonjour
+      suspend_bonjour_service(true);
+      mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
+      inContext->flashContentInRam.appConfig.fogcloudConfig.owner_binding = true;
+      err = MICOUpdateConfiguration(inContext);
+      mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
+      
+      bonjour_txt_record = malloc(550);
+      require_action(bonjour_txt_record, exit, err = kNoMemoryErr);
+      
+      bonjour_txt_field = __strdup_trans_dot(inContext->micoStatus.mac);
+      sprintf(bonjour_txt_record, "MAC=%s.", bonjour_txt_field);
+      free(bonjour_txt_field);
+      
+      bonjour_txt_field = __strdup_trans_dot((inContext->flashContentInRam.appConfig.fogcloudConfig.owner_binding) ? "true" : "false");
+      sprintf(bonjour_txt_record, "%sBinding=%s.", bonjour_txt_record, bonjour_txt_field);
+      free(bonjour_txt_field);
+      
+      bonjour_txt_field = __strdup_trans_dot(FIRMWARE_REVISION);
+      sprintf(bonjour_txt_record, "%sFirmware Rev=%s.", bonjour_txt_record, bonjour_txt_field);
+      free(bonjour_txt_field);
+      
+      bonjour_txt_field = __strdup_trans_dot(HARDWARE_REVISION);
+      sprintf(bonjour_txt_record, "%sHardware Rev=%s.", bonjour_txt_record, bonjour_txt_field);
+      free(bonjour_txt_field);
+      
+      bonjour_txt_field = __strdup_trans_dot(MicoGetVer());
+      sprintf(bonjour_txt_record, "%sMICO OS Rev=%s.", bonjour_txt_record, bonjour_txt_field);
+      free(bonjour_txt_field);
+      
+      bonjour_txt_field = __strdup_trans_dot(MODEL);
+      sprintf(bonjour_txt_record, "%sModel=%s.", bonjour_txt_record, bonjour_txt_field);
+      free(bonjour_txt_field);
+      
+      bonjour_txt_field = __strdup_trans_dot(PROTOCOL);
+      sprintf(bonjour_txt_record, "%sProtocol=%s.", bonjour_txt_record, bonjour_txt_field);
+      free(bonjour_txt_field);
+      
+      bonjour_txt_field = __strdup_trans_dot(MANUFACTURER);
+      sprintf(bonjour_txt_record, "%sManufacturer=%s.", bonjour_txt_record, bonjour_txt_field);
+      free(bonjour_txt_field);
+      
+      sprintf(bonjour_txt_record, "%sSeed=%u.", bonjour_txt_record, inContext->flashContentInRam.micoSystemConfig.seed);
+      
+      bonjour_update_txt_record(bonjour_txt_record);
+      if(NULL != bonjour_txt_record) free(bonjour_txt_record);
+      suspend_bonjour_service(false);
+      //------------------------------------------------------------------------
       report = json_object_new_object();
       require_action(report, exit, err = kNoMemoryErr);
       json_object_object_add(report, "device_id",
@@ -251,10 +313,6 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       require( httpResponse, exit );
       err = SocketSend( fd, httpResponse, httpResponseLen );
       SocketClose(&fd);
-      err = kConnectionErr; //Return an err to close the current thread
-      //inContext->micoStatus.sys_state = eState_Software_Reset;
-      //require(inContext->micoStatus.sys_state_change_sem, exit);
-      //mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
     }
     goto exit;
   }
@@ -278,10 +336,6 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       require( httpResponse, exit );
       err = SocketSend( fd, httpResponse, httpResponseLen );
       SocketClose(&fd);
-      err = kConnectionErr; //Return an err to close the current thread
-      // inContext->micoStatus.sys_state = eState_Software_Reset;
-      // require(inContext->micoStatus.sys_state_change_sem, exit);
-      // mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
     }
     goto exit;
   }
@@ -299,8 +353,7 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       require( httpResponse, exit );
       err = SocketSend( fd, httpResponse, httpResponseLen );
       SocketClose(&fd);
-      err = kConnectionErr; //Return an err to close the current thread
-      
+     
       inContext->micoStatus.sys_state = eState_Software_Reset;
       require(inContext->micoStatus.sys_state_change_sem, exit);
       mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
@@ -360,7 +413,6 @@ exit:
     require( httpResponse, exit );
     SocketSend( fd, httpResponse, httpResponseLen );
     SocketClose(&fd);
-    err = kConnectionErr;  // return kConnectionErr to close client thread.
   }
   if(httpResponse) free(httpResponse);
   if(report) json_object_put(report);

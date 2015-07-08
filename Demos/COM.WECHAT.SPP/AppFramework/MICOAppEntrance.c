@@ -21,15 +21,17 @@
 
 #include "MICODefine.h"
 #include "MICOAppDefine.h"
+#include "MICONotificationCenter.h"
 #include "MicoFogCloud.h"
 
 #define app_log(M, ...) custom_log("APP", M, ##__VA_ARGS__)
 #define app_log_trace() custom_log_trace("APP")
 
+
 /* default user_main callback function, this must be override by user. */
 WEAK OSStatus user_main( mico_Context_t * const mico_context )
 {
-  app_log("ERROR: user_main undefined!");
+  //app_log("ERROR: user_main undefined!");
   return kNotHandledErr;
 }
 
@@ -48,7 +50,7 @@ void user_main_thread(void* arg)
 #if (MICO_CLOUD_TYPE != CLOUD_DISABLED)
   // wait semaphore for cloud connection
   //mico_fogcloud_waitfor_connect(mico_context, MICO_WAIT_FOREVER);  // block to wait fogcloud connect
-  //app_log("Cloud connected, do user_main function.");
+  //app_log("Cloud connected, call user_main function.");
 #endif
   
   // loop in user mian function && must not return
@@ -90,11 +92,27 @@ OSStatus MICOStartApplication( mico_Context_t * const mico_context )
 {
   app_log_trace();
   OSStatus err = kNoErr;
+  LinkStatusTypeDef wifi_link_status;
     
   require_action(mico_context, exit, err = kParamErr);
-    
+  
   // LED on when Wi-Fi connected.
   MicoSysLed(false);
+  
+  // init application wifi link status
+  do{
+    err = micoWlanGetLinkStatus(&wifi_link_status);
+    if(kNoErr != err){
+      mico_thread_sleep(3);
+    }
+  }while(kNoErr != err);
+  
+  if(1 ==  wifi_link_status.is_connected){
+    mico_context->appStatus.isWifiConnected = true;
+  }
+  else{
+    mico_context->appStatus.isWifiConnected = false;
+  }
     
   /* Bonjour for service searching */
   if(mico_context->flashContentInRam.micoSystemConfig.bonjourEnable == true) {
@@ -103,8 +121,8 @@ OSStatus MICOStartApplication( mico_Context_t * const mico_context )
   
   /* start cloud service */
 #if (MICO_CLOUD_TYPE == CLOUD_FOGCLOUD)
-  err = MicoStartFogCloudService( mico_context );
   app_log("MICO CloudService: FogCloud.");
+  err = MicoStartFogCloudService( mico_context );
   require_noerr_action( err, exit, app_log("ERROR: Unable to start FogCloud service.") );
 #elif (MICO_CLOUD_TYPE == CLOUD_ALINK)
   app_log("MICO CloudService: Alink.");

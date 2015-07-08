@@ -57,7 +57,7 @@ OSStatus user_main( mico_Context_t * const mico_context )
                recv_msg->data_len, recv_msg->data_len, recv_msg->data + recv_msg->topic_len);
       
       // send msg to topic: "device_id/out"
-      err = MicoFogCloudMsgSend(mico_context, NULL, 0, recv_msg->data + recv_msg->topic_len , recv_msg->data_len);
+      err = MicoFogCloudMsgSend(mico_context, NULL, recv_msg->data + recv_msg->topic_len , recv_msg->data_len);
       if(kNoErr == err){
         user_log("Msg echo success!");
       }

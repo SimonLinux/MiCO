@@ -358,7 +358,6 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
     }
     goto exit;
   }
-#ifdef MICO_FLASH_FOR_UPDATE
   else if(ECS_HTTPHeaderMatchURL( inHeader, kCONFIGURLDevFWUpdate ) == kNoErr){
     if(inHeader->contentLength > 0){
       fogcloud_config_log("Recv device fw_update request.");
@@ -397,7 +396,6 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
     }
     goto exit;
   }
-#endif
   else{
     return kNotFoundErr;
   };

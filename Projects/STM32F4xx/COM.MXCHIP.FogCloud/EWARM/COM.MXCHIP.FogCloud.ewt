@@ -422,7 +422,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICOPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
@@ -491,6 +491,15 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Release.a</name>
+      </file>
+    </group>
+    <group>
+      <name>wifiConfig</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\wifi_config.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\wifi_config.h</name>
       </file>
     </group>
     <group>

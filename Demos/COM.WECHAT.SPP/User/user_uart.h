@@ -27,7 +27,7 @@
 /*******************************************************************************
  * DEFINES
  ******************************************************************************/
-#define UART_FOR_MCU                        MICO_UART_1
+#define UART_FOR_MCU                        UART_FOR_APP
 #define UART_RECV_TIMEOUT                   100
 #define UART_ONE_PACKAGE_LENGTH             1024
 #define UART_BUFFER_LENGTH                  2048

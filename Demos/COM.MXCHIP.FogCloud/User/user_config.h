@@ -26,14 +26,8 @@
 /*******************************************************************************
  *                             APP INFO
  ******************************************************************************/
-#define APP_INFO                           "FogCloud Demo based on MICO OS"
-
-#define FIRMWARE_REVISION                  "MICO_FOG_1_0"
-#define SERIAL_NUMBER                      "20150619"
-#define PROTOCOL                           "com.mxchip.fog"
-
 /* product type */
-// NOTE: use your own product id/key create in FogCloud developper center(www.easylink.io).
+// NOTE: use your own product id/key create in FogCloud developper center(www.fogcloud.io).
 #ifdef EMW3162
   #define PRODUCT_ID                        "062bfffc"
   #define PRODUCT_KEY                       "3cd53e02-5739-4b5a-a5e8-62fefb787598"
@@ -53,16 +47,22 @@
 
 #endif
 
-#define DEFAULT_ROM_VERSION                "v1.0.0"
-#define DEFAULT_DEVICE_NAME                "MiCO_FOG"      // device name upload to cloud
-#define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
+/*----------------------------------------------------------------------------*/
+#define SERIAL_NUMBER                      "1507081602"
+#define FIRMWARE_REVISION                  HARDWARE_REVISION"@"SERIAL_NUMBER
+
+#define DEFAULT_ROM_VERSION                FIRMWARE_REVISION
+#define DEFAULT_DEVICE_NAME                MODEL   // device name upload to cloud defined in platform_config.h
+
+#define APP_INFO                           MODEL" FogCloud Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
+#define PROTOCOL                           "com.mxchip.micokit"
 
    
 /*******************************************************************************
  *                             CONNECTING
  ******************************************************************************/
 /* Wi-Fi configuration mode */
-#define MICO_CONFIG_MODE                   CONFIG_MODE_EASYLINK_WITH_SOFTAP
+#define MICO_CONFIG_MODE                   CONFIG_MODE_EASYLINK
 
 /* MICO cloud service */
 #define MICO_CLOUD_TYPE                    CLOUD_FOGCLOUD
@@ -71,15 +71,13 @@
 //#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
 
 // if not need to check new firmware on server when system start, add this macro
-//#define DISABLE_FOGCLOUD_OTA_CHECK
+#define DISABLE_FOGCLOUD_OTA_CHECK
 
-   
+
 /*******************************************************************************
  *                             RESOURCES
  ******************************************************************************/
 #define STACK_SIZE_USER_MAIN_THREAD         0x800
-#define STACK_SIZE_NOTIFY_THREAD            0x800
-#define MICO_PROPERTIES_NOTIFY_INTERVAL_MS  1000
    
 /*User provided configurations*/
 #define CONFIGURATION_VERSION               0x00000001 // if default configuration is changed, update this number

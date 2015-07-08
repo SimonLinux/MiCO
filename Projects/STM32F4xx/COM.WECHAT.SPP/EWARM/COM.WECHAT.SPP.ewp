@@ -87,7 +87,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.1.7765</state>
+          <state>7.30.4.8186</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -175,6 +175,7 @@
           <state>USE_STDPERIPH_DRIVER</state>
           <state>DEBUG</state>
           <state>HSE_VALUE=26000000</state>
+          <state>EMW3165</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1134,6 +1135,7 @@
           <state>USE_STDPERIPH_DRIVER</state>
           <state>DEBUG</state>
           <state>HSE_VALUE=16000000</state>
+          <state>MICOKIT_3288</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -2172,7 +2174,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICOPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
@@ -2232,6 +2234,10 @@
     <name>MICO</name>
     <group>
       <name>AirKiss</name>
+      <excluded>
+        <configuration>MiCOKit-3165</configuration>
+        <configuration>MiCOKit-3288</configuration>
+      </excluded>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss.c</name>
       </file>
@@ -2250,6 +2256,10 @@
       <name>EasyLink</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\EasyLink\EasyLink.c</name>
+        <excluded>
+          <configuration>MiCOKit-3165</configuration>
+          <configuration>MiCOKit-3288</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\SoftAP\EasyLinkSoftAP.c</name>
@@ -2262,6 +2272,15 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Release.a</name>
+      </file>
+    </group>
+    <group>
+      <name>wifiConfig</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\wifi_config.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\wifi_config.h</name>
       </file>
     </group>
     <group>
@@ -2280,7 +2299,7 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MiCODefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>

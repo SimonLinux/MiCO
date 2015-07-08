@@ -26,20 +26,34 @@
 /*******************************************************************************
  *                             APP INFO
  ******************************************************************************/
-#define APP_INFO                           "Wechat Demo based on MICO OS"
-
-#define FIRMWARE_REVISION                  "MICO_WECHAT_1_0"
-#define SERIAL_NUMBER                      "20150522"
-#define PROTOCOL                           "com.mxchip.wechat"
-
 /* product type */
-// NOTE: create your own product on fogcloud developper center and replace it.
-#define PRODUCT_ID                         "2bed1355"
-#define PRODUCT_KEY                        "d98963de-97c9-11e4-ae3a-f23c9150064b"
+// NOTE: use your own product id/key create in FogCloud developper center(www.fogcloud.io).
+#ifdef EMW3162
+  #define PRODUCT_ID                         "2bed1355"
+  #define PRODUCT_KEY                        "d98963de-97c9-11e4-ae3a-f23c9150064b"
+#elif EMW3165
+  #define PRODUCT_ID                         "36f0bcd4"
+  #define PRODUCT_KEY                        "bd905f73-dbe7-4932-be4e-65a4128cb9ac"
+#elif MICOKIT_3288
+  #define PRODUCT_ID                         "6ae1c159"
+  #define PRODUCT_KEY                        "b0d07f9d-e081-4250-82a6-c1807fb0f9bf"
+#elif MICOKIT_3088
 
-#define DEFAULT_ROM_VERSION                "v1.0.0"
-#define DEFAULT_DEVICE_NAME                "MiCO Wechat"      // device name upload to cloud
-#define DEFAULT_MANUFACTURER               "MXCHIP"       // device manufacturer
+#elif EMW5088
+
+#else
+
+#endif
+
+/*----------------------------------------------------------------------------*/
+#define SERIAL_NUMBER                      "1507081602"
+#define FIRMWARE_REVISION                  HARDWARE_REVISION"@"SERIAL_NUMBER
+
+#define DEFAULT_ROM_VERSION                FIRMWARE_REVISION
+#define DEFAULT_DEVICE_NAME                MODEL   // device name upload to cloud defined in platform_config.h
+
+#define APP_INFO                           MODEL" Wechat SPP Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
+#define PROTOCOL                           "com.wechat.spp"
 
    
 /*******************************************************************************
@@ -51,12 +65,13 @@
 /* MICO cloud service */
 #define MICO_CLOUD_TYPE                    CLOUD_FOGCLOUD
    
-// if need to auto activate afger first time configure, comment it out
-//#define DISABLE_FOGCLOUD_AUTO_ACTIVATE
+// if need to auto activate afger first time configure, add this macro
+#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
 
-// disalbe FogCloud OTA check when system start
+// if not need to check new firmware on server when system start, add this macro
 #define DISABLE_FOGCLOUD_OTA_CHECK
-   
+
+
 /*******************************************************************************
  *                             RESOURCES
  ******************************************************************************/

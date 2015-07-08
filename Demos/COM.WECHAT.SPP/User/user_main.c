@@ -95,7 +95,7 @@ OSStatus user_main( mico_Context_t * const mico_context )
         ptr += recv_msg->data_len;
         memcpy(ptr, '\0', 1);
         
-        err = MicoFogCloudMsgSend(mico_context, NULL, 0, responseMsg, responseMsgLen);
+        err = MicoFogCloudMsgSend(mico_context, NULL, responseMsg, responseMsgLen);
         if(NULL != responseMsg){
           ptr = NULL;
           free(responseMsg);

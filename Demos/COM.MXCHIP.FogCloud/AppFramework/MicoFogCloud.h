@@ -51,17 +51,14 @@ bool MicoFogCloudIsActivated(mico_Context_t* const context);
 // cloud connect state
 bool MicoFogCloudIsConnect(mico_Context_t* const context);
 
-void mico_fogcloud_waitfor_connect(mico_Context_t* const context, uint32_t timeout_ms);
 
 /*--------------------------- send && recv message ---------------------------*/
 // Module <=> Cloud
-OSStatus MicoFogCloudMsgSend(mico_Context_t* const context, 
-                             const char* topic, unsigned int topic_len,
+OSStatus MicoFogCloudMsgSend(mico_Context_t* const context, const char* topic,
                              unsigned char *inBuf, unsigned int inBufLen);
 
-// get msg from MQTT client, msg must be freed by user.
-// msg: address of a msg pointer, the pointer points to the real msg memory
-OSStatus MicoFogCloudMsgRecv(mico_Context_t* const context, fogcloud_msg_t **msg, uint32_t timeout_ms);
+OSStatus MicoFogCloudMsgRecv(mico_Context_t* const context, fogcloud_msg_t **msg, 
+                             uint32_t timeout_ms);
 
 /*------------------------------ device control ------------------------------*/
 //activate
@@ -73,6 +70,9 @@ OSStatus MicoFogCloudAuthorize(mico_Context_t* const context,
 //reset device info on cloud
 OSStatus MicoFogCloudResetCloudDevInfo(mico_Context_t* const context,
                                        MVDResetRequestData_t devResetData);
+// just set need cloud reset flag, device will reset itself from cloud.
+void MicoFogCloudNeedResetDevice(void);
+
 //OTA
 OSStatus MicoFogCloudFirmwareUpdate(mico_Context_t* const context,
                                     MVDOTARequestData_t OTAData);
@@ -80,6 +80,5 @@ OSStatus MicoFogCloudFirmwareUpdate(mico_Context_t* const context,
 OSStatus MicoFogCloudGetState(mico_Context_t* const context,
                               MVDGetStateRequestData_t getStateRequestData,
                               void* outDevState);
-
 
 #endif  // __MICO_FOGCLOUD_H_

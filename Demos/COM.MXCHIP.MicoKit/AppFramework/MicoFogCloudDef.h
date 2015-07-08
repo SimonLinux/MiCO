@@ -34,23 +34,22 @@
 #define DEFAULT_DEV_PASSWD               "88888888"
    
 // default device info
-#define DEFAULT_DEVICE_ID                "none"
-#define DEFAULT_DEVICE_KEY               "none"
+#define DEFAULT_DEVICE_ID                "null"
+#define DEFAULT_DEVICE_KEY               "null"
 
 #define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0xC00
-
-/* MQTT topic sub-level, device_id/out/status */
-#define PUBLISH_TOPIC_CHANNEL_STATUS     "status"
-
-#define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0x400
 #define STACK_SIZE_FOGCLOUD_OTA_THREAD    0xC00
 #define FOGCLOUD_CONFIG_SERVER_PORT       8001    // fogcloud config server port
 
-// disalbe FogCloud OTA check when system start
-//#define DISABLE_FOGCLOUD_OTA_CHECK
+#define FOGCLOUD_MAX_RECV_QUEUE_LENGTH    5       // max num of msg in recv queue
+// max recv data(tooic+payload) buffer len, each MQTT msg max size = 2048
+#define FOGCLOUD_TOTAL_BUF_LENGTH         (FOGCLOUD_MAX_RECV_QUEUE_LENGTH*2048)
 
 // enalbe FogCloud auto activate function (user_token=MAC)
-//#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
+#define ENABLE_FOGCLOUD_AUTO_ACTIVATE
+
+// disalbe FogCloud OTA check when system start
+//#define DISABLE_FOGCLOUD_OTA_CHECK
 
 
 /*******************************************************************************
@@ -62,6 +61,7 @@ typedef struct _fogcloud_config_t
 {
   /* cloud connect params */
   bool              isActivated;                         // device activate flag
+  bool              owner_binding;                       // first owner binding flag
   char              deviceId[MAX_SIZE_DEVICE_ID];        // get from cloud server
   char              masterDeviceKey[MAX_SIZE_DEVICE_KEY];// get from cloud server
   char              romVersion[MAX_SIZE_FW_VERSION];     // get from cloud server
@@ -90,5 +90,12 @@ typedef struct _get_state_req_data_t {
   char              devPasswd[MAX_SIZE_DEV_PASSWD];
   char              user_token[MAX_SIZE_USER_TOKEN];
 } MVDGetStateRequestData_t;
+
+// pseudo msg struct, real msg will be reallocate when msg received.
+typedef struct _fogcloud_msg_t {
+  uint32_t topic_len;
+  uint32_t data_len;
+  uint8_t data[1];  // 1 byte fake msg payload, real msg memory will be reallocate when received
+} fogcloud_msg_t;
 
 #endif  // __MICO_FOGCLOUD_DEF_H_

@@ -51,15 +51,14 @@ bool MicoFogCloudIsActivated(mico_Context_t* const context);
 // cloud connect state
 bool MicoFogCloudIsConnect(mico_Context_t* const context);
 
-void mico_fogcloud_waitfor_connect(mico_Context_t* const context, uint32_t timeout_ms);
 
 /*--------------------------- send && recv message ---------------------------*/
 // Module <=> Cloud
 OSStatus MicoFogCloudMsgSend(mico_Context_t* const context, const char* topic,
                              unsigned char *inBuf, unsigned int inBufLen);
 
-//OSStatus MicoFogCloudMsgRecv(mico_Context_t* const context, void *fogcloudMsg.
-//                             int *timeout_ms);
+OSStatus MicoFogCloudMsgRecv(mico_Context_t* const context, fogcloud_msg_t **msg, 
+                             uint32_t timeout_ms);
 
 /*------------------------------ device control ------------------------------*/
 //activate
@@ -71,6 +70,9 @@ OSStatus MicoFogCloudAuthorize(mico_Context_t* const context,
 //reset device info on cloud
 OSStatus MicoFogCloudResetCloudDevInfo(mico_Context_t* const context,
                                        MVDResetRequestData_t devResetData);
+// just set need cloud reset flag, device will reset itself from cloud.
+void MicoFogCloudNeedResetDevice(void);
+
 //OTA
 OSStatus MicoFogCloudFirmwareUpdate(mico_Context_t* const context,
                                     MVDOTARequestData_t OTAData);
@@ -78,14 +80,5 @@ OSStatus MicoFogCloudFirmwareUpdate(mico_Context_t* const context,
 OSStatus MicoFogCloudGetState(mico_Context_t* const context,
                               MVDGetStateRequestData_t getStateRequestData,
                               void* outDevState);
-
-/*******************************************************************************
-*                              INTERNAL FUNCTIONS
-*******************************************************************************/
-
-// override by user in user_main.c
-//WEAK OSStatus user_fogcloud_msg_handler(mico_Context_t* context, 
-//                                        const char* topic, const unsigned int topicLen,
-//                                        unsigned char *inBuf, unsigned int inBufLen);
 
 #endif  // __MICO_FOGCLOUD_H_

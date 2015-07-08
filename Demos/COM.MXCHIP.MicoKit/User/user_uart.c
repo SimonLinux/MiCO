@@ -29,13 +29,13 @@
 #define user_uart_log_trace() custom_log_trace("USER_UART")
 
 volatile ring_buffer_t  rx_buffer;
-volatile uint8_t        rx_data[UART_BUFFER_LENGTH];
+volatile uint8_t        rx_data[USER_UART_BUFFER_LENGTH];
 
 /*******************************************************************************
 * INTERFACES
 ******************************************************************************/
 
-OSStatus user_uartInit(mico_Context_t* const inContext)
+OSStatus user_uartInit(void)
 {
  // OSStatus err = kUnknownErr;
   mico_uart_config_t uart_config;
@@ -46,11 +46,8 @@ OSStatus user_uartInit(mico_Context_t* const inContext)
   uart_config.parity       = NO_PARITY;
   uart_config.stop_bits    = STOP_BITS_1;
   uart_config.flow_control = FLOW_CONTROL_DISABLED;
-  if(inContext->flashContentInRam.micoSystemConfig.mcuPowerSaveEnable == true)
-    uart_config.flags = UART_WAKEUP_ENABLE;
-  else
-    uart_config.flags = UART_WAKEUP_DISABLE;
-  ring_buffer_init  ( (ring_buffer_t *)&rx_buffer, (uint8_t *)rx_data, UART_BUFFER_LENGTH );
+  uart_config.flags = UART_WAKEUP_DISABLE;
+  ring_buffer_init  ( (ring_buffer_t *)&rx_buffer, (uint8_t *)rx_data, USER_UART_BUFFER_LENGTH );
   
   MicoUartInitialize( USER_UART, &uart_config, (ring_buffer_t *)&rx_buffer );
   
@@ -61,7 +58,14 @@ OSStatus user_uartSend(unsigned char *inBuf, unsigned int inBufLen)
 {
   OSStatus err = kUnknownErr;
 
-  user_uart_log("MVD => MCU:[%d]=%.*s", inBufLen, inBufLen, inBuf);
+  if( (NULL == inBuf) || ( 0 == inBufLen) ){
+    err = kParamErr;
+    user_uart_log("ERROR: user_uartSend input params error!");
+    goto exit;
+  }
+  
+  user_uart_log("KIT => MCU:[%d]=%.*s", inBufLen, inBufLen, inBuf);
+  
   err = MicoUartSend(USER_UART, inBuf, inBufLen);
   require_noerr_action( err, exit, user_uart_log("ERROR: send to USART error! err=%d", err) );
   return kNoErr;
@@ -74,13 +78,18 @@ uint32_t user_uartRecv(unsigned char *outBuf, unsigned int getLen)
 {
   unsigned int data_len = 0;
 
-  if( MicoUartRecv( USER_UART, outBuf, getLen, UART_RECV_TIMEOUT) == kNoErr){
+  if( (NULL == outBuf) || (0 == getLen) ){
+    user_uart_log("ERROR: user_uartRecv input params error!");
+    return 0;
+  }
+  
+  if( MicoUartRecv( USER_UART, outBuf, getLen, USER_UART_RECV_TIMEOUT) == kNoErr){
     data_len = getLen;
   }
   else{
     data_len = MicoUartGetLengthInBuffer( USER_UART );
     if(data_len){
-      MicoUartRecv(USER_UART, outBuf, data_len, UART_RECV_TIMEOUT);
+      MicoUartRecv(USER_UART, outBuf, data_len, USER_UART_RECV_TIMEOUT);
     }
     else{
       data_len = 0;

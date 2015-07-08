@@ -39,43 +39,66 @@ extern struct mico_service_t  service_table[];
 extern user_context_t g_user_context;
 
 
-/* MICO user callback: Restore default configuration provided by user
- * called when Easylink buttion long pressed
- */
-void userRestoreDefault_callback(mico_Context_t *mico_context)
+// delete device from cloud when KEY1(ext-board) long pressed.
+void user_key1_long_pressed_callback(void)
 {
-  //user_log("INFO: restore user configuration.");
+  MicoFogCloudNeedResetDevice();  // set device need reset flag
+  return;
 }
 
-/* FogCloud message receive callback: handle cloud messages here
- */
-OSStatus user_fogcloud_msg_handler(mico_Context_t* mico_context, 
-                            const char* topic, const unsigned int topicLen,
-                            unsigned char *inBuf, unsigned int inBufLen)
+/* FogCloud msg handle thread */
+void user_cloud_msg_handle_thread(void* arg)
+{
+  OSStatus err = kUnknownErr;
+  fogcloud_msg_t *recv_msg = NULL;
+  mico_fogcloud_msg_t mico_fog_msg;
+  int retCode = MSG_PROP_UNPROCESSED;
+  mico_Context_t *mico_context = (mico_Context_t *)arg;
+  require_action(mico_context, exit, err=kParamErr);
+  
+  while(1){
+    mico_thread_msleep(100);  // in case of while (1)
+    
+    err = MicoFogCloudMsgRecv(mico_context, &recv_msg, 0);
+    if(kNoErr == err){
+      user_log("Msg recv: topic[%d]=[%.*s]\tdata[%d]=[%.*s]", 
+               recv_msg->topic_len, recv_msg->topic_len, recv_msg->data, 
+               recv_msg->data_len, recv_msg->data_len, recv_msg->data + recv_msg->topic_len);
+      // msg structure format transfer
+      mico_fog_msg.topic = (const char*)(recv_msg->data);
+      mico_fog_msg.topic_len = recv_msg->topic_len;
+      mico_fog_msg.data = recv_msg->data + recv_msg->topic_len;
+      mico_fog_msg.data_len = recv_msg->data_len;
+      err = mico_fogcloud_msg_dispatch(mico_context, service_table, &mico_fog_msg, &retCode);    
+      if(kNoErr != err){
+        user_log("ERROR: mico_cloudmsg_dispatch error, err=%d", err);
+      }
+      else{
+      }
+  
+      // NOTE: msg memory must be free after been used.
+      if(NULL != recv_msg){
+        free(recv_msg);
+        recv_msg = NULL;
+      }
+    }
+  }
+  
+exit:
+  user_log("ERROR: user_cloud_msg_handle_thread exit with err=%d", err);
+  return;
+}
+
+OSStatus start_fog_msg_handler(mico_Context_t *mico_context)
 {
   user_log_trace();
-  OSStatus err = kUnknownErr;
-  mico_fogcloud_msg_t fogcloud_msg;
-  int retCode = MSG_PROP_UNPROCESSED;
+  OSStatus err = kNoErr;
+  require_action(mico_context, exit, err = kParamErr);
   
-  if((NULL == mico_context) || (NULL == topic) || (0 == topicLen) ) {
-    user_log("ERROR: mico_cloudmsg_dispatch params error, err=%d", err);
-    return kParamErr;
-  }
-  
-  fogcloud_msg.topic = topic;
-  fogcloud_msg.topic_len = topicLen;
-  fogcloud_msg.data = inBuf;
-  fogcloud_msg.data_len = inBufLen;
-  
-  err = mico_fogcloud_msg_dispatch(mico_context, service_table, &fogcloud_msg, &retCode);    
-  if(kNoErr != err){
-    user_log("ERROR: mico_cloudmsg_dispatch error, err=%d", err);
-  }
-  else
-  {
-  }
-  
+  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "user_msg_handler", 
+                                user_cloud_msg_handle_thread, STACK_SIZE_USER_MSG_HANDLER_THREAD, 
+                                mico_context );
+exit:
   return err;
 }
 
@@ -141,16 +164,24 @@ OSStatus user_main( mico_Context_t * const mico_context )
   user_log_trace();
   OSStatus err = kUnknownErr;
   
-  user_uartInit(mico_context);
+  user_log("User main task start...");
   
+  err = user_uartInit();
+  require_noerr_action( err, exit, user_log("ERROR: user_uartInit err = %d.", err) );
+ 
 #if (MICO_CLOUD_TYPE != CLOUD_DISABLED)
-  /* start properties notify task */
+  /* start fogcloud msg handle task */
+  err = start_fog_msg_handler(mico_context);
+  require_noerr_action( err, exit, user_log("ERROR: start_fog_msg_handler err = %d.", err) );
+
+  /* start properties notify task(upload data) */
   err = mico_start_properties_notify(mico_context, service_table, 
                                      MICO_PROPERTIES_NOTIFY_INTERVAL_MS, 
                                      STACK_SIZE_NOTIFY_THREAD);
   require_noerr_action( err, exit, user_log("ERROR: mico_start_properties_notify err = %d.", err) );
 #endif
   
+  /* main loop for user display */
   while(1){
     // check every 1 seconds
     mico_thread_sleep(1);

@@ -59,7 +59,7 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, mico_Context_t * con
   net_para_st para;
   bonjour_init_t init;
 
-  temp_txt = malloc(500);
+  temp_txt = malloc(550);
   require_action(temp_txt, exit, err = kNoMemoryErr);
 
   memset(&init, 0x0, sizeof(bonjour_init_t));
@@ -87,6 +87,10 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, mico_Context_t * con
 
   temp_txt2 = __strdup_trans_dot(inContext->micoStatus.mac);
   sprintf(temp_txt, "MAC=%s.", temp_txt2);
+  free(temp_txt2);
+  
+  temp_txt2 = __strdup_trans_dot((inContext->flashContentInRam.appConfig.fogcloudConfig.owner_binding) ? "true" : "false");
+  sprintf(temp_txt, "%sBinding=%s.", temp_txt, temp_txt2);
   free(temp_txt2);
 
   temp_txt2 = __strdup_trans_dot(FIRMWARE_REVISION);

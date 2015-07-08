@@ -2179,7 +2179,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MICOPlatform.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
@@ -2198,6 +2198,9 @@
     <name>MICO</name>
     <group>
       <name>AirKiss</name>
+      <excluded>
+        <configuration>MiCOKit-3162</configuration>
+      </excluded>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss.c</name>
       </file>
@@ -2216,6 +2219,9 @@
       <name>EasyLink</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\EasyLink\EasyLink.c</name>
+        <excluded>
+          <configuration>MiCOKit-3162</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\SoftAP\EasyLinkSoftAP.c</name>
@@ -2270,6 +2276,15 @@
       </file>
     </group>
     <group>
+      <name>wifiConfig</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\wifi_config.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\wifi_config.h</name>
+      </file>
+    </group>
+    <group>
       <name>WPS</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\WPS\WPS.c</name>
@@ -2294,6 +2309,9 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOForceOTA.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOMfgtest.c</name>
     </file>
     <file>
@@ -2307,6 +2325,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\tftp\tftpc.o</name>
     </file>
   </group>
   <group>

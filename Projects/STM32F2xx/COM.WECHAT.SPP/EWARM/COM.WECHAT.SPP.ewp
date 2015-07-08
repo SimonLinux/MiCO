@@ -60,7 +60,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>0</state>
         </option>
         <option>
@@ -87,7 +87,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.1.7765</state>
+          <state>7.30.4.8186</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -174,6 +174,7 @@
           <name>CCDefines</name>
           <state>USE_STDPERIPH_DRIVER</state>
           <state>DEBUG</state>
+          <state>EMW3162</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -632,6 +633,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1022,7 +1024,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>0</state>
         </option>
         <option>
@@ -1592,6 +1594,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -2200,6 +2203,9 @@
     <name>MICO</name>
     <group>
       <name>AirKiss</name>
+      <excluded>
+        <configuration>MiCOKit-3162</configuration>
+      </excluded>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss.c</name>
       </file>
@@ -2218,6 +2224,9 @@
       <name>EasyLink</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\EasyLink\EasyLink.c</name>
+        <excluded>
+          <configuration>MiCOKit-3162</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\SoftAP\EasyLinkSoftAP.c</name>
@@ -2272,6 +2281,15 @@
       </file>
     </group>
     <group>
+      <name>wifiConfig</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\wifi_config.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\wifi_config.h</name>
+      </file>
+    </group>
+    <group>
       <name>WPS</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\WPS\WPS.c</name>
@@ -2293,6 +2311,9 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOForceOTA.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOMfgtest.c</name>
     </file>
     <file>
@@ -2306,6 +2327,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\MICO\tftp\tftpc.o</name>
     </file>
   </group>
   <group>

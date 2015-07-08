@@ -64,7 +64,7 @@
 #endif
 /*---------------------------------------------------------*/
 
-#define SERIAL_NUMBER                      "1507071004"
+#define SERIAL_NUMBER                      "1507081602"
 #define FIRMWARE_REVISION                  HARDWARE_REVISION"@"SERIAL_NUMBER
 
 #define DEFAULT_ROM_VERSION                FIRMWARE_REVISION
@@ -79,9 +79,9 @@
  ******************************************************************************/
 /* Wi-Fi configuration mode */
 #ifdef WECHAT_SUPPORT
-  #define MICO_CONFIG_MODE                   CONFIG_MODE_AIRKISS  // may be hybrid mode later
+  #define MICO_CONFIG_MODE                 CONFIG_MODE_AIRKISS  // may be hybrid mode later
 #else
-  #define MICO_CONFIG_MODE                   CONFIG_MODE_EASYLINK
+  #define MICO_CONFIG_MODE                 CONFIG_MODE_EASYLINK
 #endif
 
 /* MICO cloud service type */
@@ -95,6 +95,7 @@
  *                             RESOURCES
  ******************************************************************************/
 #define STACK_SIZE_USER_MAIN_THREAD         0x800
+#define STACK_SIZE_USER_MSG_HANDLER_THREAD  0x800
 #define STACK_SIZE_NOTIFY_THREAD            0x800
 #define MICO_PROPERTIES_NOTIFY_INTERVAL_MS  1000
 

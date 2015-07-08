@@ -32,7 +32,6 @@
 
 
 static easycloud_service_context_t easyCloudContext;
-extern mico_semaphore_t _fogcloud_connect_sem;
 
 extern void OTAWillStart( mico_Context_t * const inContext );
 extern void OTASuccess( mico_Context_t * const inContext );
@@ -74,9 +73,6 @@ void cloudServiceStatusChangedHandler(void* context, easycloud_service_status_t 
   if (FOGCLOUD_CONNECTED == serviceStateInfo.state){
     cloud_if_log("cloud service connected!");
     inContext->appStatus.fogcloudStatus.isCloudConnected = true;
-    if(NULL != _fogcloud_connect_sem){
-      mico_rtos_set_semaphore(&_fogcloud_connect_sem);
-    }
     //set_RF_LED_cloud_connected(inContext);
   }
   else{
@@ -88,7 +84,6 @@ void cloudServiceStatusChangedHandler(void* context, easycloud_service_status_t 
 
 OSStatus fogCloudPrintVersion(void)
 {
-  //OSStatus err = kUnknownErr;
   int cloudServiceLibVersion = 0;
   cloud_if_log("fogCloudPrintVersion");
   
@@ -217,34 +212,8 @@ OSStatus fogCloudDevActivate(mico_Context_t* const inContext,
 {
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;
-//  uint16_t login_id_cmp_len = 0;
-//  uint16_t dev_passwd_cmp_len = 0;
   
   cloud_if_log("Device activate...");
-  
-  // login_id/dev_passwd ok ?
-//  login_id_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) > strlen((char*)DEFAULT_LOGIN_ID) ?
-//                     strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) : strlen((char*)DEFAULT_LOGIN_ID);
-//  dev_passwd_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) > strlen((char*)DEFAULT_DEV_PASSWD) ?
-//                       strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) : strlen((char*)DEFAULT_DEV_PASSWD);
-//  if((0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId, 
-//                   (char*)DEFAULT_LOGIN_ID, login_id_cmp_len)) ||
-//     (0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd, 
-//                   (char*)DEFAULT_DEV_PASSWD, dev_passwd_cmp_len))){
-//     login_id_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) > strlen(devActivateRequestData.loginId) ?
-//                        strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) : strlen(devActivateRequestData.loginId);
-//     dev_passwd_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) > strlen(devActivateRequestData.devPasswd) ?
-//                          strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) : strlen(devActivateRequestData.devPasswd);
-//     if((0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId, 
-//                      devActivateRequestData.loginId, login_id_cmp_len)) ||
-//        (0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd, 
-//                      devActivateRequestData.devPasswd, dev_passwd_cmp_len))){
-//        // devPass err
-//        cloud_if_log("ERROR: fogCloudDevActivate: loginId/devPasswd mismatch!");
-//        return kMismatchErr;
-//      }
-//  }
-//  cloud_if_log("fogCloudDevActivate: loginId/devPasswd ok!");
   
   //ok, set cloud context
   strncpy(easyCloudContext.service_config_info.loginId, 
@@ -293,8 +262,6 @@ OSStatus fogCloudDevAuthorize(mico_Context_t* const inContext,
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;
   easycloud_service_state_t cloudServiceState = FOGCLOUD_STOPPED;
-//  uint16_t login_id_cmp_len = 0;
-//  uint16_t dev_passwd_cmp_len = 0;
   
   cloud_if_log("Device authorize...");
 
@@ -302,21 +269,6 @@ OSStatus fogCloudDevAuthorize(mico_Context_t* const inContext,
   if (FOGCLOUD_STOPPED == cloudServiceState){
     return kStateErr;
   }
-  
-  // dev_passwd ok ?
-//  login_id_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) > strlen(devAuthorizeReqData.loginId) ?
-//                     strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) : strlen(devAuthorizeReqData.loginId);
-//  dev_passwd_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) > strlen(devAuthorizeReqData.devPasswd) ?
-//                       strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) : strlen(devAuthorizeReqData.devPasswd);
-//  if((0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId, 
-//                   devAuthorizeReqData.loginId, login_id_cmp_len)) ||
-//     (0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd, 
-//                   devAuthorizeReqData.devPasswd, dev_passwd_cmp_len))){
-//    // devPass err
-//    cloud_if_log("ERROR: fogCloudDevAuthorize: devPasswd mismatch!");
-//    return kMismatchErr;
-//  }
-//  cloud_if_log("fogCloudDevAuthorize: devPasswd ok!");
   
   //ok, set cloud context
   strncpy(easyCloudContext.service_config_info.loginId, 
@@ -359,26 +311,7 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   uint32_t readLength = 0;
   uint32_t i = 0, size = 0;
   
-//  uint16_t login_id_cmp_len = 0;
-//  uint16_t dev_passwd_cmp_len = 0;
   bool flash_initialized = false;
-  
-  // login_id/dev_passwd ok ?
-//  login_id_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) > strlen(devOTARequestData.loginId) ?
-//                     strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) : strlen(devOTARequestData.loginId);
-//  dev_passwd_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) > strlen(devOTARequestData.devPasswd) ?
-//                       strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) : strlen(devOTARequestData.devPasswd);
-//  if((0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId, 
-//                   devOTARequestData.loginId, login_id_cmp_len)) ||
-//     (0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd, 
-//                   devOTARequestData.devPasswd, dev_passwd_cmp_len)))
-//  {
-//    // devPass err
-//    cloud_if_log("ERROR: fogCloudDevFirmwareUpdate: loginId/devPasswd mismatch!");
-//    err = kMismatchErr;
-//    goto exit_with_error;
-//  }
-//  cloud_if_log("fogCloudDevFirmwareUpdate: loginId/devPasswd ok!");
   
   //get latest rom version, file_path, md5
   cloud_if_log("fogCloudDevFirmwareUpdate: get latest rom version from server ...");
@@ -508,24 +441,9 @@ OSStatus fogCloudResetCloudDevInfo(mico_Context_t* const inContext,
                                             MVDResetRequestData_t devResetRequestData)
 {
   OSStatus err = kUnknownErr;
-//  uint16_t login_id_cmp_len = 0;
-//  uint16_t dev_passwd_cmp_len = 0;
   
-  // login_id/dev_passwd ok ?
-//  login_id_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) > strlen(devResetRequestData.loginId) ?
-//                     strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId) : strlen(devResetRequestData.loginId);
-//  dev_passwd_cmp_len = strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) > strlen(devResetRequestData.devPasswd) ?
-//                       strlen(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd) : strlen(devResetRequestData.devPasswd);
-//  if((0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.loginId, 
-//                   devResetRequestData.loginId, login_id_cmp_len)) ||
-//     (0 != strncmp(inContext->flashContentInRam.appConfig.fogcloudConfig.devPasswd, 
-//                   devResetRequestData.devPasswd, dev_passwd_cmp_len))){
-//    // devPass err
-//    cloud_if_log("ERROR: fogCloudResetCloudDevInfo: loginId/devPasswd mismatch!");
-//    return kMismatchErr;
-//  }
-//  cloud_if_log("fogCloudResetCloudDevInfo: loginId/devPasswd ok!");
-  
+  cloud_if_log("Delete device info from cloud...");
+    
   err = FogCloudDeviceReset(&easyCloudContext);
   require_noerr_action( err, exit, cloud_if_log("ERROR: FogCloudDeviceReset failed! err=%d", err) );
   
@@ -575,4 +493,3 @@ OSStatus fogCloudDeinit(mico_Context_t* const inContext)
 exit:
   return err;
 }
-

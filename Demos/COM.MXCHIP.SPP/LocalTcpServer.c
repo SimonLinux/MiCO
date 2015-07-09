@@ -118,13 +118,16 @@ void localTcpClient_thread(void *inFd)
     FD_ZERO(&readfds);
     FD_SET(clientFd, &readfds); 
     FD_SET(eventFd, &readfds); 
-    FD_ZERO(&writeSet );
-    FD_SET(clientFd, &writeSet );
 
-    select(24, &readfds, &writeSet, NULL, &t);
+    select(24, &readfds, NULL, NULL, &t);
     /* send UART data */
-    if ((FD_ISSET( eventFd, &readfds )) && (FD_ISSET( clientFd, &writeSet ))) { // have data and can write
-        if(kNoErr == mico_rtos_pop_from_queue( &queue, &msg, 0)) {
+    if (FD_ISSET( eventFd, &readfds )) { // have data and can write
+        FD_ZERO(&writeSet );
+        FD_SET(clientFd, &writeSet );
+        t.tv_usec = 100*1000; // max wait 100ms.
+        select(1, NULL, &writeSet, NULL, &t);
+        if((FD_ISSET( clientFd, &writeSet )) &&
+            (kNoErr == mico_rtos_pop_from_queue( &queue, &msg, 0))) {
            sent_len = write(clientFd, msg->data, msg->len);
            if (sent_len <= 0) {
               len = sizeof(errno);

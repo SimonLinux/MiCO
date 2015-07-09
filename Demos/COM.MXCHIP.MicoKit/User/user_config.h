@@ -64,7 +64,7 @@
 #endif
 /*---------------------------------------------------------*/
 
-#define SERIAL_NUMBER                      "1507081602"
+#define SERIAL_NUMBER                      "1507091607"
 #define FIRMWARE_REVISION                  HARDWARE_REVISION"@"SERIAL_NUMBER
 
 #define DEFAULT_ROM_VERSION                FIRMWARE_REVISION

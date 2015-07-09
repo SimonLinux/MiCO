@@ -307,12 +307,6 @@
     <group>
       <name>User</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\uart.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\uart.h</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_config.h</name>
       </file>
       <file>
@@ -323,6 +317,12 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_properties.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_uart.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.MiCOKit\User\user_uart.h</name>
       </file>
     </group>
   </group>

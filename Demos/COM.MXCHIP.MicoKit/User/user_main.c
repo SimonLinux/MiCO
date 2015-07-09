@@ -25,7 +25,7 @@
 
 #include "user_properties.h"
 #include "micokit_ext.h"
-#include "uart.h"
+#include "user_uart.h"
 
 #define user_log(M, ...) custom_log("USER", M, ##__VA_ARGS__)
 #define user_log_trace() custom_log_trace("USER")

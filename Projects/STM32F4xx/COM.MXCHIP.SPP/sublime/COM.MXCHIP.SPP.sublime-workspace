@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"RE",
+				"RECORD_REMOVE	mdns_record_state_t"
+			],
+			[
 				"mico_rtos_de",
 				"mico_rtos_delete_thread(mico_thread_t *thread)	OSStatus"
 			],
@@ -14,10 +18,6 @@
 			[
 				"RECORD_",
 				"RECORD_NORMAL	mdns_record_state_t"
-			],
-			[
-				"RE",
-				"RECORD_UPDATE	mdns_record_state_t"
 			],
 			[
 				"s",
@@ -519,6 +519,30 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.h",
+			"settings":
+			{
+				"buffer_size": 4295,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.c",
+			"settings":
+			{
+				"buffer_size": 25883,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "COM.MXCHIP.SPP.sublime-project",
+			"settings":
+			{
+				"buffer_size": 1747,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -734,6 +758,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"RECORD_REMOVED",
+			"process_dns_questions",
+			"mdns_handler",
+			"_bonjour_suspended",
+			"RECORD_SUSPEND",
+			"RECORD_REMOVE",
+			"_interface",
+			"mdns_send_message",
+			"find_record_by_service",
+			"bonjour_service_remove",
 			"delay_ms",
 			"delay_us",
 			"OLED_Clear",
@@ -851,17 +885,7 @@
 			"flashStorageAddress",
 			"  /* For MXCHIP OTA function, store extra data to OTA data temporary */\n//   err = HTTPGetHeaderField( inHeader->buf, inHeader->len, \"Content-Type\", NULL, NULL, &value, &valueSize, NULL );\n\n//   if(err == kNoErr && strnicmpx( value, valueSize, kMIMEType_MXCHIP_OTA ) == 0){\n// #ifdef MICO_FLASH_FOR_UPDATE  \n//     http_utils_log(\"Receive OTA data!\");    \n//     flashStorageAddress = UPDATE_START_ADDRESS;\n//     err = MicoFlashInitialize( MICO_FLASH_FOR_UPDATE );\n//     require_noerr(err, exit);\n//     err = MicoFlashErase(MICO_FLASH_FOR_UPDATE, UPDATE_START_ADDRESS, UPDATE_END_ADDRESS);\n//     require_noerr(err, exit);\n//     err = MicoFlashWrite(MICO_FLASH_FOR_UPDATE, &flashStorageAddress, (uint8_t *)end, inHeader->extraDataLen);\n//     require_noerr(err, exit);\n// #else\n//     http_utils_log(\"OTA flash memory is not existed!\");\n//     err = kUnsupportedErr;\n// #endif\n//     goto exit;\n//   }",
 			"HTTPHeaderClear\nHTTPHeaderClear",
-			"HTTPHeaderClear",
-			"dataEndedbyClose",
-			"onReceivedData",
-			"writeToFlash",
-			"onReceivedData",
-			"crea",
-			"mico_notify_WIFI_SCAN_COMPLETE_function",
-			"HTTPHeaderCreate",
-			"_ConnectToMfgAP",
-			"stop_mode_power_down_hook",
-			"_button_STANDBY_irq_handler"
+			"HTTPHeaderClear"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -881,8 +905,92 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.h",
+					"settings":
+					{
+						"buffer_size": 4295,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3956,
+								3981
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1887.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.c",
+					"settings":
+					{
+						"buffer_size": 25883,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								17851,
+								17851
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 8833.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "COM.MXCHIP.SPP.sublime-project",
+					"settings":
+					{
+						"buffer_size": 1747,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								677,
+								667
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 109.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

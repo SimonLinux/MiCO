@@ -30,6 +30,8 @@
 /**************************************************************************************************************
  * INCLUDES
  **************************************************************************************************************/
+#define MAX_RECORD_COUNT 4
+
 
 #define DNS_MESSAGE_IS_A_RESPONSE           0x8000
 #define DNS_MESSAGE_OPCODE                  0x7800
@@ -136,19 +138,18 @@ typedef struct
   char *instance_name;
   char *txt_record;
   uint16_t service_port;
-  WiFi_Interface interface;
 } bonjour_init_t;
 
-void bonjour_service_init(bonjour_init_t init);
 
-void bonjour_update_txt_record(char *txt_record);
+OSStatus start_bonjour_service( void );
 
-int start_bonjour_service(void);
+OSStatus bonjour_service_add( bonjour_init_t init, WiFi_Interface interface );
 
-void suspend_bonjour_service(bool state);
+void bonjour_service_suspend( char *service_name, WiFi_Interface interface, bool will_remove );
 
-void stop_bonjour_service(void);
+void bonjour_service_resume( char *service_name, WiFi_Interface interface );
 
+void bonjour_update_txt_record( char *service_name, WiFi_Interface interface, char *txt_record );
 
 
 #endif

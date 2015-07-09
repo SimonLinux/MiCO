@@ -43,6 +43,7 @@
 #include "WPS/WPS.h"
 #include "WAC/MFi_WAC.h"
 #include "StringUtils.h"
+#include "MDNSUtils.h"
 
 #if defined (CONFIG_MODE_EASYLINK) || defined (CONFIG_MODE_EASYLINK_WITH_SOFTAP)
 #include "EasyLink/EasyLink.h"
@@ -363,6 +364,9 @@ int application_start(void)
   err = MICOAddNotification( mico_notify_DHCP_COMPLETED, (void *)micoNotify_DHCPCompleteHandler );
   require_noerr( err, exit ); 
 
+  err = start_bonjour_service( );
+  require_noerr( err, exit ); 
+
   if( context->flashContentInRam.micoSystemConfig.configured == wLanUnConfigured ||
       context->flashContentInRam.micoSystemConfig.configured == unConfigured){
     mico_log("Empty configuration. Starting configuration mode...");
@@ -434,8 +438,9 @@ int application_start(void)
  
   /*Local configuration server*/
   if(context->flashContentInRam.micoSystemConfig.configServerEnable == true){
-    err =  MICOStartConfigServer(context);
-    require_noerr_action( err, exit, mico_log("ERROR: Unable to start the local server thread.") );
+    MICOStartConfigServer(context);
+  }else{
+    MICOStopConfigServer( );
   }
 
   err =  MICOStartNTPClient(context);

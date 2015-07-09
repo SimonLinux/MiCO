@@ -58,8 +58,6 @@
 bool uap_config_mode = false;
 mico_semaphore_t uap_config_finished_sem = NULL;
 
-static int _bonjourStarted = false;
-
 extern OSStatus     ConfigIncommingJsonMessage    ( const char *input, mico_Context_t * const inContext );
 extern json_object* ConfigCreateReportJsonMessage ( mico_Context_t * const inContext );
 extern void         ConfigWillStart               ( mico_Context_t * const inContext );
@@ -91,10 +89,9 @@ static void _EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * 
     strncpy(inContext->flashContentInRam.micoSystemConfig.gateWay, para.gate, maxIpLen);
     strncpy(inContext->flashContentInRam.micoSystemConfig.dnsServer, para.dns, maxIpLen);
     _initBonjourForEasyLink( Station, inContext );
-    suspend_bonjour_service(false);
     break;
-  case NOTIFY_STATION_DOWN:
-    suspend_bonjour_service(true);
+  case NOTIFY_AP_DOWN:
+    bonjour_service_suspend( "_easylink_config._tcp.local.", Soft_AP, true );
     break;
   default:
     break;
@@ -103,13 +100,6 @@ exit:
   return;
 }
 
-static void _EasyLinkNotify_SYSWillPoerOffHandler( mico_Context_t * const inContext)
-{
-  (void)inContext;
-  if(_bonjourStarted == true){
-    suspend_bonjour_service(true);
-  }
-}
 
 static void _EasyLinkNotify_WiFIParaChangedHandler(apinfo_adv_t *ap_info, char *key, int key_len, mico_Context_t * const inContext)
 {
@@ -154,7 +144,7 @@ static OSStatus _initBonjourForEasyLink( WiFi_Interface interface, mico_Context_
 
   memset(&init, 0x0, sizeof(bonjour_init_t));
 
-  micoWlanGetIPStatus(&para, Station);
+  micoWlanGetIPStatus(&para, interface);
 
   init.service_name = "_easylink_config._tcp.local.";
 
@@ -173,7 +163,6 @@ static OSStatus _initBonjourForEasyLink( WiFi_Interface interface, mico_Context_
   init.instance_name = (char*)__strdup(temp_txt);
 
   init.service_port = FTC_PORT;
-  init.interface = interface;
 
   temp_txt2 = __strdup_trans_dot(inContext->micoStatus.mac);
   sprintf(temp_txt, "MAC=%s.", temp_txt2);
@@ -211,14 +200,11 @@ static OSStatus _initBonjourForEasyLink( WiFi_Interface interface, mico_Context_
   sprintf(temp_txt, "%sSeed=%u.", temp_txt, inContext->flashContentInRam.micoSystemConfig.seed);
   init.txt_record = (char*)__strdup(temp_txt);
 
-  bonjour_service_init(init);
+  bonjour_service_add(init, interface);
 
   free(init.host_name);
   free(init.instance_name);
   free(init.txt_record);
-
-  err = MICOAddNotification( mico_notify_SYS_WILL_POWER_OFF, (void *)_EasyLinkNotify_SYSWillPoerOffHandler );
-  require_noerr( err, exit ); 
 
 exit:
   if(temp_txt) free(temp_txt);
@@ -261,13 +247,9 @@ OSStatus startEasyLinkSoftAP( mico_Context_t * const inContext)
     err = _initBonjourForEasyLink( Soft_AP , inContext );
     require_noerr(err, exit);
   }else{
-    err = _initBonjourForEasyLink( Station , inContext );
     connect_wifi_fast(inContext);
     require_noerr(err, exit);
   }
-
-  _bonjourStarted = true;
-  start_bonjour_service();
   
   err = MICOStartConfigServer( inContext );
   require_noerr( err, exit );
@@ -275,9 +257,8 @@ OSStatus startEasyLinkSoftAP( mico_Context_t * const inContext)
   mico_rtos_get_semaphore( &uap_config_finished_sem, MICO_WAIT_FOREVER ); 
   mico_rtos_deinit_semaphore( &uap_config_finished_sem );
 
-  err = MICORemoveNotification( mico_notify_SYS_WILL_POWER_OFF, (void *)_EasyLinkNotify_SYSWillPoerOffHandler );
-  MICOStopConfigServer( );
-  stop_bonjour_service( );
+  ConfigWillStop( inContext );
+
 
 exit:
   uap_config_mode = false;
@@ -292,8 +273,9 @@ OSStatus ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * cons
   inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_BYPASS_NO;
 
   new_obj = json_tokener_parse(input);
+  easylink_uap_log("Recv config object=%s", input);
   require_action(new_obj, exit, err = kUnknownErr);
-  easylink_uap_log("Recv config object=%s", json_object_to_json_string(new_obj));
+  
   json_object_object_foreach(new_obj, key, val) {
     if(!strcmp(key, KEY_SSID)){
       strncpy(inContext->flashContentInRam.micoSystemConfig.ssid, json_object_get_string(val), maxSsidLen);
@@ -325,5 +307,6 @@ OSStatus ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * cons
   json_object_put(new_obj);
 
 exit:
+
   return err; 
 }

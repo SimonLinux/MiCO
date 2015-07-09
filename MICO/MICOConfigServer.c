@@ -80,29 +80,46 @@ static mico_semaphore_t close_listener_sem = NULL, close_client_sem[ MAX_TCP_CLI
 OSStatus MICOStartConfigServer ( mico_Context_t * const inContext )
 {
   int i = 0;
-  if( is_config_server_established == false ){
-    is_config_server_established = true;
-    close_listener_sem = NULL;
-    for (; i < MAX_TCP_CLIENT_PER_SERVER; i++)
-      close_client_sem[ i ] = NULL;
-    return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)inContext );
-  }
-  return kAlreadyInitializedErr;
+  OSStatus err = kNoErr;
+
+  require_action(is_config_server_established == false, exit, err = kAlreadyInitializedErr);
+
+  config_log("Start config server");
+
+  close_listener_sem = NULL;
+  for (; i < MAX_TCP_CLIENT_PER_SERVER; i++)
+    close_client_sem[ i ] = NULL;
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)inContext );
+  require_noerr(err, exit);
+  is_config_server_established = true;
+  mico_thread_msleep(200);
+
+exit:
+  return err;
 }
 
 OSStatus MICOStopConfigServer( void )
 {
   int i = 0;
-  if( close_listener_sem != NULL )
-    mico_rtos_set_semaphore( &close_listener_sem );
+  OSStatus err = kNoErr;
+
+  require_action(is_config_server_established == true, exit, err = kAlreadyCanceledErr);
 
   for (; i < MAX_TCP_CLIENT_PER_SERVER; i++){
     if( close_client_sem[ i ] != NULL )
       mico_rtos_set_semaphore( &close_client_sem[ i ] );
   }
+  mico_thread_msleep(50);
+
+  if( close_listener_sem != NULL )
+    mico_rtos_set_semaphore( &close_listener_sem );
+
+  config_log(" Wait for 2s!");
+  mico_thread_msleep(500);
   is_config_server_established = false;
   
-  return kNoErr;
+exit:
+  return err;
 }
 
 void localConfiglistener_thread(void *inContext)
@@ -143,6 +160,7 @@ void localConfiglistener_thread(void *inContext)
 
     /* Check close requests */
     if(FD_ISSET(close_listener_fd, &readfds)){
+      mico_rtos_get_semaphore( &close_listener_sem, 0 );
       goto exit;
     }
 
@@ -150,7 +168,7 @@ void localConfiglistener_thread(void *inContext)
     if(FD_ISSET(localConfiglistener_fd, &readfds)){
       sockaddr_t_size = sizeof(struct sockaddr_t);
       j = accept(localConfiglistener_fd, &addr, &sockaddr_t_size);
-      if (IsValidFD( j )) {
+      if ( IsValidSocket( j ) ) {
         inet_ntoa(ip_address, addr.s_ip );
         config_log("Config Client %s:%d connected, fd: %d", ip_address, addr.s_port, j);
         if(kNoErr !=  mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Clients", localConfig_thread, STACK_SIZE_LOCAL_CONFIG_CLIENT_THREAD, &j) )
@@ -165,7 +183,7 @@ exit:
       mico_rtos_deinit_semaphore( &close_listener_sem );
       close_listener_sem = NULL;
     };
-    config_log("Exit: Local controller exit with err = %d", err);
+    config_log("Exit: Config listener exit with err = %d", err);
     SocketClose( &localConfiglistener_fd );
     mico_rtos_delete_thread(NULL);
     return;
@@ -176,10 +194,25 @@ void localConfig_thread(void *inFd)
   OSStatus err;
   int clientFd = *(int *)inFd;
   int clientFdIsSet;
+  int close_sem_index;
   fd_set readfds;
   struct timeval_t t;
   HTTPHeader_t *httpHeader = NULL;
+  int close_client_fd = -1;
   configContext_t httpContext = {0, false, 0};
+
+  for( close_sem_index = 0; close_sem_index < MAX_TCP_CLIENT_PER_SERVER; close_sem_index++ ){
+    if( close_client_sem[close_sem_index] == NULL )
+      break;
+  }
+
+  if( close_sem_index == MAX_TCP_CLIENT_PER_SERVER){
+    mico_rtos_delete_thread(NULL);
+    return;
+  }
+
+  mico_rtos_init_semaphore( &close_client_sem[close_sem_index], 1);
+  close_client_fd = mico_create_event_fd( close_client_sem[close_sem_index] );
 
   config_log_trace();
   httpHeader = HTTPHeaderCreateWithCallback(onReceivedData, onClearHTTPHeader, &httpContext);
@@ -193,12 +226,20 @@ void localConfig_thread(void *inFd)
   while(1){
     FD_ZERO(&readfds);
     FD_SET(clientFd, &readfds);
+    FD_SET(close_client_fd, &readfds);
     clientFdIsSet = 0;
 
     if(httpHeader->len == 0){
       require(select(1, &readfds, NULL, NULL, &t) >= 0, exit);
       clientFdIsSet = FD_ISSET(clientFd, &readfds);
     }
+
+    /* Check close requests */
+    if(FD_ISSET(close_client_fd, &readfds)){
+      mico_rtos_get_semaphore( &close_client_sem[close_sem_index], 0 );
+      err = kConnectionErr;
+      goto exit;
+    }    
   
     if(clientFdIsSet||httpHeader->len){
       err = SocketReadHTTPHeader( clientFd, httpHeader );
@@ -247,6 +288,14 @@ void localConfig_thread(void *inFd)
 exit:
   config_log("Exit: Client exit with err = %d", err);
   SocketClose(&clientFd);
+
+  if( close_client_sem[close_sem_index] != NULL )
+  {
+    mico_delete_event_fd( close_client_fd );
+    mico_rtos_deinit_semaphore( &close_client_sem[close_sem_index] );
+    close_client_sem[close_sem_index] = NULL;
+  };
+
   if(httpHeader) {
     HTTPHeaderClear( httpHeader );
     free(httpHeader);

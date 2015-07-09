@@ -26,31 +26,6 @@
 #include "MDNSUtils.h"
 #include "StringUtils.h"
 
-static int _bonjourStarted = false;
-
-void BonjourNotify_WifiStatusHandler( WiFiEvent event, mico_Context_t * const inContext )
-{
-  (void)inContext;
-  switch (event) {
-  case NOTIFY_STATION_UP:
-    suspend_bonjour_service(false);
-    break;
-  case NOTIFY_STATION_DOWN:
-    break;
-  default:
-    break;
-  }
-  return;
-}
-
-void BonjourNotify_SYSWillPoerOffHandler( mico_Context_t * const inContext)
-{
-  (void)inContext;
-  if(_bonjourStarted == true){
-    suspend_bonjour_service(true);
-  }
-}
-
 OSStatus MICOStartBonjourService( WiFi_Interface interface, mico_Context_t * const inContext )
 {
   char *temp_txt= NULL;
@@ -83,7 +58,6 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, mico_Context_t * con
   init.instance_name = (char*)__strdup(temp_txt);
 
   init.service_port = inContext->flashContentInRam.appConfig.localServerPort;
-  init.interface = interface;
 
   temp_txt2 = __strdup_trans_dot(inContext->micoStatus.mac);
   sprintf(temp_txt, "MAC=%s.", temp_txt2);
@@ -116,20 +90,12 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, mico_Context_t * con
   sprintf(temp_txt, "%sSeed=%u.", temp_txt, inContext->flashContentInRam.micoSystemConfig.seed);
   init.txt_record = (char*)__strdup(temp_txt);
 
-  bonjour_service_init(init);
+  bonjour_service_add( init, interface );
 
   free(init.host_name);
   free(init.instance_name);
   free(init.txt_record);
-
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)BonjourNotify_WifiStatusHandler );
-  require_noerr( err, exit );
-  err = MICOAddNotification( mico_notify_SYS_WILL_POWER_OFF, (void *)BonjourNotify_SYSWillPoerOffHandler );
-  require_noerr( err, exit ); 
-
-  start_bonjour_service();
-  _bonjourStarted = true;
-
+  
 exit:
   if(temp_txt) free(temp_txt);
   return err;

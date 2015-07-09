@@ -207,7 +207,7 @@ void fogcloud_main_thread(void *arg)
     }
     mico_thread_sleep(3);
   }
-  fogcloud_log("device is already activated.");
+  //fogcloud_log("device is already activated.");
 #endif  // ENABLE_FOGCLOUD_AUTO_ACTIVATE
   
 #ifndef DISABLE_FOGCLOUD_OTA_CHECK

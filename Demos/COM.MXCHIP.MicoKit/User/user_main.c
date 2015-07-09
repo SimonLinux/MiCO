@@ -39,6 +39,8 @@ extern struct mico_service_t  service_table[];
 extern user_context_t g_user_context;
 
 
+//---------------------------- User work function ------------------------------
+
 // delete device from cloud when KEY1(ext-board) long pressed.
 void user_key1_long_pressed_callback(void)
 {
@@ -102,8 +104,6 @@ exit:
   return err;
 }
 
-//---------------------------- User work function ------------------------------
-
 //--- show actions for user, such as OLED, RGB_LED, DC_Motor
 void system_state_display( mico_Context_t * const mico_context, user_context_t *user_context)
 {
@@ -157,7 +157,7 @@ void system_state_display( mico_Context_t * const mico_context, user_context_t *
   }
 }
 
-/* user main function, called by AppFramework after FogCloud connected.
+/* user main function, called by AppFramework.
  */
 OSStatus user_main( mico_Context_t * const mico_context )
 {

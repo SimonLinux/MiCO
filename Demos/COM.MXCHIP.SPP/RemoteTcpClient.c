@@ -115,14 +115,17 @@ void remoteTcpClient_thread(void *inContext)
       FD_ZERO(&readfds);
       FD_SET(remoteTcpClient_fd, &readfds);
       FD_SET(eventFd, &readfds); 
-      FD_ZERO(&writeSet );
-      FD_SET(remoteTcpClient_fd, &writeSet );
       t.tv_sec = 4;
       t.tv_usec = 0;
-      select(1, &readfds, &writeSet, NULL, &t);
+      select(1, &readfds, NULL, NULL, &t);
       /* send UART data */
-      if ((FD_ISSET( eventFd, &readfds )) && (FD_ISSET(remoteTcpClient_fd, &writeSet ))) {// have data and can write
-        if (kNoErr == mico_rtos_pop_from_queue( &queue, &msg, 0)) {
+      if (FD_ISSET( eventFd, &readfds )) {// have data 
+        FD_ZERO(&writeSet );
+        FD_SET(remoteTcpClient_fd, &writeSet );
+        t.tv_usec = 100*1000; // max wait 100ms.
+        select(1, NULL, &writeSet, NULL, &t);
+        if ((FD_ISSET(remoteTcpClient_fd, &writeSet )) && 
+            (kNoErr == mico_rtos_pop_from_queue( &queue, &msg, 0))) {
            sent_len = write(remoteTcpClient_fd, msg->data, msg->len);
            if (sent_len <= 0) {
             len = sizeof(errno);

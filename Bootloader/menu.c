@@ -195,7 +195,6 @@ void Main_Menu(void)
 {
   char cmdbuf [CMD_STRING_SIZE] = {0}, cmdname[15] = {0};     /* command input buffer        */
   int i, j;                                       /* index for command buffer    */
-  int targetFlash;
   char startAddressStr[10], endAddressStr[10], flash_dev_str[4];
   int32_t startAddress, endAddress;
   bool inputFlashArea = false;
@@ -347,13 +346,13 @@ void Main_Menu(void)
       
       if (findCommandPara(cmdbuf, "r", NULL, 0) != -1){
         printf ("\n\rRead dev%d content From 0x%x to 0x%x\n\r", flash_dev, startAddress, endAddress);
-        SerialUpload((mico_flash_t)targetFlash, startAddress, "FlashImage.bin", endAddress-startAddress+1);
+        SerialUpload(flash_dev, startAddress, "FlashImage.bin", endAddress-startAddress+1);
         continue;
       }
       
       printf ("\n\rUpdating dev%d content From 0x%x to 0x%x\n\r", flash_dev, startAddress, endAddress);
       platform_flash_disable_protect( &platform_flash_peripherals[ flash_dev ], startAddress, endAddress );
-      SerialDownload((mico_flash_t)targetFlash, startAddress, endAddress-startAddress+1);                           
+      SerialDownload(flash_dev, startAddress, endAddress-startAddress+1);                           
     }
     
     

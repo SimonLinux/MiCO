@@ -34,19 +34,67 @@
 #include "MICO.h"
 #include "platform_config.h"
 #include "MicoPlatform.h"
+#include "CheckSumUtils.h"
 
 /* Update seed number every time*/
 static int32_t seedNum = 0;
+
+#define CONFIG_OFFSET ( sizeof( boot_table_t ) )
+#define CONFIG_SIZE   ( sizeof( mico_sys_config_t ) + sizeof( application_config_t ) )
+#define CRC_OFFSET    ( 0xE00 )
+#define CRC_SIZE      ( 2 )
+
+//#define para_log(M, ...) custom_log("MiCO Settting", M, ##__VA_ARGS__)
+
+#define para_log(M, ...)
 
 __weak void appRestoreDefault_callback(mico_Context_t *inContext)
 {
 
 }
 
+static OSStatus internal_update_config(mico_Context_t *inContext)
+{
+  OSStatus err = kNoErr;
+  uint32_t para_offset;
+  CRC16_Context crc_context;
+  uint16_t crc_result;
+
+  para_log(" Flash write!");
+
+  CRC16_Init( &crc_context );
+  CRC16_Update( &crc_context, (uint8_t *)&inContext->flashContentInRam.micoSystemConfig, CONFIG_SIZE );
+  CRC16_Final( &crc_context, &crc_result );
+
+  err = MicoFlashErase( MICO_PARTITION_PARAMETER_1, 0x0, sizeof(flash_content_t) );
+  require_noerr(err, exit);
+
+  para_offset = 0x0;
+  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &para_offset, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t));
+  require_noerr(err, exit);
+
+  para_offset = CRC_OFFSET;
+  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &para_offset, (uint8_t *)&crc_result, CRC_SIZE );
+  require_noerr(err, exit);
+
+  err = MicoFlashErase( MICO_PARTITION_PARAMETER_2, 0x0, sizeof(flash_content_t) );
+  require_noerr(err, exit);
+
+  para_offset = 0x0;
+  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_2, &para_offset, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t));
+  require_noerr(err, exit);
+
+  para_offset = CRC_OFFSET;
+  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_2, &para_offset, (uint8_t *)&crc_result, CRC_SIZE );
+  require_noerr(err, exit);
+
+exit:
+  return err;
+}
+
 OSStatus MICORestoreDefault(mico_Context_t *inContext)
 { 
   OSStatus err = kNoErr;
-  uint32_t para_offset = 0x0;
 
   /*wlan configration is not need to change to a default state, use easylink to do that*/
   memset(&inContext->flashContentInRam, 0x0, sizeof(inContext->flashContentInRam));
@@ -62,9 +110,7 @@ OSStatus MICORestoreDefault(mico_Context_t *inContext)
   /*Application's default configuration*/
   appRestoreDefault_callback(inContext);
 
-  err = MicoFlashErase( MICO_PARTITION_PARAMETER_1 ,para_offset, sizeof(flash_content_t) );
-  require_noerr(err, exit);
-  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &para_offset, (void *)inContext, sizeof(flash_content_t));
+  err = internal_update_config( inContext );
   require_noerr(err, exit);
 
 exit:
@@ -84,9 +130,7 @@ OSStatus MICORestoreMFG(mico_Context_t *inContext)
   /*Application's default configuration*/
   appRestoreDefault_callback(inContext);
 
-  err = MicoFlashErase( MICO_PARTITION_PARAMETER_1 ,para_offset, sizeof(flash_content_t) );
-  require_noerr(err, exit);
-  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &para_offset, (void *)inContext, sizeof(flash_content_t));
+  err = internal_update_config( inContext );
   require_noerr(err, exit);
 
 exit:
@@ -94,14 +138,92 @@ exit:
 }
 #endif
 
-
-
 OSStatus MICOReadConfiguration(mico_Context_t *inContext)
 {
-  uint32_t config_offset = 0;
+  uint32_t para_offset = 0x0;
+  uint32_t config_offset = CONFIG_OFFSET;
+  uint32_t crc_offset = CRC_OFFSET;
+  CRC16_Context crc_context;
+  uint16_t crc_result, crc_target;
+  uint16_t crc_backup_result, crc_backup_target;
+  mico_logic_partition_t *partition; 
+  uint8_t *backup_data = NULL;
+
   OSStatus err = kNoErr;
 
-  err = MicoFlashRead( MICO_PARTITION_PARAMETER_1, &config_offset, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t));
+  backup_data = malloc( CONFIG_SIZE );
+  require_action( backup_data, exit, err = kNoMemoryErr );
+
+
+  /* Load data and crc from main partition */
+  para_offset = 0x0;
+  err = MicoFlashRead( MICO_PARTITION_PARAMETER_1, &para_offset, (uint8_t *)&inContext->flashContentInRam, sizeof( flash_content_t ) );
+
+  CRC16_Init( &crc_context );
+  CRC16_Update( &crc_context, (uint8_t *)&inContext->flashContentInRam.micoSystemConfig, CONFIG_SIZE );
+  CRC16_Final( &crc_context, &crc_result );
+
+  crc_offset = CRC_OFFSET;
+  err = MicoFlashRead( MICO_PARTITION_PARAMETER_1, &crc_offset, (uint8_t *)&crc_target, CRC_SIZE );
+
+  /* Load data and crc from backup partition */
+  config_offset = CONFIG_OFFSET;
+  err = MicoFlashRead( MICO_PARTITION_PARAMETER_2, &config_offset, backup_data, CONFIG_SIZE );
+
+  CRC16_Init( &crc_context );
+  CRC16_Update( &crc_context, backup_data, CONFIG_SIZE );
+  CRC16_Final( &crc_context, &crc_backup_result );
+
+  crc_offset = CRC_OFFSET;
+  err = MicoFlashRead( MICO_PARTITION_PARAMETER_2, &crc_offset, (uint8_t *)&crc_backup_target, CRC_SIZE );    
+
+  /* Data collapsed at main partition and backup partition both, restore to default */
+  if( crc_result != crc_target && crc_backup_result != crc_backup_target ){
+    para_log("Config failed on both partition, restore to default settings!");
+    err = MICORestoreDefault(inContext);
+    require_noerr(err, exit);
+  } 
+  /* main collapsed, backup correct, copy data from back up to main */
+  else if( crc_result != crc_target && crc_backup_result == crc_backup_target ){
+    para_log("Config failed on main, recover!");
+
+    memset(&inContext->flashContentInRam, 0x0, sizeof(inContext->flashContentInRam));
+    memcpy( (uint8_t *)&inContext->flashContentInRam.micoSystemConfig, backup_data, CONFIG_SIZE);
+
+    partition = MicoFlashGetInfo( MICO_PARTITION_PARAMETER_1 );
+
+    err = MicoFlashErase( MICO_PARTITION_PARAMETER_1 ,0x0, partition->partition_length );
+    require_noerr(err, exit);
+
+    para_offset = 0x0;
+    err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &config_offset, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t) );
+    require_noerr(err, exit);
+
+    crc_offset = CRC_OFFSET;
+    err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &crc_offset, (uint8_t *)&crc_backup_result, CRC_SIZE );
+    require_noerr(err, exit);
+
+  }
+  /* main correct, backup collapsed, copy data from main to back up */
+  else if( crc_result == crc_target && crc_backup_result != crc_backup_target ){
+    para_log("Config failed on backup, recover!");
+
+    partition = MicoFlashGetInfo( MICO_PARTITION_PARAMETER_2 );
+
+    err = MicoFlashErase( MICO_PARTITION_PARAMETER_2 ,0x0, partition->partition_length );
+    require_noerr(err, exit);
+
+    para_offset = 0x0;
+    err = MicoFlashWrite( MICO_PARTITION_PARAMETER_2, &para_offset, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t) );
+    require_noerr(err, exit);
+
+    crc_offset = CRC_OFFSET;
+    err = MicoFlashWrite( MICO_PARTITION_PARAMETER_2, &crc_offset, (uint8_t *)&crc_target, CRC_SIZE );
+    require_noerr(err, exit);
+  }
+
+  para_log(" Config read, seed = %d!", inContext->flashContentInRam.micoSystemConfig.seed);
+
   seedNum = inContext->flashContentInRam.micoSystemConfig.seed;
   if(seedNum == -1) seedNum = 0;
 
@@ -111,7 +233,6 @@ OSStatus MICOReadConfiguration(mico_Context_t *inContext)
 #else
     err = MICORestoreDefault(inContext);
 #endif
-    
     require_noerr(err, exit);
   }
 
@@ -123,19 +244,17 @@ OSStatus MICOReadConfiguration(mico_Context_t *inContext)
   }
 
 exit: 
+  if( backup_data!= NULL) free( backup_data );
   return err;
 }
 
 OSStatus MICOUpdateConfiguration(mico_Context_t *inContext)
 {
   OSStatus err = kNoErr;
-  uint32_t para_offset = 0x0;
 
   inContext->flashContentInRam.micoSystemConfig.seed = ++seedNum;
 
-  err = MicoFlashErase( MICO_PARTITION_PARAMETER_1, para_offset, sizeof(flash_content_t) );
-  require_noerr(err, exit);
-  err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &para_offset, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t));
+  err = internal_update_config( inContext );
   require_noerr(err, exit);
 
 exit:

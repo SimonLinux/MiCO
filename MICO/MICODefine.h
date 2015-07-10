@@ -144,7 +144,7 @@ typedef struct _mico_sys_config_t
 
   /*EasyLink configuration*/
   Config_State_t  configured;
-  uint8_t        easyLinkByPass;
+  uint8_t         easyLinkByPass;
   uint32_t        easylinkServerIP;
 
   /*Services in MICO system*/

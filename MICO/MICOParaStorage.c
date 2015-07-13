@@ -196,7 +196,7 @@ OSStatus MICOReadConfiguration(mico_Context_t *inContext)
     require_noerr(err, exit);
 
     para_offset = 0x0;
-    err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &config_offset, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t) );
+    err = MicoFlashWrite( MICO_PARTITION_PARAMETER_1, &para_offset, (uint8_t *)&inContext->flashContentInRam, sizeof(flash_content_t) );
     require_noerr(err, exit);
 
     crc_offset = CRC_OFFSET;

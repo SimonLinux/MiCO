@@ -46,8 +46,8 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>..\..\..\..\Build\</OutputDirectory>
-          <OutputName>COM.MXCHIP.MiCO-Kit.axf</OutputName>
+          <OutputDirectory>..\..\..\..\Build\COM.MXCHIP.FogCloud\</OutputDirectory>
+          <OutputName>COM.MXCHIP.FogCloud.axf</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -411,42 +411,32 @@
             <File>
               <FileName>fogCloud.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogCloud.c</FilePath>
-            </File>
-            <File>
-              <FileName>fogcloud_msg_dispatch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\fogcloud_msg_dispatch.c</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.FogCloud\AppFramework\fogCloud.c</FilePath>
             </File>
             <File>
               <FileName>MICOAppEntrance.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOAppEntrance.c</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.FogCloud\AppFramework\MICOAppEntrance.c</FilePath>
             </File>
             <File>
               <FileName>MICOBonjour.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOBonjour.c</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.FogCloud\AppFramework\MICOBonjour.c</FilePath>
             </File>
             <File>
               <FileName>MICOConfigDelegate.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MICOConfigDelegate.c</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.FogCloud\AppFramework\MICOConfigDelegate.c</FilePath>
             </File>
             <File>
               <FileName>MicoFogCloud.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloud.c</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.FogCloud\AppFramework\MicoFogCloud.c</FilePath>
             </File>
             <File>
               <FileName>MicoFogCloudConfigServer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\MicoFogCloudConfigServer.c</FilePath>
-            </File>
-            <File>
-              <FileName>properties.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\AppFramework\properties.c</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.FogCloud\AppFramework\MicoFogCloudConfigServer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -456,17 +446,7 @@
             <File>
               <FileName>user_main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_main.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_properties.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_uart.c</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.FogCloud\User\user_main.c</FilePath>
             </File>
           </Files>
         </Group>

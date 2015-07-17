@@ -14,6 +14,7 @@ int cli_getchar(char *inbuf);
 #define RX_WAIT   MICO_WAIT_FOREVER
 #define SEND_WAIT MICO_WAIT_FOREVER
 
+#define RET_CHAR    '\n'
 #define END_CHAR		'\r'
 #define PROMPT			"\r\n# "
 #define EXIT_MSG		"exit"
@@ -239,6 +240,8 @@ static int get_input(char *inbuf, unsigned int *bp)
     return 0;
   }
   while (cli_getchar(&inbuf[*bp]) == 1) {
+		if (inbuf[*bp] == RET_CHAR)
+			continue;
     if (inbuf[*bp] == END_CHAR) {	/* end of input line */
       inbuf[*bp] = '\0';
       *bp = 0;

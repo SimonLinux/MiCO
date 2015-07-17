@@ -1,6 +1,16 @@
+版本号：31620002.035
+日期：2015-07-14
+1. 优化了DNS客户端，在首选DNS服务器不通的情况下之前会重试超过1分钟才使用备选DNS服务器，现在的做法是间隔1秒的周期性的使用首选DNS服务器和备选DNS服务器。
+2. 现在所有的配网方式合并为一体，修正了EasyLink可能配置错误的问题。
+
 版本号：31620002.034
 日期：2015-06-30
 1. 统一调整了产测输出，由库直接调用标注产测函数接口mxchip_mfg_test，判断逻辑始终是通过API：MicoShouldEnterMFGMode。
+2. 增加抓包的API：
+void set_sniffer_channel(int32_t nchannel);//设置抓包模式工作的通道
+int set_promiscuous_mode(void (*promiscuous_cb)(const uint8_t *data,
+						 const uint16_t len)) ;//启动抓包模式，参数是回调函数。启动以后默认工作在通道1.
+3. 按照阿里配网协议v1.2.0609版本实现了对中文编码的支持。
 
 版本号：31620002.032-smarttest
 日期：2015-06-23

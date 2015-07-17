@@ -108,7 +108,7 @@ EMW3165 on EMB-3165-A platform pin definitions ...
 |---------------+----+------+-------------+--------------+----------------|
 |               | 13 | NRST |             |              |  MICRO_RST_N   |
 |---------------+----+------+-------------+--------------+----------------|
-|               | 14 |WAKE_UP             |              |                |
+| MICO_GPIO_14  | 14 | A 0  | WAKE_UP     |              |                |
 |---------------+----+------+-------------+--------------+----------------|
 |               | 15 | NC   |             |              |                |
 |---------------+----+------+-------------+--------------+----------------|
@@ -223,6 +223,7 @@ typedef enum
     MICO_GPIO_8,
     MICO_GPIO_9,
     MICO_GPIO_12,
+    MICO_GPIO_14,
     MICO_GPIO_16,
     MICO_GPIO_17,
     MICO_GPIO_18,
@@ -250,6 +251,7 @@ typedef enum
 
 typedef enum
 {
+    MICO_I2C_1,
     MICO_I2C_MAX, /* Denotes the total number of I2C port aliases. Not a valid I2C alias */
     MICO_I2C_NONE,
 } mico_i2c_t;
@@ -262,6 +264,8 @@ typedef enum
 
 typedef enum
 {
+    MICO_ADC_1,
+    MICO_ADC_2,
     MICO_ADC_MAX, /* Denotes the total number of ADC port aliases. Not a valid ADC alias */
     MICO_ADC_NONE,
 } mico_adc_t;
@@ -289,7 +293,7 @@ typedef enum
 
 #ifdef BOOTLOADER
 #define STDIO_UART       (MICO_UART_1)
-#define STDIO_UART_BAUDRATE (115200) 
+#define STDIO_UART_BAUDRATE (921600) 
 #else
 #define STDIO_UART       (MICO_UART_1)
 #define STDIO_UART_BAUDRATE (115200) 
@@ -305,7 +309,44 @@ typedef enum
 //#define SFLASH_SUPPORT_SST_PARTS
 //#define SFLASH_SUPPORT_WINBOND_PARTS
 
-#define MICO_I2C_CP      (MICO_I2C_NONE)
+/* Arduino extention connector */
+#define Arduino_RXD         (MICO_GPIO_29)
+#define Arduino_TXD         (MICO_GPIO_30)
+#define Arduino_D2          (MICO_GPIO_NONE)
+#define Arduino_D3          (MICO_GPIO_NONE)
+#define Arduino_D4          (MICO_GPIO_19) 
+#define Arduino_D5          (MICO_GPIO_27)  
+#define Arduino_D6          (MICO_GPIO_35) 
+#define Arduino_D7          (MICO_GPIO_NONE)
+
+#define Arduino_D8          (MICO_GPIO_16)
+#define Arduino_D9          (MICO_GPIO_14)
+#define Arduino_CS          (MICO_GPIO_2)
+#define Arduino_SI          (FLASH_PIN_SPI_MOSI)
+#define Arduino_SO          (FLASH_PIN_SPI_MISO)
+#define Arduino_SCK         (FLASH_PIN_SPI_CLK)
+#define Arduino_SDA         (MICO_GPIO_18)
+#define Arduino_SCL         (MICO_GPIO_17)
+
+#define Arduino_A0          (MICO_ADC_NONE)
+#define Arduino_A1          (MICO_ADC_NONE)
+#define Arduino_A2          (MICO_ADC_1)
+#define Arduino_A3          (MICO_ADC_2)
+#define Arduino_A4          (MICO_ADC_NONE)
+#define Arduino_A5          (MICO_ADC_NONE)
+
+#define Arduino_I2C         (MICO_I2C_1)
+#define Arduino_SPI         (MICO_SPI_1)
+#define Arduino_UART        (MICO_UART_2)
+
+#define USE_MiCOKit_EXT
+#define USE_RGB_LED_DRIVER_P9813
+
+#ifdef USE_MiCOKit_EXT
+#define MICO_I2C_CP         (Arduino_I2C)
+#else
+#define MICO_I2C_CP         (MICO_I2C_NONE)
+#endif //USE_MiCOKit_EXT
 
 
 #ifdef __cplusplus

@@ -47,6 +47,14 @@
     #define PRODUCT_ID                       "b95b6242"
     #define PRODUCT_KEY                      "52731f33-edba-4483-9e4a-dc3859976c41"
   #endif
+#elif MICOKIT_3165
+  #ifdef WECHAT_SUPPORT
+    //#define PRODUCT_ID                       "8f362375"  //  wechat support
+    //#define PRODUCT_KEY                      "0a7a2b47-9766-4807-be14-d2c35919485a"
+  #else
+    #define PRODUCT_ID                       "cbaea16a"
+    #define PRODUCT_KEY                      "3cec55e5-a19e-4f25-a7b3-b9d1591bc527"
+  #endif
 #endif
 
 /*------------------------- for ota test -----------------*/

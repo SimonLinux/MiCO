@@ -40,7 +40,9 @@
 #include "wlan_platform_common.h"
 #include "CheckSumUtils.h"
 
-
+#ifdef USE_MiCOKit_EXT
+#include "micokit_ext.h"
+#endif
 
 /******************************************************
 *                      Macros
@@ -83,8 +85,8 @@ static mico_timer_t _button_EL_timer;
 const platform_gpio_t platform_gpio_pins[] =
 {
   /* Common GPIOs for internal use */
-  [MICO_SYS_LED]                      = { GPIOB,  10 }, 
-  [MICO_RF_LED]                       = { GPIOA,  4 }, 
+  [MICO_SYS_LED]                      = { GPIOB,  13 }, 
+  [MICO_RF_LED]                       = { GPIOB,  8 }, 
   [BOOT_SEL]                          = { GPIOB,  1 }, 
   [MFG_SEL]                           = { GPIOB,  0 }, 
   [EasyLink_BUTTON]                   = { GPIOA,  1 }, 
@@ -100,6 +102,7 @@ const platform_gpio_t platform_gpio_pins[] =
   [MICO_GPIO_8]                       = { GPIOA , 2 },
   [MICO_GPIO_9]                       = { GPIOA,  1 },
   [MICO_GPIO_12]                      = { GPIOA,  3 },
+  [MICO_GPIO_14]                      = { GPIOA,  0 },
   [MICO_GPIO_16]                      = { GPIOC, 13 },
   [MICO_GPIO_17]                      = { GPIOB, 10 },
   [MICO_GPIO_18]                      = { GPIOB,  9 },
@@ -110,13 +113,31 @@ const platform_gpio_t platform_gpio_pins[] =
   [MICO_GPIO_31]                      = { GPIOB,  8 },
   [MICO_GPIO_33]                      = { GPIOB, 13 },
   [MICO_GPIO_34]                      = { GPIOA,  5 },
-  [MICO_GPIO_35]                      = { GPIOA, 10 },
+  [MICO_GPIO_35]                      = { GPIOA, 11 },
   [MICO_GPIO_36]                      = { GPIOB,  1 },
   [MICO_GPIO_37]                      = { GPIOB,  0 },
   [MICO_GPIO_38]                      = { GPIOA,  4 },
 };
 
-const platform_i2c_t *platform_i2c_peripherals = NULL;
+const platform_i2c_t platform_i2c_peripherals[] =
+{
+  [MICO_I2C_1] =
+  {
+    .port                         = I2C1,
+    .pin_scl                      = &platform_gpio_pins[MICO_GPIO_17],
+    .pin_sda                      = &platform_gpio_pins[MICO_GPIO_18],
+    .peripheral_clock_reg         = RCC_APB1Periph_I2C1,
+    .tx_dma                       = DMA1,
+    .tx_dma_peripheral_clock      = RCC_AHB1Periph_DMA1,
+    .tx_dma_stream                = DMA1_Stream7,
+    .rx_dma_stream                = DMA1_Stream5,
+    .tx_dma_stream_id             = 7,
+    .rx_dma_stream_id             = 5,
+    .tx_dma_channel               = DMA_Channel_1,
+    .rx_dma_channel               = DMA_Channel_1,
+    .gpio_af                      = GPIO_AF_I2C1
+  },
+};
 
 const platform_uart_t platform_uart_peripherals[] =
 {
@@ -293,6 +314,12 @@ const mico_spi_device_t mico_spi_flash =
 };
 #endif
 
+const platform_adc_t platform_adc_peripherals[] =
+{
+  [MICO_ADC_1] = { ADC1, ADC_Channel_4, RCC_APB2Periph_ADC1, 1, (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_38] },
+  [MICO_ADC_2] = { ADC1, ADC_Channel_5, RCC_APB2Periph_ADC1, 1, (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_34] },
+};
+
 /* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c
 * SDIO: EMW1062_PIN_BOOTSTRAP[1:0] = b'00
 * gSPI: EMW1062_PIN_BOOTSTRAP[1:0] = b'01
@@ -418,6 +445,14 @@ void init_platform( void )
   MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_BOTH_EDGES, _button_EL_irq_handler, NULL );
 
   //MicoFlashInitialize( MICO_SPI_FLASH );
+  
+#ifdef USE_MiCOKit_EXT
+  dc_motor_init( );
+  dc_motor_set( 0 );
+  
+  rgb_led_init();
+  rgb_led_open(0, 0, 0);
+#endif
 }
 
 #ifdef BOOTLOADER
@@ -437,6 +472,14 @@ void init_platform_bootloader( void )
   
   MicoGpioInitialize((mico_gpio_t)BOOT_SEL, INPUT_PULL_UP);
   MicoGpioInitialize((mico_gpio_t)MFG_SEL, INPUT_PULL_UP);
+  
+#ifdef USE_MiCOKit_EXT
+  dc_motor_init( );
+  dc_motor_set( 0 );
+  
+  rgb_led_init();
+  rgb_led_open(0, 0, 0);
+#endif
   
   /* Specific operations used in EMW3165 production */
 #define NEED_RF_DRIVER_COPY_BASE    ((uint32_t)0x08008000)

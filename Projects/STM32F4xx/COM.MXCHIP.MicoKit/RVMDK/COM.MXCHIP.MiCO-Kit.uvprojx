@@ -78,7 +78,7 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>1</RunUserProg1>
+            <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
             <UserProg1Name>C:\Keil\ARM\ARMCC\bin\fromelf.exe --bin  ..\..\..\..\Build\COM.MXCHIP.MiCO-Kit\MiCOKit-3162\Obj_RVMDK\COM.MXCHIP.MiCO-Kit.axf --output ..\..\..\..\Build\COM.MXCHIP.MiCO-Kit\Output\MiCOKit-3162\COM.MXCHIP.MiCO-Kit.bin</UserProg1Name>
             <UserProg2Name></UserProg2Name>
@@ -454,11 +454,6 @@
           <GroupName>Application/User</GroupName>
           <Files>
             <File>
-              <FileName>uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\uart.c</FilePath>
-            </File>
-            <File>
               <FileName>user_main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_main.c</FilePath>
@@ -467,6 +462,11 @@
               <FileName>user_properties.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_properties.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.MicoKit\User\user_uart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -657,6 +657,16 @@
                 <FileArmAds/>
               </FileOption>
             </File>
+            <File>
+              <FileName>MICOForceOTA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\MICO\MICOForceOTA.c</FilePath>
+            </File>
+            <File>
+              <FileName>tftpc.o</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\..\..\MICO\tftp\tftpc.o</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -760,6 +770,11 @@
               <FileName>URLUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Support\URLUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Support\CheckSumUtils.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1031,11 +1046,6 @@
         <Group>
           <GroupName>Platform/MCU/STM32F4xx/wlan_bus_driver</GroupName>
           <Files>
-            <File>
-              <FileName>read_wifi_firmware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\read_wifi_firmware.c</FilePath>
-            </File>
             <File>
               <FileName>wlan_bus_sdio.c</FileName>
               <FileType>1</FileType>

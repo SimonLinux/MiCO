@@ -588,10 +588,10 @@ void mfi_bonjour_send(int fd)
 void mfi_bonjour_remove_record(int fd)
 {
   dns_message_iterator_t response;
-  uint32_t myip;
+//  uint32_t myip;
   IPStatusTypedef para;
   micoWlanGetIPStatus(&para, _interface);
-  myip = htonl(inet_addr(para.ip));
+//  myip = htonl(inet_addr(para.ip));
   int b = 0;
 
   for ( b = 0; b < available_service_count; ++b ){

@@ -97,7 +97,7 @@
 OSStatus apds9930_sensor_init(void);
 OSStatus apds9930_sensor_deinit(void);
 OSStatus apds9930_data_readout(uint16_t *Prox_data, uint16_t *Lux_data);
-void apds9930_enable();
+void apds9930_enable(void);
 
 #endif  // __APDS9930_H_
 

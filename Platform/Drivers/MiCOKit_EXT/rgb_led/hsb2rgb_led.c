@@ -27,7 +27,7 @@
 #define hsb2rgb_led_log(M, ...) custom_log("HSB2RGB_LED", M, ##__VA_ARGS__)
 #define hsb2rgb_led_log_trace() custom_log_trace("HSB2RGB_LED")
 
-#define H2R_MAX_RGB_val 255.0
+#define H2R_MAX_RGB_val 255.0f
 
 static float constrain(float value, float min, float max){
   if(value >= max)
@@ -49,8 +49,8 @@ static void H2R_HSBtoRGB(float hue, float sat, float bright, float *color) {
   // define maximum value for RGB array elements
   float max_rgb_val = H2R_MAX_RGB_val;
   // convert saturation and brightness value to decimals and init r, g, b variables
-  float sat_f = (float)sat / 100.0;
-  float bright_f = (float)bright / 100.0;
+  float sat_f = (float)sat / 100.0f;
+  float bright_f = (float)bright / 100.0f;
   float r, g, b;
   // If brightness is 0 then color is black (achromatic)
   // therefore, R, G and B values will all equal to 0
@@ -70,31 +70,31 @@ static void H2R_HSBtoRGB(float hue, float sat, float bright, float *color) {
   // R, G and B values based on the current hue and brightness
   else {
     if (hue >= 0 && hue < 120) {
-      float hue_primary = 1.0 - ((float)hue / 120.0);
-      float hue_secondary = (float)hue / 120.0;
-      float sat_primary = (1.0 - hue_primary) * (1.0 - sat_f);
-      float sat_secondary = (1.0 - hue_secondary) * (1.0 - sat_f);
-      float sat_tertiary = 1.0 - sat_f;
+      float hue_primary = 1.0f - ((float)hue / 120.0f);
+      float hue_secondary = (float)hue / 120.0f;
+      float sat_primary = (1.0f - hue_primary) * (1.0f - sat_f);
+      float sat_secondary = (1.0f - hue_secondary) * (1.0f - sat_f);
+      float sat_tertiary = 1.0f - sat_f;
       r = (bright_f * max_rgb_val) * (hue_primary + sat_primary);
       g = (bright_f * max_rgb_val) * (hue_secondary + sat_secondary);
       b = (bright_f * max_rgb_val) * sat_tertiary;
     }
     else if (hue >= 120 && hue < 240) {
-      float hue_primary = 1.0 - (((float)hue-120.0) / 120.0);
-      float hue_secondary = ((float)hue-120.0) / 120.0;
-      float sat_primary = (1.0 - hue_primary) * (1.0 - sat_f);
-      float sat_secondary = (1.0 - hue_secondary) * (1.0 - sat_f);
-      float sat_tertiary = 1.0 - sat_f;
+      float hue_primary = 1.0f - (((float)hue-120.0f) / 120.0f);
+      float hue_secondary = ((float)hue-120.0f) / 120.0f;
+      float sat_primary = (1.0f - hue_primary) * (1.0f - sat_f);
+      float sat_secondary = (1.0f - hue_secondary) * (1.0f - sat_f);
+      float sat_tertiary = 1.0f - sat_f;
       r = (bright_f * max_rgb_val) * sat_tertiary;
       g = (bright_f * max_rgb_val) * (hue_primary + sat_primary);
       b = (bright_f * max_rgb_val) * (hue_secondary + sat_secondary);
     }
     else if (hue >= 240 && hue <= 360) {
-      float hue_primary = 1.0 - (((float)hue-240.0) / 120.0);
-      float hue_secondary = ((float)hue-240.0) / 120.0;
-      float sat_primary = (1.0 - hue_primary) * (1.0 - sat_f);
-      float sat_secondary = (1.0 - hue_secondary) * (1.0 - sat_f);
-      float sat_tertiary = 1.0 - sat_f;
+      float hue_primary = 1.0f - (((float)hue-240.0f) / 120.0f);
+      float hue_secondary = ((float)hue-240.0f) / 120.0f;
+      float sat_primary = (1.0f - hue_primary) * (1.0f - sat_f);
+      float sat_secondary = (1.0f - hue_secondary) * (1.0f - sat_f);
+      float sat_tertiary = 1.0f - sat_f;
       r = (bright_f * max_rgb_val) * (hue_secondary + sat_secondary);
       g = (bright_f * max_rgb_val) * sat_tertiary;
       b = (bright_f * max_rgb_val) * (hue_primary + sat_primary);

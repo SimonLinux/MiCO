@@ -266,7 +266,7 @@ void micokit_ext_mfg_test(mico_Context_t *inContext)
       }
     default:
       goto exit;  // error
-      break;
+      //break;
     }
   }
   

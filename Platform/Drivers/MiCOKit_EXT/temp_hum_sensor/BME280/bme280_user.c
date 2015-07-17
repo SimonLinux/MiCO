@@ -438,14 +438,14 @@ s8 BME280_SPI_bus_write(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
 {
   
 	s32 iError = BME280_INIT_VALUE;
-	u8 array[SPI_BUFFER_LEN * BME280_TWO_U8X];
+	//u8 array[SPI_BUFFER_LEN * BME280_TWO_U8X];
 	u8 stringpos = BME280_INIT_VALUE;
 	for (stringpos = BME280_INIT_VALUE; stringpos < cnt; stringpos++) {
 		/* the operation of (reg_addr++)&0x7F done: because it ensure the
 		   BME280_INIT_VALUE and 1 of the given value
 		   It is done only for 8bit operation*/
-		array[stringpos * BME280_TWO_U8X] = (reg_addr++) & MASK_DATA3;
-		array[stringpos * BME280_TWO_U8X + BME280_ONE_U8X] = *(reg_data + stringpos);
+		//array[stringpos * BME280_TWO_U8X] = (reg_addr++) & MASK_DATA3;
+		//array[stringpos * BME280_TWO_U8X + BME280_ONE_U8X] = *(reg_data + stringpos);
 	}
 	/* Please take the below function as your reference
 	 * for write the data using SPI communication

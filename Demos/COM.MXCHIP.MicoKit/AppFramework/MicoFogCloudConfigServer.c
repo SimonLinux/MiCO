@@ -167,20 +167,19 @@ void fogCloudConfigClient_thread(void *inFd)
           //require_noerr(err, exit);
           goto exit;
         }
-        break;
+        //break;
       case EWOULDBLOCK:
         // NO-OP, keep reading
         break;
       case kNoSpaceErr:
         fogcloud_config_log("ERROR: Cannot fit HTTPHeader.");
         goto exit;
-        break;
+        //break;
       case kConnectionErr:
         // NOTE: kConnectionErr from ECS_SocketReadHTTPHeader means it's closed
         fogcloud_config_log("ERROR: Connection closed.");
         goto exit;
-        //goto Reconn;
-        break;
+        //break;
       default:
         fogcloud_config_log("ERROR: HTTP Header parse internal error: %d", err);
         goto exit;

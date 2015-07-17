@@ -501,11 +501,12 @@ OSStatus MicoFogCloudCloudMsgProcess(mico_Context_t* context,
   }
   total_recv_buf_len += real_msg_len;
   
+  memset(real_msg, '\0', real_msg_len);
   real_msg->topic_len = topicLen;
   real_msg->data_len = inBufLen;
   memcpy(real_msg->data, topic, topicLen);
   memcpy(real_msg->data + topicLen, inBuf, inBufLen);
-  memcpy(real_msg->data + topicLen + inBufLen, '\0', 1);
+  //memcpy(real_msg->data + topicLen + inBufLen, '\0', 1);
   
   if(NULL != msg_recv_queue){
     mico_rtos_lock_mutex(&msg_recv_queue_mutex);
@@ -519,12 +520,12 @@ OSStatus MicoFogCloudCloudMsgProcess(mico_Context_t* context,
         }
       }
       else{
-        mico_rtos_unlock_mutex(&msg_recv_queue_mutex);
         fogcloud_log("WARNGING: FogCloud msg overrun, abandon current message!");
         if(NULL != real_msg){  // queue full, new msg abandoned
           free(real_msg);
           real_msg = NULL;
         }
+        mico_rtos_unlock_mutex(&msg_recv_queue_mutex);
         return kOverrunErr;
       }
     }

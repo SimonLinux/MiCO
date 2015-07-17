@@ -33,8 +33,8 @@
 /* product type */
 #ifdef MICOKIT_3288
   #ifdef WECHAT_SUPPORT
-    #define PRODUCT_ID                       "b574d4b8"  //  wechat support
-    #define PRODUCT_KEY                      "3cb9d67f-bb69-45e1-b9b8-15c5b7eae304"
+    #define PRODUCT_ID                       "d64f517c"  //  wechat support
+    #define PRODUCT_KEY                      "e935ef56-1d03-4432-9524-8d4a691a26ec"
   #else
     #define PRODUCT_ID                       "d64f517c"
     #define PRODUCT_KEY                      "e935ef56-1d03-4432-9524-8d4a691a26ec"
@@ -64,7 +64,7 @@
 #endif
 /*---------------------------------------------------------*/
 
-#define SERIAL_NUMBER                      "1507091607"
+#define SERIAL_NUMBER                      "1507172038"
 #define FIRMWARE_REVISION                  HARDWARE_REVISION"@"SERIAL_NUMBER
 
 #define DEFAULT_ROM_VERSION                FIRMWARE_REVISION
@@ -101,6 +101,6 @@
 
 
 /*User provided configurations*/
-#define CONFIGURATION_VERSION               0x00000001 // if default configuration is changed, update this number
+#define CONFIGURATION_VERSION               0x00000002 // if default configuration is changed, update this number
    
 #endif  // __USER_CONFIG_H_

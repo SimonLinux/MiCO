@@ -62,9 +62,8 @@ OSStatus MICOStartApplication( mico_Context_t * const inContext )
   sppProtocolInit( inContext );
 
   /*Bonjour for service searching*/
-  if(inContext->flashContentInRam.micoSystemConfig.bonjourEnable == true)
-    MICOStartBonjourService( Station, inContext );
-
+  MICOStartBonjourService( Station, inContext );
+#if 0
   /*UART receive thread*/
   uart_config.baud_rate    = inContext->flashContentInRam.appConfig.USART_BaudRate;
   uart_config.data_width   = DATA_WIDTH_8BIT;
@@ -91,7 +90,7 @@ OSStatus MICOStartApplication( mico_Context_t * const inContext )
    err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Remote Client", remoteTcpClient_thread, STACK_SIZE_REMOTE_TCP_CLIENT_THREAD, (void*)inContext );
    require_noerr_action( err, exit, app_log("ERROR: Unable to start the remote client thread.") );
  }
-
+#endif
 exit:
   return err;
 }

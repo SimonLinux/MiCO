@@ -50,6 +50,8 @@
 #include "MicoSocket.h"
 #include "MicoAlgorithm.h"
 #include "MicoPlatform.h"
+#include "MICONotificationCenter.h"
+
 
 #define MicoGetRfVer                wlan_driver_version
 #define MicoGetVer                  system_lib_version

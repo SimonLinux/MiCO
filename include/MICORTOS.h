@@ -505,6 +505,10 @@ OSStatus mico_deinit_timer( mico_timer_t* timer );
   */
 bool mico_is_timer_running( mico_timer_t* timer );
 
+int SetTimer(unsigned long ms, void (*psysTimerHandler)(void));
+int SetTimer_uniq(unsigned long ms, void (*psysTimerHandler)(void));
+int UnSetTimer(void (*psysTimerHandler)(void));
+
 int mico_create_event_fd(mico_event handle);
 int mico_delete_event_fd(int fd);
 

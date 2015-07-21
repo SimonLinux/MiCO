@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"t",
+				"ttl	uint32_t"
+			],
+			[
+				"mico_th",
+				"mico_thread_t	typedef"
+			],
+			[
 				"mico",
 				"mico_gpio_t	typedef"
 			],
@@ -150,10 +158,6 @@
 			[
 				"I",
 				"INADDR_ANY	macro"
-			],
-			[
-				"mico_th",
-				"mico_thread_sleep	macro"
 			],
 			[
 				"MICOWlan",
@@ -456,10 +460,6 @@
 				"mico_rtos_get_semaphore(mico_semaphore_t *semaphore, unsigned int timeout_ms)	MxchipStatus"
 			],
 			[
-				"t",
-				"txt_att	char *"
-			],
-			[
 				"MF",
 				"MFi_SERVICE_MFi	macro"
 			],
@@ -520,42 +520,26 @@
 	"buffers":
 	[
 		{
-			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform.c",
+			"file": "/Users/William/Develop/MiCO/MICO/mico_system/mico_system_easylink.c",
 			"settings":
 			{
-				"buffer_size": 21771,
+				"buffer_size": 20454,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "COM.MXCHIP.SPP.sublime-project",
+			"file": "/Users/William/Develop/MiCO/MICO/MICOConfigServer.c",
 			"settings":
 			{
-				"buffer_size": 1681,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_flash.c",
-			"settings":
-			{
-				"buffer_size": 18688,
+				"buffer_size": 16056,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform_config.h",
+			"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.c",
 			"settings":
 			{
-				"buffer_size": 7089,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform_config.h",
-			"settings":
-			{
-				"buffer_size": 6743,
+				"buffer_size": 28309,
 				"line_ending": "Windows"
 			}
 		}
@@ -620,16 +604,33 @@
 	},
 	"file_history":
 	[
+		"/Users/william/Develop/MiCO/include/MicoWlan.h",
+		"/Users/William/Develop/MiCO/Support/HTTPUtils.c",
+		"/Users/william/Develop/MiCO/MICO/MICONotificationCenter.h",
+		"/Users/William/Develop/MiCO/MICO/MICOConfigServer.c",
+		"/Users/William/Develop/MiCO/include/MICORTOS.h",
+		"/Users/William/Develop/MiCO/MICO/MICODefine.h",
+		"/Users/William/Develop/MiCO/MICO/mico_system/mico_system_common.c",
+		"/Users/William/Develop/MiCO/MICO/mico_system/mico_system_internal.h",
+		"/Users/William/Develop/MiCO/MICO/MICOEntrance.c",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform.c",
+		"/Users/William/Develop/MiCO/include/MICO.h",
+		"/Users/William/Develop/MiCO/Support/MDNSUtils.h",
+		"/Users/William/Develop/MiCO/Support/MDNSUtils.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppDefine.h",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.h",
+		"/Users/William/Develop/MiCO/Projects/STM32F2xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_flash.c",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform_config.h",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform_config.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/os/os_timer.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_powersave.c",
 		"/Users/William/Develop/MiCO/Platform/Drivers/MiCOKit_EXT/micokit_ext.c",
 		"/Users/William/Develop/MiCO/Platform/Drivers/MiCOKit_EXT/key/keys.c",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppEntrance.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform.h",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform.h",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform_config.h",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform_config.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_spi.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/EMW1062_Driver/wlan_bus_sdio.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/EMW1062_Driver/wlan_bus_spi.c",
@@ -638,7 +639,6 @@
 		"/Users/William/Develop/MiCO/Platform/include/wlan_platform_common.h",
 		"/Users/william/Develop/MiCO/Platform/drivers/spi_flash/spi_flash_platform_interface.h",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform_spi_flash.c",
-		"/Users/William/Develop/MiCO/Projects/STM32F2xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
 		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_platform.c",
 		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_platform_interface.h",
 		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverSpi.h",
@@ -647,7 +647,6 @@
 		"/Users/william/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_peripheral.h",
 		"/Users/William/Develop/MiCO/include/MicoPlatform.h",
 		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverRtc.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_flash.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_gpio.c",
 		"/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverSpi.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/src/stm32f2xx_dma.c",
@@ -732,22 +731,7 @@
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/FatFs/src/ff_gen_drv.h",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/FatFs/src/diskio.h",
 		"/Users/william/Develop/Clang_lib/ARMCC/include/stdio.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.MXCHIP.SPP/MICOConfigDelegate.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.MXCHIP.SPP/MICOAppDefine.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_common_config.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.MXCHIP.HA/HaProtocol.c",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoRTOS.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICONotificationCenter.c",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2XX/STM32F2XX_Drv/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_rcc.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoWlan.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/FatFs/src/integer.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/HomeKitUserInterface.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/MICOAppDefine.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MICO.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/MicoDefaults.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Library/support/HTTPUtils.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/MICO_EVB_1/platform.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoWlan.h"
+		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.MXCHIP.SPP/MICOConfigDelegate.c"
 	],
 	"find":
 	{
@@ -774,6 +758,37 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"free",
+			"is_service_match",
+			"mico_easylink_bonjour_update",
+			"remove_bonjour_for_easylink",
+			"flashContentInRam.micoSystemConfig.localIp",
+			"remove_bonjour_for_easylink",
+			"easylink_success",
+			"easylink_failed",
+			"easylink_thread_should_exit",
+			"KEY_SSID",
+			"ConfigEasyLinkIsSuccess",
+			"ConfigCreateReportJsonMessage",
+			"ConfigIncommingJsonMessage",
+			"MICOstartConfigServer",
+			"MICOStartBonjourService",
+			"ConfigELRecvAuthData",
+			"easylink_sem",
+			"uap_config_mode",
+			"easylink_softap_should_start",
+			"uap_config_mode",
+			"easylinkIndentifier",
+			"_LocalConfigRespondInComingMessage",
+			"micoNotify_WiFIParaChangedHandler",
+			"mico_notify_WiFI_PARA_CHANGED",
+			"EasyLinkNotify_WiFIParaChangedHandler",
+			"EasyLinkNotify_EasyLinkGetExtraDataHandler",
+			"mdns_process_query",
+			"mfi_bonjour_send",
+			"mfi_bonjour_thread_handler",
+			"mico_rtos_create_thread",
+			"mico_rtos_pop_from_queue",
 			"CFG_PRIO_BITS",
 			"user_key1_init",
 			"_user_key1_irq_handler",
@@ -870,38 +885,7 @@
 			"fopen",
 			"mico_mutex_t",
 			"RTC_WKUP_irq",
-			"bootloader_start",
-			"WEAK",
-			"ICC",
-			"EXTI3_IRQHandler",
-			"InitMd5",
-			"sys_state_change_sem",
-			"PlatformEasyLinkButtonLongPressedCallback",
-			"str",
-			"strdump",
-			"strd",
-			"strdump",
-			"memrlen",
-			"strnlen",
-			"memrlen",
-			"size_t",
-			"READ_LENGTH",
-			"CR",
-			"findChunkedDataLength",
-			"1500",
-			"findChunkedDataLength",
-			"realloc",
-			"findChunkedDataLength",
-			"->chunkedData =",
-			"chunk",
-			"findChunkedDataLength",
-			"HTTPHeaderParse",
-			"chunck",
-			"inHeader->chunkedData =",
-			"inHeader->chunkedData",
-			"otaDataPtr",
-			"HTTPHeaderClear",
-			"unlock"
+			"bootloader_start"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -922,23 +906,23 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform.c",
+					"file": "/Users/William/Develop/MiCO/MICO/mico_system/mico_system_easylink.c",
 					"settings":
 					{
-						"buffer_size": 21771,
+						"buffer_size": 20454,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								14858,
+								14870
 							]
 						],
 						"settings":
@@ -948,52 +932,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 9303.0,
+						"translation.y": 6559.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "COM.MXCHIP.SPP.sublime-project",
+					"file": "/Users/William/Develop/MiCO/MICO/MICOConfigServer.c",
 					"settings":
 					{
-						"buffer_size": 1681,
+						"buffer_size": 16056,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								189,
-								192
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_flash.c",
-					"settings":
-					{
-						"buffer_size": 18688,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								18688
+								15312,
+								15322
 							]
 						],
 						"settings":
@@ -1003,59 +960,35 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 714.0,
+						"translation.y": 902.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform_config.h",
+					"buffer": 2,
+					"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.c",
 					"settings":
 					{
-						"buffer_size": 7089,
+						"buffer_size": 28309,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								19044,
+								19044
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1321.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform_config.h",
-					"settings":
-					{
-						"buffer_size": 6743,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1828.0,
+						"translation.y": 9872.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1096,7 +1029,7 @@
 	"menu_visible": true,
 	"output.clang":
 	{
-		"height": 216.0
+		"height": 162.0
 	},
 	"output.exec":
 	{
@@ -1139,6 +1072,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 280.0,
+	"side_bar_width": 240.0,
 	"status_bar_visible": true
 }

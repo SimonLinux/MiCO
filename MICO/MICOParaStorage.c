@@ -123,8 +123,6 @@ OSStatus MICORestoreDefault(mico_Context_t *inContext)
   inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_BYPASS_NO;
   inContext->flashContentInRam.micoSystemConfig.rfPowerSaveEnable = false;
   inContext->flashContentInRam.micoSystemConfig.mcuPowerSaveEnable = false;
-  inContext->flashContentInRam.micoSystemConfig.bonjourEnable = true;
-  inContext->flashContentInRam.micoSystemConfig.configServerEnable = true;
   inContext->flashContentInRam.micoSystemConfig.seed = seedNum;
 
   /*Application's default configuration*/

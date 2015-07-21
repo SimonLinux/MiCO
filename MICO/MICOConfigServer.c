@@ -31,6 +31,7 @@
 
 #include "MICO.h"
 #include "platform_config.h"
+#include "mico_system.h"
 #include "MICODefine.h"
 #include "SocketUtils.h"
 #include "Platform.h"
@@ -38,6 +39,7 @@
 #include "MICONotificationCenter.h"
 #include "StringUtils.h"
 #include "CheckSumUtils.h"
+#include "mico_system/mico_system_internal.h"
 
 #define config_log(M, ...) custom_log("CONFIG SERVER", M, ##__VA_ARGS__)
 #define config_log_trace() custom_log_trace("CONFIG SERVER")
@@ -55,7 +57,7 @@ typedef struct _configContext_t{
   CRC16_Context crc16_contex;
 } configContext_t;
 
-extern OSStatus     ConfigIncommingJsonMessage( const char *input, mico_Context_t * const inContext );
+extern OSStatus     ConfigIncommingJsonMessage( const char *input, bool *need_reboot, mico_Context_t * const inContext );
 extern json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext );
 
 static void localConfiglistener_thread(void *inContext);
@@ -67,11 +69,8 @@ static void onClearHTTPHeader(struct _HTTPHeader_t * httpHeader, void * userCont
 
 bool is_config_server_established = false;
 
-/* var defined in uAP config mode*/
-extern bool uap_config_mode;
-extern mico_semaphore_t uap_config_finished_sem;
+/* Defined in uAP config mode */
 extern OSStatus     ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * const inContext );
-extern void connect_wifi_normal( mico_Context_t * const inContext);
 
 static mico_semaphore_t close_listener_sem = NULL, close_client_sem[ MAX_TCP_CLIENT_PER_SERVER ] = { NULL };
 
@@ -82,7 +81,8 @@ OSStatus MICOStartConfigServer ( mico_Context_t * const inContext )
   int i = 0;
   OSStatus err = kNoErr;
 
-  require_action(is_config_server_established == false, exit, err = kAlreadyInitializedErr);
+  if( is_config_server_established )
+    return kNoErr;
 
   config_log("Start config server");
 
@@ -103,7 +103,8 @@ OSStatus MICOStopConfigServer( void )
   int i = 0;
   OSStatus err = kNoErr;
 
-  require_action(is_config_server_established == true, exit, err = kAlreadyCanceledErr);
+  if( !is_config_server_established )
+    return kNoErr;
 
   for (; i < MAX_TCP_CLIENT_PER_SERVER; i++){
     if( close_client_sem[ i ] != NULL )
@@ -118,7 +119,6 @@ OSStatus MICOStopConfigServer( void )
   mico_thread_msleep(500);
   is_config_server_established = false;
   
-exit:
   return err;
 }
 
@@ -367,6 +367,7 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
   uint8_t *httpResponse = NULL;
   size_t httpResponseLen = 0;
   json_object* report = NULL;
+  bool need_reboot = false;
   uint16_t crc;
   configContext_t *http_context = (configContext_t *)inHeader->userContext;
   mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
@@ -399,13 +400,14 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
       err = SocketSend( fd, httpResponse, httpResponseLen );
       require_noerr( err, exit );
 
-      err = ConfigIncommingJsonMessage( inHeader->extraDataPtr, inContext );
+      err = ConfigIncommingJsonMessage( inHeader->extraDataPtr, &need_reboot, inContext );
       require_noerr( err, exit );
       inContext->flashContentInRam.micoSystemConfig.configured = allConfigured;
       MICOUpdateConfiguration(inContext);
 
-      if( uap_config_mode == true )
-        mico_rtos_set_semaphore( &uap_config_finished_sem ); 
+      if( need_reboot == true ){
+        mico_system_power_perform( eState_Software_Reset );
+      }
     }
     goto exit;
   }
@@ -425,7 +427,7 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
       sleep(1);
 
       micoWlanSuspendSoftAP();
-      connect_wifi_normal( inContext );
+      mico_system_connect_wifi_normal( inContext );
     }
     goto exit;
   }

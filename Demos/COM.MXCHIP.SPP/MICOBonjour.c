@@ -90,7 +90,7 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, mico_Context_t * con
   sprintf(temp_txt, "%sSeed=%u.", temp_txt, inContext->flashContentInRam.micoSystemConfig.seed);
   init.txt_record = (char*)__strdup(temp_txt);
 
-  bonjour_service_add( init, interface );
+  bonjour_service_add( init, interface, 1500);
 
   free(init.host_name);
   free(init.instance_name);

@@ -422,15 +422,6 @@
       </file>
     </group>
     <group>
-      <name>EasyLink</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\EasyLink\EasyLink.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\SoftAP\EasyLinkSoftAP.c</name>
-      </file>
-    </group>
-    <group>
       <name>Library</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\Library\MICOConfig.c</name>
@@ -446,18 +437,30 @@
       </file>
     </group>
     <group>
+      <name>system</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\mico_system\mico_system_common.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\mico_system\mico_system_easylink.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\mico_system\mico_system_easylink_wac.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\mico_system\mico_system_easylink_wps.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\mico_system\mico_system_power_daemon.c</name>
+      </file>
+    </group>
+    <group>
       <name>WAC</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Debug.a</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Release.a</name>
-      </file>
-    </group>
-    <group>
-      <name>WPS</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\WPS\WPS.c</name>
       </file>
     </group>
     <file>

@@ -1,11 +1,11 @@
 /**
 ******************************************************************************
-* @file    EasyLink.h 
+* @file    MFi_WAC.h 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
-* @brief   This file provide header file for the easylink function and FTC server 
-*            for quick provisioning and first time configuration.
+* @brief   This file provide header file for start a Apple WAC (wireless accessory
+*          configuration) function thread.
 ******************************************************************************
 *
 *  The MIT License
@@ -30,10 +30,17 @@
 ******************************************************************************
 */
 
-#ifndef __EASYLINK_H
-#define __EASYLINK_H
+
+#ifndef __MICO_SYSTEM_h__
+#define __MICO_SYSTEM_h__
+
+#pragma once
 
 #include "MICODefine.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define FTC_PORT 8000
 
@@ -43,12 +50,11 @@
                                                    Restart easylink after timeout: 20 seconds. */
 #define EasyLink_Plus
 
-OSStatus startEasyLink( mico_Context_t * const inContext);
-
-OSStatus stopEasyLink( mico_Context_t * const inContext);
 
 
 
+#ifdef __cplusplus
+} /*extern "C" */
 #endif
 
-
+#endif

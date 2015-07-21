@@ -43,6 +43,7 @@ typedef struct
   char*               txt_att;
   char                instance_name_suffix[4];
   WiFi_Interface      interface;
+  uint32_t            ttl;
   uint16_t            port;
   uint8_t             count_down;
   mdns_record_state_t state;
@@ -57,11 +58,11 @@ typedef struct
 
 #define SERVICE_QUERY_NAME             "_services._dns-sd._udp.local."
 
-// #define mdns_utils_log(M, ...) custom_log("mDNS Utils", M, ##__VA_ARGS__)
-// #define mdns_utils_log_trace() custom_log_trace("mDNS Utils")
+#define mdns_utils_log(M, ...) custom_log("mDNS Utils", M, ##__VA_ARGS__)
+#define mdns_utils_log_trace() custom_log_trace("mDNS Utils")
 
-#define mdns_utils_log(M, ...)
-#define mdns_utils_log_trace()
+//#define mdns_utils_log(M, ...)
+//#define mdns_utils_log_trace()
 
 
 static dns_sd_service_record_t   available_services[ MAX_RECORD_COUNT ];
@@ -82,6 +83,8 @@ static void dns_write_bytes( dns_message_iterator_t* iter, uint8_t* data, uint16
 static uint16_t dns_read_uint16( dns_message_iterator_t* iter );
 static void dns_skip_name( dns_message_iterator_t* iter );
 static void dns_write_name( dns_message_iterator_t* iter, const char* src );
+
+static OSStatus start_bonjour_service(void);
 
 static mico_mutex_t bonjour_mutex = NULL;
 static mico_semaphore_t update_state_sem = NULL;
@@ -150,22 +153,20 @@ void process_dns_questions(int fd, dns_message_iterator_t* iter )
             if ( dns_compare_name_to_string( &name, available_services[b].service_name )){
               
               if( available_services[b].state != RECORD_NORMAL )
-                return;
+                continue;
 
               micoWlanGetIPStatus(&para, available_services[b].interface);
               myip = htonl(inet_addr(para.ip));
-              if(myip == 0) {
-                return;
-              }
-
+              if( myip == 0 || myip == 0xFFFFFFFF) continue;
+              
               // Send the PTR, TXT, SRV and A records
               if(dns_create_message( &response, 512 )){
                 dns_write_header( &response, iter->header->id, 0x8400, 0, 4, 0 );
                 //dns_write_record( &response, MFi_SERVICE_QUERY_NAME, RR_CLASS_IN, RR_TYPE_PTR, 1500, (u8*) available_services[b].service_name );
-                dns_write_record( &response, available_services[b].service_name, RR_CLASS_IN, RR_TYPE_PTR, 1500, (uint8_t*) available_services[b].instance_name );
-                dns_write_record( &response, available_services[b].instance_name, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_TXT, 1500, (uint8_t*) available_services[b].txt_att );
-                dns_write_record( &response, available_services[b].instance_name, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_SRV, 1500, (uint8_t*) &available_services[b]);
-                dns_write_record( &response, available_services[b].hostname, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_A, 1500, (uint8_t*) &myip);
+                dns_write_record( &response, available_services[b].service_name, RR_CLASS_IN, RR_TYPE_PTR, available_services[b].ttl, (uint8_t*) available_services[b].instance_name );
+                dns_write_record( &response, available_services[b].instance_name, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_TXT, available_services[b].ttl, (uint8_t*) available_services[b].txt_att );
+                dns_write_record( &response, available_services[b].instance_name, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_SRV, available_services[b].ttl, (uint8_t*) &available_services[b]);
+                dns_write_record( &response, available_services[b].hostname, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_A, available_services[b].ttl, (uint8_t*) &myip);
                 mdns_send_message(fd, &response );
                 dns_free_message( &response );
                 question_processed = 1;
@@ -201,11 +202,11 @@ static void mdns_process_query(int fd, dns_name_t* name,
 
         micoWlanGetIPStatus(&para, available_services[b].interface);
         myip = htonl(inet_addr(para.ip));
-        if(myip == 0) return;
+        if( myip == 0 || myip == 0xFFFFFFFF) continue;
 
         if(dns_create_message( &response, 256 )){
           dns_write_header( &response, source->header->id, 0x8400, 0, 1, 0 );
-          dns_write_record( &response, available_services[b].hostname, RR_CLASS_IN | RR_CACHE_FLUSH, RR_TYPE_A, 300, (uint8_t *)&myip);
+          dns_write_record( &response, available_services[b].hostname, RR_CLASS_IN | RR_CACHE_FLUSH, RR_TYPE_A, available_services[b].ttl, (uint8_t *)&myip);
           mdns_send_message(fd, &response );
           dns_free_message( &response );
           return;
@@ -540,13 +541,38 @@ exit:
   return;
 }
 
-OSStatus bonjour_service_add(bonjour_init_t init, WiFi_Interface interface )
+static void _clean_record_resource( dns_sd_service_record_t *record )
+{
+  if(record->service_name)  {
+    free(record->service_name);
+    record->service_name = NULL;
+  }
+  if(record->hostname){
+    free(record->hostname);
+    record->hostname = NULL;
+    }
+  if(record->instance_name){
+      free(record->instance_name);
+      record->instance_name = NULL;
+    }
+  if(record->txt_att){
+    free(record->txt_att);
+    record->txt_att = NULL;
+  }
+
+}
+
+
+OSStatus bonjour_service_add( bonjour_init_t init, WiFi_Interface interface, uint32_t time_to_live )
 {
   int len;
   OSStatus err = kNoErr;
   uint32_t insert_index = 0xFF;
 
-  require_action( bonjour_instance == true, exit, err = kNotPreparedErr);
+  if( bonjour_instance == false ){
+    err = start_bonjour_service( );
+    require_noerr(err, exit);
+  }
   
   insert_index = find_record_by_service ( init.service_name, interface );
   if( insert_index == 0xFF)
@@ -556,10 +582,7 @@ OSStatus bonjour_service_add(bonjour_init_t init, WiFi_Interface interface )
   
   mico_rtos_lock_mutex( &bonjour_mutex );
 
-  if(available_services[insert_index].service_name)  free(available_services->service_name);
-  if(available_services[insert_index].hostname)  free(available_services->hostname);
-  if(available_services[insert_index].instance_name)  free(available_services->instance_name);
-  if(available_services[insert_index].txt_att)  free(available_services->txt_att);
+  _clean_record_resource( &available_services[insert_index] );
 
   available_services[insert_index].interface = interface;
   available_services[insert_index].service_name = (char*)__strdup(init.service_name);
@@ -577,6 +600,7 @@ OSStatus bonjour_service_add(bonjour_init_t init, WiFi_Interface interface )
   available_services[insert_index].port = init.service_port;
   available_services[insert_index].state = RECORD_UPDATE;
   available_services[insert_index].count_down = 5;
+  available_services[insert_index].ttl = time_to_live;
   
   if( _bonjour_announce_handler == NULL)
     mico_rtos_create_thread( &_bonjour_announce_handler, MICO_APPLICATION_PRIORITY, "Bonjour Announce", _bonjour_send_anounce_thread, 0x200, NULL );
@@ -599,6 +623,7 @@ void bonjour_update_txt_record( char *service_name, WiFi_Interface interface, ch
 
   mico_rtos_lock_mutex( &bonjour_mutex );
 
+  if(available_services[insert_index].txt_att)  free(available_services->txt_att);
   available_services[insert_index].txt_att = (char*)__strdup(txt_record);
   available_services[insert_index].state = RECORD_UPDATE;
   available_services[insert_index].count_down = 5;
@@ -614,17 +639,25 @@ void bonjour_service_suspend( char *service_name, WiFi_Interface interface, bool
 {
   int i;
   uint32_t insert_index = 0xFF;
+  
+  mdns_utils_log( "Suspend %s@%d",  service_name, interface);
 
   if( bonjour_instance == false ) return;
 
   mico_rtos_lock_mutex( &bonjour_mutex );
 
-  for ( i = 0; i < available_service_count && is_service_match ( &available_services[i], service_name, interface ); i++ ){
+  for ( i = 0; i < available_service_count; i++ ){
+    if( is_service_match ( &available_services[i], service_name, interface ) == false) 
+      continue;
+    
+    mdns_utils_log( "Find index %d to suspend", i);
     if( will_remove == true )
       available_services[i].state = RECORD_REMOVE;
-    else
-      available_services[i].state = RECORD_SUSPEND;
-
+    else{
+      if( available_services[i].state != RECORD_REMOVE )
+        available_services[i].state = RECORD_SUSPEND;
+    }
+  
     available_services[i].count_down = 5; 
     insert_index = i;
   }
@@ -649,7 +682,7 @@ void bonjour_service_resume( char *service_name, WiFi_Interface interface )
 
   mico_rtos_lock_mutex( &bonjour_mutex );
 
-  for ( i = 0; i < available_service_count && is_service_match ( &available_services[i], service_name, interface ); i++ ){
+  for ( i = 0; i < available_service_count && is_service_match( &available_services[i], service_name, interface ); i++ ){
     available_services[i].state = RECORD_UPDATE;
     available_services[i].count_down = 5; 
     insert_index = i;
@@ -693,7 +726,7 @@ void bonjour_send_record(int record_index)
 
   /* Send service and a ttl > 0 for a working record*/
   if( available_services[record_index].state == RECORD_NORMAL || available_services[record_index].state == RECORD_UPDATE ){
-    ttl = 1500;
+    ttl = available_services[record_index].ttl;
     
     if(dns_create_message( &response, 512 )) {
       dns_write_header(&response, 0x0, 0x8400, 0, available_service_count, 0 );          
@@ -702,12 +735,15 @@ void bonjour_send_record(int record_index)
       dns_free_message( &response );
     }
   }
+  micoWlanGetIPStatus(&para, available_services[record_index].interface);
+  myip = htonl(inet_addr(para.ip));
+  if( myip == 0 || myip == 0xFFFFFFFF) return;
+
 
   if(dns_create_message( &response, 512 )){
+    mdns_utils_log( "TTL = %d",  ttl);
     micoWlanGetIPStatus(&para, available_services[record_index].interface);
     dns_write_header( &response, 0x0, 0x8400, 0, 4, 0 );
-    myip = htonl(inet_addr(para.ip));
-    if(myip == 0) return;
     dns_write_record( &response, available_services[record_index].service_name, RR_CLASS_IN, RR_TYPE_PTR, ttl, (uint8_t*) available_services[record_index].instance_name );
     dns_write_record( &response, available_services[record_index].instance_name, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_TXT, ttl, (uint8_t*) available_services[record_index].txt_att );
     dns_write_record( &response, available_services[record_index].instance_name, RR_CACHE_FLUSH|RR_CLASS_IN, RR_TYPE_SRV, ttl, (uint8_t*) &available_services[record_index]);
@@ -748,7 +784,7 @@ void BonjourNotify_SYSWillPoerOffHandler( void *arg )
 
 uint8_t *buf = NULL;
 
-OSStatus start_bonjour_service(void)
+static OSStatus start_bonjour_service(void)
 {
   OSStatus err = kNoErr;
   struct sockaddr_t addr;
@@ -805,13 +841,11 @@ void _bonjour_thread(void *arg)
   t.tv_usec = 0;
   
   while(1) {
-
     /*Check status on erery sockets on bonjour query */
     FD_ZERO(&readfds);
     FD_SET(mDNS_fd, &readfds);
     FD_SET(update_state_fd, &readfds);
     select(mDNS_fd + 1, &readfds, NULL, NULL, &t);
-
 
     if ( FD_ISSET( update_state_fd, &readfds ) ){ 
       mdns_utils_log( "sem recved" );
@@ -823,18 +857,21 @@ void _bonjour_thread(void *arg)
             mdns_utils_log( "Remove record %d", i );
             bonjour_send_record( i );
             available_services[i].count_down--;
-            if( available_services[i].count_down == 0)
+            if( available_services[i].count_down == 0){
+              _clean_record_resource( &available_services[i] );
               available_services[i].state = RECORD_REMOVED;
+            }
             break;
           case RECORD_SUSPEND:
             if( available_services[i].count_down ){
               mdns_utils_log( "Suspend record %d", i );
-              bonjour_send_record( i );   
-              available_services[i].count_down--;       
+              bonjour_send_record( i );
+              if( available_services[i].count_down )
+                available_services[i].count_down--;       
             }
             break;
           case RECORD_UPDATE:
-            mdns_utils_log( "Update record %d", i );
+            mdns_utils_log( "Update record %d, cd: %d", i, available_services[i].count_down );
             bonjour_send_record( i );
             available_services[i].count_down--;
             if( available_services[i].count_down == 0)

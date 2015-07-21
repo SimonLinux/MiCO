@@ -37,11 +37,13 @@
 #include "StringUtils.h"
 #include "HTTPUtils.h"
 
-#include "WPS.h"
+#include "mico_system.h"
 #include "SoftAp/EasyLinkSoftAP.h"
 
 #define wps_log(M, ...) custom_log("WPS", M, ##__VA_ARGS__)
 #define wps_log_trace() custom_log_trace("WPS")
+
+#define WPS_TimeOut 30000
 
 static mico_semaphore_t  wps_sem = NULL;
 
@@ -102,7 +104,7 @@ void WPSNotify_SYSWillPowerOffHandler(mico_Context_t * const inContext)
   stopWPS(inContext);
 }
 
-OSStatus startWPS( mico_Context_t * const inContext)
+OSStatus mico_easylink_wps_tart( mico_Context_t * const inContext)
 {
   wps_log_trace();
   OSStatus err = kUnknownErr;

@@ -141,9 +141,7 @@ typedef struct
 } bonjour_init_t;
 
 
-OSStatus start_bonjour_service( void );
-
-OSStatus bonjour_service_add( bonjour_init_t init, WiFi_Interface interface );
+OSStatus bonjour_service_add( bonjour_init_t init, WiFi_Interface interface, uint32_t time_to_live );
 
 void bonjour_service_suspend( char *service_name, WiFi_Interface interface, bool will_remove );
 

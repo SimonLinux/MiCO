@@ -52,7 +52,9 @@
 #define EASYLINK_SOFT_AP_BYPASS                 (2)
 
 #define MICO_CLI_ENABLE
-//#define MFG_MODE_AUTO /**< Device enter MFG mode if MICO settings are erased. */
+//#define MFG_MODE_AUTO  /**< Device enter MFG mode if MICO settings are erased. */
+
+#define MICO_CONFIG_SERVER_ENABLE  /**< MiCO TCP server used for configuration and ota. */
 
 /* Define MICO service thread stack size */
 #define STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD   0x300
@@ -138,11 +140,11 @@ typedef struct _mico_sys_config_t
   /*EasyLink configuration*/
   Config_State_t  configured;
   uint8_t         easyLinkByPass;
-  uint32_t        easylinkServerIP;
+  uint32_t        reserved;
 
   /*Services in MICO system*/
-  bool            bonjourEnable;
-  bool            configServerEnable;
+  bool            reserved2;
+  bool            reserved3;
 
   /*Update seed number when configuration is changed*/
   int32_t         seed;
@@ -167,6 +169,7 @@ typedef struct _current_mico_status_t
   char                  gateWay[maxIpLen];
   char                  dnsServer[maxIpLen];
   char                  mac[18];
+  char                  rf_version[50];
   mico_semaphore_t      sys_state_change_sem;
 } current_mico_status_t;
 

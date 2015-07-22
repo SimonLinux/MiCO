@@ -30,42 +30,14 @@
 ******************************************************************************
 */
 
-#ifndef __MICODEFINE_H
-#define __MICODEFINE_H
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "Common.h"
-#include "Debug.h"
-#include "MICO.h"
-#include "JSON-C/json.h"
 #include "MICOAppDefine.h"
-
-#define CONFIG_MODE_EASYLINK                    (2)
-#define CONFIG_MODE_SOFT_AP                     (3)
-#define CONFIG_MODE_EASYLINK_WITH_SOFTAP        (4)
-#define CONFIG_MODE_WPS                         (5)
-#define CONFIG_MODE_WPS_WITH_SOFTAP             (6)
-#define CONFIG_MODE_WAC                         (7)
-#define CONFIG_MODE_AIRKISS                     (8)
-
-#define EASYLINK_BYPASS_NO                      (0)
-#define EASYLINK_BYPASS                         (1)
-#define EASYLINK_SOFT_AP_BYPASS                 (2)
-
-#define MICO_CLI_ENABLE
-//#define MFG_MODE_AUTO  /**< Device enter MFG mode if MICO settings are erased. */
-
-#define MICO_CONFIG_SERVER_ENABLE  /**< MiCO TCP server used for configuration and ota. */
-
-/* Define MICO service thread stack size */
-#define STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD   0x300
-#define STACK_SIZE_LOCAL_CONFIG_CLIENT_THREAD   0x450
-#define STACK_SIZE_NTP_CLIENT_THREAD            0x450
-#define STACK_SIZE_MICO_SYSTEM_MONITOR_THREAD   0x300
-
-#define CONFIG_SERVICE_PORT     8000
-
-#define APPLICATION_WATCHDOG_TIMEOUT_SECONDS  5 /**< Watch-dog enabled by MICO's main thread:
-                                                     5 seconds to reload. */
 
 #define maxSsidLen          32
 #define maxKeyLen           64
@@ -89,16 +61,6 @@ typedef enum  {
     been programed or MICO settings is damaged), module will enter MFG mode when powered on. */
   mfgConfigured
 }Config_State_t;
-
-typedef enum
-{
-    eState_Normal,
-    eState_Software_Reset,
-    eState_Wlan_Powerdown,
-    eState_Restore_default,
-    eState_Standby,
-} SYS_State_t;
-
 
 /* Upgrade iamge should save this table to flash */
 typedef struct  _boot_table_t {
@@ -163,14 +125,12 @@ typedef struct _flash_configuration_t {
 typedef struct _current_mico_status_t 
 {
   /*MICO system Running status*/
-  SYS_State_t           sys_state;
   char                  localIp[maxIpLen];
   char                  netMask[maxIpLen];
   char                  gateWay[maxIpLen];
   char                  dnsServer[maxIpLen];
   char                  mac[18];
   char                  rf_version[50];
-  mico_semaphore_t      sys_state_change_sem;
 } current_mico_status_t;
 
 typedef struct _mico_Context_t
@@ -184,22 +144,6 @@ typedef struct _mico_Context_t
   current_app_status_t      appStatus;
 } mico_Context_t;
 
-#define CONFIG_DATA_SIZE (sizeof(application_config_t)-sizeof(uint32_t))
-
-OSStatus MICOStartBonjourService        ( WiFi_Interface interface, mico_Context_t * const inContext );
-OSStatus MICOStartConfigServer          ( mico_Context_t * const inContext );
-OSStatus MICOStopConfigServer           ( void );
-OSStatus MICOStartNTPClient             ( mico_Context_t * const inContext );
-OSStatus MICOStartApplication           ( mico_Context_t * const inContext );
-
-OSStatus MICORestoreDefault             ( mico_Context_t * const inContext );
-OSStatus MICOReadConfiguration          ( mico_Context_t * const inContext );
-OSStatus MICOUpdateConfiguration        ( mico_Context_t * const inContext );
-#ifdef MFG_MODE_AUTO
-OSStatus MICORestoreMFG                 ( mico_Context_t * const inContext );
+#ifdef __cplusplus
+} /*extern "C" */
 #endif
-
-mico_Context_t *getGlobalContext(void);
-void mico_mfg_test( mico_Context_t * const inContext );
-
-#endif /* __MICO_DEFINE_H */

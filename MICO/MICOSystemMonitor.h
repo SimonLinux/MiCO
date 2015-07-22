@@ -34,7 +34,7 @@
 #define __MICOSYSTEMMONITOR_H__
 
 #include "Common.h"
-#include "MICODefine.h"
+#include "mico_system_context.h"
 
 /** Structure to hold information about a system monitor item */
 typedef struct

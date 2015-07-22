@@ -1,10 +1,11 @@
 /**
 ******************************************************************************
-* @file    MICOEntrance.c 
+* @file    EasyLink.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
-* @brief   MICO system main entrance.
+* @brief   This file provide the easylink function and FTC server for quick 
+*          provisioning and first time configuration.
 ******************************************************************************
 *
 *  The MIT License
@@ -29,42 +30,35 @@
 ******************************************************************************
 */
 
-#include "time.h"
-#include "MicoPlatform.h"
-#include "platform.h"
-#include "MICOAppDefine.h"
-#include "mico_system.h"
+#include <time.h>
 
-#include "MICONotificationCenter.h"
-#include "MICOSystemMonitor.h"
-#include "MicoCli.h"
-#include "StringUtils.h"
-#include "mico_system/mico_system_internal.h"
+#include "MICO.h"
+#include "MICOCli.h"
+#include "mico_system_context.h"
+#include "mico_system_config.h"
+#include "system.h"
 
-/* ========================================
-User provide callback functions 
-======================================== */
-
-int application_start(void)
+OSStatus system_init( mico_Context_t** out_context )
 {
   OSStatus err = kNoErr;
   mico_Context_t* context;
 
   /* Read mico context that holds all system configurations and runtime status */
-  err = mico_system_context_init( &context );
+  err = system_context_init( &context );
   require_noerr( err, exit ); 
+  *out_context = context;
 
   /* Initialize power management daemen */
-  err = mico_system_power_daemon_start( context );
+  err = system_power_daemon_start( context );
   require_noerr( err, exit ); 
 
   /* Initialize mico system */
-  err = mico_system_notification_init( context );
+  err = system_notification_init( context );
   require_noerr( err, exit ); 
 
 #ifdef MICO_SYSTEM_MONITOR_ENABLE
   /* MiCO system monitor */
-  err = mico_system_monitor_daemen_start( context );
+  err = system_monitor_daemen_start( context );
   require_noerr( err, exit ); 
 #endif
 
@@ -73,8 +67,8 @@ int application_start(void)
   MicoCliInit();
 #endif
 
-  /* wlan driver and tcpip init */
-  err = mico_system_network_daemen_start( context );
+  /* Network PHY driver and tcp/ip static init */
+  err = system_network_daemen_start( context );
   require_noerr( err, exit ); 
 
   if( context->flashContentInRam.micoSystemConfig.configured == wLanUnConfigured ||
@@ -85,10 +79,7 @@ int application_start(void)
     (MICO_CONFIG_MODE == CONFIG_MODE_SOFT_AP) ||  \
     (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK_WITH_SOFTAP) || \
     (MICO_CONFIG_MODE == CONFIG_MODE_AIRKISS)
-    err = mico_easylink_start( context );
-    require_noerr( err, exit );
-#elif (MICO_CONFIG_MODE == CONFIG_MODE_WPS) || MICO_CONFIG_MODE == defined (CONFIG_MODE_WPS_WITH_SOFTAP)
-    err = mico_easylink_wps_tart( context );
+    err = system_easylink_start( context );
     require_noerr( err, exit );
 #elif ( MICO_CONFIG_MODE == CONFIG_MODE_WAC)
     err = mico_easylink_start( context );
@@ -97,19 +88,18 @@ int application_start(void)
     #error "Wi-Fi configuration mode is not defined"
 #endif
   }
-  else{
-    system_log("Available configuration. Starting Wi-Fi connection...");
-    mico_system_connect_wifi_fast( context );
-  }
-
 #ifdef MFG_MODE_AUTO
-  if( context->flashContentInRam.micoSystemConfig.configured == mfgConfigured ){
+  else if( context->flashContentInRam.micoSystemConfig.configured == mfgConfigured ){
     system_log( "Enter MFG mode automatically" );
     mico_mfg_test(context);
     mico_thread_sleep(MICO_NEVER_TIMEOUT);
   }
 #endif
- 
+  else{
+    system_log("Available configuration. Starting Wi-Fi connection...");
+    system_connect_wifi_fast( context );
+  }
+
   /*Local configuration server*/
 #ifdef MICO_CONFIG_SERVER_ENABLE
   MICOStartConfigServer(context);
@@ -117,19 +107,16 @@ int application_start(void)
 
 #ifdef MICO_NTP_CLIENT_ENABLE
   struct tm currentTime;
-  mico_system_current_time_get( &currentTime );
+  system_current_time_get( &currentTime );
   system_log("Current Time: %s",asctime(&currentTime));
   err =  MICOStartNTPClient(context);
   require_noerr_string( err, exit, "ERROR: Unable to start the NTP client thread." );
 #endif
 
-  /*Start mico application*/
-  err = MICOStartApplication( context );
-  require_noerr( err, exit );
-    
   require_noerr_action( err, exit, system_log("Closing main thread with err num: %d.", err) );
 exit:
-  mico_rtos_delete_thread(NULL);
-  return kNoErr;
+  
+  return err;
 }
+
 

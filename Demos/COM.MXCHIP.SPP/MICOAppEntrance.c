@@ -19,7 +19,7 @@
   ******************************************************************************
   */ 
 
-#include "MICODefine.h"
+#include "mico_system.h"
 #include "MICOAppDefine.h"
 
 #include "StringUtils.h"
@@ -47,23 +47,20 @@ void appRestoreDefault_callback(mico_Context_t *inContext)
   inContext->flashContentInRam.appConfig.remoteServerPort = DEFAULT_REMOTE_SERVER_PORT;
 }
 
-OSStatus MICOStartApplication( mico_Context_t * const inContext )
+int application_start(void)
 {
   app_log_trace();
   OSStatus err = kNoErr;
   mico_uart_config_t uart_config;
-  
-  require_action(inContext, exit, err = kParamErr);
+  mico_Context_t* inContext;
 
-#ifdef MICO_C_CPP_MIXING_DEMO  
-  cpp_main();
-#endif
-
-  sppProtocolInit( inContext );
+  err = mico_system_init( &inContext );
 
   /*Bonjour for service searching*/
   MICOStartBonjourService( Station, inContext );
-#if 0
+
+  sppProtocolInit( inContext );
+
   /*UART receive thread*/
   uart_config.baud_rate    = inContext->flashContentInRam.appConfig.USART_BaudRate;
   uart_config.data_width   = DATA_WIDTH_8BIT;
@@ -90,11 +87,8 @@ OSStatus MICOStartApplication( mico_Context_t * const inContext )
    err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Remote Client", remoteTcpClient_thread, STACK_SIZE_REMOTE_TCP_CLIENT_THREAD, (void*)inContext );
    require_noerr_action( err, exit, app_log("ERROR: Unable to start the remote client thread.") );
  }
-#endif
+
 exit:
+  mico_rtos_delete_thread(NULL);
   return err;
 }
-
-
-
-

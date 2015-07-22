@@ -2,6 +2,8 @@
 #include "MICONotificationCenter.h"
 #include "tftp/tftp.h"
 #include "CheckSumUtils.h"
+#include "mico_system_context.h"
+#include "system.h"
 
 #define DEFAULT_OTA_AP "MICO_OTA_AP"
 #define DEFAULT_OTA_NETMASK "255.0.0.0"
@@ -84,6 +86,7 @@ void mico_force_ota(void)
     mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
     uint16_t crc = 0;
     CRC16_Context contex;
+    mico_Context_t* context = NULL;
     
 #define TMP_BUF_LEN 1024
 
@@ -193,7 +196,14 @@ void mico_force_ota(void)
 
     fota_log("OTA bin md5 check success, CRC %x. upgrading...", crc);
 
-    mico_write_ota_tbl(filelen, crc);
+    system_context_read( &context );
+    memset(&context->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
+    context->flashContentInRam.bootTable.length = filelen;
+    context->flashContentInRam.bootTable.start_address = ota_partition->partition_start_addr;
+    context->flashContentInRam.bootTable.type = 'A';
+    context->flashContentInRam.bootTable.upgrade_type = 'U';
+    context->flashContentInRam.bootTable.crc = crc;
+    MICOUpdateConfiguration( context );
     
     mico_ota_finished(OTA_SUCCESS, NULL);
     while(1)

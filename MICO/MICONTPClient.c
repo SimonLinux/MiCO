@@ -30,11 +30,12 @@
 */
 
 #include "MICOAppDefine.h"
-#include "MICODefine.h"
+#include "mico_system_context.h"
 #include "SocketUtils.h"
 #include "MICONotificationCenter.h"
 #include "time.h"
 #include "MicoPlatform.h"
+#include "system.h"
 
 #define ntp_log(M, ...) custom_log("NTP client", M, ##__VA_ARGS__)
 #define ntp_log_trace() custom_log_trace("NTP client")

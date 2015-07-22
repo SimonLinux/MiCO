@@ -20,7 +20,7 @@
   */ 
 
 #include "MICOAppDefine.h"
-#include "MICODefine.h"
+#include "mico_system_context.h"
 #include "SppProtocol.h"
 #include "SocketUtils.h"
 #include "MICONotificationCenter.h"

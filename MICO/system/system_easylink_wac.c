@@ -71,7 +71,7 @@ typedef struct
 extern OSStatus startMFiWAC( mico_Context_t * const inContext, WACPlatformParameters_t *inWACPara, mico_i2c_t i2c, int timeOut );
 
 
-OSStatus mico_easylink_wac_start( mico_Context_t * const inContext )
+OSStatus system_easylink_wac_start( mico_Context_t * const inContext )
 {
     OSStatus err = kNoErr;
     IPStatusTypedef para;

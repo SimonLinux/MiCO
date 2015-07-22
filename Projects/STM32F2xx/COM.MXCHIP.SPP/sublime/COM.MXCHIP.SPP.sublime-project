@@ -54,6 +54,7 @@
 			"-I/Users/william/Develop/MiCO/Board/MiCOKit-3162/",
 			"-I/Users/william/Develop/MiCO/include/",
 			"-I/Users/william/Develop/MiCO/MICO/",
+			"-I/Users/william/Develop/MiCO/MICO/mico_system/",
 			"-I/Users/william/Develop/MiCO/Support/",
 			"-I/Users/william/Develop/Clang_lib/Include/",
 			"-I/Users/william/Develop/Clang_lib/ARMCC/include/"

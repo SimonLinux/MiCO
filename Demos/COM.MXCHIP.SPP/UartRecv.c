@@ -20,7 +20,7 @@
   */ 
 
 #include "MICOAppDefine.h"
-#include "MICODefine.h"
+#include "mico_system_context.h"
 #include "SppProtocol.h"
 #include "MicoPlatform.h"
 #include "platform_config.h"
@@ -73,7 +73,6 @@ size_t _uart_get_one_packet(uint8_t* inBuf, int inBufLen)
        return datalen;
      }
    }
-    
   }
   
 }

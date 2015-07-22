@@ -30,31 +30,30 @@
 ******************************************************************************
 */
 
-
-#ifndef __MICO_SYSTEM_h__
-#define __MICO_SYSTEM_h__
-
 #pragma once
 
-#include "MICODefine.h"
+#include "mico_system_context.h"
+#include "system.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define FTC_PORT 8000
 
-#define EasyLink_TimeOut                60000 /**< EasyLink timeout 60 seconds. */
+typedef system_state_t                   mico_system_state_t;
 
-#define EasyLink_ConnectWlan_Timeout    20000 /**< Connect to wlan after configured by easylink.
-                                                   Restart easylink after timeout: 20 seconds. */
-#define EasyLink_Plus
+
+OSStatus mico_system_init( mico_Context_t** out_context );
+
+void mico_system_power_perform( mico_system_state_t new_state );
+
+OSStatus mico_system_current_time_get( struct tm* time );
+
+OSStatus mico_system_context_read( mico_Context_t** context_out );
 
 
 
 
 #ifdef __cplusplus
 } /*extern "C" */
-#endif
-
 #endif

@@ -30,15 +30,30 @@
 ******************************************************************************
 */
 
-#include "MICO.h"
-#include "MDNSUtils.h"
-#include "StringUtils.h"
-#include "MICODefine.h"
-#include "MICONotificationCenter.h"
-#include "mico_system_internal.h"
+#include <time.h>
+
+#include "mico_system_context.h"
+#include "mico_system.h"
 
 
+OSStatus mico_system_current_time_get( struct tm* time )
+{
+  return system_current_time_get( time );
+}
 
+void mico_system_power_perform( mico_system_state_t new_state )
+{
+  system_power_perform( new_state );
+}
 
+OSStatus mico_system_context_read( mico_Context_t** out_context )
+{
+  return system_context_read( out_context );
+}
+
+OSStatus mico_system_init( mico_Context_t** out_context )
+{
+  return system_init( out_context );
+}
 
 

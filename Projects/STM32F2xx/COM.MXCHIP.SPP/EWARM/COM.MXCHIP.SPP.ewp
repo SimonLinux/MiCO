@@ -322,6 +322,7 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1929,7 +1930,7 @@
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\LocalTcpServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppDefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MiCOAPPDefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppEntrance.c</name>
@@ -2223,22 +2224,22 @@
     <group>
       <name>system</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\mico_system\mico_system_common.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_common.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\mico_system\mico_system_easylink.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_easylink.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\mico_system\mico_system_easylink_wac.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_easylink_wac.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\mico_system\mico_system_easylink_wps.c</name>
-        <excluded>
-          <configuration>MiCOKit-3162</configuration>
-        </excluded>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_init.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\mico_system\mico_system_power_daemon.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_para_storage.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_power_daemon.c</name>
       </file>
     </group>
     <group>
@@ -2266,9 +2267,6 @@
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOForceOTA.c</name>
     </file>
     <file>
@@ -2279,9 +2277,6 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICONTPClient.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOParaStorage.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>

@@ -33,8 +33,8 @@
 #include "MICO.h"
 #include "MicoSystemMonitor.h"
 #include "MicoPlatform.h"
-
-
+#include "system.h"
+#include "mico_system_config.h"
 
 #define DEFAULT_SYSTEM_MONITOR_PERIOD   (2000)
 
@@ -114,3 +114,38 @@ OSStatus MICOUpdateSystemMonitor(mico_system_monitor_t* system_monitor, uint32_t
   
   return kNoErr;
 }
+
+static mico_timer_t _watchdog_reload_timer;
+
+static mico_system_monitor_t mico_monitor;
+
+static void _watchdog_reload_timer_handler( void* arg )
+{
+  (void)(arg);
+  MICOUpdateSystemMonitor(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);
+}
+
+
+OSStatus system_monitor_daemen_start( mico_Context_t * const inContext )
+{
+  OSStatus err = kNoErr;
+  /*Start system monotor thread*/
+  err = MICOStartSystemMonitor(inContext);
+  require_noerr_string( err, exit, "ERROR: Unable to start the system monitor." );
+
+  /* Register first monitor */
+  err = MICORegisterSystemMonitor(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);
+  require_noerr( err, exit );
+  mico_init_timer(&_watchdog_reload_timer,APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000/2, _watchdog_reload_timer_handler, NULL);
+  mico_start_timer(&_watchdog_reload_timer);  
+exit:
+  return err;
+}
+
+
+
+
+
+
+
+

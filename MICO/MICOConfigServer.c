@@ -31,15 +31,16 @@
 
 #include "MICO.h"
 #include "platform_config.h"
-#include "mico_system.h"
-#include "MICODefine.h"
+#include "mico_system_context.h"
 #include "SocketUtils.h"
 #include "Platform.h"
 #include "HTTPUtils.h"
 #include "MICONotificationCenter.h"
 #include "StringUtils.h"
 #include "CheckSumUtils.h"
-#include "mico_system/mico_system_internal.h"
+#include "system.h"
+#include "mico_system_config.h"
+#include "JSON-C/json.h"
 
 #define config_log(M, ...) custom_log("CONFIG SERVER", M, ##__VA_ARGS__)
 #define config_log_trace() custom_log_trace("CONFIG SERVER")
@@ -143,14 +144,14 @@ void localConfiglistener_thread(void *inContext)
   localConfiglistener_fd = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
   require_action(IsValidSocket( localConfiglistener_fd ), exit, err = kNoResourcesErr );
   addr.s_ip = INADDR_ANY;
-  addr.s_port = CONFIG_SERVICE_PORT;
+  addr.s_port = MICO_CONFIG_SERVER_PORT;
   err = bind(localConfiglistener_fd, &addr, sizeof(addr));
   require_noerr( err, exit );
 
   err = listen(localConfiglistener_fd, 0);
   require_noerr( err, exit );
 
-  config_log("Config Server established at port: %d, fd: %d", CONFIG_SERVICE_PORT, localConfiglistener_fd);
+  config_log("Config Server established at port: %d, fd: %d", MICO_CONFIG_SERVER_PORT, localConfiglistener_fd);
   
   while(1){
     FD_ZERO(&readfds);
@@ -406,7 +407,7 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
       MICOUpdateConfiguration(inContext);
 
       if( need_reboot == true ){
-        mico_system_power_perform( eState_Software_Reset );
+        system_power_perform( eState_Software_Reset );
       }
     }
     goto exit;
@@ -427,7 +428,7 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
       sleep(1);
 
       micoWlanSuspendSoftAP();
-      mico_system_connect_wifi_normal( inContext );
+      system_connect_wifi_normal( inContext );
     }
     goto exit;
   }
@@ -445,9 +446,7 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
         inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_SOFT_AP_BYPASS;
       MICOUpdateConfiguration( inContext );
       SocketClose( &fd );
-      inContext->micoStatus.sys_state = eState_Software_Reset;
-      if(inContext->micoStatus.sys_state_change_sem != NULL );
-        mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
+      system_power_perform( eState_Software_Reset );
       mico_thread_sleep( MICO_WAIT_FOREVER );
     }
     goto exit;

@@ -36,9 +36,9 @@
 #include "HTTPUtils.h"
 #include "MDNSUtils.h"
 #include "SocketUtils.h"
-
-#include "mico_system.h"
-#include "mico_system_internal.h"
+#include "JSON-C/json.h"
+#include "mico_system_config.h"
+#include "system.h"
 
 // EasyLink Soft AP mode, HTTP configuration message define
 #define kEasyLinkURLAuth          "/auth-setup"
@@ -190,7 +190,7 @@ exit:
   return;
 }
 
-OSStatus mico_easylink_start( mico_Context_t * const inContext)
+OSStatus system_easylink_start( mico_Context_t * const inContext)
 {
   system_log_trace();
   OSStatus err = kUnknownErr;
@@ -238,7 +238,7 @@ void easylink_thread(void *inContext)
   if(Context->flashContentInRam.micoSystemConfig.easyLinkByPass == EASYLINK_BYPASS){
     Context->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_BYPASS_NO;
     MICOUpdateConfiguration( Context );
-    mico_system_connect_wifi_fast( Context );
+    system_connect_wifi_fast( Context );
     goto exit;
   }
 /* If use CONFIG_MODE_SOFT_AP only, skip easylink mode, establish soft ap directly */ 
@@ -254,7 +254,7 @@ restart:
   /* EasyLink Success */
   if( easylink_success == true ){
     ConfigEasyLinkIsSuccess( Context );
-    mico_system_connect_wifi_normal( Context );
+    system_connect_wifi_normal( Context );
     err = mico_rtos_get_semaphore( &easylink_sem, EasyLink_ConnectWlan_Timeout );
     /*SSID or Password is not correct, module cannot connect to wlan, so restart EasyLink again*/
     require_noerr_string( err, restart, "Re-start easylink commbo mode" );
@@ -290,7 +290,7 @@ restart:
     if(Context->flashContentInRam.micoSystemConfig.configured != unConfigured){
       Context->flashContentInRam.micoSystemConfig.configured = allConfigured;
       MICOUpdateConfiguration(Context);
-      mico_system_connect_wifi_normal( Context );
+      system_connect_wifi_normal( Context );
     }else{
       /*module should power down in default setting*/
       micoWlanPowerOff();
@@ -396,7 +396,7 @@ static OSStatus mico_easylink_bonjour_start( WiFi_Interface interface, mico_Cont
                                                      inContext->micoStatus.mac[15], inContext->micoStatus.mac[16] );
   init.instance_name = (char*)__strdup(temp_txt);
 
-  init.service_port = 8000;
+  init.service_port = MICO_CONFIG_SERVER_PORT;
 
   temp_txt2 = __strdup_trans_dot(FIRMWARE_REVISION);
   sprintf(temp_txt, "FW=%s.", temp_txt2);

@@ -58,11 +58,11 @@ typedef struct
 
 #define SERVICE_QUERY_NAME             "_services._dns-sd._udp.local."
 
-#define mdns_utils_log(M, ...) custom_log("mDNS Utils", M, ##__VA_ARGS__)
-#define mdns_utils_log_trace() custom_log_trace("mDNS Utils")
+//#define mdns_utils_log(M, ...) custom_log("mDNS Utils", M, ##__VA_ARGS__)
+//#define mdns_utils_log_trace() custom_log_trace("mDNS Utils")
 
-//#define mdns_utils_log(M, ...)
-//#define mdns_utils_log_trace()
+#define mdns_utils_log(M, ...)
+#define mdns_utils_log_trace()
 
 
 static dns_sd_service_record_t   available_services[ MAX_RECORD_COUNT ];

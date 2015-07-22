@@ -19,7 +19,7 @@
   ******************************************************************************
   */ 
 
-#include "MicoDefine.h"
+#include "mico_system_context.h"
 #include "platform_config.h"
 #include "MICONotificationCenter.h"
 

@@ -30,9 +30,9 @@
 ******************************************************************************
 */
 
-#include "MICODefine.h"
+#include "mico_system_context.h"
 #include "MICO.h"
-#include "platform_config.h"
+#include "mico_system.h"
 #include "MicoPlatform.h"
 #include "CheckSumUtils.h"
 
@@ -73,7 +73,7 @@ static OSStatus internal_update_config(mico_Context_t *inContext)
   
   uint16_t crc_readback;;
 
-  para_log(" Flash write!");
+  para_log("Flash write!");
 
   CRC16_Init( &crc_context );
   CRC16_Update( &crc_context, (uint8_t *)&inContext->flashContentInRam.micoSystemConfig, CONFIG_SIZE );

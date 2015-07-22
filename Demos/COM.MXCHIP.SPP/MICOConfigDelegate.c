@@ -27,7 +27,7 @@
 
 #include "JSON-C/json.h"
 #include "MICO.h"
-#include "MICODefine.h"
+#include "mico_system_context.h"
 #include "MICOAppDefine.h"
 #include "SppProtocol.h"  
 #include "MICOConfigMenu.h"

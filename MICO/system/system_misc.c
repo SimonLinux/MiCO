@@ -33,9 +33,10 @@
 #include "MICO.h"
 #include "MDNSUtils.h"
 #include "StringUtils.h"
-#include "MICODefine.h"
+#include "mico_system_context.h"
 #include "MICONotificationCenter.h"
-#include "mico_system_internal.h"
+#include "mico_system.h"
+#include "time.h"
 
 void system_version(char *str, int len)
 {
@@ -150,7 +151,7 @@ exit:
   return;
 }
 
-OSStatus mico_system_notify_init( mico_Context_t * const inContext)
+OSStatus system_notification_init( mico_Context_t * const inContext)
 {
   OSStatus err = kNoErr;
 
@@ -179,7 +180,7 @@ exit:
   return err;
 }
 
-void mico_system_connect_wifi_normal( mico_Context_t * const inContext)
+void system_connect_wifi_normal( mico_Context_t * const inContext)
 {
   system_log_trace();
   network_InitTypeDef_adv_st wNetConfig;
@@ -202,7 +203,7 @@ void mico_system_connect_wifi_normal( mico_Context_t * const inContext)
   micoWlanStartAdv(&wNetConfig);
 }
 
-void mico_system_connect_wifi_fast( mico_Context_t * const inContext)
+void system_connect_wifi_fast( mico_Context_t * const inContext)
 {
   system_log_trace();
   network_InitTypeDef_adv_st wNetConfig;
@@ -232,7 +233,7 @@ void mico_system_connect_wifi_fast( mico_Context_t * const inContext)
 
 static  mico_Context_t* context = NULL;
 
-OSStatus mico_system_context_init( mico_Context_t** context_out )
+OSStatus system_context_init( mico_Context_t** out_context )
 {
   OSStatus err = kNoErr;
 
@@ -247,22 +248,65 @@ OSStatus mico_system_context_init( mico_Context_t** context_out )
   memset(context, 0x0, sizeof(mico_Context_t));
   mico_rtos_init_mutex(&context->flashContentInRam_mutex);
   MICOReadConfiguration( context );  
-  *context_out = context;  
+  *out_context = context;  
 
 exit:
   return err;  
 }
 
 
-OSStatus mico_system_context_read( mico_Context_t** context_out )
+OSStatus system_context_read( mico_Context_t** out_context )
 {
   OSStatus err = kNoErr;
   require_action( context, exit, err = kNotPreparedErr );
-  *context_out = context;
+  *out_context = context;
 
 exit:
   return err;
 } 
 
+OSStatus system_network_daemen_start( mico_Context_t * const inContext )
+{
+  IPStatusTypedef para;
+
+  wifimgr_debug_enable(true);
+  MicoInit();
+  MicoSysLed(true);
+  system_log("Free memory %d bytes", MicoGetMemoryInfo()->free_memory); 
+  micoWlanGetIPStatus(&para, Station);
+  formatMACAddr(inContext->micoStatus.mac, (char *)&para.mac);
+  MicoGetRfVer(inContext->micoStatus.rf_version, sizeof(inContext->micoStatus.rf_version));
+  system_log("%s mxchipWNet library version: %s", APP_INFO, MicoGetVer());
+  system_log("Wi-Fi driver version %s, mac %s", inContext->micoStatus.rf_version, inContext->micoStatus.mac);
+
+  if(inContext->flashContentInRam.micoSystemConfig.rfPowerSaveEnable == true){
+    micoWlanEnablePowerSave();
+  }
+
+  if(inContext->flashContentInRam.micoSystemConfig.mcuPowerSaveEnable == true){
+    MicoMcuPowerSaveConfig(true);
+  }  
+  return kNoErr;
+}
+
+
+OSStatus system_current_time_get( struct tm* time )
+{
+  mico_rtc_time_t mico_time;
+  /*Read current time from RTC.*/
+  if( MicoRtcGetTime(&mico_time) == kNoErr ){
+    time->tm_sec = mico_time.sec;
+    time->tm_min = mico_time.min;
+    time->tm_hour = mico_time.hr;
+    time->tm_mday = mico_time.date;
+    time->tm_wday = mico_time.weekday;
+    time->tm_mon = mico_time.month - 1;
+    time->tm_year = mico_time.year + 100;
+    //system_log("Current Time: %s",asctime(&currentTime));
+    return kNoErr;
+  }else
+    return kGeneralErr;
+    //system_log("RTC function unsupported");
+}
 
 

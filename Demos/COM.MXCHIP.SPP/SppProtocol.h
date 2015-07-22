@@ -23,7 +23,6 @@
 #define __SPPPROTOCOL_H
 
 #include "Common.h"
-#include "mico_system_context.h"
 
 OSStatus sppProtocolInit(mico_Context_t * const inContext);
 int is_network_state(int state);

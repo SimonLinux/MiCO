@@ -20,14 +20,10 @@
   ******************************************************************************
   */ 
 
-#include "MICOAppDefine.h"
+#include "MICO.h"
 #include "SppProtocol.h"
 #include "SocketUtils.h"
 #include "debug.h"
-#include "MicoPlatform.h"
-#include "platform_config.h"
-#include "MICONotificationCenter.h"
-#include <stdio.h>
 
 #define MAX_SOCK_MSG_LEN (10*1024)
 int sockmsg_len = 0;

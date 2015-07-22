@@ -19,11 +19,9 @@
   ******************************************************************************
   */ 
 
-#include "MICOAppDefine.h"
-#include "mico_system_context.h"
+#include "MICO.h"
 #include "SppProtocol.h"
 #include "SocketUtils.h"
-#include "MICONotificationCenter.h"
 
 #define client_log(M, ...) custom_log("TCP client", M, ##__VA_ARGS__)
 #define client_log_trace() custom_log_trace("TCP client")

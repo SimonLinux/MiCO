@@ -31,9 +31,9 @@
 */
 
 
-#include "MICONotificationCenter.h"
 #include "Common.h"
 #include "Mico.h"
+#include "mico_system.h"
 
 typedef struct _Notify_list{
   void  *function;

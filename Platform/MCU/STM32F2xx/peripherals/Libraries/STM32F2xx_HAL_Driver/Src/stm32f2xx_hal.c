@@ -52,7 +52,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx_hal.h"
-#include "MICORTOS.h"
+#include "mico_rtos.h"
 /** @addtogroup STM32F2xx_HAL_Driver
   * @{
   */

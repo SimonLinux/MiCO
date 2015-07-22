@@ -19,13 +19,10 @@
   ******************************************************************************
   */ 
 
-#include "mico_system.h"
-#include "MICOAppDefine.h"
+#include "mico.h"
 
 #include "StringUtils.h"
 #include "SppProtocol.h"
-#include "MicoPlatform.h"
-#include "platform_config.h"
 #include "cfunctions.h"
 #include "cppfunctions.h"
 
@@ -34,6 +31,14 @@
 
 volatile ring_buffer_t  rx_buffer;
 volatile uint8_t        rx_data[UART_BUFFER_LENGTH];
+
+extern void localTcpServer_thread(void *inContext);
+
+extern void remoteTcpClient_thread(void *inContext);
+
+extern void uartRecv_thread(void *inContext);
+
+extern OSStatus MICOStartBonjourService ( WiFi_Interface interface, mico_Context_t * const inContext );
 
 /* MICO system callback: Restore default configuration provided by application */
 void appRestoreDefault_callback(mico_Context_t *inContext)
@@ -56,9 +61,10 @@ int application_start(void)
 
   err = mico_system_init( &inContext );
 
-  /*Bonjour for service searching*/
+  /* Bonjour for service searching */
   MICOStartBonjourService( Station, inContext );
 
+  /* Protocol initialize */
   sppProtocolInit( inContext );
 
   /*UART receive thread*/
@@ -76,13 +82,13 @@ int application_start(void)
   err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "UART Recv", uartRecv_thread, STACK_SIZE_UART_RECV_THREAD, (void*)inContext );
   require_noerr_action( err, exit, app_log("ERROR: Unable to start the uart recv thread.") );
 
- /*Local TCP server thread*/
+ /* Local TCP server thread */
  if(inContext->flashContentInRam.appConfig.localServerEnable == true){
    err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Local Server", localTcpServer_thread, STACK_SIZE_LOCAL_TCP_SERVER_THREAD, (void*)inContext );
    require_noerr_action( err, exit, app_log("ERROR: Unable to start the local server thread.") );
  }
 
-  /*Remote TCP client thread*/
+  /* Remote TCP client thread */
  if(inContext->flashContentInRam.appConfig.remoteServerEnable == true){
    err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Remote Client", remoteTcpClient_thread, STACK_SIZE_REMOTE_TCP_CLIENT_THREAD, (void*)inContext );
    require_noerr_action( err, exit, app_log("ERROR: Unable to start the remote client thread.") );

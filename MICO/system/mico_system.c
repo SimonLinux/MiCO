@@ -32,18 +32,24 @@
 
 #include <time.h>
 
-#include "mico_system_context.h"
 #include "mico_system.h"
 
 
 OSStatus mico_system_current_time_get( struct tm* time )
 {
-  return system_current_time_get( time );
-}
-
-void mico_system_power_perform( mico_system_state_t new_state )
-{
-  system_power_perform( new_state );
+  mico_rtc_time_t mico_time;
+  /*Read current time from RTC.*/
+  if( MicoRtcGetTime(&mico_time) == kNoErr ){
+    time->tm_sec = mico_time.sec;
+    time->tm_min = mico_time.min;
+    time->tm_hour = mico_time.hr;
+    time->tm_mday = mico_time.date;
+    time->tm_wday = mico_time.weekday;
+    time->tm_mon = mico_time.month - 1;
+    time->tm_year = mico_time.year + 100;
+    return kNoErr;
+  }else
+    return kGeneralErr;
 }
 
 OSStatus mico_system_context_read( mico_Context_t** out_context )
@@ -53,7 +59,83 @@ OSStatus mico_system_context_read( mico_Context_t** out_context )
 
 OSStatus mico_system_init( mico_Context_t** out_context )
 {
-  return system_init( out_context );
+  OSStatus err = kNoErr;
+  mico_Context_t* context;
+
+  /* Read mico context that holds all system configurations and runtime status */
+  err = system_context_init( &context );
+  require_noerr( err, exit ); 
+  *out_context = context;
+
+  /* Initialize power management daemen */
+  err = system_power_daemon_start( context );
+  require_noerr( err, exit ); 
+
+  /* Initialize mico system */
+  err = system_notification_init( context );
+  require_noerr( err, exit ); 
+
+#ifdef MICO_SYSTEM_MONITOR_ENABLE
+  /* MiCO system monitor */
+  err = system_monitor_daemen_start( context );
+  require_noerr( err, exit ); 
+#endif
+
+#ifdef MICO_CLI_ENABLE
+  /* MiCO command line interface */
+  mico_cli_init();
+#endif
+
+  /* Network PHY driver and tcp/ip static init */
+  err = system_network_daemen_start( context );
+  require_noerr( err, exit ); 
+
+  if( context->flashContentInRam.micoSystemConfig.configured == wLanUnConfigured ||
+      context->flashContentInRam.micoSystemConfig.configured == unConfigured){
+    system_log("Empty configuration. Starting configuration mode...");
+
+#if (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK) || \
+    (MICO_CONFIG_MODE == CONFIG_MODE_SOFT_AP) ||  \
+    (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK_WITH_SOFTAP) || \
+    (MICO_CONFIG_MODE == CONFIG_MODE_AIRKISS)
+    err = system_easylink_start( context );
+    require_noerr( err, exit );
+#elif ( MICO_CONFIG_MODE == CONFIG_MODE_WAC)
+    err = mico_easylink_start( context );
+    require_noerr( err, exit );
+#else
+    #error "Wi-Fi configuration mode is not defined"
+#endif
+  }
+#ifdef MFG_MODE_AUTO
+  else if( context->flashContentInRam.micoSystemConfig.configured == mfgConfigured ){
+    system_log( "Enter MFG mode automatically" );
+    mico_mfg_test(context);
+    mico_thread_sleep(MICO_NEVER_TIMEOUT);
+  }
+#endif
+  else{
+    system_log("Available configuration. Starting Wi-Fi connection...");
+    system_connect_wifi_fast( context );
+  }
+
+  /*Local configuration server*/
+#ifdef MICO_CONFIG_SERVER_ENABLE
+  MICOStartConfigServer( );
+#endif
+
+#ifdef MICO_NTP_CLIENT_ENABLE
+  struct tm currentTime;
+  mico_system_current_time_get( &currentTime );
+  system_log("Current Time: %s",asctime(&currentTime));
+  err =  MICOStartNTPClient( );
+  require_noerr_string( err, exit, "ERROR: Unable to start the NTP client thread." );
+#endif
+
+  require_noerr_action( err, exit, system_log("Closing main thread with err num: %d.", err) );
+exit:
+  
+  return err;
 }
 
 

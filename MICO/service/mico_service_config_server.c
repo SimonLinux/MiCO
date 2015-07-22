@@ -31,14 +31,15 @@
 
 #include "MICO.h"
 #include "platform_config.h"
-#include "mico_system_context.h"
+
 #include "SocketUtils.h"
 #include "Platform.h"
 #include "HTTPUtils.h"
-#include "MICONotificationCenter.h"
+#include "mico_system.h"
 #include "StringUtils.h"
 #include "CheckSumUtils.h"
 #include "system.h"
+#include "mico_system.h"
 #include "mico_system_config.h"
 #include "JSON-C/json.h"
 
@@ -77,11 +78,15 @@ static mico_semaphore_t close_listener_sem = NULL, close_client_sem[ MAX_TCP_CLI
 
 
 
-OSStatus MICOStartConfigServer ( mico_Context_t * const inContext )
+OSStatus MICOStartConfigServer ( void )
 {
   int i = 0;
   OSStatus err = kNoErr;
-
+  mico_Context_t* context = NULL;
+  
+  system_context_read( &context );
+  require( context, exit );
+  
   if( is_config_server_established )
     return kNoErr;
 
@@ -90,7 +95,7 @@ OSStatus MICOStartConfigServer ( mico_Context_t * const inContext )
   close_listener_sem = NULL;
   for (; i < MAX_TCP_CLIENT_PER_SERVER; i++)
     close_client_sem[ i ] = NULL;
-  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)inContext );
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)context );
   require_noerr(err, exit);
   is_config_server_established = true;
   mico_thread_msleep(200);
@@ -407,7 +412,7 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
       MICOUpdateConfiguration(inContext);
 
       if( need_reboot == true ){
-        system_power_perform( eState_Software_Reset );
+        mico_system_power_perform( eState_Software_Reset );
       }
     }
     goto exit;
@@ -446,7 +451,7 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
         inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_SOFT_AP_BYPASS;
       MICOUpdateConfiguration( inContext );
       SocketClose( &fd );
-      system_power_perform( eState_Software_Reset );
+      mico_system_power_perform( eState_Software_Reset );
       mico_thread_sleep( MICO_WAIT_FOREVER );
     }
     goto exit;

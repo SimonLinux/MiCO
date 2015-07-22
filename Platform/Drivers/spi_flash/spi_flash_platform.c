@@ -29,7 +29,7 @@
 ******************************************************************************
 */
 #include "spi_flash_platform_interface.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 
 #if defined ( USE_MICO_SPI_FLASH )
 

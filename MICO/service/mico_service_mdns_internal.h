@@ -130,24 +130,4 @@ typedef struct
 } dns_record_t;
 
 
-typedef struct
-{
-  //char *name;
-  char *service_name;
-  char *host_name;
-  char *instance_name;
-  char *txt_record;
-  uint16_t service_port;
-} bonjour_init_t;
-
-
-OSStatus bonjour_service_add( bonjour_init_t init, WiFi_Interface interface, uint32_t time_to_live );
-
-void bonjour_service_suspend( char *service_name, WiFi_Interface interface, bool will_remove );
-
-void bonjour_service_resume( char *service_name, WiFi_Interface interface );
-
-void bonjour_update_txt_record( char *service_name, WiFi_Interface interface, char *txt_record );
-
-
 #endif

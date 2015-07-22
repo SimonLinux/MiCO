@@ -1,9 +1,8 @@
 #include "mico.h"
-#include "MICONotificationCenter.h"
 #include "tftp/tftp.h"
 #include "CheckSumUtils.h"
-#include "mico_system_context.h"
-#include "system.h"
+#include "mico_system.h"
+
 
 #define DEFAULT_OTA_AP "MICO_OTA_AP"
 #define DEFAULT_OTA_NETMASK "255.0.0.0"

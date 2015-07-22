@@ -28,14 +28,11 @@
 *  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************
 */
+#include <time.h>
 
-#include "MICOAppDefine.h"
-#include "mico_system_context.h"
+#include "mico.h"
 #include "SocketUtils.h"
-#include "MICONotificationCenter.h"
-#include "time.h"
-#include "MicoPlatform.h"
-#include "system.h"
+
 
 #define ntp_log(M, ...) custom_log("NTP client", M, ##__VA_ARGS__)
 #define ntp_log_trace() custom_log_trace("NTP client")
@@ -92,11 +89,11 @@ void ntpNotify_WifiStatusHandler(int event, mico_Context_t * const inContext)
   return;
 }
 
-void NTPClient_thread(void *inContext)
+void NTPClient_thread(void *arg)
 {
   ntp_log_trace();
   OSStatus err = kUnknownErr;
-  (void)inContext;
+  UNUSED_PARAMETER( arg );
   
   int  Ntp_fd = -1;
   fd_set readfds;
@@ -197,9 +194,9 @@ exit:
     return;
 }
 
-OSStatus MICOStartNTPClient ( mico_Context_t * const inContext )
+OSStatus MICOStartNTPClient ( void )
 {
   mico_rtos_init_semaphore(&_wifiConnected_sem, 1);
-  return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "NTP Client", NTPClient_thread, STACK_SIZE_NTP_CLIENT_THREAD, (void*)inContext );
+  return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "NTP Client", NTPClient_thread, STACK_SIZE_NTP_CLIENT_THREAD, NULL );
 }
 

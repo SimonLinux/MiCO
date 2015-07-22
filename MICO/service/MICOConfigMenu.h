@@ -1,10 +1,11 @@
 /**
 ******************************************************************************
-* @file    MicoDefaults.h 
+* @file    MICOConfigMenu.h 
 * @author  William Xu
 * @version V1.0.0
-* @date    16-Sep-2014
-* @brief   This file provides the default configuration for MICO.
+* @date    05-May-2014
+* @brief   This file provide function prototypes for createing configration 
+*      menu that can be displayed on EasyLink APP on iOS or Android.
 ******************************************************************************
 *
 *  The MIT License
@@ -27,24 +28,34 @@
 *  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR 
 *  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************
-*/ 
+*/
 
-#ifndef __MICODEFAULTS_H__
-#define __MICODEFAULTS_H__
+#ifndef __MICOCONFIGMENU_H
+#define __MICOCONFIGMENU_H
 
-#ifdef __cplusplus
-extern "C"
-{
+#include "Common.h"
+#include "JSON-C/json.h"
+
+typedef struct {
+	char*  protocol;
+	char*  hdVersion;
+	char*  fwVersion;
+	char*  rfVersion;
+} OTA_Versions_t;
+
+
+OSStatus MICOAddSector(json_object* sectors, char* const name, json_object *menus);
+
+OSStatus MICOAddStringCellToSector(json_object* menus, char* const name, char* const content, char* const privilege, json_object* secectionArray);
+
+OSStatus MICOAddNumberCellToSector(json_object* menus, char* const name, int content, char* const privilege, json_object* secectionArray);
+
+OSStatus MICOAddFloatCellToSector(json_object* menus, char* const name, float content, char* const privilege, json_object* secectionArray);
+
+OSStatus MICOAddSwitchCellToSector(json_object* menus, char* const name, boolean content, char* const privilege);
+
+OSStatus MICOAddMenuCellToSector(json_object* menus, char* const name, json_object* lowerSectors);
+
+OSStatus MICOAddTopMenu(json_object **deviceInfo, char* const name, json_object* sectors, OTA_Versions_t versions);
+
 #endif
-
-
- /* Application thread stack size */
-#define MICO_DEFAULT_APPLICATION_STACK_SIZE         (0x1A00)
-
-
-
-#ifdef __cplusplus
-} /*extern "C" */
-#endif
-
-#endif //__MICODEFAULTS_H__

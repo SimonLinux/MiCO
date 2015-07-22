@@ -31,7 +31,7 @@
 #include <yfuns.h>
 #include "platform.h"
 #include "platform_config.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 
 
 #ifdef BOOTLOADER

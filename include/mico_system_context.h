@@ -37,7 +37,7 @@ extern "C" {
 #endif
 
 #include "Common.h"
-#include "MICOAppDefine.h"
+#include "mico_app_context.h"
 
 #define maxSsidLen          32
 #define maxKeyLen           64

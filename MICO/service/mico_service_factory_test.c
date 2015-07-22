@@ -1,11 +1,10 @@
 #include "time.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 #include "platform.h"
-#include "mico_system_context.h"
-#include "MICOAppDefine.h"
-#include "MICONotificationCenter.h"
+
+#include "mico_system.h"
 #include "platform_config.h"
-#include "mico_system_config.h"
+
 
 /* MFG test demo BEGIN */
 extern int mfg_connect(char *ssid);

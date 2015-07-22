@@ -31,10 +31,8 @@
 */
 
 #include "MICO.h"
-#include "MDNSUtils.h"
 #include "StringUtils.h"
 #include "mico_system_context.h"
-#include "MICONotificationCenter.h"
 #include "mico_system.h"
 #include "time.h"
 
@@ -287,26 +285,6 @@ OSStatus system_network_daemen_start( mico_Context_t * const inContext )
     MicoMcuPowerSaveConfig(true);
   }  
   return kNoErr;
-}
-
-
-OSStatus system_current_time_get( struct tm* time )
-{
-  mico_rtc_time_t mico_time;
-  /*Read current time from RTC.*/
-  if( MicoRtcGetTime(&mico_time) == kNoErr ){
-    time->tm_sec = mico_time.sec;
-    time->tm_min = mico_time.min;
-    time->tm_hour = mico_time.hr;
-    time->tm_mday = mico_time.date;
-    time->tm_wday = mico_time.weekday;
-    time->tm_mon = mico_time.month - 1;
-    time->tm_year = mico_time.year + 100;
-    //system_log("Current Time: %s",asctime(&currentTime));
-    return kNoErr;
-  }else
-    return kGeneralErr;
-    //system_log("RTC function unsupported");
 }
 
 

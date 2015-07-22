@@ -21,9 +21,6 @@
   */ 
 
 #include "MICO.h"
-#include "mico_system_context.h"
-#include "MICOAppDefine.h"
-
 #include "SppProtocol.h"
 #include "SocketUtils.h"
 

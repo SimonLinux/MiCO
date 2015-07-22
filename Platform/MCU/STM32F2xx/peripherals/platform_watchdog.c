@@ -28,10 +28,6 @@
 *  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************
 */ 
-
-
-#include "MICOPlatform.h"
-#include "MICORTOS.h"
 #include "Common.h"
 #include "debug.h"
 

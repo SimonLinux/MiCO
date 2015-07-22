@@ -19,18 +19,14 @@
   * <h2><center>&copy; COPYRIGHT 2014 MXCHIP Inc.</center></h2>
   ******************************************************************************
   */ 
-
-#include "Common.h"
-#include "debug.h"
-#include "MicoPlatform.h"
+#include "MICO.h"
 #include "Platform_config.h"
 
 #include "JSON-C/json.h"
-#include "MICO.h"
 #include "mico_system_context.h"
 #include "MICOAppDefine.h"
 #include "SppProtocol.h"  
-#include "MICOConfigMenu.h"
+#include "mico_service.h"
 #include "StringUtils.h"
 
 #define SYS_LED_TRIGGER_INTERVAL 100 

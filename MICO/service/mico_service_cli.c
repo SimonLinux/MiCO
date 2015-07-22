@@ -1,6 +1,6 @@
 #include "MICO.h"
 #include "mico_system_context.h"
-#include "MICOCli.h"
+#include "mico_cli.h"
 #include "stdarg.h"
 #include "platform_config.h"
 #include "tftp/tftp.h"
@@ -603,7 +603,7 @@ static const struct cli_command user_clis[1] = {
 };
 #endif
 
-int MicoCliInit(void)
+int mico_cli_init(void)
 {
   int ret;
   

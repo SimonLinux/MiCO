@@ -72,41 +72,12 @@ extern "C" {
   #define STACK_SIZE_REMOTE_TCP_CLIENT_THREAD   0x260
 #endif
 
-/*Application's configuration stores in flash*/
-typedef struct
-{
-  uint32_t          configDataVer;
-  uint32_t          localServerPort;
-
-  /*local services*/
-  bool              localServerEnable;
-  bool              remoteServerEnable;
-  char              remoteServerDomain[64];
-  int               remoteServerPort;
-
-  /*IO settings*/
-  uint32_t          USART_BaudRate;
-} application_config_t;
-
 typedef struct _socket_msg {
   int ref;
   int len;
   uint8_t data[1];
 } socket_msg_t;
 
-/*Running status*/
-typedef struct _current_app_status_t {
-  /*Local clients port list*/
-  mico_queue_t*  socket_out_queue[MAX_QUEUE_NUM];
-  mico_mutex_t   queue_mtx;
-} current_app_status_t;
-
-
-void localTcpServer_thread(void *inContext);
-
-void remoteTcpClient_thread(void *inContext);
-
-void uartRecv_thread(void *inContext);
 
 #ifdef __cplusplus
 } /*extern "C" */

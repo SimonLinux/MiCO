@@ -39,16 +39,7 @@ int cli_register_command(const struct cli_command *command);
  */
 int cli_unregister_command(const struct cli_command *command);
 
-/** Initialize the CLI module
- *
- * \return kNoErr on success
- * \return error code otherwise.
- *
- * \note This function is called by the wm_core_init function. Applications need
- * not explicity call this function if they have already called wm_core_init().
- *
- */
-int MicoCliInit(void);
+
 
 /** Stop the CLI thread and carry out the cleanup
  *

@@ -29,10 +29,6 @@
 ******************************************************************************
 */ 
 
-
-#include "MICORTOS.h"
-#include "MICOPlatform.h"
-
 #include "platform.h"
 #include "platform_peripheral.h"
 #include "stm32f2xx.h"
@@ -320,7 +316,7 @@ OSStatus platform_uart_init( platform_uart_driver_t* driver, const platform_uart
   }
 
 exit:
-  MicoMcuPowerSaveConfig(true);
+  platform_mcu_powersave_enable( );
   return err;
 }
 

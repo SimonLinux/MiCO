@@ -29,12 +29,9 @@
 ******************************************************************************
 */ 
 
-
-#include "MICOPlatform.h"
-#include "MICORTOS.h"
-
 #include "platform.h"
 #include "stm32f2xx.h"
+#include "common.h"
 
 /******************************************************
  *                   Macros

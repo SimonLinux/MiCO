@@ -30,10 +30,8 @@
 ******************************************************************************
 */
 
-#include "mico_system_context.h"
 #include "MICO.h"
 #include "mico_system.h"
-#include "MicoPlatform.h"
 #include "CheckSumUtils.h"
 
 /* Update seed number every time*/

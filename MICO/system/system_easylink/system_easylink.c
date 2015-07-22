@@ -34,11 +34,11 @@
 
 #include "StringUtils.h"
 #include "HTTPUtils.h"
-#include "MDNSUtils.h"
 #include "SocketUtils.h"
 #include "JSON-C/json.h"
 #include "mico_system_config.h"
 #include "system.h"
+#include "mico_system.h"
 
 // EasyLink Soft AP mode, HTTP configuration message define
 #define kEasyLinkURLAuth          "/auth-setup"
@@ -79,7 +79,7 @@ void EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const in
     break;
   case NOTIFY_AP_DOWN:
     /* Remove bonjour service under soft ap interface */
-    bonjour_service_suspend( "_easylink_config._tcp.local.", Soft_AP, true );
+    mico_service_mdns_suspend_record( "_easylink_config._tcp.local.", Soft_AP, true );
     break;
   default:
     break;
@@ -230,7 +230,7 @@ void easylink_thread(void *inContext)
 
   /* Start config server */
 #ifdef MICO_CONFIG_SERVER_ENABLE
-  err = MICOStartConfigServer( Context );
+  err = MICOStartConfigServer( );
   require_noerr(err, exit);
 #endif
 
@@ -445,9 +445,9 @@ static OSStatus mico_easylink_bonjour_start( WiFi_Interface interface, mico_Cont
   init.txt_record = (char*)__strdup(temp_txt);
 
   if(interface == Soft_AP)
-    bonjour_service_add(init, interface, 1500);
+    mico_service_mdns_add_record(init, interface, 1500);
   else
-    bonjour_service_add(init, interface, 10);
+    mico_service_mdns_add_record(init, interface, 10);
 
   free(init.host_name);
   free(init.instance_name);
@@ -512,7 +512,7 @@ static OSStatus mico_easylink_bonjour_update( WiFi_Interface interface, mico_Con
 
   sprintf(temp_txt, "%sID=%x.", temp_txt, easylinkIndentifier);
 
-  bonjour_update_txt_record( "_easylink_config._tcp.local.", interface, temp_txt );
+  mico_service_mdns_update_txt_record( "_easylink_config._tcp.local.", interface, temp_txt );
 
 exit:
   if(temp_txt) free(temp_txt);
@@ -521,7 +521,7 @@ exit:
 
 static void remove_bonjour_for_easylink(void)
 {
-  bonjour_service_suspend( "_easylink_config._tcp.local.", Station, true );
+  mico_service_mdns_suspend_record( "_easylink_config._tcp.local.", Station, true );
 }
 
 

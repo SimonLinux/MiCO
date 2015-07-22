@@ -52,17 +52,6 @@ extern "C" {
 #define EASYLINK_SOFT_AP_BYPASS                 (2)
 
 
-typedef enum
-{
-  eState_Normal,
-  eState_Software_Reset,
-  eState_Wlan_Powerdown,
-  eState_Restore_default,
-  eState_Standby,
-} system_state_t;
-
-
-OSStatus system_init( mico_Context_t** out_context );
 
 OSStatus system_context_init( mico_Context_t** context_out );
 
@@ -76,8 +65,6 @@ OSStatus system_network_daemen_start( mico_Context_t * const inContext );
 
 OSStatus system_monitor_daemen_start( mico_Context_t * const inContext );
 
-void system_power_perform( system_state_t new_state );
-
 void system_connect_wifi_normal( mico_Context_t * const inContext);
 
 void system_connect_wifi_fast( mico_Context_t * const inContext);
@@ -88,20 +75,15 @@ OSStatus system_easylink_start( mico_Context_t * const inContext );
 
 OSStatus system_current_time_get( struct tm* time );
 
-
-OSStatus MICOStartBonjourService        ( WiFi_Interface interface, mico_Context_t * const inContext );
-OSStatus MICOStartConfigServer          ( mico_Context_t * const inContext );
-OSStatus MICOStopConfigServer           ( void );
-OSStatus MICOStartNTPClient             ( mico_Context_t * const inContext );
-
-OSStatus MICORestoreDefault             ( mico_Context_t * const inContext );
-OSStatus MICOReadConfiguration          ( mico_Context_t * const inContext );
-OSStatus MICOUpdateConfiguration        ( mico_Context_t * const inContext );
-#ifdef MFG_MODE_AUTO
 OSStatus MICORestoreMFG                 ( mico_Context_t * const inContext );
-#endif
+
+OSStatus MICOReadConfiguration          ( mico_Context_t * const inContext );
+
+OSStatus MICOStartSystemMonitor 		( mico_Context_t * const inContext );
 
 void mico_mfg_test( mico_Context_t * const inContext );
+
+OSStatus MICOInitNotificationCenter   ( void * const inContext );
 
 #ifdef __cplusplus
 } /*extern "C" */

@@ -31,10 +31,6 @@
 */
 
 #include "MICO.h"
-#include "MicoSystemMonitor.h"
-#include "MicoPlatform.h"
-#include "system.h"
-#include "mico_system_config.h"
 
 #define DEFAULT_SYSTEM_MONITOR_PERIOD   (2000)
 

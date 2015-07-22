@@ -32,11 +32,11 @@
 
 #include "MICO.h"
 #include "mico_system_context.h"
-#include "system.h"
+#include "mico_system.h"
 
-static bool               needs_update          = false;
-static system_state_t     current_sys_state     = eState_Normal;
-static mico_semaphore_t   sys_state_change_sem  = NULL;
+static bool                     needs_update          = false;
+static mico_system_state_t      current_sys_state     = eState_Normal;
+static mico_semaphore_t         sys_state_change_sem  = NULL;
 
 WEAK void sendNotifySYSWillPowerOff(void){
 
@@ -61,7 +61,7 @@ USED void PlatformEasyLinkButtonClickedCallback(void)
     needs_update = true;
   }
 
-  system_power_perform( eState_Software_Reset );
+  mico_system_power_perform( eState_Software_Reset );
 
 exit: 
   return;
@@ -78,7 +78,7 @@ USED void PlatformEasyLinkButtonLongPressedCallback(void)
   context->flashContentInRam.micoSystemConfig.configured = wLanUnConfigured;
   MICORestoreDefault(context);
   
-  system_power_perform( eState_Software_Reset );
+  mico_system_power_perform( eState_Software_Reset );
 
 exit: 
   return;
@@ -92,7 +92,7 @@ USED void PlatformStandbyButtonClickedCallback(void)
   system_context_read( &context );
   require( context, exit );
   
-  system_power_perform( eState_Standby );
+  mico_system_power_perform( eState_Standby );
 
 exit: 
   return;
@@ -152,7 +152,7 @@ exit:
 }
 
 
-void system_power_perform( system_state_t new_state )
+void mico_system_power_perform( mico_system_state_t new_state )
 {
   mico_Context_t* context = NULL;
   

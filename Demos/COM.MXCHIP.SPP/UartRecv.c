@@ -19,12 +19,8 @@
   ******************************************************************************
   */ 
 
-#include "MICOAppDefine.h"
-#include "mico_system_context.h"
+#include "MICO.h"
 #include "SppProtocol.h"
-#include "MicoPlatform.h"
-#include "platform_config.h"
-#include "MICONotificationCenter.h"
 
 #define uart_recv_log(M, ...) custom_log("UART RECV", M, ##__VA_ARGS__)
 #define uart_recv_log_trace() custom_log_trace("UART RECV")

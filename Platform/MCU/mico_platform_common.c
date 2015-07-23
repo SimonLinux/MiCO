@@ -33,7 +33,7 @@
 #include <string.h>
 #include "Common.h"
 #include "platform_peripheral.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 #include "platform_config.h"
 #include "platformLogging.h"
 

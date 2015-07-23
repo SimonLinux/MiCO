@@ -33,11 +33,10 @@
 
 #include "platform_peripheral.h"
 #include "platform.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 #include "PlatformLogging.h"
 #include <string.h> // For memcmp
 #include "crt0.h"
-#include "MicoRTOS.h"
 #include "platform_init.h"
 
 /******************************************************

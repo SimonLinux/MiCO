@@ -29,10 +29,7 @@
 ******************************************************************************
 */ 
 
-
-#include "MICOPlatform.h"
-#include "MICORTOS.h"
-
+#include "platform_peripheral.h"
 #include "platform.h"
 
 /******************************************************

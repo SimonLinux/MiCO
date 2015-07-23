@@ -92,6 +92,11 @@ Porting Notes
 
 #define USE_RTC_BKP 0x00BB32F2 // Use RTC BKP to initilize system time.
 
+
+#define UART_WAKEUP_MASK_POSN   0
+#define UART_WAKEUP_DISABLE    (0 << UART_WAKEUP_MASK_POSN) /**< UART can not wakeup MCU from stop mode */
+#define UART_WAKEUP_ENABLE     (1 << UART_WAKEUP_MASK_POSN) /**< UART can wake up MCU from stop mode */
+ 
 /******************************************************
  *                   Enumerations
  ******************************************************/

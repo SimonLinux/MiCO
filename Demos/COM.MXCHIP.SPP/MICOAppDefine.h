@@ -18,24 +18,16 @@
   *
   * <h2><center>&copy; COPYRIGHT 2014 MXCHIP Inc.</center></h2>
   ******************************************************************************
-  */ 
+  */
 
-
-#ifndef __MICOAPPDEFINE_H
-#define __MICOAPPDEFINE_H
+#pragma once
 
 #include "MICO.h"
 #include "Common.h"
 
-#define APP_INFO   "mxchipWNet SPP Demo based on MICO OS"
-
-#define FIRMWARE_REVISION   "MICO_SPP_2_6"
-#define MANUFACTURER        "MXCHIP Inc."
-#define SERIAL_NUMBER       "20140606"
-#define PROTOCOL            "com.mxchip.spp"
-
-/* Wi-Fi configuration mode */
-#define MICO_CONFIG_MODE CONFIG_MODE_EASYLINK_WITH_SOFTAP
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Demo C function call C++ function and C++ function call C function */
 //#define MICO_C_CPP_MIXING_DEMO
@@ -71,6 +63,12 @@
   #define STACK_SIZE_REMOTE_TCP_CLIENT_THREAD   0x260
 #endif
 
+typedef struct _socket_msg {
+  int ref;
+  int len;
+  uint8_t data[1];
+} socket_msg_t;
+
 /*Application's configuration stores in flash*/
 typedef struct
 {
@@ -87,23 +85,25 @@ typedef struct
   uint32_t          USART_BaudRate;
 } application_config_t;
 
-typedef struct _socket_msg {
-  int ref;
-  int len;
-  uint8_t data[1];
-} socket_msg_t;
 
 /*Running status*/
-typedef struct _current_app_status_t {
+typedef struct  {
   /*Local clients port list*/
-  mico_queue_t*  socket_out_queue[MAX_QUEUE_NUM];
-  mico_mutex_t   queue_mtx;
+  mico_queue_t*   socket_out_queue[MAX_QUEUE_NUM];
+  mico_mutex_t    queue_mtx;
 } current_app_status_t;
 
+typedef struct _app_context_t
+{
+  /*Flash content*/
+  application_config_t*     appConfig;
 
-void localTcpServer_thread(void *inContext);
-void remoteTcpClient_thread(void *inContext);
-void uartRecv_thread(void *inContext);
+  /*Running status*/
+  current_app_status_t      appStatus;
+} app_context_t;
 
+
+#ifdef __cplusplus
+} /*extern "C" */
 #endif
 

@@ -21,17 +21,15 @@
   */ 
 
 #include "MICO.h"
-#include "MICODefine.h"
-#include "MICOAppDefine.h"
-
 #include "SppProtocol.h"
 #include "SocketUtils.h"
+#include "MICOAPPDefine.h"
 
 #define server_log(M, ...) custom_log("TCP SERVER", M, ##__VA_ARGS__)
 #define server_log_trace() custom_log_trace("TCP SERVER")
 
 static void localTcpClient_thread(void *inFd);
-static mico_Context_t *Context;
+static app_context_t *context;
 
 mico_thread_t   localTcpClient_thread_handler;
 
@@ -40,7 +38,7 @@ void localTcpServer_thread(void *inContext)
   server_log_trace();
   OSStatus err = kUnknownErr;
   int j;
-  Context = inContext;
+  context = inContext;
   struct sockaddr_t addr;
   int sockaddr_t_size;
   fd_set readfds;
@@ -52,14 +50,14 @@ void localTcpServer_thread(void *inContext)
   localTcpListener_fd = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP );
   require_action(IsValidSocket( localTcpListener_fd ), exit, err = kNoResourcesErr );
   addr.s_ip = INADDR_ANY;
-  addr.s_port = Context->flashContentInRam.appConfig.localServerPort;
+  addr.s_port = context->appConfig->localServerPort;
   err = bind(localTcpListener_fd, &addr, sizeof(addr));
   require_noerr( err, exit );
 
   err = listen(localTcpListener_fd, 0);
   require_noerr( err, exit );
 
-  server_log("Server established at port: %d, fd: %d", Context->flashContentInRam.appConfig.localServerPort, localTcpListener_fd);
+  server_log("Server established at port: %d, fd: %d", context->appConfig->localServerPort, localTcpListener_fd);
   
   while(1){
     FD_ZERO(&readfds);
@@ -102,7 +100,7 @@ void localTcpClient_thread(void *inFd)
   inDataBuffer = malloc(wlanBufferLen);
   require_action(inDataBuffer, exit, err = kNoMemoryErr);
 
-  err = socket_queue_create(Context, &queue);
+  err = socket_queue_create(context, &queue);
   require_noerr( err, exit );
   eventFd = mico_create_event_fd(queue);
   if (eventFd < 0) {
@@ -147,7 +145,7 @@ void localTcpClient_thread(void *inFd)
     if (FD_ISSET(clientFd, &readfds)) {
       len = recv(clientFd, inDataBuffer, wlanBufferLen, 0);
       require_action_quiet(len>0, exit_with_queue, err = kConnectionErr);
-      sppWlanCommandProcess(inDataBuffer, &len, clientFd, Context);
+      sppWlanCommandProcess(inDataBuffer, &len, clientFd, context);
     }
   }
 
@@ -158,7 +156,7 @@ exit_with_queue:
     if (eventFd >= 0) {
         mico_delete_event_fd(eventFd);
     }
-    socket_queue_delete(Context, &queue);
+    socket_queue_delete(context, &queue);
 exit:
     SocketClose(&clientFd);
     if(inDataBuffer) free(inDataBuffer);

@@ -31,7 +31,7 @@
 #ifndef __BMA2x2_USER_H_
 #define __BMA2x2_USER_H_
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 
 #define s16 int16_t
 #define u32 uint32_t

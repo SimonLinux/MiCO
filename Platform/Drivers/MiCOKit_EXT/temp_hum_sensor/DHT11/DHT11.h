@@ -23,7 +23,7 @@
 #ifndef __DHT11_H_
 #define __DHT11_H_
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 
 //---------------------------------- PIN DEFINES -------------------------------
 

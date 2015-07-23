@@ -19,19 +19,12 @@
   * <h2><center>&copy; COPYRIGHT 2014 MXCHIP Inc.</center></h2>
   ******************************************************************************
   */ 
-
-#include "Common.h"
-#include "debug.h"
-#include "MicoPlatform.h"
+#include "MICO.h"
 #include "Platform_config.h"
 
-#include "EasyLink/EasyLink.h"
 #include "JSON-C/json.h"
-#include "MICO.h"
-#include "MICODefine.h"
 #include "MICOAppDefine.h"
 #include "SppProtocol.h"  
-#include "MICOConfigMenu.h"
 #include "StringUtils.h"
 
 #define SYS_LED_TRIGGER_INTERVAL 100 
@@ -51,19 +44,23 @@ static void _led_EL_Timeout_handler( void* arg )
   MicoGpioOutputTrigger((mico_gpio_t)MICO_SYS_LED);
 }
 
-void ConfigWillStart( mico_Context_t * const inContext )
+USED void ConfigWillStart( void )
 {
   config_delegate_log_trace();
-  (void)(inContext); 
     /*Led trigger*/
+  mico_stop_timer(&_Led_EL_timer);
+  mico_deinit_timer( &_Led_EL_timer );
   mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL, _led_EL_Timeout_handler, NULL);
   mico_start_timer(&_Led_EL_timer);
   return;
 }
 
-void ConfigWillStop( mico_Context_t * const inContext )
+USED void ConfigSoftApWillStart( void )
 {
-  (void)(inContext); 
+}
+
+USED void ConfigWillStop( void )
+{
   config_delegate_log_trace();
 
   mico_stop_timer(&_Led_EL_timer);
@@ -72,9 +69,8 @@ void ConfigWillStop( mico_Context_t * const inContext )
   return;
 }
 
-void ConfigEasyLinkIsSuccess( mico_Context_t * const inContext )
+USED void ConfigRecvSSID ( void )
 {
-  (void)(inContext); 
   config_delegate_log_trace();
 
   mico_stop_timer(&_Led_EL_timer);
@@ -84,32 +80,15 @@ void ConfigEasyLinkIsSuccess( mico_Context_t * const inContext )
   return;
 }
 
-
-void ConfigAirkissIsSuccess( mico_Context_t * const inContext )
+USED void ConfigIsSuccessBy( mico_config_source_t source )
 {
-  (void)(inContext); 
-  config_delegate_log_trace();
-
-  mico_stop_timer(&_Led_EL_timer);
-  mico_deinit_timer( &_Led_EL_timer );
-  mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL_AFTER_EASYLINK, _led_EL_Timeout_handler, NULL);
-  mico_start_timer(&_Led_EL_timer);
-  return;
-}
-
-void ConfigSoftApWillStart(mico_Context_t * const inContext )
-{
-  mico_stop_timer(&_Led_EL_timer);
-  mico_deinit_timer( &_Led_EL_timer );
-  mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL_AFTER_EASYLINK, _led_EL_Timeout_handler, NULL);
-  mico_start_timer(&_Led_EL_timer);
+  config_delegate_log( "Configed by %d", source );
 }
 
 
-OSStatus ConfigELRecvAuthData(char * anthData, mico_Context_t * const inContext )
+USED OSStatus ConfigELRecvAuthData(char * anthData  )
 {
   config_delegate_log_trace();
-  (void)(inContext);
   (void)(anthData);
   return kNoErr;
 }
@@ -122,6 +101,8 @@ json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext )
   OTA_Versions_t versions;
   char rfVersion[50] = {0};
   json_object *sectors, *sector, *subMenuSectors, *subMenuSector, *mainObject = NULL;
+
+  application_config_t *appConfig = mico_system_get_user_config_data( );
 
   MicoGetRfVer( rfVersion, 50 );
 
@@ -154,10 +135,6 @@ json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext )
 
     /*name cell*/
     err = MICOAddStringCellToSector(sector, "Device Name",    inContext->flashContentInRam.micoSystemConfig.name,               "RW", NULL);
-    require_noerr(err, exit);
-
-    //Bonjour switcher cell
-    err = MICOAddSwitchCellToSector(sector, "Bonjour",        inContext->flashContentInRam.micoSystemConfig.bonjourEnable,      "RW");
     require_noerr(err, exit);
 
     //RF power save switcher cell
@@ -280,17 +257,16 @@ json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext )
   err = MICOAddSector(sectors, "SPP Remote Server",           sector);
   require_noerr(err, exit);
 
-
     // SPP protocol remote server connection enable
-    err = MICOAddSwitchCellToSector(sector, "Connect SPP Server",   inContext->flashContentInRam.appConfig.remoteServerEnable,   "RW");
+    err = MICOAddSwitchCellToSector(sector, "Connect SPP Server",   appConfig->remoteServerEnable,   "RW");
     require_noerr(err, exit);
 
     //Seerver address cell
-    err = MICOAddStringCellToSector(sector, "SPP Server",           inContext->flashContentInRam.appConfig.remoteServerDomain,   "RW", NULL);
+    err = MICOAddStringCellToSector(sector, "SPP Server",           appConfig->remoteServerDomain,   "RW", NULL);
     require_noerr(err, exit);
 
     //Seerver port cell
-    err = MICOAddNumberCellToSector(sector, "SPP Server Port",      inContext->flashContentInRam.appConfig.remoteServerPort,   "RW", NULL);
+    err = MICOAddNumberCellToSector(sector, "SPP Server Port",      appConfig->remoteServerPort,   "RW", NULL);
     require_noerr(err, exit);
 
   /*Sector 5*/
@@ -321,12 +297,14 @@ exit:
   return mainObject;
 }
 
-OSStatus ConfigIncommingJsonMessage( const char *input, mico_Context_t * const inContext )
+OSStatus ConfigIncommingJsonMessage( const char *input, bool *need_reboot, mico_Context_t * const inContext )
 {
+  config_delegate_log_trace();
   OSStatus err = kNoErr;
   json_object *new_obj;
-  config_delegate_log_trace();
+  application_config_t *appConfig = mico_system_get_user_config_data( );
 
+  *need_reboot = false;
   new_obj = json_tokener_parse(input);
   require_action(new_obj, exit, err = kUnknownErr);
   config_delegate_log("Recv config object=%s", json_object_to_json_string(new_obj));
@@ -334,12 +312,13 @@ OSStatus ConfigIncommingJsonMessage( const char *input, mico_Context_t * const i
   json_object_object_foreach(new_obj, key, val) {
     if(!strcmp(key, "Device Name")){
       strncpy(inContext->flashContentInRam.micoSystemConfig.name, json_object_get_string(val), maxNameLen);
+      *need_reboot = true;
     }else if(!strcmp(key, "RF power save")){
       inContext->flashContentInRam.micoSystemConfig.rfPowerSaveEnable = json_object_get_boolean(val);
+      *need_reboot = true;
     }else if(!strcmp(key, "MCU power save")){
       inContext->flashContentInRam.micoSystemConfig.mcuPowerSaveEnable = json_object_get_boolean(val);
-    }else if(!strcmp(key, "Bonjour")){
-      inContext->flashContentInRam.micoSystemConfig.bonjourEnable = json_object_get_boolean(val);
+      *need_reboot = true;
     }else if(!strcmp(key, "Wi-Fi")){
       strncpy(inContext->flashContentInRam.micoSystemConfig.ssid, json_object_get_string(val), maxSsidLen);
       inContext->flashContentInRam.micoSystemConfig.channel = 0;
@@ -347,30 +326,41 @@ OSStatus ConfigIncommingJsonMessage( const char *input, mico_Context_t * const i
       inContext->flashContentInRam.micoSystemConfig.security = SECURITY_TYPE_AUTO;
       memcpy(inContext->flashContentInRam.micoSystemConfig.key, inContext->flashContentInRam.micoSystemConfig.user_key, maxKeyLen);
       inContext->flashContentInRam.micoSystemConfig.keyLength = inContext->flashContentInRam.micoSystemConfig.user_keyLength;
+      *need_reboot = true;
     }else if(!strcmp(key, "Password")){
       inContext->flashContentInRam.micoSystemConfig.security = SECURITY_TYPE_AUTO;
       strncpy(inContext->flashContentInRam.micoSystemConfig.key, json_object_get_string(val), maxKeyLen);
       strncpy(inContext->flashContentInRam.micoSystemConfig.user_key, json_object_get_string(val), maxKeyLen);
       inContext->flashContentInRam.micoSystemConfig.keyLength = strlen(inContext->flashContentInRam.micoSystemConfig.key);
       inContext->flashContentInRam.micoSystemConfig.user_keyLength = strlen(inContext->flashContentInRam.micoSystemConfig.key);
+      *need_reboot = true;
     }else if(!strcmp(key, "DHCP")){
       inContext->flashContentInRam.micoSystemConfig.dhcpEnable   = json_object_get_boolean(val);
+      *need_reboot = true;
     }else if(!strcmp(key, "IP address")){
       strncpy(inContext->flashContentInRam.micoSystemConfig.localIp, json_object_get_string(val), maxIpLen);
+      *need_reboot = true;
     }else if(!strcmp(key, "Net Mask")){
       strncpy(inContext->flashContentInRam.micoSystemConfig.netMask, json_object_get_string(val), maxIpLen);
+      *need_reboot = true;
     }else if(!strcmp(key, "Gateway")){
       strncpy(inContext->flashContentInRam.micoSystemConfig.gateWay, json_object_get_string(val), maxIpLen);
+      *need_reboot = true;
     }else if(!strcmp(key, "DNS Server")){
       strncpy(inContext->flashContentInRam.micoSystemConfig.dnsServer, json_object_get_string(val), maxIpLen);
+      *need_reboot = true;
     }else if(!strcmp(key, "Connect SPP Server")){
-      inContext->flashContentInRam.appConfig.remoteServerEnable = json_object_get_boolean(val);
+      appConfig->remoteServerEnable = json_object_get_boolean(val);
+      *need_reboot = true;
     }else if(!strcmp(key, "SPP Server")){
-      strncpy(inContext->flashContentInRam.appConfig.remoteServerDomain, json_object_get_string(val), 64);
+      strncpy(appConfig->remoteServerDomain, json_object_get_string(val), 64);
+      *need_reboot = true;
     }else if(!strcmp(key, "SPP Server Port")){
-      inContext->flashContentInRam.appConfig.remoteServerPort = json_object_get_int(val);
+      appConfig->remoteServerPort = json_object_get_int(val);
+      *need_reboot = true;
     }else if(!strcmp(key, "Baurdrate")){
-      inContext->flashContentInRam.appConfig.USART_BaudRate = json_object_get_int(val);
+      appConfig->USART_BaudRate = json_object_get_int(val);
+      *need_reboot = true;
     }
   }
   json_object_put(new_obj);

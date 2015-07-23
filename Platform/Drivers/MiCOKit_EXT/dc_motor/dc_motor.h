@@ -24,7 +24,7 @@
 #define __DC_MOTOR_H_
 
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 
 //--------------------------------  pin defines --------------------------------
 //      DC MOTOR PIN <------->  EXT-BOARD PIN

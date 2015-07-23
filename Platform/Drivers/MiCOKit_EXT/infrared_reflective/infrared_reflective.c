@@ -20,7 +20,7 @@
 ******************************************************************************
 */
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 #include "infrared_reflective.h"
 
 #define infrared_reflective_log(M, ...) custom_log("INFRARED_REFLECTIVE", M, ##__VA_ARGS__)

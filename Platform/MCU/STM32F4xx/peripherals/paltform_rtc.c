@@ -29,8 +29,7 @@
 ******************************************************************************
 */ 
 
-#include "MICORTOS.h"
-#include "MICOPlatform.h"
+
 #include "platform.h"
 #include "platform_peripheral.h"
 #include "debug.h"
@@ -89,8 +88,8 @@ static void     reset_rtc_values                           ( void );
 #if ( defined( MICO_ENABLE_MCU_RTC ) && !defined( MICO_DISABLE_MCU_POWERSAVE ) )
 static OSStatus compensate_time_error                      ( uint32_t sec, bool subtract );
 static int      add_1p25ms_contribution                    ( uint32_t ms, uint32_t* seconds_contribution );
-static void     add_second_to_time                         ( mico_rtc_time_t* time );
-static void     subtract_second_from_time                  ( mico_rtc_time_t* time );
+static void     add_second_to_time                         ( platform_rtc_time_t* time );
+static void     subtract_second_from_time                  ( platform_rtc_time_t* time );
 #endif /* #ifndef MICO_DISABLE_MCU_POWERSAVE */
 
 /******************************************************
@@ -517,7 +516,7 @@ static uint32_t convert_rtc_calendar_values_to_units_passed( void )
 
 #if ( defined( MICO_ENABLE_MCU_RTC ) && !defined( MICO_DISABLE_MCU_POWERSAVE ) )
 
-static void add_second_to_time( mico_rtc_time_t* time )
+static void add_second_to_time( platform_rtc_time_t* time )
 {
     if ( time->sec == 59 )
     {
@@ -601,7 +600,7 @@ static void add_second_to_time( mico_rtc_time_t* time )
     }
 }
 
-static void subtract_second_from_time( mico_rtc_time_t* time )
+static void subtract_second_from_time( platform_rtc_time_t* time )
 {
     if ( time->sec == 0 )
     {

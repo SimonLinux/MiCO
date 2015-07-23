@@ -29,10 +29,6 @@
 ******************************************************************************
 */ 
 
-
-#include "MICORTOS.h"
-#include "MICOPlatform.h"
-
 #include "platform.h"
 #include "platform_peripheral.h"
 #include "stm32f2xx.h"
@@ -543,7 +539,7 @@ OSStatus platform_i2c_init_tx_message( platform_i2c_message_t* message, const vo
 
   require_action_quiet( ( message != NULL ) && ( tx_buffer != NULL ) && ( tx_buffer_length != 0 ), exit, err = kParamErr);
 
-  memset(message, 0x00, sizeof(mico_i2c_message_t));
+  memset(message, 0x00, sizeof(platform_i2c_message_t));
   message->tx_buffer = tx_buffer;
   message->retries = retries;
   message->tx_length = tx_buffer_length;
@@ -558,7 +554,7 @@ OSStatus platform_i2c_init_rx_message( platform_i2c_message_t* message, void* rx
 
   require_action_quiet( ( message != NULL ) && ( rx_buffer != NULL ) && ( rx_buffer_length != 0 ), exit, err = kParamErr);
 
-  memset(message, 0x00, sizeof(mico_i2c_message_t));
+  memset(message, 0x00, sizeof(platform_i2c_message_t));
   message->rx_buffer = rx_buffer;
   message->retries = retries;
   message->rx_length = rx_buffer_length;
@@ -573,7 +569,7 @@ OSStatus platform_i2c_init_combined_message( platform_i2c_message_t* message, co
 
   require_action_quiet( ( message != NULL ) && ( tx_buffer != NULL ) && ( tx_buffer_length != 0 ) && ( rx_buffer != NULL ) && ( rx_buffer_length != 0 ), exit, err = kParamErr);
 
-  memset(message, 0x00, sizeof(mico_i2c_message_t));
+  memset(message, 0x00, sizeof(platform_i2c_message_t));
   message->rx_buffer = rx_buffer;
   message->tx_buffer = tx_buffer;
   message->retries = retries;

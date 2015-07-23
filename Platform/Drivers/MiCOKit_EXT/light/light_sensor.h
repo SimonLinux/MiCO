@@ -24,7 +24,7 @@
 #define __LIGHT_SENSOR_H_
 
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 
 //--------------------------------  pin defines --------------------------------
 #ifdef USE_MiCOKit_EXT

@@ -47,54 +47,9 @@
  *                   Enumerations
  ******************************************************/
 
-// typedef enum
-// {
-//     DATA_WIDTH_5BIT,
-//     DATA_WIDTH_6BIT,
-//     DATA_WIDTH_7BIT,
-//     DATA_WIDTH_8BIT,
-//     DATA_WIDTH_9BIT
-// } mico_uart_data_width_t;
-
-// typedef enum
-// {
-//     STOP_BITS_1,
-//     STOP_BITS_2,
-// } mico_uart_stop_bits_t;
-
-// typedef enum
-// {
-//     FLOW_CONTROL_DISABLED,
-//     FLOW_CONTROL_CTS,
-//     FLOW_CONTROL_RTS,
-//     FLOW_CONTROL_CTS_RTS
-// } mico_uart_flow_control_t;
-
-// typedef enum
-// {
-//     NO_PARITY,
-//     ODD_PARITY,
-//     EVEN_PARITY,
-// } mico_uart_parity_t;
-
-#define UART_WAKEUP_MASK_POSN   0
-#define UART_WAKEUP_DISABLE    (0 << UART_WAKEUP_MASK_POSN) /**< UART can not wakeup MCU from stop mode */
-#define UART_WAKEUP_ENABLE     (1 << UART_WAKEUP_MASK_POSN) /**< UART can wake up MCU from stop mode */
-
-
 /******************************************************
  *                    Structures
  ******************************************************/
-
-//  typedef struct
-// {
-//     uint32_t                  baud_rate;
-//     mico_uart_data_width_t    data_width;
-//     mico_uart_parity_t        parity;
-//     mico_uart_stop_bits_t     stop_bits;
-//     mico_uart_flow_control_t  flow_control;
-//     uint8_t                   flags;          /**< if set, UART can wake up MCU from stop mode, reference: @ref UART_WAKEUP_DISABLE and @ref UART_WAKEUP_ENABLE*/
-// } mico_uart_config_t;
 
 /******************************************************
  *                 Type Definitions

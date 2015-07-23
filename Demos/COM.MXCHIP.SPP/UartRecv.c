@@ -19,12 +19,8 @@
   ******************************************************************************
   */ 
 
-#include "MICOAppDefine.h"
-#include "MICODefine.h"
+#include "MICO.h"
 #include "SppProtocol.h"
-#include "MicoPlatform.h"
-#include "platform_config.h"
-#include "MICONotificationCenter.h"
 
 #define uart_recv_log(M, ...) custom_log("UART RECV", M, ##__VA_ARGS__)
 #define uart_recv_log_trace() custom_log_trace("UART RECV")
@@ -34,7 +30,7 @@ static size_t _uart_get_one_packet(uint8_t* buf, int maxlen);
 void uartRecv_thread(void *inContext)
 {
   uart_recv_log_trace();
-  mico_Context_t *Context = inContext;
+  app_context_t *Context = inContext;
   int recvlen;
   uint8_t *inDataBuffer;
   
@@ -73,7 +69,6 @@ size_t _uart_get_one_packet(uint8_t* inBuf, int inBufLen)
        return datalen;
      }
    }
-    
   }
   
 }

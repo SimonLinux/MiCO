@@ -29,13 +29,11 @@
 ******************************************************************************
 */ 
 
-#include "MICORTOS.h"
-#include "MICOPlatform.h"
+#include "mico.h"
 
 #include "platform.h"
 #include "platform_peripheral.h"
 #include "stm32f2xx.h"
-#include "debug.h"
 
 /******************************************************
 *                      Macros

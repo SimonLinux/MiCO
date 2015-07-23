@@ -23,7 +23,7 @@
 #ifndef __Debug_h__
 #define __Debug_h__
 
-#include "MicoRTOS.h"
+#include "mico_rtos.h"
 #include "platform.h"
 #include "platform_assert.h"
 

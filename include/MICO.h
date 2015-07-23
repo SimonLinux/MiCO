@@ -45,11 +45,14 @@
 
 #include "Debug.h"
 #include "Common.h" 
-#include "MicoRTOS.h"
-#include "MicoWlan.h"
-#include "MicoSocket.h"
+#include "mico_rtos.h"
+#include "mico_wlan.h"
+#include "mico_socket.h"
 #include "MicoAlgorithm.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
+#include "mico_system.h"
+#include "mico_service.h"
+
 
 #define MicoGetRfVer                wlan_driver_version
 #define MicoGetVer                  system_lib_version

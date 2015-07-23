@@ -20,14 +20,10 @@
   ******************************************************************************
   */ 
 
-#include "MICOAppDefine.h"
+#include "MICO.h"
 #include "SppProtocol.h"
 #include "SocketUtils.h"
 #include "debug.h"
-#include "MicoPlatform.h"
-#include "platform_config.h"
-#include "MICONotificationCenter.h"
-#include <stdio.h>
 
 #define MAX_SOCK_MSG_LEN (10*1024)
 int sockmsg_len = 0;
@@ -38,7 +34,7 @@ void socket_msg_take(socket_msg_t*msg);
 void socket_msg_free(socket_msg_t*msg);
 
 
-OSStatus sppProtocolInit(mico_Context_t * const inContext)
+OSStatus sppProtocolInit(app_context_t * const inContext)
 {
   int i;
   
@@ -52,7 +48,7 @@ OSStatus sppProtocolInit(mico_Context_t * const inContext)
   return kNoErr;
 }
 
-OSStatus sppWlanCommandProcess(unsigned char *inBuf, int *inBufLen, int inSocketFd, mico_Context_t * const inContext)
+OSStatus sppWlanCommandProcess(unsigned char *inBuf, int *inBufLen, int inSocketFd, app_context_t * const inContext)
 {
   spp_log_trace();
   (void)inSocketFd;
@@ -65,7 +61,7 @@ OSStatus sppWlanCommandProcess(unsigned char *inBuf, int *inBufLen, int inSocket
   return err;
 }
 
-OSStatus sppUartCommandProcess(uint8_t *inBuf, int inLen, mico_Context_t * const inContext)
+OSStatus sppUartCommandProcess(uint8_t *inBuf, int inLen, app_context_t * const inContext)
 {
   spp_log_trace();
   OSStatus err = kNoErr;
@@ -124,7 +120,7 @@ void socket_msg_free(socket_msg_t*msg)
     }
 }
 
-int socket_queue_create(mico_Context_t * const inContext, mico_queue_t *queue)
+int socket_queue_create(app_context_t * const inContext, mico_queue_t *queue)
 {
     OSStatus err;
     int i;
@@ -147,7 +143,7 @@ int socket_queue_create(mico_Context_t * const inContext, mico_queue_t *queue)
     return -1;
 }
 
-int socket_queue_delete(mico_Context_t * const inContext, mico_queue_t *queue)
+int socket_queue_delete(app_context_t * const inContext, mico_queue_t *queue)
 {
     int i;
     socket_msg_t *msg;

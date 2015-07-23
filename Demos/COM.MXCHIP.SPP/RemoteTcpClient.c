@@ -19,11 +19,9 @@
   ******************************************************************************
   */ 
 
-#include "MICOAppDefine.h"
-#include "MICODefine.h"
+#include "MICO.h"
 #include "SppProtocol.h"
 #include "SocketUtils.h"
-#include "MICONotificationCenter.h"
 
 #define client_log(M, ...) custom_log("TCP client", M, ##__VA_ARGS__)
 #define client_log_trace() custom_log_trace("TCP client")
@@ -56,7 +54,7 @@ void remoteTcpClient_thread(void *inContext)
   client_log_trace();
   OSStatus err = kUnknownErr;
   int len;
-  mico_Context_t *Context = inContext;
+  app_context_t *context = inContext;
   struct sockaddr_t addr;
   fd_set readfds;
   fd_set writeSet;
@@ -91,24 +89,24 @@ void remoteTcpClient_thread(void *inContext)
       if(_wifiConnected == false){
         require_action_quiet(mico_rtos_get_semaphore(&_wifiConnected_sem, 200000) == kNoErr, Continue, err = kTimeoutErr);
       }
-      err = gethostbyname((char *)Context->flashContentInRam.appConfig.remoteServerDomain, (uint8_t *)ipstr, 16);
+      err = gethostbyname((char *)context->appConfig->remoteServerDomain, (uint8_t *)ipstr, 16);
       require_noerr(err, ReConnWithDelay);
       
       remoteTcpClient_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
       addr.s_ip = inet_addr(ipstr); 
-      addr.s_port = Context->flashContentInRam.appConfig.remoteServerPort;
+      addr.s_port = context->appConfig->remoteServerPort;
       
       err = connect(remoteTcpClient_fd, &addr, sizeof(addr));
       require_noerr_quiet(err, ReConnWithDelay);
-      client_log("Remote server connected at port: %d, fd: %d",  Context->flashContentInRam.appConfig.remoteServerPort,
+      client_log("Remote server connected at port: %d, fd: %d",  context->appConfig->remoteServerPort,
                  remoteTcpClient_fd);
       
-      err = socket_queue_create(Context, &queue);
+      err = socket_queue_create(context, &queue);
       require_noerr( err, exit );
       eventFd = mico_create_event_fd(queue);
       if (eventFd < 0) {
         client_log("create event fd error");
-        socket_queue_delete(Context, &queue);
+        socket_queue_delete(context, &queue);
         goto ReConnWithDelay;
       }
     }else{
@@ -148,7 +146,7 @@ void remoteTcpClient_thread(void *inContext)
           client_log("Remote client closed, fd: %d", remoteTcpClient_fd);
           goto ReConnWithDelay;
         }
-        sppWlanCommandProcess(inDataBuffer, &len, remoteTcpClient_fd, Context);
+        sppWlanCommandProcess(inDataBuffer, &len, remoteTcpClient_fd, context);
       }
 
     Continue:    
@@ -158,7 +156,7 @@ void remoteTcpClient_thread(void *inContext)
         if (eventFd >= 0) {
           mico_delete_event_fd(eventFd);
           eventFd = -1;
-          socket_queue_delete(Context, &queue);
+          socket_queue_delete(context, &queue);
         }
         if(remoteTcpClient_fd != -1){
           SocketClose(&remoteTcpClient_fd);

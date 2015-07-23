@@ -37,7 +37,7 @@
 
 #pragma once
 #include "Common.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 
 //---------------------------------------------------------------------------------------------------------------------------
 /*! @function   PlatformMFiAuthInitialize

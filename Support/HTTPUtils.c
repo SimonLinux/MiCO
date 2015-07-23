@@ -23,7 +23,6 @@
 #include "MICO.h"
 #include "StringUtils.h"
 #include "HTTPUtils.h"
-#include "MicoPlatform.h"
 #include "platform.h"
 
 #include <errno.h>

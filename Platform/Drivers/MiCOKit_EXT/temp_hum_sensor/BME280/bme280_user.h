@@ -23,7 +23,7 @@
 #ifndef __BME280_USER_H_
 #define __BME280_USER_H_
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 
 #define s32 int32_t
 #define u32 uint32_t

@@ -38,28 +38,50 @@
 #include "JSON-C/json.h"
 #include "mico_system_config.h"
 #include "system.h"
-#include "mico_system.h"
 
 // EasyLink Soft AP mode, HTTP configuration message define
 #define kEasyLinkURLAuth          "/auth-setup"
-
-/* Functions define in MiCOConfigDelegate.c, can be customized by developer */
-extern void         ConfigWillStart               ( mico_Context_t * const inContext );
-extern void         ConfigWillStop                ( mico_Context_t * const inContext );
-extern void         ConfigEasyLinkIsSuccess       ( mico_Context_t * const inContext );
-extern void         ConfigSoftApWillStart         ( mico_Context_t * const inContext );
-extern OSStatus     ConfigELRecvAuthData          ( char * userInfo, mico_Context_t * const inContext );
 
 /* Internal vars and functions */
 static mico_semaphore_t   easylink_sem; /**< Used to suspend thread while connecting. */
 static bool               easylink_success = false; /**< true: connect to wlan, false: start soft ap mode or roll back to previoude settings */
 static uint32_t           easylinkIndentifier = 0; /**< Unique for an easylink instance. */
+static mico_config_source_t source = CONFIG_BY_NONE;
+static uint8_t            airkiss_random = 0x0;
 
 /* Perform easylink and connect to wlan */
 static void easylink_thread(void *inContext);
 static OSStatus mico_easylink_bonjour_start( WiFi_Interface interface, mico_Context_t * const inContext );
 static OSStatus mico_easylink_bonjour_update( WiFi_Interface interface, mico_Context_t * const inContext );
 static void remove_bonjour_for_easylink(void);
+static void airkiss_broadcast_thread(void *arg);
+
+WEAK void ConfigWillStart( void )
+{
+  return;
+}
+
+WEAK void ConfigWillStop( void )
+{
+  return;
+}
+
+WEAK void ConfigRecvSSID ( void )
+{
+  return;
+}
+
+WEAK void ConfigIsSuccessBy( mico_config_source_t source )
+{
+  UNUSED_PARAMETER(source);
+  return;
+}
+
+WEAK OSStatus ConfigELRecvAuthData( char * userInfo )
+{
+  UNUSED_PARAMETER(userInfo);
+  return kNoErr;
+}
 
 
 /* MiCO callback when WiFi status is changed */
@@ -74,7 +96,7 @@ void EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const in
         bongjour txt record with new "easylinkIndentifier" */
     mico_easylink_bonjour_update( Station, inContext );
     inContext->flashContentInRam.micoSystemConfig.configured = allConfigured;
-    MICOUpdateConfiguration(inContext); //Update Flash content
+    mico_system_update_config( ); //Update Flash content
     mico_rtos_set_semaphore(&easylink_sem); //Notify Easylink thread
     break;
   case NOTIFY_AP_DOWN:
@@ -106,6 +128,7 @@ void EasyLinkNotify_EasyLinkCompleteHandler(network_InitTypeDef_st *nwkpara, mic
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
   system_log("Get SSID: %s, Key: %s", inContext->flashContentInRam.micoSystemConfig.ssid, inContext->flashContentInRam.micoSystemConfig.user_key);
 
+  source = nwkpara->wifi_retry_interval;
 exit:
   if( err != kNoErr){
     /*EasyLink timeout or error*/    
@@ -132,6 +155,11 @@ void EasyLinkNotify_EasyLinkGetExtraDataHandler(int datalen, char* data, mico_Co
 
   require_action(inContext, exit, err = kParamErr);
 
+  if( source == CONFIG_BY_AIRKISS){
+    airkiss_random = *data;
+    goto exit;
+  }
+
   debugString = DataToHexStringWithSpaces( (const uint8_t *)data, datalen );
   system_log("Get user info: %s", debugString);
   free(debugString);
@@ -145,7 +173,7 @@ void EasyLinkNotify_EasyLinkGetExtraDataHandler(int datalen, char* data, mico_Co
 
   /* Check auth data by device */
   data[index++] = 0x0;
-  err = ConfigELRecvAuthData(data, inContext);
+  err = ConfigELRecvAuthData( data );
   require_noerr(err, exit);
 
   /* Read identifier */
@@ -176,6 +204,7 @@ void EasyLinkNotify_EasyLinkGetExtraDataHandler(int datalen, char* data, mico_Co
     inContext->flashContentInRam.micoSystemConfig.netMask, inContext->flashContentInRam.micoSystemConfig.gateWay,inContext->flashContentInRam.micoSystemConfig.dnsServer);
   }
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
+  source = CONFIG_BY_EASYLINK_V2;
 
 exit:
   if( err != kNoErr){
@@ -216,6 +245,7 @@ void easylink_thread(void *inContext)
 
   easylinkIndentifier = 0x0;
   easylink_success = false;
+  source = CONFIG_BY_NONE;
 
   /* Register notifications */
   MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)EasyLinkNotify_WifiStatusHandler );
@@ -237,27 +267,32 @@ void easylink_thread(void *inContext)
   /* Skip Easylink mode */    
   if(Context->flashContentInRam.micoSystemConfig.easyLinkByPass == EASYLINK_BYPASS){
     Context->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_BYPASS_NO;
-    MICOUpdateConfiguration( Context );
+    mico_system_update_config( );;
     system_connect_wifi_fast( Context );
     goto exit;
   }
 /* If use CONFIG_MODE_SOFT_AP only, skip easylink mode, establish soft ap directly */ 
-  ConfigWillStart( Context ); 
 restart:
+  ConfigWillStart( ); 
 #if ( MICO_CONFIG_MODE != CONFIG_MODE_SOFT_AP ) 
   system_log("Start easylink commbo mode");
   micoWlanStartEasyLinkPlus(EasyLink_TimeOut/1000);
-
   mico_rtos_get_semaphore(&easylink_sem, MICO_WAIT_FOREVER);
 #endif
 
   /* EasyLink Success */
   if( easylink_success == true ){
-    ConfigEasyLinkIsSuccess( Context );
+    ConfigRecvSSID( );
     system_connect_wifi_normal( Context );
     err = mico_rtos_get_semaphore( &easylink_sem, EasyLink_ConnectWlan_Timeout );
     /*SSID or Password is not correct, module cannot connect to wlan, so restart EasyLink again*/
-    require_noerr_string( err, restart, "Re-start easylink commbo mode" );
+    require_noerr_action_string( err, restart, micoWlanSuspend(), "Re-start easylink commbo mode" );
+    ConfigIsSuccessBy( source );
+    if( source == CONFIG_BY_AIRKISS){
+      err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "AIRKISS", airkiss_broadcast_thread, 0x800, NULL );
+      require_noerr_string( err, exit, "ERROR: Unable to start the EasyLink thread." );
+    }
+
     goto exit;
   }
   /* EasyLink failed */
@@ -285,11 +320,14 @@ restart:
     require_noerr( err, exit );
 
     mico_rtos_get_semaphore(&easylink_sem, MICO_WAIT_FOREVER);
+
+    ConfigIsSuccessBy( CONFIG_BY_SOFT_AP );
 #else // CONFIG_MODE_EASYLINK mode
     /*so roll back to previous settings  (if it has) and connect*/
     if(Context->flashContentInRam.micoSystemConfig.configured != unConfigured){
+      MICOReadConfiguration( Context );
       Context->flashContentInRam.micoSystemConfig.configured = allConfigured;
-      MICOUpdateConfiguration(Context);
+      mico_system_update_config( );;
       system_connect_wifi_normal( Context );
     }else{
       /*module should power down in default setting*/
@@ -299,7 +337,7 @@ restart:
   }
 
 exit:
-  ConfigWillStop( Context );
+  ConfigWillStop( );
   SetTimer( 60*1000 , remove_bonjour_for_easylink );
   MICORemoveNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)EasyLinkNotify_WifiStatusHandler );
   MICORemoveNotification( mico_notify_EASYLINK_WPS_COMPLETED, (void *)EasyLinkNotify_EasyLinkCompleteHandler );
@@ -316,6 +354,34 @@ exit:
   mico_rtos_delete_thread( NULL );
   return;
 }
+
+void airkiss_broadcast_thread(void *arg)
+{
+  OSStatus err = kNoErr;
+  int fd;
+  struct sockaddr_t addr;
+  int i = 0;
+
+  fd = socket( AF_INET, SOCK_DGRM, IPPROTO_UDP );
+  require_action(IsValidSocket( fd ), exit, err = kNoResourcesErr );
+
+  addr.s_ip = INADDR_BROADCAST;
+  addr.s_port = 10000;
+  system_log("Send UDP to WECHAT");
+
+  while(1){
+    sendto(fd, &airkiss_random, 1, 0, &addr, sizeof(addr));
+    msleep(10);
+    i++;
+    if (i > 20)
+      break;
+  }  
+exit:
+  if(err != kNoErr)
+    system_log( "thread exit with err: %d", err);
+  mico_rtos_delete_thread(NULL);
+}
+
 
 OSStatus ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * const inContext )
 {

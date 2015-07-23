@@ -31,7 +31,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "PlatformLogging.h"
-#include "MicoPlatform.h"
+#include "platform_peripheral.h"
 #include "platform.h"
 #include "platform_config.h"
 #include "stdio.h"

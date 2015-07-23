@@ -25,7 +25,7 @@
 
 
 #include "stdlib.h"
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 
 #define OLED_MODE 0
 #define SIZE 16

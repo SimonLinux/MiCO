@@ -29,15 +29,6 @@
 extern "C" {
 #endif
 
-#define APP_INFO   "mxchipWNet SPP Demo based on MICO OS"
-
-#define FIRMWARE_REVISION   "MICO_SPP_2_6"
-#define MANUFACTURER        "MXCHIP Inc."
-#define SERIAL_NUMBER       "20140606"
-#define PROTOCOL            "com.mxchip.spp"
-
-
-
 /* Demo C function call C++ function and C++ function call C function */
 //#define MICO_C_CPP_MIXING_DEMO
 
@@ -77,6 +68,39 @@ typedef struct _socket_msg {
   int len;
   uint8_t data[1];
 } socket_msg_t;
+
+/*Application's configuration stores in flash*/
+typedef struct
+{
+  uint32_t          configDataVer;
+  uint32_t          localServerPort;
+
+  /*local services*/
+  bool              localServerEnable;
+  bool              remoteServerEnable;
+  char              remoteServerDomain[64];
+  int               remoteServerPort;
+
+  /*IO settings*/
+  uint32_t          USART_BaudRate;
+} application_config_t;
+
+
+/*Running status*/
+typedef struct  {
+  /*Local clients port list*/
+  mico_queue_t*   socket_out_queue[MAX_QUEUE_NUM];
+  mico_mutex_t    queue_mtx;
+} current_app_status_t;
+
+typedef struct _app_context_t
+{
+  /*Flash content*/
+  application_config_t*     appConfig;
+
+  /*Running status*/
+  current_app_status_t      appStatus;
+} app_context_t;
 
 
 #ifdef __cplusplus

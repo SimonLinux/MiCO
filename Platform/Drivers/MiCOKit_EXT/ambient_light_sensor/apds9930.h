@@ -21,7 +21,7 @@
 #ifndef __APDS9930_H_
 #define __APDE9930_H_
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 
 
 #ifdef USE_MiCOKit_EXT

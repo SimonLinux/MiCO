@@ -79,7 +79,7 @@ void mico_system_monitor_thread_main( void* arg )
   }
 }
 
-OSStatus MICORegisterSystemMonitor(mico_system_monitor_t* system_monitor, uint32_t initial_permitted_delay)
+OSStatus mico_system_register_monitor(mico_system_monitor_t* system_monitor, uint32_t initial_permitted_delay)
 {
   int a;
   
@@ -98,7 +98,7 @@ OSStatus MICORegisterSystemMonitor(mico_system_monitor_t* system_monitor, uint32
   return kUnknownErr;
 }
 
-OSStatus MICOUpdateSystemMonitor(mico_system_monitor_t* system_monitor, uint32_t permitted_delay)
+OSStatus mico_system_update_monitor(mico_system_monitor_t* system_monitor, uint32_t permitted_delay)
 {
   uint32_t current_time = mico_get_time();
   /* Update the system monitor if it hasn't already passed it's permitted delay */
@@ -118,7 +118,7 @@ static mico_system_monitor_t mico_monitor;
 static void _watchdog_reload_timer_handler( void* arg )
 {
   (void)(arg);
-  MICOUpdateSystemMonitor(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);
+  mico_system_update_monitor(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);
 }
 
 
@@ -130,7 +130,7 @@ OSStatus system_monitor_daemen_start( mico_Context_t * const inContext )
   require_noerr_string( err, exit, "ERROR: Unable to start the system monitor." );
 
   /* Register first monitor */
-  err = MICORegisterSystemMonitor(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);
+  err = mico_system_register_monitor(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);
   require_noerr( err, exit );
   mico_init_timer(&_watchdog_reload_timer,APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000/2, _watchdog_reload_timer_handler, NULL);
   mico_start_timer(&_watchdog_reload_timer);  

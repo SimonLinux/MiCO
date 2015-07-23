@@ -23,7 +23,7 @@
 #ifndef __RGB_LED_H_
 #define __RGB_LED_H_
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 
 //-------------------- P9813 pin defines ---------------------------
 //           P9813 PIN  <------->  EXT-BOARD PIN

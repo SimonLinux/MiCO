@@ -31,8 +31,9 @@
 
 #pragma once
 
-#include "MICO.h"
-#include "mico_system_context.h"
+#include "common.h"
+#include "mico_rtos.h"
+#include "mico_wlan.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,39 +52,148 @@ extern "C" {
 #define EASYLINK_BYPASS                         (1)
 #define EASYLINK_SOFT_AP_BYPASS                 (2)
 
+#define maxSsidLen          32
+#define maxKeyLen           64
+#define maxNameLen          32
+#define maxIpLen            16
 
+#define SYS_MAGIC_NUMBR     (0xA43E2165)
 
-OSStatus system_context_init( mico_Context_t** context_out );
+typedef enum  {
+  /*All settings are in default state, module will enter easylink mode when powered on. 
+  Press down Easyink button for 3 seconds (defined by RestoreDefault_TimeOut) to enter this mode */
+  unConfigured,
+  /*Module will enter easylink mode temperaly when powered on, and go back to allConfigured
+    mode after time out (Defined by EasyLink_TimeOut), This mode is used for changing wlan
+    settings if module is moved to a new wlan enviroment. Press down Easyink button to
+    enter this mode */                
+  wLanUnConfigured,
+  /*Normal working mode, module use the configured settings to connecte to wlan, and run 
+    user's threads*/
+  allConfigured,
+  /*If MFG_MODE_AUTO is enabled and MICO settings are erased (maybe a fresh device just has 
+    been programed or MICO settings is damaged), module will enter MFG mode when powered on. */
+  mfgConfigured
+}Config_State_t;
 
-OSStatus system_context_read( mico_Context_t** context_out );
+/* Upgrade iamge should save this table to flash */
+typedef struct  _boot_table_t {
+  uint32_t start_address; // the address of the bin saved on flash.
+  uint32_t length; // file real length
+  uint8_t version[8];
+  uint8_t type; // B:bootloader, P:boot_table, A:application, D: 8782 driver
+  uint8_t upgrade_type; //u:upgrade, 
+  uint16_t crc;
+  uint8_t reserved[4];
+}boot_table_t;
 
-OSStatus system_power_daemon_start( mico_Context_t * const inContext );
+typedef struct _mico_sys_config_t
+{
+  /*Device identification*/
+  char            name[maxNameLen];
 
-OSStatus system_notification_init( mico_Context_t * const inContext);
+  /*Wi-Fi configuration*/
+  char            ssid[maxSsidLen];
+  char            user_key[maxKeyLen]; 
+  int             user_keyLength;
+  char            key[maxKeyLen]; 
+  int             keyLength;
+  char            bssid[6];
+  int             channel;
+  SECURITY_TYPE_E security;
 
-OSStatus system_network_daemen_start( mico_Context_t * const inContext );
+  /*Power save configuration*/
+  bool            rfPowerSaveEnable;
+  bool            mcuPowerSaveEnable;
 
-OSStatus system_monitor_daemen_start( mico_Context_t * const inContext );
+  /*Local IP configuration*/
+  bool            dhcpEnable;
+  char            localIp[maxIpLen];
+  char            netMask[maxIpLen];
+  char            gateWay[maxIpLen];
+  char            dnsServer[maxIpLen];
 
-void system_connect_wifi_normal( mico_Context_t * const inContext);
+  /*EasyLink configuration*/
+  Config_State_t  configured;
+  uint8_t         easyLinkByPass;
+  uint32_t        reserved;
 
-void system_connect_wifi_fast( mico_Context_t * const inContext);
+  /*Services in MICO system*/
+  uint32_t        magic_number;
 
-OSStatus system_easylink_wac_start( mico_Context_t * const inContext );
+  /*Update seed number when configuration is changed*/
+  int32_t         seed;
+} mico_sys_config_t;
 
-OSStatus system_easylink_start( mico_Context_t * const inContext );
+typedef struct _flash_configuration_t {
+
+  /*OTA options*/
+  boot_table_t             bootTable;
+  /*MICO system core configuration*/
+  mico_sys_config_t        micoSystemConfig;
+  // /*Application configuration*/
+  // application_config_t     appConfig; 
+} flash_content_t;
+
+typedef struct _current_mico_status_t 
+{
+
+  /*MICO system Running status*/
+  char                  localIp[maxIpLen];
+  char                  netMask[maxIpLen];
+  char                  gateWay[maxIpLen];
+  char                  dnsServer[maxIpLen];
+  char                  mac[18];
+  char                  rf_version[50];
+} current_mico_status_t;
+
+typedef struct _mico_Context_t
+{
+  /*Flash content*/
+  flash_content_t           flashContentInRam;
+  mico_mutex_t              flashContentInRam_mutex;
+
+  void *                    user_config_data;
+  uint32_t                  user_config_data_size;
+
+  /*Running status*/
+  current_mico_status_t     micoStatus;
+} system_context_t;
+
+typedef enum {
+  NOTIFY_STATION_UP = 1,
+  NOTIFY_STATION_DOWN,
+
+  NOTIFY_AP_UP,
+  NOTIFY_AP_DOWN,
+} notify_wlan_t; 
+
+OSStatus system_power_daemon_start( void );
+
+OSStatus system_notification_init( system_context_t * const inContext);
+
+OSStatus system_network_daemen_start( system_context_t * const inContext );
+
+OSStatus system_monitor_daemen_start( system_context_t * const inContext );
+
+void system_connect_wifi_normal( system_context_t * const inContext);
+
+void system_connect_wifi_fast( system_context_t * const inContext);
+
+OSStatus system_easylink_wac_start( system_context_t * const inContext );
+
+OSStatus system_easylink_start( system_context_t * const inContext );
 
 OSStatus system_current_time_get( struct tm* time );
 
-OSStatus MICORestoreMFG                 ( mico_Context_t * const inContext );
+OSStatus MICORestoreMFG                 ( system_context_t * const inContext );
 
-OSStatus MICOReadConfiguration          ( mico_Context_t * const inContext );
+OSStatus MICOReadConfiguration          ( system_context_t * const inContext );
 
-OSStatus MICOStartSystemMonitor 		( mico_Context_t * const inContext );
+OSStatus MICOStartSystemMonitor 		( system_context_t * const inContext );
 
-void mico_mfg_test( mico_Context_t * const inContext );
+void mico_mfg_test( system_context_t * const inContext );
 
-OSStatus MICOInitNotificationCenter   ( void * const inContext );
 
 #ifdef __cplusplus
 } /*extern "C" */

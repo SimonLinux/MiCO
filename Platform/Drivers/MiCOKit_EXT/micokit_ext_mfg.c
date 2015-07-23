@@ -20,10 +20,9 @@
 */ 
 
 
-#include "MicoPlatform.h"
-#include "MICONotificationCenter.h"
+#include "mico_platform.h"
 #include "micokit_ext.h"
-#include "MiCODefine.h"
+#include "mico_system.h"
 
 #include "temp_hum_sensor\BME280\bme280_user.h"
 #include "temp_hum_sensor\DHT11\DHT11.h"

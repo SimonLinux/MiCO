@@ -20,7 +20,7 @@
 ******************************************************************************
 */ 
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 #include "keys.h"
 
 #define keys_log(M, ...) custom_log("USER_KEYS", M, ##__VA_ARGS__)

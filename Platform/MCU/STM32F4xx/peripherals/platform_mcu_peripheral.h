@@ -41,7 +41,7 @@
 #include "stm32f4xx_pwr.h"
 #include "stm32f4xx_rng.h"
 
-#include "MicoRtos.h"
+#include "mico_rtos.h"
 #include "RingBufferUtils.h"
 
 #ifdef __cplusplus

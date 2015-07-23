@@ -316,6 +316,7 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries\STM32F4xx_StdPeriph_Driver\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1273,6 +1274,7 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\rgb_led</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -4786,7 +4788,7 @@
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\LocalTcpServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppDefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MiCOAPPDefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppEntrance.c</name>
@@ -5089,7 +5091,7 @@
       </file>
     </group>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
@@ -5140,90 +5142,62 @@
   <group>
     <name>MICO</name>
     <group>
-      <name>AirKiss</name>
+      <name>service</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\service\mico_service_cli.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss_CM3_Debug.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\service\mico_service_config_server.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss_CM3_Release.a</name>
-        <excluded>
-          <configuration>MiCOKit-3165</configuration>
-          <configuration>MiCOKit-3288</configuration>
-          <configuration>MiCOKit-F411B</configuration>
-          <configuration>MiCOKit-F411A</configuration>
-          <configuration>EMW3265</configuration>
-        </excluded>
-      </file>
-    </group>
-    <group>
-      <name>EasyLink</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\EasyLink\EasyLink.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\service\mico_service_config_server_menu.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\SoftAP\EasyLinkSoftAP.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\service\mico_service_factory_test.c</name>
       </file>
-    </group>
-    <group>
-      <name>TFTP</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\tftp\tftpc.o</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\service\mico_service_mdns.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\service\mico_service_mdns_internal.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\service\mico_service_ntp_client.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\service\mico_service_ota_by_tftp.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\service\tftp\tftpc.o</name>
       </file>
     </group>
     <group>
-      <name>WAC</name>
+      <name>system</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Debug.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Release.a</name>
-        <excluded>
-          <configuration>MiCOKit-3288</configuration>
-        </excluded>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_monitor.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_notification.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_para_storage.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_power_daemon.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_easylink\system_easylink.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_misc.c</name>
       </file>
     </group>
-    <group>
-      <name>WPS</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\WPS\WPS.c</name>
-      </file>
-    </group>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOCli.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigMenu.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOForceOTA.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOMfgtest.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICONotificationCenter.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICONTPClient.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOParaStorage.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
-    </file>
   </group>
   <group>
     <name>Platform</name>
@@ -5638,9 +5612,6 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\MDNSUtils.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>

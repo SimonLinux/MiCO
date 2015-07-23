@@ -32,7 +32,7 @@
 
 #pragma once
 
-#include "mico_system_context.h"
+#include "common.h"
 #include "system.h"
 #include "mico_system_config.h"
 
@@ -40,9 +40,8 @@
 extern "C" {
 #endif
 
-#define mico_system_para_restore  MICORestoreDefault
-#define mico_system_para_write    MICOUpdateConfiguration
 
+typedef system_context_t mico_Context_t;
 
 typedef enum
 {
@@ -53,20 +52,6 @@ typedef enum
   eState_Standby,
 } mico_system_state_t;
 
-
-OSStatus mico_system_init( mico_Context_t** out_context );
-
-void mico_system_power_perform( mico_system_state_t new_state );
-
-OSStatus mico_system_current_time_get( struct tm* time );
-
-OSStatus mico_system_para_read( mico_Context_t** context_out );
-
-OSStatus mico_system_para_restore( mico_Context_t * const inContext );
-
-OSStatus mico_system_para_write( mico_Context_t * const inContext );
-
-
 /** Structure to hold information about a system monitor item */
 typedef struct
 {
@@ -74,21 +59,74 @@ typedef struct
     uint32_t longest_permitted_delay;  /**< Longest permitted delay between checkins with the system monitor */
 } mico_system_monitor_t;
 
-OSStatus MICOUpdateSystemMonitor( mico_system_monitor_t* system_monitor, uint32_t permitted_delay );
+/*****************************************************************************/
+/** @defgroup system       MiCO System functions
+ *
+ *  MiCO System provide a basic framework for application
+ */
+/*****************************************************************************/
 
-OSStatus MICORegisterSystemMonitor( mico_system_monitor_t* system_monitor, uint32_t initial_permitted_delay );
+/*****************************************************************************/
+/** @addtogroup system       System Core
+ *  @ingroup system
+ *
+ *  MICO System Core Functions
+ *
+ *  @{
+ */
+/*****************************************************************************/
+
+/* System core data managment, should initialized before other system functions */
+
+mico_Context_t* mico_system_context_init( uint32_t user_config_data_size );
+
+mico_Context_t* mico_system_get_context( void );
+
+void* mico_system_get_user_config_data( void );
+
+OSStatus mico_system_restore_config( void );
+
+OSStatus mico_system_update_config( void );
 
 
 
+/* mico system initialize */
+OSStatus mico_system_init( void );
 
+/* Perform a system power change */
+void mico_system_power_perform( mico_system_state_t new_state );
 
-typedef enum {
-  NOTIFY_STATION_UP = 1,
-  NOTIFY_STATION_DOWN,
+/* Read current system clock */
+OSStatus mico_system_current_time_get( struct tm* time );
 
-  NOTIFY_AP_UP,
-  NOTIFY_AP_DOWN,
-} WiFiEvent;
+/** @} */
+/*****************************************************************************/
+/** @addtogroup system       System Minotor
+ *  @ingroup system
+ *
+ *  MICO System Monitor Functions
+ *
+ *  @{
+ */
+/*****************************************************************************/
+
+/* System monitor functions*/
+OSStatus mico_system_update_monitor ( mico_system_monitor_t* system_monitor, uint32_t permitted_delay );
+
+OSStatus mico_system_register_monitor( mico_system_monitor_t* system_monitor, uint32_t initial_permitted_delay );
+
+/** @} */
+/*****************************************************************************/
+/** @addtogroup system       System Notify
+ *  @ingroup system
+ *
+ *  MICO System Notification Functions
+ *
+ *  @{
+ */
+/*****************************************************************************/
+/* mico nitifictions */
+typedef notify_wlan_t WiFiEvent;
 
 typedef enum{
   /* MICO system defined notifications */
@@ -106,11 +144,11 @@ typedef enum{
   mico_notify_WIFI_Fatal_ERROR,             //void (*function)(mico_Context_t * const inContext);
   mico_notify_Stack_Overflow_ERROR,         //void (*function)(char *taskname, mico_Context_t * const inContext);
  
-  /* User defined notifications */_
+  /* User defined notifications */
 
 } mico_notify_types_t;
 
-
+OSStatus MICOInitNotificationCenter   ( void * const inContext );
 
 OSStatus MICOAddNotification          ( mico_notify_types_t notify_type, void *functionAddress );
 
@@ -118,10 +156,29 @@ OSStatus MICORemoveNotification       ( mico_notify_types_t notify_type, void *f
 
 OSStatus MICORemoveAllNotification    ( mico_notify_types_t notify_type);
 
+//void sendNotifySYSWillPowerOff(void);
 
-void sendNotifySYSWillPowerOff(void);
+typedef enum{
+  /* MICO system defined notifications */
+  CONFIG_BY_NONE,
+  CONFIG_BY_EASYLINK_V2,         
+  CONFIG_BY_EASYLINK_PLUS,        
+  CONFIG_BY_EASYLINK_MINUS,          
+  CONFIG_BY_AIRKISS,             
+  CONFIG_BY_SOFT_AP,  
+  CONFIG_BY_WAC,          
+} mico_config_source_t;
 
-void system_version(char *str, int len);
+void ConfigWillStart( void );
+
+void ConfigWillStop( void );
+
+void ConfigRecvSSID ( void );
+
+void ConfigIsSuccessBy( mico_config_source_t source );
+
+OSStatus ConfigELRecvAuthData( char * userInfo );
+
 
 
 

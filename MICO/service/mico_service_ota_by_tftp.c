@@ -195,14 +195,14 @@ void mico_force_ota(void)
 
     fota_log("OTA bin md5 check success, CRC %x. upgrading...", crc);
 
-    system_context_read( &context );
+    context = mico_system_get_context( );
     memset(&context->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
     context->flashContentInRam.bootTable.length = filelen;
     context->flashContentInRam.bootTable.start_address = ota_partition->partition_start_addr;
     context->flashContentInRam.bootTable.type = 'A';
     context->flashContentInRam.bootTable.upgrade_type = 'U';
     context->flashContentInRam.bootTable.crc = crc;
-    MICOUpdateConfiguration( context );
+    mico_system_update_config( );
     
     mico_ota_finished(OTA_SUCCESS, NULL);
     while(1)

@@ -20,7 +20,7 @@
 ******************************************************************************
 */ 
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 #include "dc_motor.h"
 
 #define dc_motor_log(M, ...) custom_log("DC_MOTOR", M, ##__VA_ARGS__)

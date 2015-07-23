@@ -30,7 +30,7 @@ static size_t _uart_get_one_packet(uint8_t* buf, int maxlen);
 void uartRecv_thread(void *inContext)
 {
   uart_recv_log_trace();
-  mico_Context_t *Context = inContext;
+  app_context_t *Context = inContext;
   int recvlen;
   uint8_t *inDataBuffer;
   

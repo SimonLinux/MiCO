@@ -32,8 +32,7 @@
 
 #include <time.h>
 
-#include "mico_system.h"
-
+#include "mico.h"
 
 OSStatus mico_system_current_time_get( struct tm* time )
 {
@@ -52,26 +51,58 @@ OSStatus mico_system_current_time_get( struct tm* time )
     return kGeneralErr;
 }
 
-OSStatus mico_system_context_read( mico_Context_t** out_context )
+static  mico_Context_t* context = NULL;
+
+mico_Context_t* mico_system_context_init( uint32_t user_config_data_size )
 {
-  return system_context_read( out_context );
+  void *user_config_data = NULL;
+
+  if( context !=  NULL) {
+    if( context->user_config_data != NULL )
+      free( context->user_config_data );
+    free( context );
+    context = NULL;
+  }
+
+  user_config_data = calloc( 1, user_config_data_size );
+  require( user_config_data, exit );
+
+  context = calloc( 1, sizeof(mico_Context_t) );
+  require( context, exit );
+
+  context->user_config_data = user_config_data;
+  context->user_config_data_size = user_config_data_size;
+
+  mico_rtos_init_mutex( &context->flashContentInRam_mutex );
+  MICOReadConfiguration( context );
+
+exit:
+  return context;  
 }
 
-OSStatus mico_system_init( mico_Context_t** out_context )
+mico_Context_t* mico_system_get_context( void )
+{
+  return context;
+}
+
+void* mico_system_get_user_config_data( void )
+{
+  return context->user_config_data;
+}
+
+
+OSStatus mico_system_init( void )
 {
   OSStatus err = kNoErr;
-  mico_Context_t* context;
 
-  /* Read mico context that holds all system configurations and runtime status */
-  err = system_context_init( &context );
-  require_noerr( err, exit ); 
-  *out_context = context;
+  mico_Context_t *context = mico_system_get_context();
+  require_action( context, exit, err = kNotPreparedErr );
 
   /* Initialize power management daemen */
-  err = system_power_daemon_start( context );
+  err = system_power_daemon_start( );
   require_noerr( err, exit ); 
 
-  /* Initialize mico system */
+  /* Initialize mico notify system */
   err = system_notification_init( context );
   require_noerr( err, exit ); 
 
@@ -101,7 +132,7 @@ OSStatus mico_system_init( mico_Context_t** out_context )
     err = system_easylink_start( context );
     require_noerr( err, exit );
 #elif ( MICO_CONFIG_MODE == CONFIG_MODE_WAC)
-    err = mico_easylink_start( context );
+    err = mico_easylink_start( in_context );
     require_noerr( err, exit );
 #else
     #error "Wi-Fi configuration mode is not defined"
@@ -110,8 +141,8 @@ OSStatus mico_system_init( mico_Context_t** out_context )
 #ifdef MFG_MODE_AUTO
   else if( context->flashContentInRam.micoSystemConfig.configured == mfgConfigured ){
     system_log( "Enter MFG mode automatically" );
-    mico_mfg_test(context);
-    mico_thread_sleep(MICO_NEVER_TIMEOUT);
+    mico_mfg_test( in_context );
+    mico_thread_sleep( MICO_NEVER_TIMEOUT );
   }
 #endif
   else{

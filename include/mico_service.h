@@ -33,8 +33,8 @@
 #pragma once
 
 #include "Common.h"
+#include "mico_wlan.h"
 #include "JSON-C/json.h"
-#include "mico_system_context.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -68,11 +68,9 @@ typedef struct
  */
 int mico_cli_init(void);
 
-OSStatus MICOStartConfigServer          ( void );
 
-OSStatus MICOStopConfigServer           ( void );
-
-OSStatus MICOStartNTPClient             ( void);
+/* NTP client that sync system clock with internet NTP server */
+OSStatus MICOStartNTPClient             ( void );
 
 
 /* mdns service */
@@ -85,6 +83,13 @@ void mico_service_mdns_resume_record( char *service_name, WiFi_Interface interfa
 void mico_service_mdns_update_txt_record( char *service_name, WiFi_Interface interface, char *txt_record );
 
 
+/* Start local config server */
+OSStatus MICOStartConfigServer          ( void );
+
+OSStatus MICOStopConfigServer           ( void );
+
+/* Create device info menu on EasyLink APP that connected to local config server */
+OSStatus MICOAddTopMenu(json_object **deviceInfo, char* const name, json_object* sectors, OTA_Versions_t versions);
 
 OSStatus MICOAddSector(json_object* sectors, char* const name, json_object *menus);
 
@@ -98,7 +103,8 @@ OSStatus MICOAddSwitchCellToSector(json_object* menus, char* const name, boolean
 
 OSStatus MICOAddMenuCellToSector(json_object* menus, char* const name, json_object* lowerSectors);
 
-OSStatus MICOAddTopMenu(json_object **deviceInfo, char* const name, json_object* sectors, OTA_Versions_t versions);
+/* Download a new firmware and update from TFTP server use a predefined ssid, key, ip address */
+void mico_force_ota(void);
 
 
 #ifdef __cplusplus

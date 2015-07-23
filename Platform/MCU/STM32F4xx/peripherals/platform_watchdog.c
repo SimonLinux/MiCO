@@ -29,12 +29,6 @@
 ******************************************************************************
 */ 
 
-
-#include "MICOPlatform.h"
-#include "MICORTOS.h"
-#include "Common.h"
-#include "debug.h"
-
 #include "platform.h"
 #include "platform_config.h"
 #include "platform_peripheral.h"

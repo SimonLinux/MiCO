@@ -1930,6 +1930,12 @@
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\LocalTcpServer.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\mico_app_context.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\mico_system_config.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MiCOAPPDefine.h</name>
     </file>
     <file>

@@ -34,13 +34,21 @@
 #define __MICO_SYSTEM_CONFIG_H
 
 
+#define APP_INFO   "mxchipWNet SPP Demo based on MICO OS"
+
+#define FIRMWARE_REVISION   "MICO_SPP_2_6"
+#define MANUFACTURER        "MXCHIP Inc."
+#define SERIAL_NUMBER       "20140606"
+#define PROTOCOL            "com.mxchip.spp"
+
+
 #define CONFIG_MODE_EASYLINK                    (2)
 #define CONFIG_MODE_SOFT_AP                     (3)
 #define CONFIG_MODE_EASYLINK_WITH_SOFTAP        (4)
-#define CONFIG_MODE_WPS                         (5)
-#define CONFIG_MODE_WPS_WITH_SOFTAP             (6)
+//#define CONFIG_MODE_WPS                         (5)
+//#define CONFIG_MODE_WPS_WITH_SOFTAP             (6)
 #define CONFIG_MODE_WAC                         (7)
-#define CONFIG_MODE_AIRKISS                     (8)
+//#define CONFIG_MODE_AIRKISS                     (8)
 
 
 /************************************************************************

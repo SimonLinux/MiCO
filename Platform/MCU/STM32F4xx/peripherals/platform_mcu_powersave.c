@@ -33,11 +33,9 @@
 
 #include "platform_peripheral.h"
 #include "platform.h"
-#include "MicoPlatform.h"
 #include "PlatformLogging.h"
 #include <string.h> // For memcmp
 #include "crt0.h"
-#include "MicoRTOS.h"
 #include "platform_init.h"
 
 /******************************************************
@@ -46,6 +44,9 @@
 
 #define NUMBER_OF_LSE_TICKS_PER_MILLISECOND(scale_factor) ( 32768 / 1000 / scale_factor )
 #define CONVERT_FROM_TICKS_TO_MS( n,s )                   ( n / NUMBER_OF_LSE_TICKS_PER_MILLISECOND(s) )
+
+#define ENABLE_INTERRUPTS   __asm("CPSIE i")  /**< Enable interrupts to start task switching in MICO RTOS. */
+#define DISABLE_INTERRUPTS  __asm("CPSID i")  /**< Disable interrupts to stop task switching in MICO RTOS. */
 
 /******************************************************
 *                    Constants
@@ -412,7 +413,7 @@ static unsigned long stop_mode_power_down_hook( unsigned long sleep_ms )
 
 void platform_mcu_enter_standby(uint32_t secondsToWakeup)
 { 
-  mico_rtc_time_t time;
+  platform_rtc_time_t time;
   uint32_t currentSecond;
   RTC_AlarmTypeDef  RTC_AlarmStructure;
 
@@ -423,7 +424,7 @@ void platform_mcu_enter_standby(uint32_t secondsToWakeup)
 
   platform_log("Wake up in %d seconds", secondsToWakeup);
  
-  MicoRtcGetTime(&time);
+  platform_rtc_get_time(&time);
   currentSecond = time.hr*3600 + time.min*60 + time.sec;
   currentSecond += secondsToWakeup;
   RTC_AlarmStructure.RTC_AlarmTime.RTC_H12     = RTC_HourFormat_24;

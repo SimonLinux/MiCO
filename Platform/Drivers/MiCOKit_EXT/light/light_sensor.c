@@ -20,7 +20,7 @@
 ******************************************************************************
 */ 
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 #include "light_sensor.h"
 
 #define light_sensor_log(M, ...) custom_log("LIGHT_SENSOR", M, ##__VA_ARGS__)

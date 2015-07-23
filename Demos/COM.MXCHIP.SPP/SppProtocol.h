@@ -23,16 +23,17 @@
 #define __SPPPROTOCOL_H
 
 #include "Common.h"
+#include "MiCOAPPDefine.h"
 
-OSStatus sppProtocolInit(mico_Context_t * const inContext);
+OSStatus sppProtocolInit(app_context_t * const inContext);
 int is_network_state(int state);
-OSStatus sppWlanCommandProcess(unsigned char *inBuf, int *inBufLen, int inSocketFd, mico_Context_t * const inContext);
-OSStatus sppUartCommandProcess(uint8_t *inBuf, int inLen, mico_Context_t * const inContext);
+OSStatus sppWlanCommandProcess(unsigned char *inBuf, int *inBufLen, int inSocketFd, app_context_t * const inContext);
+OSStatus sppUartCommandProcess(uint8_t *inBuf, int inLen, app_context_t * const inContext);
 
 
 void set_network_state(int state, int on);
-int socket_queue_create(mico_Context_t * const inContext, mico_queue_t *queue);
-int socket_queue_delete(mico_Context_t * const inContext, mico_queue_t *queue);
+int socket_queue_create(app_context_t * const inContext, mico_queue_t *queue);
+int socket_queue_delete(app_context_t * const inContext, mico_queue_t *queue);
 void socket_msg_free(socket_msg_t*msg);
 void socket_msg_take(socket_msg_t*msg);
 

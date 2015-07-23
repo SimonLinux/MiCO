@@ -28,8 +28,6 @@
 *  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************
 */ 
-
-#include "MicoRtos.h"
 #include "misc.h"
 #include "string.h" /* For memcpy */
 #include "platform.h"

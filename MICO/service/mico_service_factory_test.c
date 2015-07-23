@@ -1,8 +1,7 @@
-#include "time.h"
-#include "mico_platform.h"
-#include "platform.h"
 
-#include "mico_system.h"
+#include "time.h"
+#include "MICO.h"
+#include "platform.h"
 #include "platform_config.h"
 
 
@@ -12,6 +11,7 @@ extern int mfg_scan(void);
 extern void mfg_option(int use_udp, uint32_t remoteaddr);
 extern char* system_lib_version(void);
 extern void wlan_get_mac_address(char *mac);
+extern void system_version(char *str, int len);
 
 static char cmd_str[64];
 
@@ -162,7 +162,7 @@ void mxchip_mfg_test(void)
   mf_printf(str);
   mf_printf("\r\n");
   memset(str, 0, sizeof(str));
-  wlan_driver_version(str, sizeof(str));
+  MicoGetRfVer(str, sizeof(str));
   mf_printf("Driver: ");
   mf_printf(str);
   mf_printf("\r\n");

@@ -24,7 +24,7 @@
 #define __KEYS_H_
 
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 
 //--------------------------------  pin defines --------------------------------
 

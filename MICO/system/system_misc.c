@@ -32,8 +32,6 @@
 
 #include "MICO.h"
 #include "StringUtils.h"
-#include "mico_system_context.h"
-#include "mico_system.h"
 #include "time.h"
 
 void system_version(char *str, int len)
@@ -142,7 +140,7 @@ void micoNotify_WiFIParaChangedHandler(apinfo_adv_t *ap_info, char *key, int key
   }
 
   if(_needsUpdate== true)  
-    MICOUpdateConfiguration(inContext);
+    mico_system_update_config( );;
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
   
 exit:
@@ -229,39 +227,7 @@ void system_connect_wifi_fast( mico_Context_t * const inContext)
   micoWlanStartAdv(&wNetConfig);
 }
 
-static  mico_Context_t* context = NULL;
 
-OSStatus system_context_init( mico_Context_t** out_context )
-{
-  OSStatus err = kNoErr;
-
-  if( context !=  NULL) {
-    free( context );
-    context = NULL;
-  }
-
-  /*Read current configurations*/
-  context = ( mico_Context_t *)malloc(sizeof(mico_Context_t) );
-  require_action( context, exit, err = kNoMemoryErr );
-  memset(context, 0x0, sizeof(mico_Context_t));
-  mico_rtos_init_mutex(&context->flashContentInRam_mutex);
-  MICOReadConfiguration( context );  
-  *out_context = context;  
-
-exit:
-  return err;  
-}
-
-
-OSStatus system_context_read( mico_Context_t** out_context )
-{
-  OSStatus err = kNoErr;
-  require_action( context, exit, err = kNotPreparedErr );
-  *out_context = context;
-
-exit:
-  return err;
-} 
 
 OSStatus system_network_daemen_start( mico_Context_t * const inContext )
 {
@@ -274,7 +240,8 @@ OSStatus system_network_daemen_start( mico_Context_t * const inContext )
   micoWlanGetIPStatus(&para, Station);
   formatMACAddr(inContext->micoStatus.mac, (char *)&para.mac);
   MicoGetRfVer(inContext->micoStatus.rf_version, sizeof(inContext->micoStatus.rf_version));
-  system_log("%s mxchipWNet library version: %s", APP_INFO, MicoGetVer());
+  inContext->micoStatus.rf_version[49] = 0x0;
+  system_log("mxchipWNet library version: %s", MicoGetVer());
   system_log("Wi-Fi driver version %s, mac %s", inContext->micoStatus.rf_version, inContext->micoStatus.mac);
 
   if(inContext->flashContentInRam.micoSystemConfig.rfPowerSaveEnable == true){

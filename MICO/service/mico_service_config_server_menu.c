@@ -32,7 +32,7 @@
 
 #include "Debug.h"
 #include "JSON-C/json.h"
-#include "MICOConfigMenu.h"
+#include "mico_service.h"
 
 OSStatus MICOAddSector(json_object* sectors, char* const name,  json_object *menus)
 {

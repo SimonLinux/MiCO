@@ -22,7 +22,7 @@
 #ifndef __MICOKIT_EXT_DEF_H_
 #define __MICOKIT_EXT_DEF_H_
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 
 //-------------------------- MicoKit-EXT board pin define ----------------------
 #define MICO_EXT_OLED_SPI_PORT       (Arduino_SPI)

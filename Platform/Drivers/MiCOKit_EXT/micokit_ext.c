@@ -19,8 +19,7 @@
 ******************************************************************************
 */ 
 
-#include "MicoPlatform.h"
-#include "MICONotificationCenter.h"
+#include "mico_platform.h"
 #include "micokit_ext.h"
 
 #define micokit_ext_log(M, ...) custom_log("MICOKIT_EXT", M, ##__VA_ARGS__)

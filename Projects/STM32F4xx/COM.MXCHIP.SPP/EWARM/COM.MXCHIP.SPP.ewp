@@ -317,6 +317,7 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
+          <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -4788,7 +4789,7 @@
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\LocalTcpServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MiCOAPPDefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppDefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppEntrance.c</name>
@@ -5091,7 +5092,7 @@
       </file>
     </group>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>

@@ -326,7 +326,7 @@ OSStatus platform_uart_init( platform_uart_driver_t* driver, const platform_uart
   }
 
 exit:
-  MicoMcuPowerSaveConfig(true);
+  platform_mcu_powersave_enable();
   return err;
 }
 

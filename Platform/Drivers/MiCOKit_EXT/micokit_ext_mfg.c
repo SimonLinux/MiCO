@@ -120,7 +120,7 @@ void micokit_ext_mfg_test(mico_Context_t *inContext)
   UNUSED_PARAMETER(inContext);
   
   mico_rtos_init_semaphore(&mfg_test_state_change_sem, 1); 
-  err = MICOAddNotification( mico_notify_WIFI_SCAN_COMPLETED, (void *)mico_notify_WifiScanCompleteHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_SCAN_COMPLETED, (void *)mico_notify_WifiScanCompleteHandler, inContext );
   require_noerr( err, exit );
   
   while(1){

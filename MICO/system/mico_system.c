@@ -80,35 +80,34 @@ exit:
   return context;  
 }
 
-mico_Context_t* mico_system_get_context( void )
+mico_Context_t* mico_system_context_get( void )
 {
   return context;
 }
 
-void* mico_system_get_user_config_data( void )
+void* mico_system_context_get_user_data( mico_Context_t* const in_context )
 {
-  return context->user_config_data;
+  return in_context->user_config_data;
 }
 
 
-OSStatus mico_system_init( void )
+OSStatus mico_system_init( mico_Context_t* in_context )
 {
   OSStatus err = kNoErr;
 
-  mico_Context_t *context = mico_system_get_context();
-  require_action( context, exit, err = kNotPreparedErr );
+  require_action( in_context, exit, err = kNotPreparedErr );
 
   /* Initialize power management daemen */
-  err = system_power_daemon_start( );
+  err = mico_system_power_daemon_start( in_context );
   require_noerr( err, exit ); 
 
   /* Initialize mico notify system */
-  err = system_notification_init( context );
+  err = system_notification_init( in_context );
   require_noerr( err, exit ); 
 
 #ifdef MICO_SYSTEM_MONITOR_ENABLE
   /* MiCO system monitor */
-  err = system_monitor_daemen_start( context );
+  err = mico_system_monitor_daemen_start( );
   require_noerr( err, exit ); 
 #endif
 
@@ -118,18 +117,18 @@ OSStatus mico_system_init( void )
 #endif
 
   /* Network PHY driver and tcp/ip static init */
-  err = system_network_daemen_start( context );
+  err = system_network_daemen_start( in_context );
   require_noerr( err, exit ); 
 
-  if( context->flashContentInRam.micoSystemConfig.configured == wLanUnConfigured ||
-      context->flashContentInRam.micoSystemConfig.configured == unConfigured){
+  if( in_context->flashContentInRam.micoSystemConfig.configured == wLanUnConfigured ||
+      in_context->flashContentInRam.micoSystemConfig.configured == unConfigured){
     system_log("Empty configuration. Starting configuration mode...");
 
 #if (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK) || \
     (MICO_CONFIG_MODE == CONFIG_MODE_SOFT_AP) ||  \
     (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK_WITH_SOFTAP) || \
     (MICO_CONFIG_MODE == CONFIG_MODE_AIRKISS)
-    err = system_easylink_start( context );
+    err = system_easylink_start( in_context );
     require_noerr( err, exit );
 #elif ( MICO_CONFIG_MODE == CONFIG_MODE_WAC)
     err = mico_easylink_start( in_context );
@@ -139,7 +138,7 @@ OSStatus mico_system_init( void )
 #endif
   }
 #ifdef MFG_MODE_AUTO
-  else if( context->flashContentInRam.micoSystemConfig.configured == mfgConfigured ){
+  else if( in_context->flashContentInRam.micoSystemConfig.configured == mfgConfigured ){
     system_log( "Enter MFG mode automatically" );
     mico_mfg_test( in_context );
     mico_thread_sleep( MICO_NEVER_TIMEOUT );
@@ -147,7 +146,7 @@ OSStatus mico_system_init( void )
 #endif
   else{
     system_log("Available configuration. Starting Wi-Fi connection...");
-    system_connect_wifi_fast( context );
+    system_connect_wifi_fast( in_context );
   }
 
   /*Local configuration server*/

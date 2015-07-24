@@ -31,7 +31,7 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, app_context_t * cons
   OSStatus err;
   net_para_st para;
   bonjour_init_t init;
-  mico_Context_t *mico_context = mico_system_get_context();
+  mico_Context_t *mico_context = mico_system_context_get();
 
   temp_txt = malloc(500);
   require_action(temp_txt, exit, err = kNoMemoryErr);

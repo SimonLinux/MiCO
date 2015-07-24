@@ -65,7 +65,7 @@ static bool is_crc_match( uint16_t crc_1, uint16_t crc_2)
   return true;
 }
 
-static OSStatus internal_update_config(mico_Context_t *inContext)
+static OSStatus internal_update_config( mico_Context_t * const inContext )
 {
   OSStatus err = kNoErr;
   uint32_t para_offset;
@@ -125,10 +125,9 @@ exit:
   return err;
 }
 
-OSStatus mico_system_restore_config( void )
+OSStatus mico_system_context_restore( mico_Context_t * const inContext )
 { 
   OSStatus err = kNoErr;
-  mico_Context_t *inContext = mico_system_get_context();
   require_action( inContext, exit, err = kNotPreparedErr );
 
   /*wlan configration is not need to change to a default state, use easylink to do that*/
@@ -157,7 +156,7 @@ exit:
 OSStatus MICORestoreMFG( void )
 { 
   OSStatus err = kNoErr;
-  mico_Context_t *inContext = mico_system_get_context();
+  mico_Context_t *inContext = mico_system_context_get();
   require_action( inContext, exit, err = kNotPreparedErr );
 
   /*wlan configration is not need to change to a default state, use easylink to do that*/
@@ -234,7 +233,7 @@ OSStatus MICOReadConfiguration(mico_Context_t *inContext)
     /* Data collapsed at main partition and backup partition both, restore to default */
     if( is_crc_match( crc_backup_result, crc_backup_target ) == false ){
       para_log("Config failed on both partition, restore to default settings!");
-      err = mico_system_restore_config( );
+      err = mico_system_context_restore( inContext );
       require_noerr(err, exit);
     }
     /* main collapsed, backup correct, copy data from back up to main */
@@ -297,7 +296,7 @@ OSStatus MICOReadConfiguration(mico_Context_t *inContext)
 #ifdef MFG_MODE_AUTO
     err = MICORestoreMFG( );
 #else
-    err = mico_system_restore_config( );
+    err = mico_system_context_restore( inContext );
 #endif
     require_noerr(err, exit);
   }
@@ -316,15 +315,14 @@ exit:
   return err;
 }
 
-OSStatus mico_system_update_config( void )
+OSStatus mico_system_context_update( mico_Context_t *in_context )
 {
   OSStatus err = kNoErr;
-  mico_Context_t *inContext = mico_system_get_context();
-  require_action( inContext, exit, err = kNotPreparedErr );
+  require_action( in_context, exit, err = kNotPreparedErr );
 
-  inContext->flashContentInRam.micoSystemConfig.seed = ++seedNum;
+  in_context->flashContentInRam.micoSystemConfig.seed = ++seedNum;
 
-  err = internal_update_config( inContext );
+  err = internal_update_config( in_context );
   require_noerr(err, exit);
 
 exit:

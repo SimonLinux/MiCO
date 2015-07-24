@@ -122,8 +122,6 @@ static char * ssid_get(void)
       continue;
     }
   }
-  
-  mfg_option(is_use_udp, remote_addr);
 }
 
 /* mxchip library manufacture test. */

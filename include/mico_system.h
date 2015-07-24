@@ -34,23 +34,25 @@
 
 #include "common.h"
 #include "system.h"
-#include "mico_system_config.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
+typedef system_state_t   mico_system_state_t;
 typedef system_context_t mico_Context_t;
 
-typedef enum
-{
-  eState_Normal,
-  eState_Software_Reset,
-  eState_Wlan_Powerdown,
-  eState_Restore_default,
-  eState_Standby,
-} mico_system_state_t;
+typedef enum{
+  /* MICO system defined notifications */
+  CONFIG_BY_NONE,
+  CONFIG_BY_EASYLINK_V2,         
+  CONFIG_BY_EASYLINK_PLUS,        
+  CONFIG_BY_EASYLINK_MINUS,          
+  CONFIG_BY_AIRKISS,             
+  CONFIG_BY_SOFT_AP,  
+  CONFIG_BY_WAC,          
+} mico_config_source_t;
+
 
 /** Structure to hold information about a system monitor item */
 typedef struct
@@ -58,6 +60,29 @@ typedef struct
     uint32_t last_update;              /**< Time of the last system monitor update */
     uint32_t longest_permitted_delay;  /**< Longest permitted delay between checkins with the system monitor */
 } mico_system_monitor_t;
+
+
+typedef notify_wlan_t WiFiEvent;
+
+typedef enum{
+  /* MICO system defined notifications */
+  mico_notify_WIFI_SCAN_COMPLETED,          //void (*function)(ScanResult *pApList, void* arg);
+  mico_notify_WIFI_STATUS_CHANGED,          //void (*function)(WiFiEvent status, void* arg);
+  mico_notify_WiFI_PARA_CHANGED,            //void (*function)(apinfo_adv_t *ap_info, char *key, int key_len, void* arg);
+  mico_notify_DHCP_COMPLETED,               //void (*function)(IPStatusTypedef *pnet, void* arg);
+  mico_notify_EASYLINK_WPS_COMPLETED,       //void (*function)(network_InitTypeDef_st *nwkpara, void* arg);
+  mico_notify_EASYLINK_GET_EXTRA_DATA,      //void (*function)(int datalen, char*data, void* arg);
+  mico_notify_TCP_CLIENT_CONNECTED,         //void (*function)(char *str, int len, void* arg);
+  mico_notify_DNS_RESOLVE_COMPLETED,        //void (*function)(char *str, int len, void* arg);
+  mico_notify_SYS_WILL_POWER_OFF,           //void (*function)(void* arg);
+  mico_notify_WIFI_CONNECT_FAILED,          //void join_fail(OSStatus err, void* arg);
+  mico_notify_WIFI_SCAN_ADV_COMPLETED,      //void (*function)(ScanResult_adv *pApList, void* arg);
+  mico_notify_WIFI_Fatal_ERROR,             //void (*function)(void* arg);
+  mico_notify_Stack_Overflow_ERROR,         //void (*function)(char *taskname, void* arg);
+ 
+  /* User defined notifications */
+
+} mico_notify_types_t;
 
 /*****************************************************************************/
 /** @defgroup system       MiCO System functions
@@ -67,10 +92,10 @@ typedef struct
 /*****************************************************************************/
 
 /*****************************************************************************/
-/** @addtogroup system       System Core
+/** @addtogroup system_context       System Core Storage
  *  @ingroup system
  *
- *  MICO System Core Functions
+ *  MICO System Core Storage Functions
  *
  *  @{
  */
@@ -78,26 +103,40 @@ typedef struct
 
 /* System core data managment, should initialized before other system functions */
 
-mico_Context_t* mico_system_context_init( uint32_t user_config_data_size );
+mico_Context_t* mico_system_context_init( uint32_t size_of_user_data );
 
-mico_Context_t* mico_system_get_context( void );
+mico_Context_t* mico_system_context_get( void );
 
-void* mico_system_get_user_config_data( void );
+void* mico_system_context_get_user_data( mico_Context_t* const in_context );
 
-OSStatus mico_system_restore_config( void );
+OSStatus mico_system_context_restore( mico_Context_t* const in_context );
 
-OSStatus mico_system_update_config( void );
+OSStatus mico_system_context_update( mico_Context_t* const in_context );
 
+/** @} */
+/*****************************************************************************/
+/** @addtogroup system       System Framework
+ *  @ingroup system
+ *
+ *  MICO System Framework Functions
+ *
+ *  @{
+ */
+/*****************************************************************************/
 
+/* mico system framework initialize */
+OSStatus mico_system_init( mico_Context_t* const in_context );
 
-/* mico system initialize */
-OSStatus mico_system_init( void );
+/* System config delegates */
+void mico_system_delegate_config_will_start( void );
 
-/* Perform a system power change */
-void mico_system_power_perform( mico_system_state_t new_state );
+void mico_system_delegate_config_will_stop( void );
 
-/* Read current system clock */
-OSStatus mico_system_current_time_get( struct tm* time );
+void mico_system_delegate_config_recv_ssid ( void );
+
+void mico_system_delegate_config_success( mico_config_source_t source );
+
+OSStatus mico_system_delegate_config_recv_auth_data( char * userInfo );
 
 /** @} */
 /*****************************************************************************/
@@ -111,9 +150,26 @@ OSStatus mico_system_current_time_get( struct tm* time );
 /*****************************************************************************/
 
 /* System monitor functions*/
-OSStatus mico_system_update_monitor ( mico_system_monitor_t* system_monitor, uint32_t permitted_delay );
+OSStatus mico_system_monitor_daemen_start( void );
 
-OSStatus mico_system_register_monitor( mico_system_monitor_t* system_monitor, uint32_t initial_permitted_delay );
+OSStatus mico_system_monitor_update ( mico_system_monitor_t* system_monitor, uint32_t permitted_delay );
+
+OSStatus mico_system_monitor_register( mico_system_monitor_t* system_monitor, uint32_t initial_permitted_delay );
+
+/** @} */
+/*****************************************************************************/
+/** @addtogroup system       System Power
+ *  @ingroup system
+ *
+ *  MICO System Power Management
+ *
+ *  @{
+ */
+/*****************************************************************************/
+/* Start power management daemon */
+OSStatus mico_system_power_daemon_start( mico_Context_t* const in_context );
+/* Perform a system power change */
+OSStatus mico_system_power_perform( mico_Context_t* const in_context, mico_system_state_t new_state );
 
 /** @} */
 /*****************************************************************************/
@@ -126,59 +182,15 @@ OSStatus mico_system_register_monitor( mico_system_monitor_t* system_monitor, ui
  */
 /*****************************************************************************/
 /* mico nitifictions */
-typedef notify_wlan_t WiFiEvent;
+OSStatus mico_system_notify_register  ( mico_notify_types_t notify_type, void* functionAddress, void* arg );
 
-typedef enum{
-  /* MICO system defined notifications */
-  mico_notify_WIFI_SCAN_COMPLETED,          //void (*function)(ScanResult *pApList, mico_Context_t * const inContext);
-  mico_notify_WIFI_STATUS_CHANGED,          //void (*function)(WiFiEvent status, mico_Context_t * const inContext);
-  mico_notify_WiFI_PARA_CHANGED,            //void (*function)(apinfo_adv_t *ap_info, char *key, int key_len, mico_Context_t * const inContext);
-  mico_notify_DHCP_COMPLETED,               //void (*function)(IPStatusTypedef *pnet, mico_Context_t * const inContext);
-  mico_notify_EASYLINK_WPS_COMPLETED,       //void (*function)(network_InitTypeDef_st *nwkpara, mico_Context_t * const inContext);
-  mico_notify_EASYLINK_GET_EXTRA_DATA,      //void (*function)(int datalen, char*data, mico_Context_t * const inContext);
-  mico_notify_TCP_CLIENT_CONNECTED,         //void (*function)(char *str, int len, mico_Context_t * const inContext);
-  mico_notify_DNS_RESOLVE_COMPLETED,        //void (*function)(char *str, int len, mico_Context_t * const inContext);
-  mico_notify_SYS_WILL_POWER_OFF,           //void (*function)(mico_Context_t * const inContext);
-  mico_notify_WIFI_CONNECT_FAILED,          //void join_fail(OSStatus err, mico_Context_t * const inContext);
-  mico_notify_WIFI_SCAN_ADV_COMPLETED,      //void (*function)(ScanResult_adv *pApList, mico_Context_t * const inContext);
-  mico_notify_WIFI_Fatal_ERROR,             //void (*function)(mico_Context_t * const inContext);
-  mico_notify_Stack_Overflow_ERROR,         //void (*function)(char *taskname, mico_Context_t * const inContext);
- 
-  /* User defined notifications */
+OSStatus mico_system_notify_remove       ( mico_notify_types_t notify_type, void *functionAddress );
 
-} mico_notify_types_t;
+OSStatus mico_system_notify_remove_all    ( mico_notify_types_t notify_type);
 
-OSStatus MICOInitNotificationCenter   ( void * const inContext );
 
-OSStatus MICOAddNotification          ( mico_notify_types_t notify_type, void *functionAddress );
-
-OSStatus MICORemoveNotification       ( mico_notify_types_t notify_type, void *functionAddress );
-
-OSStatus MICORemoveAllNotification    ( mico_notify_types_t notify_type);
-
-//void sendNotifySYSWillPowerOff(void);
-
-typedef enum{
-  /* MICO system defined notifications */
-  CONFIG_BY_NONE,
-  CONFIG_BY_EASYLINK_V2,         
-  CONFIG_BY_EASYLINK_PLUS,        
-  CONFIG_BY_EASYLINK_MINUS,          
-  CONFIG_BY_AIRKISS,             
-  CONFIG_BY_SOFT_AP,  
-  CONFIG_BY_WAC,          
-} mico_config_source_t;
-
-void ConfigWillStart( void );
-
-void ConfigWillStop( void );
-
-void ConfigRecvSSID ( void );
-
-void ConfigIsSuccessBy( mico_config_source_t source );
-
-OSStatus ConfigELRecvAuthData( char * userInfo );
-
+/* Read current system clock */
+OSStatus mico_system_current_time_get( struct tm* time );
 
 
 

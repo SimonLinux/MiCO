@@ -33,10 +33,10 @@
 static bool _wifiConnected = false;
 static mico_semaphore_t  _wifiConnected_sem = NULL;
 
-void clientNotify_WifiStatusHandler(int event, mico_Context_t * const inContext)
+void clientNotify_WifiStatusHandler(int event, void *arg)
 {
   client_log_trace();
-  (void)inContext;
+  (void)arg;
   switch (event) {
   case NOTIFY_STATION_UP:
     _wifiConnected = true;
@@ -69,7 +69,7 @@ void remoteTcpClient_thread(void *inContext)
   mico_rtos_init_semaphore(&_wifiConnected_sem, 1);
   
   /* Regisist notifications */
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)clientNotify_WifiStatusHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)clientNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit ); 
   
   inDataBuffer = malloc(wlanBufferLen);

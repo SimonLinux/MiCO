@@ -73,9 +73,8 @@
  * Start a system monitor daemon, application can register some monitor  
  * points, If one of these points is not excuted in a predefined period, 
  * a watchdog reset will occur. */
-//#define MICO_SYSTEM_MONITOR_ENABLE
-#define APPLICATION_WATCHDOG_TIMEOUT_SECONDS  5 /**< Monitor point defined by mico system
-                                                     5 seconds to reload. */
+#define MICO_SYSTEM_MONITOR_ENABLE
+
 
 /************************************************************************
  * Start a NTP client to sync RTC with NTP server. */

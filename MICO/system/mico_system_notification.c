@@ -37,11 +37,10 @@
 
 typedef struct _Notify_list{
   void  *function;
+  void  *arg;
   struct _Notify_list *next;
   void  *contex;
 } _Notify_list_t;
-
-static void * _Context;
 
 _Notify_list_t* Notify_list[20] = {NULL};
 
@@ -70,7 +69,7 @@ void ApListCallback(ScanResult *pApList)
     return;
   else{
     do{
-      ((mico_notify_WIFI_SCAN_COMPLETE_function)(temp->function))(pApList, _Context);
+      ((mico_notify_WIFI_SCAN_COMPLETE_function)(temp->function))(pApList, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }
@@ -83,7 +82,7 @@ void ApListAdvCallback(ScanResult_adv *pApAdvList)
     return;
   else{
     do{
-      ((mico_notify_WIFI_SCAN_ADV_COMPLETE_function)(temp->function))(pApAdvList, _Context);
+      ((mico_notify_WIFI_SCAN_ADV_COMPLETE_function)(temp->function))(pApAdvList, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }
@@ -96,7 +95,7 @@ void WifiStatusHandler(WiFiEvent status)
     return;
   else{
     do{
-      ((mico_notify_WIFI_STATUS_CHANGED_function)(temp->function))(status, _Context);
+      ((mico_notify_WIFI_STATUS_CHANGED_function)(temp->function))(status, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }
@@ -109,7 +108,7 @@ void connected_ap_info(apinfo_adv_t *ap_info, char *key, int key_len)
     return;
   else{
     do{
-      ((mico_notify_WiFI_PARA_CHANGED_function)(temp->function))(ap_info, key, key_len, _Context);
+      ((mico_notify_WiFI_PARA_CHANGED_function)(temp->function))(ap_info, key, key_len, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }
@@ -122,7 +121,7 @@ void NetCallback(IPStatusTypedef *pnet)
     return;
   else{
     do{
-      ((mico_notify_DHCP_COMPLETE_function)(temp->function))(pnet, _Context);
+      ((mico_notify_DHCP_COMPLETE_function)(temp->function))(pnet, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }
@@ -135,7 +134,7 @@ void RptConfigmodeRslt(network_InitTypeDef_st *nwkpara)
     return;
   else{
     do{
-      ((mico_notify_EASYLINK_COMPLETE_function)(temp->function))(nwkpara, _Context);
+      ((mico_notify_EASYLINK_COMPLETE_function)(temp->function))(nwkpara, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }
@@ -148,7 +147,7 @@ void easylink_user_data_result(int datalen, char*data)
     return;
   else{
     do{
-      ((mico_notify_EASYLINK_GET_EXTRA_DATA_function)(temp->function))(datalen, data, _Context);
+      ((mico_notify_EASYLINK_GET_EXTRA_DATA_function)(temp->function))(datalen, data, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }  
@@ -161,7 +160,7 @@ void socket_connected(int fd)
     return;
   else{
     do{
-      ((mico_notify_TCP_CLIENT_CONNECTED_function)(temp->function))(fd, _Context);
+      ((mico_notify_TCP_CLIENT_CONNECTED_function)(temp->function))(fd, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }    
@@ -174,7 +173,7 @@ void dns_ip_set(uint8_t *hostname, uint32_t ip)
     return;
   else{
     do{
-      ((mico_notify_DNS_RESOLVE_COMPLETED_function)(temp->function))(hostname, ip, _Context);
+      ((mico_notify_DNS_RESOLVE_COMPLETED_function)(temp->function))(hostname, ip, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }    
@@ -187,7 +186,7 @@ void sendNotifySYSWillPowerOff(void)
     return;
   else{
     do{
-      ((mico_notify_SYS_WILL_POWER_OFF_function)(temp->function))(_Context);
+      ((mico_notify_SYS_WILL_POWER_OFF_function)(temp->function))(temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }    
@@ -200,7 +199,7 @@ void join_fail(OSStatus err)
     return;
   else{
     do{
-      ((mico_notify_WIFI_CONNECT_FAILED_function)(temp->function))(err, _Context);
+      ((mico_notify_WIFI_CONNECT_FAILED_function)(temp->function))(err, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }    
@@ -213,7 +212,7 @@ void wifi_reboot_event(void)
     return;
   else{
     do{
-      ((mico_notify_WIFI_FATAL_ERROR_function)(temp->function))(_Context);
+      ((mico_notify_WIFI_FATAL_ERROR_function)(temp->function))(temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }    
@@ -226,29 +225,20 @@ void mico_rtos_stack_overflow(char *taskname)
     return;
   else{
     do{
-      ((mico_notify_STACK_OVERFLOW_ERROR_function)(temp->function))(taskname, _Context);
+      ((mico_notify_STACK_OVERFLOW_ERROR_function)(temp->function))(taskname, temp->arg);
       temp = temp->next;
     }while(temp!=NULL);
   }    
 }
 
-
-OSStatus MICOInitNotificationCenter  ( void * const inContext )
-{
-  OSStatus err = kNoErr;
-  require_action(inContext, exit, err = kParamErr);
-  _Context = inContext;
-exit:
-  return err;
-}
-
-OSStatus MICOAddNotification( mico_notify_types_t notify_type, void *functionAddress )
+OSStatus mico_system_notify_register( mico_notify_types_t notify_type, void* functionAddress, void* arg )
 {
   OSStatus err = kNoErr;
   _Notify_list_t *temp =  Notify_list[notify_type];
   _Notify_list_t *notify = (_Notify_list_t *)malloc(sizeof(_Notify_list_t));
   require_action(notify, exit, err = kNoMemoryErr);
   notify->function = functionAddress;
+  notify->arg = arg;
   notify->next = NULL;
   if(Notify_list[notify_type] == NULL){
     Notify_list[notify_type] = notify;
@@ -267,7 +257,7 @@ exit:
   return err;
 }
 
-OSStatus MICORemoveNotification( mico_notify_types_t notify_type, void *functionAddress )
+OSStatus mico_system_notify_remove( mico_notify_types_t notify_type, void *functionAddress )
 {
   OSStatus err = kNoErr;
   _Notify_list_t *temp2;
@@ -293,7 +283,7 @@ exit:
   return err;
 }
 
-OSStatus MICORemoveAllNotification( mico_notify_types_t notify_type)
+OSStatus mico_system_notify_remove_all( mico_notify_types_t notify_type)
 {
     _Notify_list_t *temp = Notify_list[notify_type];;
 

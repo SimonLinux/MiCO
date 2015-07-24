@@ -33,12 +33,9 @@
 #include "MICO.h"
 
 static bool                     needs_update          = false;
-static mico_system_state_t      current_sys_state     = eState_Normal;
-static mico_semaphore_t         sys_state_change_sem  = NULL;
 
-WEAK void sendNotifySYSWillPowerOff(void){
 
-}
+extern void sendNotifySYSWillPowerOff(void);
 
 
 USED void PlatformEasyLinkButtonClickedCallback(void)
@@ -46,7 +43,7 @@ USED void PlatformEasyLinkButtonClickedCallback(void)
   system_log_trace();
   mico_Context_t* context = NULL;
   
-  context = mico_system_get_context( );
+  context = mico_system_context_get( );
   require( context, exit );
   
   if(context->flashContentInRam.micoSystemConfig.easyLinkByPass != EASYLINK_BYPASS_NO){
@@ -59,7 +56,7 @@ USED void PlatformEasyLinkButtonClickedCallback(void)
     needs_update = true;
   }
 
-  mico_system_power_perform( eState_Software_Reset );
+  mico_system_power_perform( context, eState_Software_Reset );
 
 exit: 
   return;
@@ -68,12 +65,16 @@ exit:
 USED void PlatformEasyLinkButtonLongPressedCallback(void)
 {
   system_log_trace();
-
-  mico_system_restore_config( );
+  mico_Context_t* context = NULL;
   
-  mico_system_power_perform( eState_Software_Reset );
+  context = mico_system_context_get( );
+  require( context, exit );
 
-exit: 
+  mico_system_context_restore( context );
+  
+  mico_system_power_perform( context, eState_Software_Reset );
+
+exit:
   return;
 }
 
@@ -82,10 +83,10 @@ USED void PlatformStandbyButtonClickedCallback(void)
   system_log_trace();
   mico_Context_t* context = NULL;
   
-  context = mico_system_get_context( );
+  context = mico_system_context_get( );
   require( context, exit );
   
-  mico_system_power_perform( eState_Standby );
+  mico_system_power_perform( context, eState_Standby );
 
 exit: 
   return;
@@ -95,14 +96,15 @@ exit:
 static void _sys_state_thread(void *arg)
 {  
   UNUSED_PARAMETER(arg);
+  mico_Context_t* context = arg;
   
   /*System status changed*/
-  while(mico_rtos_get_semaphore( &sys_state_change_sem, MICO_WAIT_FOREVER) == kNoErr ){
+  while(mico_rtos_get_semaphore( &context->micoStatus.sys_state_change_sem, MICO_WAIT_FOREVER) == kNoErr ){
     
     if(needs_update == true)
-      mico_system_update_config( );
+      mico_system_context_update( context );
     
-    switch( current_sys_state ){
+    switch( context->micoStatus.current_sys_state ){
     case eState_Normal:
       break;
     case eState_Software_Reset:
@@ -128,14 +130,16 @@ static void _sys_state_thread(void *arg)
   mico_rtos_delete_thread( NULL );
 }
 
-OSStatus system_power_daemon_start( void )
+OSStatus mico_system_power_daemon_start( mico_Context_t* const in_context )
 {
   OSStatus err = kNoErr;
 
-  err = mico_rtos_init_semaphore( &sys_state_change_sem, 1 ); 
+  err = mico_rtos_init_semaphore( &in_context->micoStatus.sys_state_change_sem, 1 ); 
   require_noerr(err, exit);
 
-  mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "Power Daemon", _sys_state_thread, 800, NULL ); 
+  in_context->micoStatus.current_sys_state = eState_Normal;
+
+  mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "Power Daemon", _sys_state_thread, 800, (void *)in_context ); 
   require_noerr(err, exit);
   
 exit:
@@ -143,19 +147,20 @@ exit:
 }
 
 
-void mico_system_power_perform( mico_system_state_t new_state )
+OSStatus mico_system_power_perform( mico_Context_t* const in_context, mico_system_state_t new_state )
 {
+  OSStatus err = kNoErr;
   mico_Context_t* context = NULL;
   
-  context = mico_system_get_context( );
-  require( context, exit );
+  context = mico_system_context_get( );
+  require_action( context, exit, err = kNotPreparedErr );
 
-  current_sys_state = new_state;
-  require( sys_state_change_sem, exit);
-  mico_rtos_set_semaphore( &sys_state_change_sem );   
+  in_context->micoStatus.current_sys_state = new_state;
+  require( in_context->micoStatus.sys_state_change_sem, exit);
+  mico_rtos_set_semaphore( &in_context->micoStatus.sys_state_change_sem );   
 
 exit:
-  return; 
+  return err; 
 }
 
 

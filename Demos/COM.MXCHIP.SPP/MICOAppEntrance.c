@@ -70,10 +70,10 @@ int application_start(void)
 
   /* Create mico system context and read application's config data from flash */
   mico_context = mico_system_context_init( sizeof(application_config_t) );
-  app_context->appConfig = mico_system_get_user_config_data( );
+  app_context->appConfig = mico_system_context_get_user_data( mico_context );
 
   /* mico system initialize */
-  err = mico_system_init( );
+  err = mico_system_init( mico_context );
   require_noerr( err, exit );
 
   /* Bonjour for service searching */

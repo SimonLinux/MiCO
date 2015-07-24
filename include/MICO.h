@@ -52,7 +52,7 @@
 #include "mico_platform.h"
 #include "mico_system.h"
 #include "mico_service.h"
-
+#include "mico_config.h"
 
 #define MicoGetRfVer                wlan_driver_version
 #define MicoGetVer                  system_lib_version

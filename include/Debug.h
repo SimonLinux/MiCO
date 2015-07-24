@@ -43,9 +43,9 @@
                                       printf("[%d][%s: %s:%4d] " M "\r\n", mico_get_time(), N, SHORT_FILE, __LINE__, ##__VA_ARGS__);\
                                       mico_rtos_unlock_mutex( &stdio_tx_mutex );}while(0==1)
                                         
-    #define debug_print_assert(A,B,C,D,E,F, ...) do {if (mico_debug_enabled==0)break;\
+    #define debug_print_assert(A,B,C,D,E,F) do {if (mico_debug_enabled==0)break;\
                                                      mico_rtos_lock_mutex( &stdio_tx_mutex );\
-                                                     printf("[%d][MICO:%s:%s:%4d] **ASSERT** %s""\r\n", mico_get_time(), (D!=NULL) ? D : "", F, E, (C!=NULL) ? C : "", ##__VA_ARGS__);\
+                                                     printf("[%d][MICO:%s:%s:%4d] **ASSERT** %s""\r\n", mico_get_time(), (D!=NULL) ? D : "", F, E, (C!=NULL) ? C : "" );\
                                                      mico_rtos_unlock_mutex( &stdio_tx_mutex );}while(0==1)
     #if TRACE
         #define custom_log_trace(N) do {if (mico_debug_enabled==0)break;\
@@ -58,7 +58,7 @@
 #else // NO_MICO_RTOS  
     #define custom_log(N, M, ...) do {printf("[%s: %s:%4d] " M "\r\n",  N, SHORT_FILE, __LINE__, ##__VA_ARGS__);}while(0==1)
                                         
-    #define debug_print_assert(A,B,C,D,E,F, ...) do {printf("[MICO:%s:%s:%4d] **ASSERT** %s""\r\n", (D!=NULL) ? D : "", F, E, (C!=NULL) ? C : "", ##__VA_ARGS__);}while(0==1)
+    #define debug_print_assert(A,B,C,D,E,F) do {printf("[MICO:%s:%s:%4d] **ASSERT** %s""\r\n", (D!=NULL) ? D : "", F, E, (C!=NULL) ? C : "" );}while(0==1)
     #if TRACE
         #define custom_log_trace(N) do {printf("[%s: [TRACE] %s] %s()\r\n", N, SHORT_FILE, __PRETTY_FUNCTION__);}while(0==1)
     #else  // !TRACE
@@ -70,7 +70,7 @@
 
     #define custom_log_trace(N)
 
-    #define debug_print_assert(A,B,C,D,E,F, ...)                                           
+    #define debug_print_assert(A,B,C,D,E,F)                                           
 #endif   //MICO_DISABLE_STDIO                                      
 #else // DEBUG = 0
     // IF !DEBUG, make the logs NO-OP
@@ -78,7 +78,7 @@
 
     #define custom_log_trace(N)
 
-    #define debug_print_assert(A,B,C,D,E,F, ...)
+    #define debug_print_assert(A,B,C,D,E,F)
 #endif // DEBUG
 
 // ==== PLATFORM TIMEING FUNCTIONS ====

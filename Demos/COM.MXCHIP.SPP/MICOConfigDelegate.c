@@ -44,7 +44,7 @@ static void _led_EL_Timeout_handler( void* arg )
   MicoGpioOutputTrigger((mico_gpio_t)MICO_SYS_LED);
 }
 
-USED void ConfigWillStart( void )
+USED void mico_system_delegate_config_will_start( void )
 {
   config_delegate_log_trace();
     /*Led trigger*/
@@ -59,7 +59,7 @@ USED void ConfigSoftApWillStart( void )
 {
 }
 
-USED void ConfigWillStop( void )
+USED void mico_system_delegate_config_will_stop( void )
 {
   config_delegate_log_trace();
 
@@ -69,7 +69,7 @@ USED void ConfigWillStop( void )
   return;
 }
 
-USED void ConfigRecvSSID ( void )
+USED void mico_system_delegate_config_recv_ssid ( void )
 {
   config_delegate_log_trace();
 
@@ -80,13 +80,13 @@ USED void ConfigRecvSSID ( void )
   return;
 }
 
-USED void ConfigIsSuccessBy( mico_config_source_t source )
+USED void mico_system_delegate_config_success( mico_config_source_t source )
 {
   config_delegate_log( "Configed by %d", source );
 }
 
 
-USED OSStatus ConfigELRecvAuthData(char * anthData  )
+USED OSStatus mico_system_delegate_config_recv_auth_data(char * anthData  )
 {
   config_delegate_log_trace();
   (void)(anthData);
@@ -102,7 +102,7 @@ json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext )
   char rfVersion[50] = {0};
   json_object *sectors, *sector, *subMenuSectors, *subMenuSector, *mainObject = NULL;
 
-  application_config_t *appConfig = mico_system_get_user_config_data( );
+  application_config_t *appConfig = mico_system_context_get_user_data( inContext );
 
   MicoGetRfVer( rfVersion, 50 );
 
@@ -302,7 +302,7 @@ OSStatus ConfigIncommingJsonMessage( const char *input, bool *need_reboot, mico_
   config_delegate_log_trace();
   OSStatus err = kNoErr;
   json_object *new_obj;
-  application_config_t *appConfig = mico_system_get_user_config_data( );
+  application_config_t *appConfig = mico_system_context_get_user_data( inContext );
 
   *need_reboot = false;
   new_obj = json_tokener_parse(input);

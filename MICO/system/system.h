@@ -59,6 +59,16 @@ extern "C" {
 
 #define SYS_MAGIC_NUMBR     (0xA43E2165)
 
+
+typedef enum
+{
+  eState_Normal,
+  eState_Software_Reset,
+  eState_Wlan_Powerdown,
+  eState_Restore_default,
+  eState_Standby,
+} system_state_t;
+
 typedef enum  {
   /*All settings are in default state, module will enter easylink mode when powered on. 
   Press down Easyink button for 3 seconds (defined by RestoreDefault_TimeOut) to enter this mode */
@@ -137,7 +147,8 @@ typedef struct _flash_configuration_t {
 
 typedef struct _current_mico_status_t 
 {
-
+  system_state_t        current_sys_state;
+  mico_semaphore_t      sys_state_change_sem;
   /*MICO system Running status*/
   char                  localIp[maxIpLen];
   char                  netMask[maxIpLen];
@@ -168,15 +179,14 @@ typedef enum {
   NOTIFY_AP_DOWN,
 } notify_wlan_t; 
 
-OSStatus system_power_daemon_start( void );
 
 OSStatus system_notification_init( system_context_t * const inContext);
 
 OSStatus system_network_daemen_start( system_context_t * const inContext );
 
-OSStatus system_monitor_daemen_start( system_context_t * const inContext );
 
-void system_connect_wifi_normal( system_context_t * const inContext);
+
+void system_connect_wifi_normal( system_context_t * const inContext );
 
 void system_connect_wifi_fast( system_context_t * const inContext);
 
@@ -189,8 +199,6 @@ OSStatus system_current_time_get( struct tm* time );
 OSStatus MICORestoreMFG                 ( system_context_t * const inContext );
 
 OSStatus MICOReadConfiguration          ( system_context_t * const inContext );
-
-OSStatus MICOStartSystemMonitor 		( system_context_t * const inContext );
 
 void mico_mfg_test( system_context_t * const inContext );
 

@@ -41,8 +41,8 @@
 #define APPLICATION_WATCHDOG_TIMEOUT_SECONDS  5 /**< Monitor point defined by mico system
                                                      5 seconds to reload. */
 
-static mico_system_monitor_t* system_monitors[MAXIMUM_NUMBER_OF_SYSTEM_MONITORS];
-void mico_system_monitor_thread_main( void* arg );
+static m_system_monitor_t* system_monitors[MAXIMUM_NUMBER_OF_SYSTEM_MONITORS];
+void m_system_monitor_thread_main( void* arg );
 
 OSStatus MICOStartSystemMonitor ( void )
 {
@@ -50,13 +50,13 @@ OSStatus MICOStartSystemMonitor ( void )
   require_noerr(MicoWdgInitialize( DEFAULT_SYSTEM_MONITOR_PERIOD + 1000 ), exit);
   memset(system_monitors, 0, sizeof(system_monitors));
 
-  err = mico_rtos_create_thread(NULL, 0, "SYS MONITOR", mico_system_monitor_thread_main, STACK_SIZE_MICO_SYSTEM_MONITOR_THREAD, NULL );
+  err = mico_rtos_create_thread(NULL, 0, "SYS MONITOR", m_system_monitor_thread_main, STACK_SIZE_m_system_MONITOR_THREAD, NULL );
   require_noerr(err, exit);
 exit:
   return err;
 }
 
-void mico_system_monitor_thread_main( void* arg )
+void m_system_monitor_thread_main( void* arg )
 {
   (void)arg;
   
@@ -82,7 +82,7 @@ void mico_system_monitor_thread_main( void* arg )
   }
 }
 
-OSStatus mico_system_monitor_register(mico_system_monitor_t* system_monitor, uint32_t initial_permitted_delay)
+OSStatus m_system_monitor_register(m_system_monitor_t* system_monitor, uint32_t initial_permitted_delay)
 {
   int a;
   
@@ -101,7 +101,7 @@ OSStatus mico_system_monitor_register(mico_system_monitor_t* system_monitor, uin
   return kUnknownErr;
 }
 
-OSStatus mico_system_monitor_update(mico_system_monitor_t* system_monitor, uint32_t permitted_delay)
+OSStatus m_system_monitor_update(m_system_monitor_t* system_monitor, uint32_t permitted_delay)
 {
   uint32_t current_time = mico_get_time();
   /* Update the system monitor if it hasn't already passed it's permitted delay */
@@ -116,16 +116,16 @@ OSStatus mico_system_monitor_update(mico_system_monitor_t* system_monitor, uint3
 
 static mico_timer_t _watchdog_reload_timer;
 
-static mico_system_monitor_t mico_monitor;
+static m_system_monitor_t mico_monitor;
 
 static void _watchdog_reload_timer_handler( void* arg )
 {
   (void)(arg);
-  mico_system_monitor_update(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);
+  m_system_monitor_update(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);
 }
 
 
-OSStatus mico_system_monitor_daemen_start( void )
+OSStatus m_system_monitor_daemen_start( void )
 {
   OSStatus err = kNoErr;
   /*Start system monotor thread*/
@@ -133,7 +133,7 @@ OSStatus mico_system_monitor_daemen_start( void )
   require_noerr_string( err, exit, "ERROR: Unable to start the system monitor." );
 
   /* Register first monitor */
-  err = mico_system_monitor_register(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);
+  err = m_system_monitor_register(&mico_monitor, APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000);
   require_noerr( err, exit );
   mico_init_timer(&_watchdog_reload_timer,APPLICATION_WATCHDOG_TIMEOUT_SECONDS*1000/2, _watchdog_reload_timer_handler, NULL);
   mico_start_timer(&_watchdog_reload_timer);  

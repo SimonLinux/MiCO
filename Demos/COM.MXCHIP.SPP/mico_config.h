@@ -30,8 +30,8 @@
 ******************************************************************************
 */
 
-#ifndef __MICO_SYSTEM_CONFIG_H
-#define __MICO_SYSTEM_CONFIG_H
+#ifndef __m_system_CONFIG_H
+#define __m_system_CONFIG_H
 
 
 #define APP_INFO   "mxchipWNet SPP Demo based on MICO OS"
@@ -73,7 +73,7 @@
  * Start a system monitor daemon, application can register some monitor  
  * points, If one of these points is not excuted in a predefined period, 
  * a watchdog reset will occur. */
-#define MICO_SYSTEM_MONITOR_ENABLE
+#define m_system_MONITOR_ENABLE
 
 
 /************************************************************************
@@ -86,4 +86,4 @@
 #define MICO_CONFIG_SERVER_PORT    8000
 
 
-#endif /* __MICO_SYSTEM_CONFIG_H */
+#endif /* __m_system_CONFIG_H */

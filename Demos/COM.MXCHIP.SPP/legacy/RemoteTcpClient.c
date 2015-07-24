@@ -69,7 +69,7 @@ void remoteTcpClient_thread(void *inContext)
   mico_rtos_init_semaphore(&_wifiConnected_sem, 1);
   
   /* Regisist notifications */
-  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)clientNotify_WifiStatusHandler, NULL );
+  err = m_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)clientNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit ); 
   
   inDataBuffer = malloc(wlanBufferLen);

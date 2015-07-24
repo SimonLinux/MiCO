@@ -34,7 +34,7 @@
 
 #include "mico.h"
 
-OSStatus mico_system_current_time_get( struct tm* time )
+OSStatus m_system_current_time_get( struct tm* time )
 {
   mico_rtc_time_t mico_time;
   /*Read current time from RTC.*/
@@ -53,7 +53,7 @@ OSStatus mico_system_current_time_get( struct tm* time )
 
 static  mico_Context_t* context = NULL;
 
-mico_Context_t* mico_system_context_init( uint32_t user_config_data_size )
+mico_Context_t* m_system_context_init( uint32_t user_config_data_size )
 {
   void *user_config_data = NULL;
 
@@ -80,34 +80,34 @@ exit:
   return context;  
 }
 
-mico_Context_t* mico_system_context_get( void )
+mico_Context_t* m_system_context_get( void )
 {
   return context;
 }
 
-void* mico_system_context_get_user_data( mico_Context_t* const in_context )
+void* m_system_context_get_user_data( mico_Context_t* const in_context )
 {
   return in_context->user_config_data;
 }
 
 
-OSStatus mico_system_init( mico_Context_t* in_context )
+OSStatus m_system_init( mico_Context_t* in_context )
 {
   OSStatus err = kNoErr;
 
   require_action( in_context, exit, err = kNotPreparedErr );
 
   /* Initialize power management daemen */
-  err = mico_system_power_daemon_start( in_context );
+  err = m_system_power_daemon_start( in_context );
   require_noerr( err, exit ); 
 
   /* Initialize mico notify system */
   err = system_notification_init( in_context );
   require_noerr( err, exit ); 
 
-#ifdef MICO_SYSTEM_MONITOR_ENABLE
+#ifdef m_system_MONITOR_ENABLE
   /* MiCO system monitor */
-  err = mico_system_monitor_daemen_start( );
+  err = m_system_monitor_daemen_start( );
   require_noerr( err, exit ); 
 #endif
 
@@ -156,7 +156,7 @@ OSStatus mico_system_init( mico_Context_t* in_context )
 
 #ifdef MICO_NTP_CLIENT_ENABLE
   struct tm currentTime;
-  mico_system_current_time_get( &currentTime );
+  m_system_current_time_get( &currentTime );
   system_log("Current Time: %s",asctime(&currentTime));
   err =  MICOStartNTPClient( );
   require_noerr_string( err, exit, "ERROR: Unable to start the NTP client thread." );

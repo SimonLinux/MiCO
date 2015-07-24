@@ -82,7 +82,7 @@ OSStatus MICOStartConfigServer ( void )
   OSStatus err = kNoErr;
   mico_Context_t* context = NULL;
   
-  context = mico_system_context_get( );
+  context = m_system_context_get( );
   require( context, exit );
   
   if( is_config_server_established )
@@ -407,10 +407,10 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
       err = ConfigIncommingJsonMessage( inHeader->extraDataPtr, &need_reboot, inContext );
       require_noerr( err, exit );
       inContext->flashContentInRam.micoSystemConfig.configured = allConfigured;
-      mico_system_context_update( inContext );
+      m_system_context_update( inContext );
 
       if( need_reboot == true ){
-        mico_system_power_perform( inContext, eState_Software_Reset );
+        m_system_power_perform( inContext, eState_Software_Reset );
       }
     }
     goto exit;
@@ -420,7 +420,7 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
       config_log( "Recv new configuration from uAP, apply and connect to AP" );
       err = ConfigIncommingJsonMessageUAP( inHeader->extraDataPtr, inContext );
       require_noerr( err, exit );
-      mico_system_context_update( inContext );
+      m_system_context_update( inContext );
 
       err =  CreateSimpleHTTPOKMessage( &httpResponse, &httpResponseLen );
       require_noerr( err, exit );
@@ -447,9 +447,9 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
       inContext->flashContentInRam.bootTable.crc = crc;
       if( inContext->flashContentInRam.micoSystemConfig.configured != allConfigured )
         inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_SOFT_AP_BYPASS;
-      mico_system_context_update( inContext );
+      m_system_context_update( inContext );
       SocketClose( &fd );
-      mico_system_power_perform( inContext, eState_Software_Reset );
+      m_system_power_perform( inContext, eState_Software_Reset );
       mico_thread_sleep( MICO_WAIT_FOREVER );
     }
     goto exit;

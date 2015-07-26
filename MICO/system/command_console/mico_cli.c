@@ -2,7 +2,8 @@
 #include "mico_cli.h"
 #include "stdarg.h"
 #include "platform_config.h"
-#include "tftp.h"
+#include "tftp_ota/tftp.h"
+
 
 #ifdef MICO_CLI_ENABLE
 int cli_printf(const char *msg, ...);

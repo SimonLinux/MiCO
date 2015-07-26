@@ -33,10 +33,6 @@
 #include <time.h>
 
 #include "mico.h"
-#include "config_server.h"
-#include "sntp.h"
-#include "mico_cli.h"
-
 
 static  mico_Context_t* context = NULL;
 
@@ -139,14 +135,6 @@ OSStatus mico_system_init( mico_Context_t* in_context )
   /*Local configuration server*/
 #ifdef MICO_CONFIG_SERVER_ENABLE
   config_server_start( in_context );
-#endif
-
-#ifdef MICO_NTP_CLIENT_ENABLE
-  struct tm currentTime;
-  sntp_current_time_get( &currentTime );
-  system_log("Current Time: %s",asctime(&currentTime));
-  err =  sntp_client_start( );
-  require_noerr_string( err, exit, "ERROR: Unable to start the NTP client thread." );
 #endif
 
   require_noerr_action( err, exit, system_log("Closing main thread with err num: %d.", err) );

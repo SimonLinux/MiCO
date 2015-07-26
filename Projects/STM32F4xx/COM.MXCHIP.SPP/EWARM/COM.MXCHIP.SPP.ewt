@@ -572,101 +572,41 @@
       </file>
     </group>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\Common.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\Debug.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_platform.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_rtos.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoSocket.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_security.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoSRPServer.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_socket.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoWlan.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_system.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_wlan.h</name>
     </file>
   </group>
   <group>
     <name>libraries</name>
     <group>
-      <name>daemons</name>
-      <group>
-        <name>config_server</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\daemons\config_server\config_server.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\daemons\config_server\config_server_menu.c</name>
-        </file>
-      </group>
-    </group>
-    <group>
       <name>protocols</name>
-      <group>
-        <name>mdns</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\mdns\mdns.c</name>
-        </file>
-      </group>
       <group>
         <name>sntp</name>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\sntp\sntp.c</name>
-        </file>
-      </group>
-      <group>
-        <name>tftp_ota</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\tftp_ota\tftp.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\tftp_ota\tftp_ota.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\tftp_ota\tftpc.o</name>
-        </file>
-      </group>
-    </group>
-    <group>
-      <name>utilities</name>
-      <group>
-        <name>command_line_interface</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\command_line_interface\mico_cli.c</name>
-        </file>
-      </group>
-      <group>
-        <name>json_c</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\arraylist.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\debug.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_object.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_tokener.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_util.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\linkhash.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\printbuf.c</name>
         </file>
       </group>
     </group>
@@ -700,6 +640,18 @@
     <group>
       <name>system</name>
       <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\config_server\config_server.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\config_server\config_server_menu.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\command_console\mico_cli.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mdns\mico_mdns.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_init.c</name>
       </file>
       <file>
@@ -718,10 +670,19 @@
         <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink_delegate.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\..\..\..\mico\system\system_factory_test.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\mico\system\system_misc.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftp_ota.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftpc.o</name>
       </file>
     </group>
   </group>
@@ -1123,6 +1084,30 @@
   </group>
   <group>
     <name>Support</name>
+    <group>
+      <name>json_c</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Support\json_c\arraylist.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Support\json_c\debug.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Support\json_c\json_object.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Support\json_c\json_tokener.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Support\json_c\json_util.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Support\json_c\linkhash.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Support\json_c\printbuf.c</name>
+      </file>
+    </group>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
     </file>

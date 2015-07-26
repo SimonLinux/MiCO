@@ -20,7 +20,8 @@
 ******************************************************************************
 */ 
 
-#include "mdns.h"
+#include "mico_mdns.h"
+#include "StringUtils.h"
 #include "SocketUtils.h"
 
 static int mDNS_fd = -1;
@@ -90,24 +91,6 @@ static mico_semaphore_t update_state_sem = NULL;
 static int update_state_fd = 0;
 static mico_thread_t mfi_bonjour_thread_handler;
 static void _bonjour_thread(void *arg);
-
-static char *__strdup(char *src)
-{
-  int len;
-  char *dst;
-  
-  if (src == NULL)
-    return NULL;
-  
-  if (src[0] == 0)
-    return NULL;
-  
-  len = strlen(src) + 1;
-  dst = (char*)malloc(len);
-  if (dst) 
-    memcpy(dst, src, len);
-  return dst;
-}
 
 void process_dns_questions(int fd, dns_message_iterator_t* iter )
 {

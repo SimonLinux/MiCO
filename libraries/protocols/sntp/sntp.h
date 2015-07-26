@@ -35,5 +35,6 @@
 
 
 OSStatus sntp_client_start( void );
+
 OSStatus sntp_current_time_get( struct tm* time );
 

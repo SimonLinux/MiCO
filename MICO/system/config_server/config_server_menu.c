@@ -30,11 +30,13 @@
 ******************************************************************************
 */
 
-#include "Debug.h"
-#include "json.h"
+
+
 #include "mico.h"
 #include "mico_config.h"
 #include "platform_config.h"
+
+#include "json_c/json.h"
 
 OSStatus config_server_create_sector(json_object* sectors, char* const name,  json_object *menus)
 {

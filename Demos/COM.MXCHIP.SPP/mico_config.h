@@ -70,10 +70,6 @@
 #define MICO_SYSTEM_MONITOR_ENABLE
 
 /************************************************************************
- * Start a NTP client to sync RTC with NTP server. */
-#define MICO_NTP_CLIENT_ENABLE  
-
-/************************************************************************
  * MiCO TCP server used for configuration and ota. */
 #define MICO_CONFIG_SERVER_ENABLE 
 #define MICO_CONFIG_SERVER_PORT    8000

@@ -34,6 +34,7 @@
 
 #include "common.h"
 #include "system.h"
+#include "json_c/json.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -193,6 +194,107 @@ OSStatus mico_system_notify_remove_all    ( mico_notify_types_t notify_type);
 OSStatus mico_system_current_time_get( struct tm* time );
 
 
+
+/** @} */
+/*****************************************************************************/
+/** @addtogroup config_server       System Config Server Daemon
+ *  @ingroup system
+ *
+ *  MiCO Config Server Daemon
+ *
+ *  @{
+ */
+/*****************************************************************************/
+/* Start local config server */
+OSStatus config_server_start ( mico_Context_t *inContext );
+
+OSStatus config_server_stop ( void );
+
+
+/* config server delegate */
+void config_server_delegate_recv( const char *key, json_object *value, bool *need_reboot, mico_Context_t *inContext );
+
+void config_server_delegate_report( json_object *app_menu, mico_Context_t *inContext );
+
+
+
+/* Create device info menu on EasyLink APP that connected to local config server */
+OSStatus config_server_create_sector        (json_object* sector_array, char* const name, json_object *cell_array);
+
+OSStatus config_server_create_string_cell   (json_object* cell_array, char* const name, char* const content, char* const privilege, json_object* secectionArray);
+
+OSStatus config_server_create_number_cell   (json_object* cell_array, char* const name, int content, char* const privilege, json_object* secectionArray);
+
+OSStatus config_server_create_float_cell    (json_object* cell_array, char* const name, float content, char* const privilege, json_object* secectionArray);
+
+OSStatus config_server_create_bool_cell     (json_object* cell_array, char* const name, boolean content, char* const privilege);
+
+OSStatus config_server_create_sub_menu_cell (json_object* cell_array, char* const name, json_object* sector_array);
+
+/** @} */
+/*****************************************************************************/
+/** @addtogroup cli       System Command Line Interface
+ *  @ingroup system
+ *
+ *  MiCO Command Line Interface
+ *
+ *  @{
+ */
+/*****************************************************************************/
+
+/** Initialize the CLI module
+ *
+ * \return kNoErr on success
+ * \return error code otherwise.
+ *
+ * \note This function is called by the wm_core_init function. Applications need
+ * not explicity call this function if they have already called wm_core_init().
+ *
+ */
+int cli_init(void);
+
+/** @} */
+/*****************************************************************************/
+/** @addtogroup mdns       mdns prorocol
+ *  @ingroup system
+ *
+ *  MiCO mdns service for service seraching
+ *
+ *  @{
+ */
+/*****************************************************************************/
+ typedef struct
+{
+  //char *name;
+  char *service_name;
+  char *host_name;
+  char *instance_name;
+  char *txt_record;
+  uint16_t service_port;
+} mdns_init_t;
+
+/* mdns service */
+OSStatus mdns_add_record( mdns_init_t init, WiFi_Interface interface, uint32_t time_to_live );
+
+void mdns_suspend_record( char *service_name, WiFi_Interface interface, bool will_remove );
+
+void mdns_resume_record( char *service_name, WiFi_Interface interface );
+
+void mdns_update_txt_record( char *service_name, WiFi_Interface interface, char *txt_record );
+
+/** @} */
+/*****************************************************************************/
+/** @addtogroup tftp_ota       TFTP OTA
+ *  @ingroup system
+ *
+ *  Download new firmware from tftp server
+ *
+ *  @{
+ */
+/*****************************************************************************/
+void tftp_ota(void);
+
+/** @} */
 
 #ifdef __cplusplus
 } /*extern "C" */

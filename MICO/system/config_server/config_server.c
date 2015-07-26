@@ -38,9 +38,6 @@
 #include "StringUtils.h"
 #include "CheckSumUtils.h"
 
-#include "json.h"
-#include "config_server.h"
-
 #define config_log(M, ...) custom_log("CONFIG SERVER", M, ##__VA_ARGS__)
 #define config_log_trace() custom_log_trace("CONFIG SERVER")
 
@@ -74,7 +71,21 @@ extern OSStatus     ConfigIncommingJsonMessageUAP( const char *input, mico_Conte
 
 static mico_semaphore_t close_listener_sem = NULL, close_client_sem[ MAX_TCP_CLIENT_PER_SERVER ] = { NULL };
 
+WEAK void config_server_delegate_report( json_object *app_menu, mico_Context_t *in_context )
+{
+  UNUSED_PARAMETER(app_menu);
+  UNUSED_PARAMETER(in_context);
+  return;
+}
 
+WEAK void config_server_delegate_recv( const char *key, json_object *value, bool *need_reboot, mico_Context_t *in_context )
+{
+  UNUSED_PARAMETER(key);
+  UNUSED_PARAMETER(value);
+  UNUSED_PARAMETER(need_reboot);
+  UNUSED_PARAMETER(in_context);
+  return;  
+}
 
 OSStatus config_server_start ( mico_Context_t *in_context )
 {

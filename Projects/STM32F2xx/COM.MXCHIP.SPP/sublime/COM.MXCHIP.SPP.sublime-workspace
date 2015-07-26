@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"mico_c",
+				"mico_Context_t	typedef"
+			],
+			[
+				"mico_system_co",
+				"mico_system_context_get_user_data(mico_Context_t *const in_context)	void *"
+			],
+			[
 				"mico_sys",
 				"mico_system_context_get()	mico_Context_t *"
 			],
@@ -506,24 +514,24 @@
 			[
 				"E",
 				"ENABLE	FunctionalState"
-			],
-			[
-				"ea",
-				"eaBundleSeedID	char *"
-			],
-			[
-				"support",
-				"supports5GHzWiFi	bool"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
+			"file": "/Users/William/Develop/MiCO/include/mico.h",
+			"settings":
+			{
+				"buffer_size": 4148,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "COM.MXCHIP.SPP.sublime-project",
 			"settings":
 			{
-				"buffer_size": 1770,
+				"buffer_size": 1771,
 				"line_ending": "Unix"
 			}
 		}
@@ -588,14 +596,33 @@
 	},
 	"file_history":
 	[
+		"/Users/William/Develop/MiCO/include/mico_security.h",
+		"/Users/William/Develop/MiCO/libraries/daemons/config_server/config_server.c",
+		"/Users/william/Develop/MiCO/libraries/utilities/json_c/json_object.h",
+		"/Users/William/Develop/MiCO/libraries/daemons/config_server/config_server.h",
+		"/Users/William/Develop/MiCO/Demos/COM.Apple.HomeKit/HomekitProfiles.h",
+		"/Users/William/Develop/MiCO/libraries/daemons/config_server/config_server_menu.c",
+		"/Users/William/Develop/MiCO/mico/system/mico_system_init.c",
+		"/Users/William/Develop/MiCO/mico/system/easylink/system_easylink.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOConfigDelegate.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppEntrance.c",
+		"/Users/William/Develop/MiCO/libraries/utilities/command_line_interface/mico_cli.c",
+		"/Users/William/Develop/MiCO/libraries/utilities/command_line_interface/mico_cli.h",
+		"/Users/William/Develop/MiCO/Projects/STM32F2xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
+		"/Users/William/Develop/MiCO/include/mico_service.h",
+		"/Users/William/Develop/MiCO/libraries/protocols/mdns/mdns.h",
+		"/Users/William/Develop/MiCO/libraries/protocols/tftp_ota/tftp_ota.h",
+		"/Users/William/Develop/MiCO/libraries/protocols/tftp_ota/tftp_ota.c",
+		"/Users/William/Develop/MiCO/mico/system/system_misc.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOBonjour.c",
+		"/Users/William/Develop/MiCO/libraries/protocols/mdns/mdns.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_config.h",
+		"/Users/William/Develop/MiCO/libraries/protocols/sntp/sntp.c",
+		"/Users/William/Develop/MiCO/libraries/protocols/sntp/sntp.h",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/legacy/RemoteTcpClient.c",
 		"/Users/William/Develop/MiCO/MICO/service/mico_service_config_server_menu.c",
 		"/Users/William/Develop/MiCO/include/mico_system.h",
 		"/Users/William/Develop/MiCO/Platform/Drivers/MiCOKit_EXT/micokit_ext_mfg.c",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_config.h",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppEntrance.c",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOBonjour.c",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOConfigDelegate.c",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/RemoteTcpClient.c",
 		"/Users/William/Develop/MiCO/MICO/service/mico_service_config_server.c",
 		"/Users/William/Develop/MiCO/MICO/service/mico_service_mdns.c",
@@ -610,8 +637,6 @@
 		"/Users/William/Develop/MiCO/MICO/system/system_misc.c",
 		"/Users/William/Develop/MiCO/MICO/system/system_easylink/system_easylink.c",
 		"/Users/William/Develop/MiCO/MICO/system/mico_system_config_server.c",
-		"/Users/William/Develop/MiCO/include/mico_service.h",
-		"/Users/William/Develop/MiCO/Demos/COM.Apple.HomeKit/HomekitProfiles.h",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_delegate.c",
 		"/Users/William/Develop/MiCO/MICO/system/mico_system_config_server_menu.c",
 		"/Users/william/Develop/MiCO/External/JSON-C/json_object.h",
@@ -644,7 +669,6 @@
 		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverUart.h",
 		"/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
 		"/Users/william/Develop/MiCO/MICO/system/system.h",
-		"/Users/William/Develop/MiCO/Projects/STM32F2xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
 		"/Users/William/Develop/MiCO/MICO/service/MDNSUtils.h",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppDefine.h",
 		"/Users/William/Develop/MiCO/include/mico_cli.h",
@@ -699,23 +723,7 @@
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_spi.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/EMW1062_Driver/wlan_bus_sdio.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/EMW1062_Driver/wlan_bus_spi.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/wlan_platform_common.c",
-		"/Users/William/Develop/MiCO/Platform/include/wlan_platform_common.h",
-		"/Users/william/Develop/MiCO/Platform/drivers/spi_flash/spi_flash_platform_interface.h",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform_spi_flash.c",
-		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_platform.c",
-		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_platform_interface.h",
-		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverSpi.h",
-		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash.c",
-		"/Users/William/Develop/MiCO/include/MicoPlatform.h",
-		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverRtc.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_gpio.c",
-		"/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverSpi.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/src/stm32f2xx_dma.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_dma.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/wlan_platform_common.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_uart.c"
+		"/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c"
 	],
 	"find":
 	{
@@ -742,6 +750,29 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"MICOAddMenuCellToSector",
+			"MICOAddSwitchCellToSector",
+			"MICOAddFloatCellToSector",
+			"MICOAddNumberCellToSector",
+			"MICOAddStringCellToSector",
+			"MICOAddSector",
+			"MICOAddTopMenu",
+			"cli_init",
+			"cli_init\ncli_init",
+			"cli_init",
+			"config_server_start",
+			"MICOAddTopMenu",
+			"MICOStopConfigServer",
+			"MICOStartConfigServer",
+			"mico_force_ota",
+			"mico_cli_init",
+			"enable",
+			"MICOAddTopMenu",
+			"bonjour_init_t",
+			"mico_service_mdns_update_txt_record",
+			"mico_service_mdns_resume_record",
+			"mico_service_mdns_suspend_record",
+			"mico_service_mdns_add_record",
 			"m_system_",
 			"MICOAddSector",
 			"mico_system_config_server_delegate_create_device_info",
@@ -846,30 +877,7 @@
 			"ConfigIsSuccess",
 			"ConfigSoftApWillStart",
 			"ConfigWillStart",
-			"wlan_driver_version",
-			"sendNotifySYSWillPowerOff",
-			"system_version",
-			"system_notification_init",
-			"system_context_t",
-			"mico_notify_WIFI_CONNECT_FAILED",
-			"appStatus.mico_context",
-			"MICOAddTopMenu",
-			"MICOAddTopMenu\nMICOAddTopMenu",
-			"MICOStartConfigServer",
-			"mico_easylink_bonjour_update",
-			"easylink_success",
-			"restart",
-			"easylink_success",
-			"rf_version",
-			"system_network_daemen_start",
-			"mico_system_get_user_config_data",
-			"mico_system_get_context",
-			"MICORestoreMFG",
-			"system_context_read",
-			"CONFIG_OFFSET",
-			"user_backup_data",
-			"appRestoreDefault_callback",
-			"  appRestoreDefault_callback(inContext);\nappRestoreDefault_callback"
+			"wlan_driver_version"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -877,6 +885,21 @@
 		"regex": false,
 		"replace_history":
 		[
+			"config_server_create_sub_menu_cell",
+			"config_server_create_bool_cell",
+			"config_server_create_float_cell",
+			"config_server_create_number_cell",
+			"config_server_create_string_cell",
+			"config_server_create_sector",
+			"config_server_stop",
+			"config_server_start",
+			"tftp_ota",
+			"cli_init",
+			"mdns_init_t",
+			"mdns_update_txt_record",
+			"mdns_resume_record",
+			"mdns_suspend_record",
+			"mdns_add_record",
 			"mico_system_",
 			"mico_system_config_server_stop",
 			"mico_system_config_server_start",
@@ -935,18 +958,46 @@
 			[
 				{
 					"buffer": 0,
-					"file": "COM.MXCHIP.SPP.sublime-project",
+					"file": "/Users/William/Develop/MiCO/include/mico.h",
 					"settings":
 					{
-						"buffer_size": 1770,
+						"buffer_size": 4148,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								274,
-								274
+								2197,
+								2197
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 801.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "COM.MXCHIP.SPP.sublime-project",
+					"settings":
+					{
+						"buffer_size": 1771,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								820,
+								820
 							]
 						],
 						"settings":
@@ -955,7 +1006,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 354.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -996,7 +1047,7 @@
 	"menu_visible": true,
 	"output.clang":
 	{
-		"height": 27.0
+		"height": 194.0
 	},
 	"output.exec":
 	{

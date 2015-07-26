@@ -20,7 +20,7 @@
   */ 
 
 #include "mico.h"
-#include "mdns.h"
+
 #include "platform_config.h"
 #include "StringUtils.h"
 #include "MiCOAPPDefine.h"

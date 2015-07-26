@@ -91,17 +91,7 @@ int cli_getchar(char *inbuf);
 int cli_printf(const char *buff, ...);
 
 
-/** Initialize the CLI module
- *
- * \return kNoErr on success
- * \return error code otherwise.
- *
- * \note This function is called by the wm_core_init function. Applications need
- * not explicity call this function if they have already called wm_core_init().
- *
- */
 
-int cli_init(void);
 
 // library CLI APIs
 void wifistate_Command(CLI_ARGS);

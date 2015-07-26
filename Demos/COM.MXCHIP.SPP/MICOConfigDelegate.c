@@ -22,79 +22,20 @@
 #include "MICO.h"
 #include "Platform_config.h"
 
-#include "json.h"
 #include "MICOAppDefine.h"
 #include "SppProtocol.h"  
-#include "StringUtils.h"
-#include "config_server.h"
+#include "StringUtils.h"        
 
-#define SYS_LED_TRIGGER_INTERVAL 100 
-#define SYS_LED_TRIGGER_INTERVAL_AFTER_EASYLINK 500 
-  
+
 #define config_delegate_log(M, ...) custom_log("Config Delegate", M, ##__VA_ARGS__)
 #define config_delegate_log_trace() custom_log_trace("Config Delegate")
-  
-extern volatile ring_buffer_t  rx_buffer;
-extern volatile uint8_t        rx_data[UART_BUFFER_LENGTH];
-
-static mico_timer_t _Led_EL_timer;
-
-static void _led_EL_Timeout_handler( void* arg )
-{
-  (void)(arg);
-  MicoGpioOutputTrigger((mico_gpio_t)MICO_SYS_LED);
-}
-
-USED void mico_system_delegate_config_will_start( void )
-{
-  config_delegate_log_trace();
-    /*Led trigger*/
-  mico_stop_timer(&_Led_EL_timer);
-  mico_deinit_timer( &_Led_EL_timer );
-  mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL, _led_EL_Timeout_handler, NULL);
-  mico_start_timer(&_Led_EL_timer);
-  return;
-}
-
-USED void ConfigSoftApWillStart( void )
-{
-}
-
-USED void mico_system_delegate_config_will_stop( void )
-{
-  config_delegate_log_trace();
-
-  mico_stop_timer(&_Led_EL_timer);
-  mico_deinit_timer( &_Led_EL_timer );
-  MicoGpioOutputHigh((mico_gpio_t)MICO_SYS_LED);
-  return;
-}
-
-USED void mico_system_delegate_config_recv_ssid ( void )
-{
-  config_delegate_log_trace();
-
-  mico_stop_timer(&_Led_EL_timer);
-  mico_deinit_timer( &_Led_EL_timer );
-  mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL_AFTER_EASYLINK, _led_EL_Timeout_handler, NULL);
-  mico_start_timer(&_Led_EL_timer);
-  return;
-}
 
 USED void mico_system_delegate_config_success( mico_config_source_t source )
 {
   config_delegate_log( "Configed by %d", source );
 }
 
-
-USED OSStatus mico_system_delegate_config_recv_auth_data(char * anthData  )
-{
-  config_delegate_log_trace();
-  (void)(anthData);
-  return kNoErr;
-}
-
-void config_server_delegate_report( json_object *app_menu, mico_Context_t *in_context )
+USED void config_server_delegate_report( json_object *app_menu, mico_Context_t *in_context )
 {
   config_delegate_log_trace();
   OSStatus err = kNoErr;
@@ -128,7 +69,7 @@ exit:
   return;
 }
 
-void config_server_delegate_recv( const char *key, json_object *value, bool *need_reboot, mico_Context_t *in_context )
+USED void config_server_delegate_recv( const char *key, json_object *value, bool *need_reboot, mico_Context_t *in_context )
 {
   config_delegate_log_trace();
   application_config_t *appConfig = mico_system_context_get_user_data(in_context);

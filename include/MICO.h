@@ -43,6 +43,7 @@
 #ifndef __MICO_H_
 #define __MICO_H_
 
+/* MiCO SDK APIs */
 #include "Debug.h"
 #include "Common.h" 
 #include "mico_rtos.h"
@@ -52,6 +53,7 @@
 #include "mico_platform.h"
 #include "mico_system.h"
 #include "mico_config.h"
+
 
 #define MicoGetRfVer                wlan_driver_version
 #define MicoGetVer                  system_lib_version

@@ -33,13 +33,9 @@
 #include "mico.h"
 #include "mico_config.h"
 
-#include "mdns.h"
-#include "config_server.h"
-
 #include "StringUtils.h"
 #include "HTTPUtils.h"
 #include "SocketUtils.h"
-#include "json.h"
 
 #include "system.h"
 
@@ -59,33 +55,6 @@ static OSStatus mico_easylink_bonjour_start( WiFi_Interface interface, mico_Cont
 static OSStatus mico_easylink_bonjour_update( WiFi_Interface interface, mico_Context_t * const inContext );
 static void remove_bonjour_for_easylink(void);
 static void airkiss_broadcast_thread(void *arg);
-
-WEAK void mico_system_delegate_config_will_start( void )
-{
-  return;
-}
-
-WEAK void mico_system_delegate_config_will_stop( void )
-{
-  return;
-}
-
-WEAK void mico_system_delegate_config_recv_ssid ( void )
-{
-  return;
-}
-
-WEAK void mico_system_delegate_config_success( mico_config_source_t source )
-{
-  UNUSED_PARAMETER(source);
-  return;
-}
-
-WEAK OSStatus mico_system_delegate_config_recv_auth_data( char * userInfo )
-{
-  UNUSED_PARAMETER(userInfo);
-  return kNoErr;
-}
 
 
 /* MiCO callback when WiFi status is changed */

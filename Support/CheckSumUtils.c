@@ -52,7 +52,7 @@ uint8_t mico_CRC8_Table(uint8_t crc8_ori, uint8_t *p, uint32_t counter)
 
 /**
   * @brief  Update CRC16 for input byte
-  * @param  CRC input value 
+  * @param  CRC input value
   * @param  input byte
   * @retval None
   */

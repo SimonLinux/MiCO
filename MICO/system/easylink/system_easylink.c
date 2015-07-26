@@ -30,13 +30,17 @@
 ******************************************************************************
 */
 
-#include "MICO.h"
+#include "mico.h"
+#include "mico_config.h"
+
+#include "mdns.h"
+#include "config_server.h"
 
 #include "StringUtils.h"
 #include "HTTPUtils.h"
 #include "SocketUtils.h"
 #include "json.h"
-#include "mico_config.h"
+
 #include "system.h"
 
 // EasyLink Soft AP mode, HTTP configuration message define
@@ -101,7 +105,7 @@ void EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const in
     break;
   case NOTIFY_AP_DOWN:
     /* Remove bonjour service under soft ap interface */
-    mico_service_mdns_suspend_record( "_easylink_config._tcp.local.", Soft_AP, true );
+    mdns_suspend_record( "_easylink_config._tcp.local.", Soft_AP, true );
     break;
   default:
     break;
@@ -128,7 +132,7 @@ void EasyLinkNotify_EasyLinkCompleteHandler(network_InitTypeDef_st *nwkpara, mic
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
   system_log("Get SSID: %s, Key: %s", inContext->flashContentInRam.micoSystemConfig.ssid, inContext->flashContentInRam.micoSystemConfig.user_key);
 
-  source = nwkpara->wifi_retry_interval;
+  source = (mico_config_source_t)nwkpara->wifi_retry_interval;
 exit:
   if( err != kNoErr){
     /*EasyLink timeout or error*/    
@@ -259,10 +263,8 @@ void easylink_thread(void *inContext)
   require_noerr( err, exit );
 
   /* Start config server */
-#ifdef MICO_CONFIG_SERVER_ENABLE
-  err = MICOStartConfigServer( );
+  err = config_server_start( inContext );
   require_noerr(err, exit);
-#endif
 
   /* Skip Easylink mode */    
   if(Context->flashContentInRam.micoSystemConfig.easyLinkByPass == EASYLINK_BYPASS){
@@ -344,7 +346,7 @@ exit:
   mico_system_notify_remove( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)EasyLinkNotify_EasyLinkGetExtraDataHandler );
   
 #ifndef MICO_CONFIG_SERVER_ENABLE
-  err = MICOStopConfigServer( );
+  err = config_server_stop( );
   require_noerr(err, exit);
 #endif 
 
@@ -437,12 +439,12 @@ static OSStatus mico_easylink_bonjour_start( WiFi_Interface interface, mico_Cont
   char *temp_txt2;
   OSStatus err = kNoErr;
   net_para_st para;
-  bonjour_init_t init;
+  mdns_init_t init;
 
   temp_txt = malloc(500);
   require_action(temp_txt, exit, err = kNoMemoryErr);
 
-  memset(&init, 0x0, sizeof(bonjour_init_t));
+  memset(&init, 0x0, sizeof(mdns_init_t));
 
   micoWlanGetIPStatus(&para, interface);
 
@@ -511,9 +513,9 @@ static OSStatus mico_easylink_bonjour_start( WiFi_Interface interface, mico_Cont
   init.txt_record = (char*)__strdup(temp_txt);
 
   if(interface == Soft_AP)
-    mico_service_mdns_add_record(init, interface, 1500);
+    mdns_add_record(init, interface, 1500);
   else
-    mico_service_mdns_add_record(init, interface, 10);
+    mdns_add_record(init, interface, 10);
 
   free(init.host_name);
   free(init.instance_name);
@@ -578,7 +580,7 @@ static OSStatus mico_easylink_bonjour_update( WiFi_Interface interface, mico_Con
 
   sprintf(temp_txt, "%sID=%x.", temp_txt, easylinkIndentifier);
 
-  mico_service_mdns_update_txt_record( "_easylink_config._tcp.local.", interface, temp_txt );
+  mdns_update_txt_record( "_easylink_config._tcp.local.", interface, temp_txt );
 
 exit:
   if(temp_txt) free(temp_txt);
@@ -587,7 +589,7 @@ exit:
 
 static void remove_bonjour_for_easylink(void)
 {
-  mico_service_mdns_suspend_record( "_easylink_config._tcp.local.", Station, true );
+  mdns_suspend_record( "_easylink_config._tcp.local.", Station, true );
 }
 
 

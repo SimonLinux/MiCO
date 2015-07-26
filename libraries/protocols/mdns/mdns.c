@@ -20,9 +20,8 @@
 ******************************************************************************
 */ 
 
-#include "mico_service_mdns_internal.h"
+#include "mdns.h"
 #include "SocketUtils.h"
-#include "mico_service.h"
 
 static int mDNS_fd = -1;
 static bool bonjour_instance = false;
@@ -563,7 +562,7 @@ static void _clean_record_resource( dns_sd_service_record_t *record )
 }
 
 
-OSStatus mico_service_mdns_add_record( bonjour_init_t init, WiFi_Interface interface, uint32_t time_to_live )
+OSStatus mdns_add_record( mdns_init_t init, WiFi_Interface interface, uint32_t time_to_live )
 {
   int len;
   OSStatus err = kNoErr;
@@ -612,7 +611,7 @@ exit:
 }
 
 
-void mico_service_mdns_update_txt_record( char *service_name, WiFi_Interface interface, char *txt_record )
+void mdns_update_txt_record( char *service_name, WiFi_Interface interface, char *txt_record )
 {
   uint32_t insert_index = 0xFF;
 
@@ -635,7 +634,7 @@ void mico_service_mdns_update_txt_record( char *service_name, WiFi_Interface int
 }
   
 
-void mico_service_mdns_suspend_record( char *service_name, WiFi_Interface interface, bool will_remove )
+void mdns_suspend_record( char *service_name, WiFi_Interface interface, bool will_remove )
 {
   int i;
   uint32_t insert_index = 0xFF;
@@ -673,7 +672,7 @@ exit:
   return;
 }
 
-void mico_service_mdns_resume_record( char *service_name, WiFi_Interface interface )
+void mdns_resume_record( char *service_name, WiFi_Interface interface )
 {
   int i;
   uint32_t insert_index = 0xFF;
@@ -758,16 +757,16 @@ void BonjourNotify_WifiStatusHandler( WiFiEvent event, void *arg )
   UNUSED_PARAMETER(arg);  
   switch (event) {
   case NOTIFY_STATION_UP:
-    mico_service_mdns_resume_record( NULL, Station );
+    mdns_resume_record( NULL, Station );
     break;
   case NOTIFY_STATION_DOWN:
-    mico_service_mdns_suspend_record( NULL, Station, false );
+    mdns_suspend_record( NULL, Station, false );
     break;
   case NOTIFY_AP_UP:
-    mico_service_mdns_resume_record( NULL, Soft_AP );
+    mdns_resume_record( NULL, Soft_AP );
     break;
   case NOTIFY_AP_DOWN:
-    mico_service_mdns_suspend_record( NULL, Soft_AP, false );
+    mdns_suspend_record( NULL, Soft_AP, false );
     break;
   default:
     break;
@@ -778,8 +777,8 @@ void BonjourNotify_WifiStatusHandler( WiFiEvent event, void *arg )
 void BonjourNotify_SYSWillPoerOffHandler( void *arg )
 {
     UNUSED_PARAMETER(arg);  
-    mico_service_mdns_suspend_record( NULL, Station, true );
-    mico_service_mdns_suspend_record( NULL, Soft_AP, true );
+    mdns_suspend_record( NULL, Station, true );
+    mdns_suspend_record( NULL, Soft_AP, true );
 }
 
 uint8_t *buf = NULL;
@@ -834,7 +833,7 @@ void _bonjour_thread(void *arg)
   fd_set readfds;
   struct sockaddr_t addr;
   socklen_t addrLen;
-  OSStatus err = kNoErr;
+  //OSStatus err = kNoErr;
   UNUSED_PARAMETER( arg );
 
   t.tv_sec = 1;
@@ -893,10 +892,10 @@ void _bonjour_thread(void *arg)
     }
   }
   
-  mdns_utils_log("Exit: mDNS thread exit with err = %d", err);
-  SocketClose( &mDNS_fd );
-  if(buf) free(buf);
-  mico_rtos_delete_thread(NULL);
+  //mdns_utils_log("Exit: mDNS thread exit with err = %d", err);
+  //SocketClose( &mDNS_fd );
+  //if(buf) free(buf);
+  //mico_rtos_delete_thread(NULL);
 }
 
 

@@ -72,7 +72,7 @@ static void FOTA_WifiStatusHandler(WiFiEvent event, void * arg)
   * Broadcast to find OTA server
   * Connect to OTA server, request to OTA.
   */
-void mico_force_ota(void)
+void tftp_ota(void)
 {
     network_InitTypeDef_st conf;
     tftp_file_info_t fileinfo;

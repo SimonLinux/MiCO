@@ -407,8 +407,8 @@ static void uptime_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, ch
 
 static void ota_Command(char *pcWriteBuffer, int xWriteBufferLen,int argc, char **argv)
 {
-extern void mico_force_ota(void);
-    mico_force_ota();
+extern void tftp_ota(void);
+    tftp_ota();
 }
 
 /*
@@ -601,7 +601,7 @@ static const struct cli_command user_clis[1] = {
 };
 #endif
 
-int mico_cli_init(void)
+int cli_init(void)
 {
   int ret;
   

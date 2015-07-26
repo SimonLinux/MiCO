@@ -9,6 +9,9 @@
 			"path": "../../../../mico"
 		},
 		{
+			"path": "../../../../Platform"
+		},
+		{
 			"path": "../../../../libraries"
 		},
 		{
@@ -19,9 +22,6 @@
 		},
 		{
 			"path": "../../../../Demos/COM.MXCHIP.SPP"
-		},
-		{
-			"path": "../../../../External"
 		},
 		{
 			"path": "../../../../MICO"
@@ -44,7 +44,7 @@
 			"-DUSE_STDPERIPH_DRIVER",
 			"-DDEBUG",
 			"-I/Users/william/Develop/MiCO/Demos/COM.MXCHIP.SPP/",
-			"-I/Users/william/Develop/MiCO/External/",
+			"-I/Users/william/Develop/MiCO/libraries/utilities/json_c/",
 			"-I/Users/william/Develop/MiCO/Platform/",
 			"-I/Users/william/Develop/MiCO/Platform/include/",
 			"-I/Users/William/Develop/MiCO/Platform/Cortex-M3/",

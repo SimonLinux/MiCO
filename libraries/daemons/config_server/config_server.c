@@ -30,16 +30,16 @@
 */
 
 #include "MICO.h"
-#include "platform_config.h"
+
+#include "Platform.h"
 
 #include "SocketUtils.h"
-#include "Platform.h"
 #include "HTTPUtils.h"
-#include "mico_system.h"
 #include "StringUtils.h"
 #include "CheckSumUtils.h"
-#include "system.h"
+
 #include "json.h"
+#include "config_server.h"
 
 #define config_log(M, ...) custom_log("CONFIG SERVER", M, ##__VA_ARGS__)
 #define config_log_trace() custom_log_trace("CONFIG SERVER")
@@ -76,14 +76,12 @@ static mico_semaphore_t close_listener_sem = NULL, close_client_sem[ MAX_TCP_CLI
 
 
 
-OSStatus MICOStartConfigServer ( void )
+OSStatus config_server_start ( mico_Context_t *in_context )
 {
   int i = 0;
   OSStatus err = kNoErr;
-  mico_Context_t* context = NULL;
   
-  context = mico_system_context_get( );
-  require( context, exit );
+  require( in_context, exit );
   
   if( is_config_server_established )
     return kNoErr;
@@ -93,7 +91,7 @@ OSStatus MICOStartConfigServer ( void )
   close_listener_sem = NULL;
   for (; i < MAX_TCP_CLIENT_PER_SERVER; i++)
     close_client_sem[ i ] = NULL;
-  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)context );
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)in_context );
   require_noerr(err, exit);
   is_config_server_established = true;
   mico_thread_msleep(200);
@@ -102,7 +100,7 @@ exit:
   return err;
 }
 
-OSStatus MICOStopConfigServer( void )
+OSStatus config_server_stop( void )
 {
   int i = 0;
   OSStatus err = kNoErr;
@@ -370,17 +368,90 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
   const char *  json_str;
   uint8_t *httpResponse = NULL;
   size_t httpResponseLen = 0;
-  json_object* report = NULL;
+  json_object* report = NULL, *config = NULL;
   bool need_reboot = false;
   uint16_t crc;
   configContext_t *http_context = (configContext_t *)inHeader->userContext;
   mico_logic_partition_t* ota_partition = MicoFlashGetInfo( MICO_PARTITION_OTA_TEMP );
+  char name[50];
+
+  json_object *sectors, *sector = NULL;
 
   config_log_trace();
 
   if(HTTPHeaderMatchURL( inHeader, kCONFIGURLRead ) == kNoErr){    
-    report = ConfigCreateReportJsonMessage( inContext );
-    require( report, exit );
+    //report = ConfigCreateReportJsonMessage( inContext );
+
+    mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
+    snprintf(name, 50, "%s(%c%c%c%c%c%c)",MODEL, 
+                                          inContext->micoStatus.mac[9],  inContext->micoStatus.mac[10], 
+                                          inContext->micoStatus.mac[12], inContext->micoStatus.mac[13],
+                                          inContext->micoStatus.mac[15], inContext->micoStatus.mac[16]);
+    report = json_object_new_object();
+    require_action(report, exit, err = kNoMemoryErr);
+
+    sectors = json_object_new_array();
+    require( sectors, exit );
+
+    json_object_object_add(report, "T", json_object_new_string("Current Configuration"));
+    json_object_object_add(report, "N", json_object_new_string(name));
+    json_object_object_add(report, "C", sectors);
+
+    json_object_object_add(report, "PO", json_object_new_string(PROTOCOL));
+    json_object_object_add(report, "HD", json_object_new_string(HARDWARE_REVISION));
+    json_object_object_add(report, "FW", json_object_new_string(FIRMWARE_REVISION));
+    json_object_object_add(report, "RF", json_object_new_string(inContext->micoStatus.rf_version));
+
+    /*Sector 1*/
+    sector = json_object_new_array();
+    require( sector, exit );
+    err = config_server_create_sector(sectors, "MICO SYSTEM",    sector);
+    require_noerr(err, exit);
+
+      /*name cell*/
+      err = config_server_create_string_cell(sector, "Device Name",    inContext->flashContentInRam.micoSystemConfig.name,               "RW", NULL);
+      require_noerr(err, exit);
+
+      //RF power save switcher cell
+      err = config_server_create_bool_cell(sector, "RF power save",  inContext->flashContentInRam.micoSystemConfig.rfPowerSaveEnable,  "RW");
+      require_noerr(err, exit);
+
+      //MCU power save switcher cell
+      err = config_server_create_bool_cell(sector, "MCU power save", inContext->flashContentInRam.micoSystemConfig.mcuPowerSaveEnable, "RW");
+      require_noerr(err, exit);
+
+      /*SSID cell*/
+      err = config_server_create_string_cell(sector, "Wi-Fi",        inContext->flashContentInRam.micoSystemConfig.ssid,     "RW", NULL);
+      require_noerr(err, exit);
+      /*PASSWORD cell*/
+      err = config_server_create_string_cell(sector, "Password",     inContext->flashContentInRam.micoSystemConfig.user_key, "RW", NULL);
+      require_noerr(err, exit);
+      /*DHCP cell*/
+      err = config_server_create_bool_cell(sector, "DHCP",        inContext->flashContentInRam.micoSystemConfig.dhcpEnable,   "RW");
+      require_noerr(err, exit);
+      /*Local cell*/
+      err = config_server_create_string_cell(sector, "IP address",  inContext->micoStatus.localIp,   "RW", NULL);
+      require_noerr(err, exit);
+      /*Netmask cell*/
+      err = config_server_create_string_cell(sector, "Net Mask",    inContext->micoStatus.netMask,   "RW", NULL);
+      require_noerr(err, exit);
+      /*Gateway cell*/
+      err = config_server_create_string_cell(sector, "Gateway",     inContext->micoStatus.gateWay,   "RW", NULL);
+      require_noerr(err, exit);
+      /*DNS server cell*/
+      err = config_server_create_string_cell(sector, "DNS Server",  inContext->micoStatus.dnsServer, "RW", NULL);
+      require_noerr(err, exit);
+
+    /*Sector 2*/
+    sector = json_object_new_array();
+    require( sector, exit );
+    err = config_server_create_sector(sectors, "APPLICATION",    sector);
+    require_noerr(err, exit);
+
+    config_server_delegate_report( sector, inContext );
+
+    mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
+
     json_str = json_object_to_json_string(report);
     require_action( json_str, exit, err = kNoMemoryErr );
     config_log("Send config object=%s", json_str);
@@ -404,8 +475,58 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
       err = SocketSend( fd, httpResponse, httpResponseLen );
       require_noerr( err, exit );
 
-      err = ConfigIncommingJsonMessage( inHeader->extraDataPtr, &need_reboot, inContext );
-      require_noerr( err, exit );
+      config = json_tokener_parse(inHeader->extraDataPtr);
+      require_action(config, exit, err = kUnknownErr);
+      config_log("Recv config object=%s", json_object_to_json_string(config));
+      mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
+      json_object_object_foreach(config, key, val) {
+        if(!strcmp(key, "Device Name")){
+          strncpy(inContext->flashContentInRam.micoSystemConfig.name, json_object_get_string(val), maxNameLen);
+          need_reboot = true;
+        }else if(!strcmp(key, "RF power save")){
+          inContext->flashContentInRam.micoSystemConfig.rfPowerSaveEnable = json_object_get_boolean(val);
+          need_reboot = true;
+        }else if(!strcmp(key, "MCU power save")){
+          inContext->flashContentInRam.micoSystemConfig.mcuPowerSaveEnable = json_object_get_boolean(val);
+          need_reboot = true;
+        }else if(!strcmp(key, "Wi-Fi")){
+          strncpy(inContext->flashContentInRam.micoSystemConfig.ssid, json_object_get_string(val), maxSsidLen);
+          inContext->flashContentInRam.micoSystemConfig.channel = 0;
+          memset(inContext->flashContentInRam.micoSystemConfig.bssid, 0x0, 6);
+          inContext->flashContentInRam.micoSystemConfig.security = SECURITY_TYPE_AUTO;
+          memcpy(inContext->flashContentInRam.micoSystemConfig.key, inContext->flashContentInRam.micoSystemConfig.user_key, maxKeyLen);
+          inContext->flashContentInRam.micoSystemConfig.keyLength = inContext->flashContentInRam.micoSystemConfig.user_keyLength;
+          need_reboot = true;
+        }else if(!strcmp(key, "Password")){
+          inContext->flashContentInRam.micoSystemConfig.security = SECURITY_TYPE_AUTO;
+          strncpy(inContext->flashContentInRam.micoSystemConfig.key, json_object_get_string(val), maxKeyLen);
+          strncpy(inContext->flashContentInRam.micoSystemConfig.user_key, json_object_get_string(val), maxKeyLen);
+          inContext->flashContentInRam.micoSystemConfig.keyLength = strlen(inContext->flashContentInRam.micoSystemConfig.key);
+          inContext->flashContentInRam.micoSystemConfig.user_keyLength = strlen(inContext->flashContentInRam.micoSystemConfig.key);
+          need_reboot = true;
+        }else if(!strcmp(key, "DHCP")){
+          inContext->flashContentInRam.micoSystemConfig.dhcpEnable   = json_object_get_boolean(val);
+          need_reboot = true;
+        }else if(!strcmp(key, "IP address")){
+          strncpy(inContext->flashContentInRam.micoSystemConfig.localIp, json_object_get_string(val), maxIpLen);
+          need_reboot = true;
+        }else if(!strcmp(key, "Net Mask")){
+          strncpy(inContext->flashContentInRam.micoSystemConfig.netMask, json_object_get_string(val), maxIpLen);
+          need_reboot = true;
+        }else if(!strcmp(key, "Gateway")){
+          strncpy(inContext->flashContentInRam.micoSystemConfig.gateWay, json_object_get_string(val), maxIpLen);
+          need_reboot = true;
+        }else if(!strcmp(key, "DNS Server")){
+          strncpy(inContext->flashContentInRam.micoSystemConfig.dnsServer, json_object_get_string(val), maxIpLen);
+          need_reboot = true;
+        }else{
+          config_server_delegate_recv( key, val, &need_reboot, inContext );
+        }
+      }
+      mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
+
+      json_object_put(config);
+
       inContext->flashContentInRam.micoSystemConfig.configured = allConfigured;
       mico_system_context_update( inContext );
 
@@ -415,7 +536,7 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
     }
     goto exit;
   }
-else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
+  else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
     if(inHeader->contentLength > 0){
       config_log( "Recv new configuration from uAP, apply and connect to AP" );
       err = ConfigIncommingJsonMessageUAP( inHeader->extraDataPtr, inContext );
@@ -463,6 +584,7 @@ else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
     err = kConnectionErr;
   if(httpResponse)  free(httpResponse);
   if(report)        json_object_put(report);
+  if(config)        json_object_put(config);
 
   return err;
 

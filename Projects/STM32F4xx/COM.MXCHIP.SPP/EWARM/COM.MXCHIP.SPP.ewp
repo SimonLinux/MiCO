@@ -317,8 +317,12 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
-          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities\JSON-C</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c</state>
           <state>$PROJ_DIR$\..\..\..\..\libraries\protocols\tftp_ota</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\protocols\mdns</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\protocols\sntp</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\daemons\config_server</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities\command_line_interface</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -4802,9 +4806,6 @@
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MICOConfigDelegate.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MicoDefaults.h</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\RemoteTcpClient.c</name>
     </file>
     <file>
@@ -5005,10 +5006,10 @@
       <group>
         <name>config_server</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\daemons\config_server\mico_system_config_server.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\daemons\config_server\config_server.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\daemons\config_server\mico_system_config_server_menu.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\daemons\config_server\config_server_menu.c</name>
         </file>
       </group>
     </group>
@@ -5017,22 +5018,22 @@
       <group>
         <name>mdns</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\mdns\mico_service_mdns.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\mdns\mdns.c</name>
         </file>
       </group>
       <group>
         <name>sntp</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\sntp\ntp_client.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\sntp\sntp.c</name>
         </file>
       </group>
       <group>
         <name>tftp_ota</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\tftp_ota\mico_service_ota_by_tftp.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\tftp_ota\tftp.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\tftp_ota\tftp.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\tftp_ota\tftp_ota.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\tftp_ota\tftpc.o</name>
@@ -5050,25 +5051,25 @@
       <group>
         <name>json_c</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\JSON-C\arraylist.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\arraylist.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\JSON-C\debug.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\debug.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\JSON-C\json_object.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_object.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\JSON-C\json_tokener.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_tokener.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\JSON-C\json_util.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_util.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\JSON-C\linkhash.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\linkhash.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\JSON-C\printbuf.c</name>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\printbuf.c</name>
         </file>
       </group>
     </group>

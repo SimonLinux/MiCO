@@ -92,7 +92,6 @@ static int get_line()
 static char * ssid_get(void)
 {
   char *cmd;
-  int is_use_udp = 1;
   uint32_t remote_addr = 0xFFFFFFFF;
   
   while (1)  {                                 /* loop forever                */
@@ -106,7 +105,6 @@ static char * ssid_get(void)
         remote_addr = 0xffffffff;
       sprintf(cmd, "Use TCP send packet to 0x%X\r\n", (unsigned int)remote_addr);
       mf_printf (cmd);
-      is_use_udp = 0;
     } else if (strncmp(cmd, "udp ", 4) == 0) {
       mf_printf ("\r\n");
       remote_addr = inet_addr(cmd+4);

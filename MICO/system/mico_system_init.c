@@ -33,23 +33,10 @@
 #include <time.h>
 
 #include "mico.h"
+#include "config_server.h"
+#include "sntp.h"
+#include "mico_cli.h"
 
-OSStatus mico_system_current_time_get( struct tm* time )
-{
-  mico_rtc_time_t mico_time;
-  /*Read current time from RTC.*/
-  if( MicoRtcGetTime(&mico_time) == kNoErr ){
-    time->tm_sec = mico_time.sec;
-    time->tm_min = mico_time.min;
-    time->tm_hour = mico_time.hr;
-    time->tm_mday = mico_time.date;
-    time->tm_wday = mico_time.weekday;
-    time->tm_mon = mico_time.month - 1;
-    time->tm_year = mico_time.year + 100;
-    return kNoErr;
-  }else
-    return kGeneralErr;
-}
 
 static  mico_Context_t* context = NULL;
 
@@ -113,7 +100,7 @@ OSStatus mico_system_init( mico_Context_t* in_context )
 
 #ifdef MICO_CLI_ENABLE
   /* MiCO command line interface */
-  mico_cli_init();
+  cli_init();
 #endif
 
   /* Network PHY driver and tcp/ip static init */
@@ -151,14 +138,14 @@ OSStatus mico_system_init( mico_Context_t* in_context )
 
   /*Local configuration server*/
 #ifdef MICO_CONFIG_SERVER_ENABLE
-  MICOStartConfigServer( );
+  config_server_start( in_context );
 #endif
 
 #ifdef MICO_NTP_CLIENT_ENABLE
   struct tm currentTime;
-  mico_system_current_time_get( &currentTime );
+  sntp_current_time_get( &currentTime );
   system_log("Current Time: %s",asctime(&currentTime));
-  err =  MICOStartNTPClient( );
+  err =  sntp_client_start( );
   require_noerr_string( err, exit, "ERROR: Unable to start the NTP client thread." );
 #endif
 

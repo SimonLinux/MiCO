@@ -30,9 +30,7 @@
 ******************************************************************************
 */
 
-#ifndef __mico_system_CONFIG_H
-#define __mico_system_CONFIG_H
-
+#pragma once
 
 #define APP_INFO   "mxchipWNet SPP Demo based on MICO OS"
 
@@ -45,11 +43,7 @@
 #define CONFIG_MODE_EASYLINK                    (2)
 #define CONFIG_MODE_SOFT_AP                     (3)
 #define CONFIG_MODE_EASYLINK_WITH_SOFTAP        (4)
-//#define CONFIG_MODE_WPS                         (5)
-//#define CONFIG_MODE_WPS_WITH_SOFTAP             (6)
 #define CONFIG_MODE_WAC                         (7)
-//#define CONFIG_MODE_AIRKISS                     (8)
-
 
 /************************************************************************
  * Wi-Fi configuration mode */
@@ -62,19 +56,18 @@
                                                    Restart easylink after timeout: 20 seconds. */
 
 /************************************************************************
- * MiCO command line interface */
-#define MICO_CLI_ENABLE  
-
-/************************************************************************
  * Device enter MFG mode if MICO settings are erased. */
 //#define MFG_MODE_AUTO 
+
+/************************************************************************
+ * Command line interface */
+#define MICO_CLI_ENABLE  
 
 /************************************************************************
  * Start a system monitor daemon, application can register some monitor  
  * points, If one of these points is not excuted in a predefined period, 
  * a watchdog reset will occur. */
-#define mico_system_MONITOR_ENABLE
-
+#define MICO_SYSTEM_MONITOR_ENABLE
 
 /************************************************************************
  * Start a NTP client to sync RTC with NTP server. */
@@ -85,5 +78,3 @@
 #define MICO_CONFIG_SERVER_ENABLE 
 #define MICO_CONFIG_SERVER_PORT    8000
 
-
-#endif /* __mico_system_CONFIG_H */

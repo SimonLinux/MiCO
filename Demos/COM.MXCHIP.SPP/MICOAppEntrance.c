@@ -64,12 +64,11 @@ int application_start(void)
   mico_Context_t* mico_context;
 
   /* Create application context */
-  app_context = ( app_context_t *)malloc(sizeof(app_context_t) );
+  app_context = ( app_context_t *)calloc(1, sizeof(app_context_t) );
   require_action( app_context, exit, err = kNoMemoryErr );
-  memset( app_context, 0x0, sizeof( app_context_t ));
 
   /* Create mico system context and read application's config data from flash */
-  mico_context = mico_system_context_init( sizeof(application_config_t) );
+  mico_context = mico_system_context_init( sizeof( application_config_t) );
   app_context->appConfig = mico_system_context_get_user_data( mico_context );
 
   /* mico system initialize */

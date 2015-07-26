@@ -129,5 +129,24 @@ typedef struct
   dns_message_iterator_t rdata;
 } dns_record_t;
 
+typedef struct
+{
+  //char *name;
+  char *service_name;
+  char *host_name;
+  char *instance_name;
+  char *txt_record;
+  uint16_t service_port;
+} mdns_init_t;
+
+/* mdns service */
+OSStatus mdns_add_record( mdns_init_t init, WiFi_Interface interface, uint32_t time_to_live );
+
+void mdns_suspend_record( char *service_name, WiFi_Interface interface, bool will_remove );
+
+void mdns_resume_record( char *service_name, WiFi_Interface interface );
+
+void mdns_update_txt_record( char *service_name, WiFi_Interface interface, char *txt_record );
+
 
 #endif

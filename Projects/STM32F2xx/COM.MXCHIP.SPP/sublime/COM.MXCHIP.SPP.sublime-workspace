@@ -4,6 +4,46 @@
 		"selected_items":
 		[
 			[
+				"mico_sys",
+				"mico_system_context_get()	mico_Context_t *"
+			],
+			[
+				"F",
+				"FIRMWARE_REVISION	macro"
+			],
+			[
+				"uint",
+				"uint8_t	typedef"
+			],
+			[
+				"CONFIG_BY",
+				"CONFIG_BY_AIRKISS	mico_config_source_t"
+			],
+			[
+				"CONFIG_BY_EAS",
+				"CONFIG_BY_EASYLINK_V2	mico_config_source_t"
+			],
+			[
+				"kNot",
+				"kNotPreparedErr	macro"
+			],
+			[
+				"mico_system_",
+				"mico_system_get_context()	mico_Context_t *"
+			],
+			[
+				"user_config_data",
+				"user_config_data_size	uint32_t"
+			],
+			[
+				"mico",
+				"mico_context	mico_Context_t*"
+			],
+			[
+				"uin",
+				"uint32_t	typedef"
+			],
+			[
 				"mico_rtos_th",
 				"mico_rtos_delete_thread(mico_thread_t *thread)	OSStatus"
 			],
@@ -14,10 +54,6 @@
 			[
 				"mico_th",
 				"mico_thread_t	typedef"
-			],
-			[
-				"mico",
-				"mico_gpio_t	typedef"
 			],
 			[
 				"p",
@@ -62,10 +98,6 @@
 			[
 				"kUn",
 				"kUnknownErr	macro"
-			],
-			[
-				"uint",
-				"uint32_t	typedef"
 			],
 			[
 				"o",
@@ -222,10 +254,6 @@
 			[
 				"n",
 				"name	char [32]"
-			],
-			[
-				"uin",
-				"uint8_t	typedef"
 			],
 			[
 				"Platform",
@@ -486,79 +514,17 @@
 			[
 				"support",
 				"supports5GHzWiFi	bool"
-			],
-			[
-				"supportsAirp",
-				"supportsAirPrint	bool"
-			],
-			[
-				"w",
-				"supportsWakeOnWireless	bool"
-			],
-			[
-				"wi",
-				"wifi_key	char [32]"
-			],
-			[
-				"WAC_N",
-				"WAC_NetConfig	network_InitTypeDef_st *"
-			],
-			[
-				"de",
-				"destinationSSID	char*"
-			],
-			[
-				"page",
-				"pagesNumber	uint8_t"
-			],
-			[
-				"CP_",
-				"CP_I2C_RETRY_TIMES	macro"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_system_config.h",
+			"file": "COM.MXCHIP.SPP.sublime-project",
 			"settings":
 			{
-				"buffer_size": 3628,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_app_context.h",
-			"settings":
-			{
-				"buffer_size": 1776,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Searching 1900 files for \"UART_WAKEUP_ENABLE\" (whole word)\n\n/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverUart.h:\n   80  #define UART_WAKEUP_MASK_POSN   0\n   81  #define UART_WAKEUP_DISABLE    (0 << UART_WAKEUP_MASK_POSN) /**< UART can not wakeup MCU from stop mode */\n   82: #define UART_WAKEUP_ENABLE     (1 << UART_WAKEUP_MASK_POSN) /**< UART can wake up MCU from stop mode */\n   83  \n   84  \n   ..\n   94  //     mico_uart_stop_bits_t     stop_bits;\n   95  //     mico_uart_flow_control_t  flow_control;\n   96: //     uint8_t                   flags;          /**< if set, UART can wake up MCU from stop mode, reference: @ref UART_WAKEUP_DISABLE and @ref UART_WAKEUP_ENABLE*/\n   97  // } mico_uart_config_t;\n   98  \n\n/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h:\n  228      platform_uart_stop_bits_t    stop_bits;\n  229      platform_uart_flow_control_t flow_control;\n  230:     uint8_t                      flags;          /**< if set, UART can wake up MCU from stop mode, reference: @ref UART_WAKEUP_DISABLE and @ref UART_WAKEUP_ENABLE*/\n  231  } platform_uart_config_t;\n  232  \n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_uart.c:\n  164    \n  165  #ifndef NO_MICO_RTOS\n  166:   if(config->flags & UART_WAKEUP_ENABLE){\n  167      mico_rtos_init_semaphore( driver->sem_wakeup, 1 );\n  168      mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, \"UART_WAKEUP\", thread_wakeup, 0x100, driver);\n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_uart.c:\n  176    \n  177  #ifndef NO_MICO_RTOS\n  178:   if(config->flags & UART_WAKEUP_ENABLE){\n  179      mico_rtos_init_semaphore( driver->sem_wakeup, 1 );\n  180      mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, \"UART_WAKEUP\", thread_wakeup, 0x100, driver);\n\n/Users/William/Develop/MiCO/Platform/vendor/Freescale/MK64FxxL12/MicoDriverUart.c:\n  169      configure_uart_pins(Instance); //BOARD_APP_UART_INSTANCE);\n  170  #ifndef NO_MICO_RTOS\n  171:   if(config->flags & UART_WAKEUP_ENABLE){\n  172      current_uart = uart;\n  173      mico_rtos_init_semaphore( &uart_interfaces[uart].sem_wakeup, 1 );\n\n/Users/William/Develop/MiCO/Platform/vendor/nxp/LPC54xx/MicoDriverUart.c:\n  233    \n  234  #ifndef NO_MICO_RTOS\n  235:   if(config->flags & UART_WAKEUP_ENABLE){\n  236      current_uart = uart;\n  237      mico_rtos_init_semaphore( &uart_interfaces[uart].sem_wakeup, 1 );\n\n/Users/William/Develop/MiCO/Platform/vendor/Sample/Sample01/MicoDriverUart.c:\n  137  #if ADD_OS_CODE\n  138  #ifndef NO_MICO_RTOS\n  139:   if(config->flags & UART_WAKEUP_ENABLE){\n  140      current_uart = uart;\n  141      mico_rtos_init_semaphore( &uart_interfaces[uart].sem_wakeup, 1 );\n\n/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppEntrance.c:\n   75    uart_config.flow_control = FLOW_CONTROL_DISABLED;\n   76    if(inContext->flashContentInRam.micoSystemConfig.mcuPowerSaveEnable == true)\n   77:     uart_config.flags = UART_WAKEUP_ENABLE;\n   78    else\n   79      uart_config.flags = UART_WAKEUP_DISABLE;\n\n9 matches across 8 files\n",
-			"settings":
-			{
-				"buffer_size": 3062,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverUart.h",
-			"settings":
-			{
-				"buffer_size": 4881,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
-			"settings":
-			{
-				"buffer_size": 24939,
-				"line_ending": "Windows"
+				"buffer_size": 1770,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -622,31 +588,69 @@
 	},
 	"file_history":
 	[
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MiCOAPPDefine.h",
-		"/Users/William/Develop/MiCO/include/mico_system_context.h",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_app_context.h",
-		"/Users/william/Develop/MiCO/MICO/system/system.h",
-		"/Users/William/Develop/MiCO/Projects/STM32F2xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
-		"/Users/William/Develop/MiCO/include/mico_service.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/legacy/RemoteTcpClient.c",
+		"/Users/William/Develop/MiCO/MICO/service/mico_service_config_server_menu.c",
+		"/Users/William/Develop/MiCO/include/mico_system.h",
+		"/Users/William/Develop/MiCO/Platform/Drivers/MiCOKit_EXT/micokit_ext_mfg.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_config.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppEntrance.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOBonjour.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOConfigDelegate.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/RemoteTcpClient.c",
+		"/Users/William/Develop/MiCO/MICO/service/mico_service_config_server.c",
 		"/Users/William/Develop/MiCO/MICO/service/mico_service_mdns.c",
-		"/Users/William/Develop/MiCO/MICO/service/MDNSUtils.h",
+		"/Users/William/Develop/MiCO/MICO/service/mico_service_ntp_client.c",
+		"/Users/William/Develop/MiCO/MICO/service/mico_service_ota_by_tftp.c",
+		"/Users/William/Develop/MiCO/MICO/system/mico_system.c",
+		"/Users/William/Develop/MiCO/MICO/system/mico_system_monitor.c",
+		"/Users/William/Develop/MiCO/MICO/system/mico_system_notification.c",
+		"/Users/William/Develop/MiCO/MICO/system/mico_system_para_storage.c",
+		"/Users/William/Develop/MiCO/MICO/system/mico_system_power_daemon.c",
 		"/Users/William/Develop/MiCO/MICO/system/system.h",
 		"/Users/William/Develop/MiCO/MICO/system/system_misc.c",
-		"/Users/William/Develop/MiCO/include/mico_system.h",
+		"/Users/William/Develop/MiCO/MICO/system/system_easylink/system_easylink.c",
+		"/Users/William/Develop/MiCO/MICO/system/mico_system_config_server.c",
+		"/Users/William/Develop/MiCO/include/mico_service.h",
+		"/Users/William/Develop/MiCO/Demos/COM.Apple.HomeKit/HomekitProfiles.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_delegate.c",
+		"/Users/William/Develop/MiCO/MICO/system/mico_system_config_server_menu.c",
+		"/Users/william/Develop/MiCO/External/JSON-C/json_object.h",
+		"/Users/william/Develop/MiCO/Support/HTTPUtils.h",
 		"/Users/William/Develop/MiCO/include/mico.h",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/RemoteTcpClient.c",
+		"/Users/William/Develop/MiCO/include/mico_socket.h",
+		"/Users/William/Develop/MiCO/Platform/BoardConfig/FRDM_K64/device/MK64F12/MK64F12_ewm.h",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/services/network/lin/lin.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/services/network/lin/lin.h",
+		"/Users/William/Develop/MiCO/MICO/service/mico_service_cli.c",
+		"/Users/william/Develop/MiCO/include/Common.h",
+		"/Users/William/Develop/MiCO/include/MICO.h",
+		"/Users/William/Develop/MiCO/MICO/system/system_easylink/system_easylink_wac.c",
+		"/Users/William/Develop/MiCO/MICO/system/Find Results",
+		"/Users/William/Develop/MiCO/include/Debug.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_system_config.h",
+		"/Users/William/Develop/MiCO/MICO/Airkiss/Airkiss.c",
+		"/Users/william/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_peripheral.h",
+		"/Users/william/Develop/MiCO/include/mico_rtos.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MiCOAPPDefine.h",
+		"/Users/william/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_system_config.h",
+		"/Users/William/Develop/MiCO/MICO/service/mico_service_factory_test.c",
+		"/Users/william/Develop/MiCO/include/mico_system_context.h",
+		"/Users/William/Develop/MiCO/include/mico_system_context.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/SppProtocol.c",
+		"/Users/william/Develop/MiCO/include/mico_system.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/LocalTcpServer.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/SppProtocol.h",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_app_context.h",
+		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverUart.h",
+		"/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
+		"/Users/william/Develop/MiCO/MICO/system/system.h",
+		"/Users/William/Develop/MiCO/Projects/STM32F2xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
+		"/Users/William/Develop/MiCO/MICO/service/MDNSUtils.h",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppDefine.h",
 		"/Users/William/Develop/MiCO/include/mico_cli.h",
 		"/Users/William/Develop/MiCO/MICO/service/mico_servce_cli.c",
-		"/Users/William/Develop/MiCO/MICO/service/mico_service_ntp_client.c",
-		"/Users/William/Develop/MiCO/MICO/system/mico_system.c",
-		"/Users/William/Develop/MiCO/MICO/service/mico_service_config_server.c",
 		"/Users/William/Develop/MiCO/MICO/MICONotificationCenter.h",
-		"/Users/William/Develop/MiCO/MICO/system/mico_system_monitor.c",
 		"/Users/William/Develop/MiCO/MICO/MICOConfigMenu.h",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppEntrance.c",
-		"/Users/William/Develop/MiCO/MICO/system/mico_system_power_daemon.c",
-		"/Users/William/Develop/MiCO/MICO/system/mico_system_para_storage.c",
 		"/Users/William/Develop/MiCO/include/MicoWlan.h",
 		"/Users/William/Develop/MiCO/MICO/system/system_init.c",
 		"/Users/William/Develop/MiCO/MICO/MICOSystemMonitor.h",
@@ -665,25 +669,21 @@
 		"/Users/William/Develop/MiCO/MICO/mico_system/mico_system_common.c",
 		"/Users/william/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppDefine.h",
 		"/Users/William/Develop/MiCO/MICO/mico_system/mico_system_internal.h",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_system_config.h",
 		"/Users/William/Develop/MiCO/MICO/mico_system/mico_system_easylink.c",
 		"/Users/William/Develop/MiCO/MICO/mico_system/mico_system_easylink_wac.c",
 		"/Users/William/Develop/MiCO/MICO/system/system_easylink.c",
 		"/Users/William/Develop/MiCO/MICO/mico_system/mico_system_power_daemon.c",
-		"/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
 		"/Users/William/Develop/MiCO/MICO/MICODefine.h",
 		"/Users/William/Develop/MiCO/MICO/MICOForceOTA.c",
 		"/Users/William/Develop/MiCO/MICO/MICOSystemMonitor.c",
 		"/Users/William/Develop/MiCO/Support/MDNSUtils.c",
 		"/Users/William/Develop/MiCO/MICO/MICOConfigServer.c",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOConfigDelegate.c",
 		"/Users/William/Develop/MiCO/MICO/mico_system/mico_system_platform.c",
 		"/Users/william/Develop/MiCO/include/MicoWlan.h",
 		"/Users/William/Develop/MiCO/Support/HTTPUtils.c",
 		"/Users/william/Develop/MiCO/MICO/MICONotificationCenter.h",
 		"/Users/William/Develop/MiCO/include/MICORTOS.h",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform.c",
-		"/Users/William/Develop/MiCO/include/MICO.h",
 		"/Users/William/Develop/MiCO/Support/MDNSUtils.h",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_flash.c",
@@ -708,7 +708,6 @@
 		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash_platform_interface.h",
 		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverSpi.h",
 		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash.c",
-		"/Users/william/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_peripheral.h",
 		"/Users/William/Develop/MiCO/include/MicoPlatform.h",
 		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverRtc.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_gpio.c",
@@ -716,40 +715,7 @@
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/src/stm32f2xx_dma.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_dma.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/wlan_platform_common.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_uart.c",
-		"/Users/william/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/EMW1062_Driver/SPI/wwd_bus.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/EMW1062_Driver/read_wifi_firmware.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_rng.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/MicoDriverUart.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverWdg.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverUart.c",
-		"/Users/William/Develop/MiCO/Platform/include/platform_peripheral.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_peripheral.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/platform_init.c",
-		"/Users/William/Develop/MiCO/include/Common.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverRtc.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/rtc.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverGpio.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverI2c.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/EMW1062_Driver/SDIO/wlan_bus.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverPwm.c",
-		"/Users/William/Develop/MiCO/Demos/COM.Apple.HomeKit/HomeKitUserInterface.c",
-		"/Users/William/Develop/MiCO/Demos/COM.Apple.HomeKit/HomeKitServer.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/MicoDriverAdc.c",
-		"/Users/william/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_syscfg.h",
-		"/Users/William/Develop/MiCO/include/Debug.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/gpio_irq.h",
-		"/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverI2c.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/gpio_irq.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/gpio_irq.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/stm32f2xx_platform.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/STM32F2xx_StdPeriph_Driver/src/stm32f2xx_gpio.c",
-		"/Users/william/Develop/Clang_lib/ARMCC/include/string.h",
-		"/Users/william/Develop/MiCO/include/MicoDrivers/MICODriverUART.h",
-		"/Users/William/Develop/MiCO/Platform/Cortex-M3/crt0_EWARM.c",
-		"/Users/William/Develop/MiCO/include/MicoDrivers/MICODriverRtc.h",
-		"/Users/William/Develop/MiCO/include/MicoDrivers/MICODriverSpi.h"
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_uart.c"
 	],
 	"find":
 	{
@@ -776,134 +742,134 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"UART_WAKEUP_ENABLE",
-			"FLASH_TYPE_EMBEDDED",
-			"MiCOAPPDefine",
-			"system_current_time_get",
-			"CLI",
-			"in",
-			"init",
-			"MICOInitNotificationCenter",
-			"network_InitTypeDef_st",
-			"MICORestoreMFG",
-			"mico_system_para_read",
-			"MICOStartSystemMonitor",
-			"MICOReadConfiguration",
-			"MICORestoreMFG",
-			"system_current_time_get",
-			"system_power_daemon_start",
-			"system_context_init",
-			"system_context_read",
-			"system_notification_init",
-			"AppDefine.h\"",
-			"#include \"MICOAppDefine.h\"",
-			"appRestoreDefault_callback",
-			"MICOReadConfiguration",
-			"CONFIG_DATA_SIZE",
-			"mico_system_power_perform",
-			"APPLICATION_WATCHDOG_TIMEOUT_SECONDS",
-			"mico_system_notify_init",
-			"SYS_State_t",
-			"EASYLINK_BYPASS",
-			"SYS_State_t",
+			"m_system_",
+			"MICOAddSector",
+			"mico_system_config_server_delegate_create_device_info",
+			"mico_system_delegate_easylink_softap_will_start",
+			"soft",
+			"mico_system_delegate_easylink_softap_will_start",
+			"flashContentInRam_mutex",
+			"mico_system_config_server_delegate_create_device_info",
+			"MICOAddTopMenu",
+			"json_object_to_json_string",
+			"MICOAddStringCellToSector",
+			"mico_service_config_server_stop",
+			"mico_service_config_server_start",
+			"Md5Update",
 			"mico_system_current_time_get",
-			"system_version",
-			"needsUpdate",
-			"mico_system_current_time_get",
-			"mico_write_ota_tbl",
-			"mico_monitor",
-			"sendNotifySYSWillPowerOff",
-			"120000000",
-			"sendNotifySYSWillPowerOff",
-			"needsUpdate",
-			"mico_easylink_ap_start",
-			"mico_system_connect_wifi_normal",
-			"micoNotify_WifiStatusHandler",
-			"_sys_state_thread",
-			"ConfigEasyLinkIsSuccess",
-			"need_reboot",
-			"ConfigIncommingJsonMessage",
-			"remove_bonjour_for_easylink",
-			"easylink_success",
-			"mico_easylink_bonjour_update",
-			"free",
-			"is_service_match",
-			"mico_easylink_bonjour_update",
-			"remove_bonjour_for_easylink",
-			"flashContentInRam.micoSystemConfig.localIp",
-			"remove_bonjour_for_easylink",
-			"easylink_success",
-			"easylink_failed",
-			"easylink_thread_should_exit",
-			"KEY_SSID",
-			"ConfigEasyLinkIsSuccess",
-			"ConfigCreateReportJsonMessage",
-			"ConfigIncommingJsonMessage",
-			"MICOstartConfigServer",
-			"MICOStartBonjourService",
-			"ConfigELRecvAuthData",
-			"easylink_sem",
-			"uap_config_mode",
-			"easylink_softap_should_start",
-			"uap_config_mode",
-			"easylinkIndentifier",
+			"m_service_",
+			"m_system_",
+			"micoNotify_ConnectFailedHandler",
+			"micoNotify_ConnectFailedHandler\n",
+			"mico_notify_WIFI_CONNECT_FAILED",
+			"easylink_bonjour_update",
+			"easylink_bonjour_start",
+			"mico_",
+			"MICOStopConfigServer",
+			"MICOStartConfigServer",
+			"m_service_mdns_update_txt_record",
+			"m_service_mdns_resume_record",
+			"m_service_mdns_suspend_record",
+			"m_service_mdns_add_record",
+			"mico_cli_init",
+			"MICOStartNTPClient",
+			"mico_service_",
+			"m_system_delegate_config_recv_auth_data",
+			"m_system_delegate_config_success",
+			"m_system_delegate_config_recv_ssid",
+			"m_system_delegate_config_will_stop",
+			"m_system_delegate_config_will_start",
+			"mico_system_",
+			"msyste",
+			"mico_system",
+			"MICOAddNumberCellToSector",
+			"MICOAddTopMenu",
+			"MICOStartConfigServer",
+			"inContext",
+			"Context",
 			"_LocalConfigRespondInComingMessage",
-			"micoNotify_WiFIParaChangedHandler",
-			"mico_notify_WiFI_PARA_CHANGED",
-			"EasyLinkNotify_WiFIParaChangedHandler",
-			"EasyLinkNotify_EasyLinkGetExtraDataHandler",
-			"mdns_process_query",
-			"mfi_bonjour_send",
-			"mfi_bonjour_thread_handler",
-			"mico_rtos_create_thread",
-			"mico_rtos_pop_from_queue",
-			"CFG_PRIO_BITS",
-			"user_key1_init",
-			"_user_key1_irq_handler",
-			"user_key1_clicked_callback",
-			"Standby_SEL",
-			"platform_reset_wlan_powersave_clock",
-			"host_platform_deinit_wlan_powersave_clock",
-			"host_platform_sdio_transfer",
-			"MicoSpiTransfer",
-			"MICO_SPI_FLASH_CS",
-			"mico_spi_flash",
-			"USE_MICO_SPI_FLASH",
-			"generic_sflash_command",
-			"sflash_write_page",
-			"spi",
-			"spi_dma_transfer",
-			"platform_gpio_set_alternate_function",
-			"platform_spi_get_port_number",
-			"spi_irq_handler",
-			"DMA_ClearFlag",
-			"DMA_ClearITPendingBit",
-			"DMA_ClearITPendingBit\\",
-			"DMA_ClearFlag",
-			"DMA_ClearFlag\nDMA_ClearFlag",
-			"DMA_ClearFlag",
-			"DMA_IT_TCIF3",
-			"clear_dma_interrupts",
-			"dma_irq",
-			"MICO_USE_WIFI_32K_CLOCK_MCO",
-			"enable_clocl",
-			"platform_watchdog_init",
-			"GetLSIFrequency",
-			"RX_PIN_WAKEUP_handler",
-			"uart_number",
-			"uart_peripheral_clock_functions",
-			"platform_gpio_enable",
-			"thread_wakeup",
-			"sem_wakeup",
-			"thread_wakeup",
-			"wiced",
-			"WICED",
-			"convert_rtc_calendar_values_to_units_passed",
-			"stm32f2_rtc_change_clock",
-			"platform_power_down_hook",
-			"platform_idle_hook",
-			"platform_mcu_powersave_exit_notify",
-			"wake_up_interrupt_notify"
+			"MICOStartConfigServer",
+			"mico_system_delegate_recv_auth_data",
+			"ConfigELRecvAuthData",
+			"mico_system_delegate_config_by",
+			"ConfigRecvSSID",
+			"ConfigIsSuccessBy",
+			"ConfigWillStop",
+			"ConfigWillStart",
+			"mico_system_notify_remove_all",
+			"MICORemoveAllNotification",
+			"MICORemoveNotification",
+			"MICOAddNotification",
+			"MICORemoveAllNotification",
+			"FOTA_WifiStatusHandler",
+			"mico_notify_WifiScanCompleteHandler",
+			"MICOAddNotification",
+			"MICOInitNotificationCenter",
+			"MICOAddNotification",
+			"mico_system_monitor_daemen_start",
+			"mico_system_context_restore",
+			"mico_system_context_get_user_data",
+			"mico_system_context_update",
+			"mico_system_power_perform",
+			"mico_system_power_daemon_start",
+			"mico_system_context_update",
+			"mico_system_init",
+			"mico_system_context_get",
+			"mico_system_context_restore",
+			"mico_system_config",
+			"MICOInitNotificationCenter",
+			"debug_print_assert",
+			"MICO_SYSTEM_MONITOR_ENABLE",
+			"mico_system_monitor_daemen_start",
+			"mico_system_state_t",
+			"MICOInitNotificationCenter",
+			"mico_system_update_config",
+			"mico_system_restore_config",
+			"mico_system_get_user_config_data",
+			"mico_system_get_context",
+			"system_network_daemen_start",
+			"system_notification_init",
+			"mico_system_notification_init",
+			"MICOInitNotificationCenter",
+			"mico_system_register_monitor",
+			"mico_system_update_monitor",
+			"mico_system_power_perform",
+			"OSStatus",
+			"system_monitor_daemen_start",
+			"MICOStartSystemMonitor",
+			"system_monitor_daemen_start",
+			"MicoRtcGetTime",
+			"airkiss_broadcast_thread",
+			"ConfigIsSuccessBy",
+			"ConfigWillStop",
+			"ConfigEasyLinkIsSuccess",
+			"ConfigIsSuccess",
+			"ConfigSoftApWillStart",
+			"ConfigWillStart",
+			"wlan_driver_version",
+			"sendNotifySYSWillPowerOff",
+			"system_version",
+			"system_notification_init",
+			"system_context_t",
+			"mico_notify_WIFI_CONNECT_FAILED",
+			"appStatus.mico_context",
+			"MICOAddTopMenu",
+			"MICOAddTopMenu\nMICOAddTopMenu",
+			"MICOStartConfigServer",
+			"mico_easylink_bonjour_update",
+			"easylink_success",
+			"restart",
+			"easylink_success",
+			"rf_version",
+			"system_network_daemen_start",
+			"mico_system_get_user_config_data",
+			"mico_system_get_context",
+			"MICORestoreMFG",
+			"system_context_read",
+			"CONFIG_OFFSET",
+			"user_backup_data",
+			"appRestoreDefault_callback",
+			"  appRestoreDefault_callback(inContext);\nappRestoreDefault_callback"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -911,6 +877,46 @@
 		"regex": false,
 		"replace_history":
 		[
+			"mico_system_",
+			"mico_system_config_server_stop",
+			"mico_system_config_server_start",
+			"mico_system_time_get",
+			"mico_service_",
+			"mico_system_",
+			"m_service_config_server_stop",
+			"m_service_config_server_start",
+			"m_service_mdns_update_txt",
+			"m_service_mdns_resume",
+			"m_service_mdns_suspend",
+			"m_service_mdns_add",
+			"m_service_cli_start",
+			"m_service_ntp_client_start",
+			"m_service_",
+			"m_system_delegate_config_recv_auth_data",
+			"m_system_delegate_easylink_success",
+			"m_system_delegate_easylink_recv_ssid",
+			"m_system_delegate_easylink_will_stop",
+			"m_system_delegate_easylink_will_start",
+			"m_system_",
+			"m_system",
+			"msystem",
+			"mico_system_delegate_config_recv_auth_data",
+			"mico_system_delegate_recv_auth_data",
+			"mico_system_delegate_config_success",
+			"mico_system_delegate_config_recv_ssid",
+			"mico_system_delegate_config_by",
+			"mico_system_delegate_config_will_stop",
+			"mico_system_delegate_config_will_start",
+			"mico_system_notify_remove_all",
+			"mico_system_notify_remove",
+			"mico_system_notify_register",
+			"mico_config",
+			"mico_system_context_update",
+			"mico_system_context_restore",
+			"mico_system_context_get_user_data",
+			"mico_system_context_get",
+			"mico_system_monitor_register",
+			"mico_system_monitor_update",
 			"OSStatus",
 			"MICO",
 			"MICO_DISABLE_STDIO"
@@ -918,194 +924,38 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
+		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_system_config.h",
+					"file": "COM.MXCHIP.SPP.sublime-project",
 					"settings":
 					{
-						"buffer_size": 3628,
+						"buffer_size": 1770,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								274,
+								274
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 683.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_app_context.h",
-					"settings":
-					{
-						"buffer_size": 1776,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1356,
-								1356
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 168.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"settings":
-					{
-						"buffer_size": 3062,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										296,
-										314
-									],
-									[
-										670,
-										688
-									],
-									[
-										1056,
-										1074
-									],
-									[
-										1265,
-										1283
-									],
-									[
-										1609,
-										1627
-									],
-									[
-										2016,
-										2034
-									],
-									[
-										2287,
-										2305
-									],
-									[
-										2575,
-										2593
-									],
-									[
-										2950,
-										2968
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								310,
-								310
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverUart.h",
-					"settings":
-					{
-						"buffer_size": 4881,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1996,
-								1996
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 416.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/Users/william/Develop/MiCO/Platform/include/platform_peripheral.h",
-					"settings":
-					{
-						"buffer_size": 24939,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4463,
-								4463
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1280.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1146,7 +996,7 @@
 	"menu_visible": true,
 	"output.clang":
 	{
-		"height": 251.0
+		"height": 27.0
 	},
 	"output.exec":
 	{

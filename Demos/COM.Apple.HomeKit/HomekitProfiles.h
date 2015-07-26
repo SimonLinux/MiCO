@@ -41,28 +41,7 @@ typedef int32_t         HkStatus;
 #define CI_RESERVED                     10 
 
 
-typedef enum _valueType{
-  ValueType_bool,
-  ValueType_int,
-  ValueType_float,
-  ValueType_string,
-  ValueType_date,
-  ValueType_tlv8,
-  ValueType_data,
-  ValueType_array,
-  ValueType_dict,
-  ValueType_null,
-} valueType;
 
-typedef union {
-    bool        boolValue;
-    int         intValue;
-    double      floatValue;
-    char        *stringValue;
-    char        *dateValue;
-    json_object *array;
-    json_object *object;
-  } value_union;
 
 
 struct _hapCharacteristic_t {

@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    MICONTPClient.c 
+* @file    sntp.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
@@ -194,9 +194,27 @@ exit:
     return;
 }
 
-OSStatus MICOStartNTPClient ( void )
+OSStatus sntp_client_start( void )
 {
   mico_rtos_init_semaphore(&_wifiConnected_sem, 1);
   return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "NTP Client", NTPClient_thread, STACK_SIZE_NTP_CLIENT_THREAD, NULL );
 }
 
+
+
+OSStatus sntp_current_time_get( struct tm* time )
+{
+  mico_rtc_time_t mico_time;
+  /*Read current time from RTC.*/
+  if( MicoRtcGetTime(&mico_time) == kNoErr ){
+    time->tm_sec = mico_time.sec;
+    time->tm_min = mico_time.min;
+    time->tm_hour = mico_time.hr;
+    time->tm_mday = mico_time.date;
+    time->tm_wday = mico_time.weekday;
+    time->tm_mon = mico_time.month - 1;
+    time->tm_year = mico_time.year + 100;
+    return kNoErr;
+  }else
+    return kGeneralErr;
+}

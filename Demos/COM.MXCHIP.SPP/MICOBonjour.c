@@ -20,6 +20,7 @@
   */ 
 
 #include "mico.h"
+#include "mdns.h"
 #include "platform_config.h"
 #include "StringUtils.h"
 #include "MiCOAPPDefine.h"
@@ -30,13 +31,13 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, app_context_t * cons
   char *temp_txt2;
   OSStatus err;
   net_para_st para;
-  bonjour_init_t init;
+  mdns_init_t init;
   mico_Context_t *mico_context = mico_system_context_get();
 
   temp_txt = malloc(500);
   require_action(temp_txt, exit, err = kNoMemoryErr);
 
-  memset(&init, 0x0, sizeof(bonjour_init_t));
+  memset(&init, 0x0, sizeof(mdns_init_t));
 
   micoWlanGetIPStatus(&para, Station);
 
@@ -89,7 +90,7 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, app_context_t * cons
   sprintf(temp_txt, "%sSeed=%u.", temp_txt, mico_context->flashContentInRam.micoSystemConfig.seed);
   init.txt_record = (char*)__strdup(temp_txt);
 
-  mico_service_mdns_add_record( init, interface, 1500);
+  mdns_add_record( init, interface, 1500);
 
   free(init.host_name);
   free(init.instance_name);

@@ -43,7 +43,7 @@ USED void PlatformEasyLinkButtonClickedCallback(void)
   system_log_trace();
   mico_Context_t* context = NULL;
   
-  context = m_system_context_get( );
+  context = mico_system_context_get( );
   require( context, exit );
   
   if(context->flashContentInRam.micoSystemConfig.easyLinkByPass != EASYLINK_BYPASS_NO){
@@ -56,7 +56,7 @@ USED void PlatformEasyLinkButtonClickedCallback(void)
     needs_update = true;
   }
 
-  m_system_power_perform( context, eState_Software_Reset );
+  mico_system_power_perform( context, eState_Software_Reset );
 
 exit: 
   return;
@@ -67,12 +67,12 @@ USED void PlatformEasyLinkButtonLongPressedCallback(void)
   system_log_trace();
   mico_Context_t* context = NULL;
   
-  context = m_system_context_get( );
+  context = mico_system_context_get( );
   require( context, exit );
 
-  m_system_context_restore( context );
+  mico_system_context_restore( context );
   
-  m_system_power_perform( context, eState_Software_Reset );
+  mico_system_power_perform( context, eState_Software_Reset );
 
 exit:
   return;
@@ -83,10 +83,10 @@ USED void PlatformStandbyButtonClickedCallback(void)
   system_log_trace();
   mico_Context_t* context = NULL;
   
-  context = m_system_context_get( );
+  context = mico_system_context_get( );
   require( context, exit );
   
-  m_system_power_perform( context, eState_Standby );
+  mico_system_power_perform( context, eState_Standby );
 
 exit: 
   return;
@@ -102,7 +102,7 @@ static void _sys_state_thread(void *arg)
   while(mico_rtos_get_semaphore( &context->micoStatus.sys_state_change_sem, MICO_WAIT_FOREVER) == kNoErr ){
     
     if(needs_update == true)
-      m_system_context_update( context );
+      mico_system_context_update( context );
     
     switch( context->micoStatus.current_sys_state ){
     case eState_Normal:
@@ -130,7 +130,7 @@ static void _sys_state_thread(void *arg)
   mico_rtos_delete_thread( NULL );
 }
 
-OSStatus m_system_power_daemon_start( mico_Context_t* const in_context )
+OSStatus mico_system_power_daemon_start( mico_Context_t* const in_context )
 {
   OSStatus err = kNoErr;
 
@@ -147,12 +147,12 @@ exit:
 }
 
 
-OSStatus m_system_power_perform( mico_Context_t* const in_context, m_system_state_t new_state )
+OSStatus mico_system_power_perform( mico_Context_t* const in_context, mico_system_state_t new_state )
 {
   OSStatus err = kNoErr;
   mico_Context_t* context = NULL;
   
-  context = m_system_context_get( );
+  context = mico_system_context_get( );
   require_action( context, exit, err = kNotPreparedErr );
 
   in_context->micoStatus.current_sys_state = new_state;

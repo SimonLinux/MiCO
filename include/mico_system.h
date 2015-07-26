@@ -39,7 +39,7 @@
 extern "C" {
 #endif
 
-typedef system_state_t   m_system_state_t;
+typedef system_state_t   mico_system_state_t;
 typedef system_context_t mico_Context_t;
 
 typedef enum{
@@ -59,7 +59,7 @@ typedef struct
 {
     uint32_t last_update;              /**< Time of the last system monitor update */
     uint32_t longest_permitted_delay;  /**< Longest permitted delay between checkins with the system monitor */
-} m_system_monitor_t;
+} mico_system_monitor_t;
 
 
 typedef notify_wlan_t WiFiEvent;
@@ -103,15 +103,15 @@ typedef enum{
 
 /* System core data managment, should initialized before other system functions */
 
-mico_Context_t* m_system_context_init( uint32_t size_of_user_data );
+mico_Context_t* mico_system_context_init( uint32_t size_of_user_data );
 
-mico_Context_t* m_system_context_get( void );
+mico_Context_t* mico_system_context_get( void );
 
-void* m_system_context_get_user_data( mico_Context_t* const in_context );
+void* mico_system_context_get_user_data( mico_Context_t* const in_context );
 
-OSStatus m_system_context_restore( mico_Context_t* const in_context );
+OSStatus mico_system_context_restore( mico_Context_t* const in_context );
 
-OSStatus m_system_context_update( mico_Context_t* const in_context );
+OSStatus mico_system_context_update( mico_Context_t* const in_context );
 
 /** @} */
 /*****************************************************************************/
@@ -125,18 +125,18 @@ OSStatus m_system_context_update( mico_Context_t* const in_context );
 /*****************************************************************************/
 
 /* mico system framework initialize */
-OSStatus m_system_init( mico_Context_t* const in_context );
+OSStatus mico_system_init( mico_Context_t* const in_context );
 
 /* System config delegates */
-void m_system_delegate_config_will_start( void );
+void mico_system_delegate_config_will_start( void );
 
-void m_system_delegate_config_will_stop( void );
+void mico_system_delegate_config_will_stop( void );
 
-void m_system_delegate_config_recv_ssid ( void );
+void mico_system_delegate_config_recv_ssid ( void );
 
-void m_system_delegate_config_success( mico_config_source_t source );
+void mico_system_delegate_config_success( mico_config_source_t source );
 
-OSStatus m_system_delegate_config_recv_auth_data( char * userInfo );
+OSStatus mico_system_delegate_config_recv_auth_data( char * userInfo );
 
 /** @} */
 /*****************************************************************************/
@@ -150,11 +150,11 @@ OSStatus m_system_delegate_config_recv_auth_data( char * userInfo );
 /*****************************************************************************/
 
 /* System monitor functions*/
-OSStatus m_system_monitor_daemen_start( void );
+OSStatus mico_system_monitor_daemen_start( void );
 
-OSStatus m_system_monitor_update ( m_system_monitor_t* system_monitor, uint32_t permitted_delay );
+OSStatus mico_system_monitor_update ( mico_system_monitor_t* system_monitor, uint32_t permitted_delay );
 
-OSStatus m_system_monitor_register( m_system_monitor_t* system_monitor, uint32_t initial_permitted_delay );
+OSStatus mico_system_monitor_register( mico_system_monitor_t* system_monitor, uint32_t initial_permitted_delay );
 
 /** @} */
 /*****************************************************************************/
@@ -167,9 +167,9 @@ OSStatus m_system_monitor_register( m_system_monitor_t* system_monitor, uint32_t
  */
 /*****************************************************************************/
 /* Start power management daemon */
-OSStatus m_system_power_daemon_start( mico_Context_t* const in_context );
+OSStatus mico_system_power_daemon_start( mico_Context_t* const in_context );
 /* Perform a system power change */
-OSStatus m_system_power_perform( mico_Context_t* const in_context, m_system_state_t new_state );
+OSStatus mico_system_power_perform( mico_Context_t* const in_context, mico_system_state_t new_state );
 
 /** @} */
 /*****************************************************************************/
@@ -182,15 +182,15 @@ OSStatus m_system_power_perform( mico_Context_t* const in_context, m_system_stat
  */
 /*****************************************************************************/
 /* mico nitifictions */
-OSStatus m_system_notify_register  ( mico_notify_types_t notify_type, void* functionAddress, void* arg );
+OSStatus mico_system_notify_register  ( mico_notify_types_t notify_type, void* functionAddress, void* arg );
 
-OSStatus m_system_notify_remove       ( mico_notify_types_t notify_type, void *functionAddress );
+OSStatus mico_system_notify_remove       ( mico_notify_types_t notify_type, void *functionAddress );
 
-OSStatus m_system_notify_remove_all    ( mico_notify_types_t notify_type);
+OSStatus mico_system_notify_remove_all    ( mico_notify_types_t notify_type);
 
 
 /* Read current system clock */
-OSStatus m_system_current_time_get( struct tm* time );
+OSStatus mico_system_current_time_get( struct tm* time );
 
 
 

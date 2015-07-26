@@ -140,7 +140,7 @@ void micoNotify_WiFIParaChangedHandler(apinfo_adv_t *ap_info, char *key, int key
   }
 
   if(_needsUpdate== true)  
-    m_system_context_update( inContext );
+    mico_system_context_update( inContext );
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
   
 exit:
@@ -151,22 +151,22 @@ OSStatus system_notification_init( mico_Context_t * const inContext )
 {
   OSStatus err = kNoErr;
 
-  err = m_system_notify_register( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler, inContext );
+  err = mico_system_notify_register( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler, inContext );
   require_noerr( err, exit );
 
-  err = m_system_notify_register( mico_notify_WIFI_Fatal_ERROR, (void *)micoNotify_WlanFatalErrHandler, inContext );
+  err = mico_system_notify_register( mico_notify_WIFI_Fatal_ERROR, (void *)micoNotify_WlanFatalErrHandler, inContext );
   require_noerr( err, exit ); 
 
-  err = m_system_notify_register( mico_notify_Stack_Overflow_ERROR, (void *)micoNotify_StackOverflowErrHandler, inContext );
+  err = mico_system_notify_register( mico_notify_Stack_Overflow_ERROR, (void *)micoNotify_StackOverflowErrHandler, inContext );
   require_noerr( err, exit );
 
-  err = m_system_notify_register( mico_notify_DHCP_COMPLETED, (void *)micoNotify_DHCPCompleteHandler, inContext );
+  err = mico_system_notify_register( mico_notify_DHCP_COMPLETED, (void *)micoNotify_DHCPCompleteHandler, inContext );
   require_noerr( err, exit ); 
 
-  err = m_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, inContext );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, inContext );
   require_noerr( err, exit );
 
-  err = m_system_notify_register( mico_notify_WiFI_PARA_CHANGED, (void *)micoNotify_WiFIParaChangedHandler, inContext );
+  err = mico_system_notify_register( mico_notify_WiFI_PARA_CHANGED, (void *)micoNotify_WiFIParaChangedHandler, inContext );
   require_noerr( err, exit ); 
 
 exit:

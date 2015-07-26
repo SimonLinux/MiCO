@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    m_system_easylink.c 
+* @file    mico_system_easylink.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    20-July-2015
@@ -56,28 +56,28 @@ static OSStatus mico_easylink_bonjour_update( WiFi_Interface interface, mico_Con
 static void remove_bonjour_for_easylink(void);
 static void airkiss_broadcast_thread(void *arg);
 
-WEAK void m_system_delegate_config_will_start( void )
+WEAK void mico_system_delegate_config_will_start( void )
 {
   return;
 }
 
-WEAK void m_system_delegate_config_will_stop( void )
+WEAK void mico_system_delegate_config_will_stop( void )
 {
   return;
 }
 
-WEAK void m_system_delegate_config_recv_ssid ( void )
+WEAK void mico_system_delegate_config_recv_ssid ( void )
 {
   return;
 }
 
-WEAK void m_system_delegate_config_success( mico_config_source_t source )
+WEAK void mico_system_delegate_config_success( mico_config_source_t source )
 {
   UNUSED_PARAMETER(source);
   return;
 }
 
-WEAK OSStatus m_system_delegate_config_recv_auth_data( char * userInfo )
+WEAK OSStatus mico_system_delegate_config_recv_auth_data( char * userInfo )
 {
   UNUSED_PARAMETER(userInfo);
   return kNoErr;
@@ -96,7 +96,7 @@ void EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const in
         bongjour txt record with new "easylinkIndentifier" */
     mico_easylink_bonjour_update( Station, inContext );
     inContext->flashContentInRam.micoSystemConfig.configured = allConfigured;
-    m_system_context_update( inContext ); //Update Flash content
+    mico_system_context_update( inContext ); //Update Flash content
     mico_rtos_set_semaphore(&easylink_sem); //Notify Easylink thread
     break;
   case NOTIFY_AP_DOWN:
@@ -173,7 +173,7 @@ void EasyLinkNotify_EasyLinkGetExtraDataHandler(int datalen, char* data, mico_Co
 
   /* Check auth data by device */
   data[index++] = 0x0;
-  err = m_system_delegate_config_recv_auth_data( data );
+  err = mico_system_delegate_config_recv_auth_data( data );
   require_noerr(err, exit);
 
   /* Read identifier */
@@ -248,9 +248,9 @@ void easylink_thread(void *inContext)
   source = CONFIG_BY_NONE;
 
   /* Register notifications */
-  m_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)EasyLinkNotify_WifiStatusHandler, inContext );
-  m_system_notify_register( mico_notify_EASYLINK_WPS_COMPLETED, (void *)EasyLinkNotify_EasyLinkCompleteHandler, inContext );
-  m_system_notify_register( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)EasyLinkNotify_EasyLinkGetExtraDataHandler, inContext );
+  mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)EasyLinkNotify_WifiStatusHandler, inContext );
+  mico_system_notify_register( mico_notify_EASYLINK_WPS_COMPLETED, (void *)EasyLinkNotify_EasyLinkCompleteHandler, inContext );
+  mico_system_notify_register( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)EasyLinkNotify_EasyLinkGetExtraDataHandler, inContext );
 
   mico_rtos_init_semaphore(&easylink_sem, 1);
 
@@ -267,13 +267,13 @@ void easylink_thread(void *inContext)
   /* Skip Easylink mode */    
   if(Context->flashContentInRam.micoSystemConfig.easyLinkByPass == EASYLINK_BYPASS){
     Context->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_BYPASS_NO;
-    m_system_context_update( Context );
+    mico_system_context_update( Context );
     system_connect_wifi_fast( Context );
     goto exit;
   }
 /* If use CONFIG_MODE_SOFT_AP only, skip easylink mode, establish soft ap directly */ 
 restart:
-  m_system_delegate_config_will_start( ); 
+  mico_system_delegate_config_will_start( ); 
 #if ( MICO_CONFIG_MODE != CONFIG_MODE_SOFT_AP ) 
   system_log("Start easylink commbo mode");
   micoWlanStartEasyLinkPlus(EasyLink_TimeOut/1000);
@@ -282,12 +282,12 @@ restart:
 
   /* EasyLink Success */
   if( easylink_success == true ){
-    m_system_delegate_config_recv_ssid( );
+    mico_system_delegate_config_recv_ssid( );
     system_connect_wifi_normal( Context );
     err = mico_rtos_get_semaphore( &easylink_sem, EasyLink_ConnectWlan_Timeout );
     /*SSID or Password is not correct, module cannot connect to wlan, so restart EasyLink again*/
     require_noerr_action_string( err, restart, micoWlanSuspend(), "Re-start easylink commbo mode" );
-    m_system_delegate_config_success( source );
+    mico_system_delegate_config_success( source );
     if( source == CONFIG_BY_AIRKISS){
       err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "AIRKISS", airkiss_broadcast_thread, 0x800, NULL );
       require_noerr_string( err, exit, "ERROR: Unable to start the EasyLink thread." );
@@ -321,13 +321,13 @@ restart:
 
     mico_rtos_get_semaphore(&easylink_sem, MICO_WAIT_FOREVER);
 
-    m_system_delegate_config_success( CONFIG_BY_SOFT_AP );
+    mico_system_delegate_config_success( CONFIG_BY_SOFT_AP );
 #else // CONFIG_MODE_EASYLINK mode
     /*so roll back to previous settings  (if it has) and connect*/
     if(Context->flashContentInRam.micoSystemConfig.configured != unConfigured){
       MICOReadConfiguration( Context );
       Context->flashContentInRam.micoSystemConfig.configured = allConfigured;
-      m_system_context_update( Context );
+      mico_system_context_update( Context );
       system_connect_wifi_normal( Context );
     }else{
       /*module should power down in default setting*/
@@ -337,11 +337,11 @@ restart:
   }
 
 exit:
-  m_system_delegate_config_will_stop( );
+  mico_system_delegate_config_will_stop( );
   SetTimer( 60*1000 , remove_bonjour_for_easylink );
-  m_system_notify_remove( mico_notify_WIFI_STATUS_CHANGED, (void *)EasyLinkNotify_WifiStatusHandler );
-  m_system_notify_remove( mico_notify_EASYLINK_WPS_COMPLETED, (void *)EasyLinkNotify_EasyLinkCompleteHandler );
-  m_system_notify_remove( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)EasyLinkNotify_EasyLinkGetExtraDataHandler );
+  mico_system_notify_remove( mico_notify_WIFI_STATUS_CHANGED, (void *)EasyLinkNotify_WifiStatusHandler );
+  mico_system_notify_remove( mico_notify_EASYLINK_WPS_COMPLETED, (void *)EasyLinkNotify_EasyLinkCompleteHandler );
+  mico_system_notify_remove( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)EasyLinkNotify_EasyLinkGetExtraDataHandler );
   
 #ifndef MICO_CONFIG_SERVER_ENABLE
   err = MICOStopConfigServer( );

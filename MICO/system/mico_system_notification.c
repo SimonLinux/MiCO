@@ -231,7 +231,7 @@ void mico_rtos_stack_overflow(char *taskname)
   }    
 }
 
-OSStatus m_system_notify_register( mico_notify_types_t notify_type, void* functionAddress, void* arg )
+OSStatus mico_system_notify_register( mico_notify_types_t notify_type, void* functionAddress, void* arg )
 {
   OSStatus err = kNoErr;
   _Notify_list_t *temp =  Notify_list[notify_type];
@@ -257,7 +257,7 @@ exit:
   return err;
 }
 
-OSStatus m_system_notify_remove( mico_notify_types_t notify_type, void *functionAddress )
+OSStatus mico_system_notify_remove( mico_notify_types_t notify_type, void *functionAddress )
 {
   OSStatus err = kNoErr;
   _Notify_list_t *temp2;
@@ -283,7 +283,7 @@ exit:
   return err;
 }
 
-OSStatus m_system_notify_remove_all( mico_notify_types_t notify_type)
+OSStatus mico_system_notify_remove_all( mico_notify_types_t notify_type)
 {
     _Notify_list_t *temp = Notify_list[notify_type];;
 

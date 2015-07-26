@@ -91,12 +91,12 @@ void mico_force_ota(void)
 #define TMP_BUF_LEN 1024
 
     fota_log("Start OTA");
-    m_system_notify_remove_all(mico_notify_WIFI_STATUS_CHANGED);
-    m_system_notify_remove_all(mico_notify_WiFI_PARA_CHANGED);
-    m_system_notify_remove_all(mico_notify_DHCP_COMPLETED);
-    m_system_notify_remove_all(mico_notify_WIFI_CONNECT_FAILED);
-	  m_system_notify_remove_all(mico_notify_EASYLINK_WPS_COMPLETED);
-    m_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)FOTA_WifiStatusHandler, NULL );
+    mico_system_notify_remove_all(mico_notify_WIFI_STATUS_CHANGED);
+    mico_system_notify_remove_all(mico_notify_WiFI_PARA_CHANGED);
+    mico_system_notify_remove_all(mico_notify_DHCP_COMPLETED);
+    mico_system_notify_remove_all(mico_notify_WIFI_CONNECT_FAILED);
+	  mico_system_notify_remove_all(mico_notify_EASYLINK_WPS_COMPLETED);
+    mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)FOTA_WifiStatusHandler, NULL );
     micoWlanStopEasyLink();
 	  micoWlanStopEasyLinkPlus();
     micoWlanStopAirkiss();
@@ -196,14 +196,14 @@ void mico_force_ota(void)
 
     fota_log("OTA bin md5 check success, CRC %x. upgrading...", crc);
 
-    context = m_system_context_get( );
+    context = mico_system_context_get( );
     memset(&context->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
     context->flashContentInRam.bootTable.length = filelen;
     context->flashContentInRam.bootTable.start_address = ota_partition->partition_start_addr;
     context->flashContentInRam.bootTable.type = 'A';
     context->flashContentInRam.bootTable.upgrade_type = 'U';
     context->flashContentInRam.bootTable.crc = crc;
-    m_system_context_update( m_system_context_get( ) );
+    mico_system_context_update( mico_system_context_get( ) );
     
     mico_ota_finished(OTA_SUCCESS, NULL);
     while(1)

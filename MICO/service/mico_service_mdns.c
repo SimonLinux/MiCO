@@ -813,9 +813,9 @@ static OSStatus start_bonjour_service(void)
   err = bind(mDNS_fd, &addr, sizeof(addr));
   require_noerr(err, exit);
 
-  err = m_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)BonjourNotify_WifiStatusHandler, NULL );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)BonjourNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit );
-  err = m_system_notify_register( mico_notify_SYS_WILL_POWER_OFF, (void *)BonjourNotify_SYSWillPoerOffHandler, NULL );
+  err = mico_system_notify_register( mico_notify_SYS_WILL_POWER_OFF, (void *)BonjourNotify_SYSWillPoerOffHandler, NULL );
   require_noerr( err, exit );
 
   err = mico_rtos_create_thread(&mfi_bonjour_thread_handler, MICO_APPLICATION_PRIORITY, "Bonjour", _bonjour_thread, 0x500, NULL );

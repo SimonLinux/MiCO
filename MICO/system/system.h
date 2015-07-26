@@ -46,7 +46,7 @@ extern "C" {
 #define STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD   0x300
 #define STACK_SIZE_LOCAL_CONFIG_CLIENT_THREAD   0x450
 #define STACK_SIZE_NTP_CLIENT_THREAD            0x450
-#define STACK_SIZE_m_system_MONITOR_THREAD   0x300
+#define STACK_SIZE_mico_system_MONITOR_THREAD   0x300
 
 #define EASYLINK_BYPASS_NO                      (0)
 #define EASYLINK_BYPASS                         (1)

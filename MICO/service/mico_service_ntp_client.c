@@ -108,7 +108,7 @@ void NTPClient_thread(void *arg)
   LinkStatusTypeDef wifi_link;
   
   /* Regisist notifications */
-  err = m_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)ntpNotify_WifiStatusHandler, NULL );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)ntpNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit ); 
  
   memset(&outpacket,0x0,sizeof(outpacket));
@@ -187,7 +187,7 @@ void NTPClient_thread(void *arg)
   }
 exit:
     if( err!=kNoErr )ntp_log("Exit: NTP client exit with err = %d", err);
-    m_system_notify_remove( mico_notify_WIFI_STATUS_CHANGED, (void *)ntpNotify_WifiStatusHandler );
+    mico_system_notify_remove( mico_notify_WIFI_STATUS_CHANGED, (void *)ntpNotify_WifiStatusHandler );
     if(_wifiConnected_sem) mico_rtos_deinit_semaphore(&_wifiConnected_sem);
     SocketClose(&Ntp_fd);
     mico_rtos_delete_thread(NULL);

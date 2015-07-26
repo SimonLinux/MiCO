@@ -6,7 +6,10 @@
 			"path": "../../../../include"
 		},
 		{
-			"path": "../../../../Platform"
+			"path": "../../../../mico"
+		},
+		{
+			"path": "../../../../libraries"
 		},
 		{
 			"path": "../../../../Support"

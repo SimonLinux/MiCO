@@ -22,7 +22,7 @@
 #include "MICO.h"
 #include "Platform_config.h"
 
-#include "JSON-C/json.h"
+#include "json.h"
 #include "MICOAppDefine.h"
 #include "SppProtocol.h"  
 #include "StringUtils.h"

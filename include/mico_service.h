@@ -34,7 +34,7 @@
 
 #include "Common.h"
 #include "mico_wlan.h"
-#include "JSON-C/json.h"
+#include "json.h"
 
 #ifdef __cplusplus
 extern "C" {

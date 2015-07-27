@@ -34,6 +34,7 @@
 int application_start( void )
 {
   /* Output on serial debug port */
+  /**test/
   printf( "Hello World!\r\n" );
   
   /* Trigger MiCO system led available on most MiCOKit */

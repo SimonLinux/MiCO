@@ -58,7 +58,7 @@ static void airkiss_broadcast_thread(void *arg);
 
 
 /* MiCO callback when WiFi status is changed */
-void EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inContext)
+static void EasyLinkNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inContext)
 {
   system_log_trace();
   require(inContext, exit);
@@ -84,7 +84,7 @@ exit:
 }
 
 /* MiCO callback when EasyLink is finished step 1, return SSID and KEY */
-void EasyLinkNotify_EasyLinkCompleteHandler(network_InitTypeDef_st *nwkpara, mico_Context_t * const inContext)
+static void EasyLinkNotify_EasyLinkCompleteHandler(network_InitTypeDef_st *nwkpara, mico_Context_t * const inContext)
 {
   system_log_trace();
   OSStatus err = kNoErr;
@@ -118,7 +118,7 @@ exit:
   Identifier: Unique id for every easylink instance send by easylink mobile app
   localIp/netMask/gateWay/dnsServer: Device static ip address, use DHCP if not exist 
 */
-void EasyLinkNotify_EasyLinkGetExtraDataHandler(int datalen, char* data, mico_Context_t * const inContext)
+static void EasyLinkNotify_EasyLinkGetExtraDataHandler(int datalen, char* data, mico_Context_t * const inContext)
 {
   system_log_trace();
   OSStatus err = kNoErr;

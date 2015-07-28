@@ -29,13 +29,16 @@
 ******************************************************************************
 */
 
-#include "MicoDefine.h"
+#include "MICO.h"
 #include "platform_config.h"
-#include "MICONotificationCenter.h"
-#include "MDNSUtils.h"
 #include "StringUtils.h"
 
 #define udp_bonjour_log(M, ...) custom_log("UDP", M, ##__VA_ARGS__)
+
+#define PROTOCOL            "com.mxchip.basic"
+#define BONJOURNANE         "MiCOKit"
+#define BONJOUR_SERVICE                     "_easylink._tcp.local."
+#define LOCAL_PORT                          8080
 
 static char *ap_ssid = "Xiaomi.Router";
 static char *ap_key  = "stm32f215";
@@ -77,8 +80,8 @@ void my_bonjour_server( WiFi_Interface interface )
   char *temp_txt2;
   IPStatusTypedef para;
   
-  bonjour_init_t init={0};
-  micoWlanGetIPStatus(&para, Station);
+  mdns_init_t init={0};
+  micoWlanGetIPStatus(&para, interface);
 
   udp_bonjour_log("mac is %s,ip=%s",para.mac,para.ip);
   init.service_name = BONJOUR_SERVICE;/*"_easylink._tcp.local."*/
@@ -99,7 +102,6 @@ void my_bonjour_server( WiFi_Interface interface )
   init.instance_name = (char*)__strdup(temp_txt);
 
   init.service_port = LOCAL_PORT;
-  init.interface = interface;
 
   //take some data
   /*for example,modify here*/
@@ -148,15 +150,12 @@ void my_bonjour_server( WiFi_Interface interface )
   /*take some data in txt_record*/
   init.txt_record = (char*)__strdup(temp_txt);
 
-  bonjour_service_init(init);
+  mdns_add_record(init, interface, 1500 );
 
   /*free memeoy*/
   free(init.host_name);
   free(init.instance_name);
   free(init.txt_record);
-
-  /*mDNS+DNS-sd*/
-  start_bonjour_service( );
  
   if(temp_txt) 
     free(temp_txt);
@@ -165,15 +164,14 @@ void my_bonjour_server( WiFi_Interface interface )
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  IPStatusTypedef para;
   udp_bonjour_log("udp bonjour demo");
   MicoInit( );
   
    /*The notification message for the registered WiFi status change*/
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit ); 
   
-  err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler, NULL );
   require_noerr( err, exit );
   
   err = mico_rtos_init_semaphore(&wait_sem, 1);

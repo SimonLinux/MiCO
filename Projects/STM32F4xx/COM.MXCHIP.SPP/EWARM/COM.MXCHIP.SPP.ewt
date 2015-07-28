@@ -602,15 +602,6 @@
   <group>
     <name>libraries</name>
     <group>
-      <name>protocols</name>
-      <group>
-        <name>sntp</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\sntp\sntp.c</name>
-        </file>
-      </group>
-    </group>
-    <group>
       <name>utilities</name>
       <group>
         <name>jscon_c</name>

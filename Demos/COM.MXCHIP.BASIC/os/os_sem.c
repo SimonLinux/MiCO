@@ -30,7 +30,6 @@
 */
 
 #include "MICO.h"
-#include "MICORTOS.h"
 
 #define os_sem_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
 static mico_semaphore_t os_sem;

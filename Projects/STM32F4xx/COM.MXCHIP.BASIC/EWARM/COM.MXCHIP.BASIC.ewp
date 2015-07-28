@@ -317,6 +317,8 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
           <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1171,7 +1173,7 @@
         </option>
         <option>
           <name>CCDiagSuppress</name>
-          <state>Pa050</state>
+          <state></state>
         </option>
         <option>
           <name>CCDiagRemark</name>
@@ -1272,11 +1274,12 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
-          <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
           <state>$PROJ_DIR$\..\..\..\..\MICO</state>
           <state>$PROJ_DIR$\..\..\..\..\libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\libraries\protocols</state>
           <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
+          <state>F:\MICO\mico\MICO\system</state>
+          <state>F:\MICO\mico\MICO\system\command_console</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1922,7 +1925,7 @@
   <group>
     <name>Application</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\power_measure\main.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\helloworld\hello_world.c</name>
     </file>
   </group>
   <group>

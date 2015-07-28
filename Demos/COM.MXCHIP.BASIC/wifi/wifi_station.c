@@ -30,7 +30,6 @@
 */
 
 #include "MICO.h"
-#include "MICONotificationCenter.h"
 
 #define wifi_station_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
@@ -63,14 +62,12 @@ int application_start( void )
 {
   network_InitTypeDef_adv_st  wNetConfigAdv={0};
   OSStatus err = kNoErr;
-  char c=100;
   MicoInit( );
-  MICOInitNotificationCenter ( &c );//you may pass arg to notify callback
   /*The notification message for the registered WiFi status change*/
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit ); 
   
-  err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler, NULL );
   require_noerr( err, exit );
   
   strcpy((char*)wNetConfigAdv.ap_info.ssid, ap_ssid);

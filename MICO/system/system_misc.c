@@ -68,7 +68,7 @@ static void micoNotify_WlanFatalErrHandler(mico_Context_t * const inContext)
   MicoSystemReboot();
 }
 
-void micoNotify_StackOverflowErrHandler(char *taskname, mico_Context_t * const inContext)
+static void micoNotify_StackOverflowErrHandler(char *taskname, mico_Context_t * const inContext)
 {
   system_log_trace();
   (void)inContext;
@@ -76,7 +76,7 @@ void micoNotify_StackOverflowErrHandler(char *taskname, mico_Context_t * const i
   MicoSystemReboot();
 }
 
-void micoNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inContext)
+static void micoNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inContext)
 {
   system_log_trace();
   (void)inContext;
@@ -103,7 +103,7 @@ void micoNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inCont
   return;
 }
 
-void micoNotify_WiFIParaChangedHandler(apinfo_adv_t *ap_info, char *key, int key_len, mico_Context_t * const inContext)
+static void micoNotify_WiFIParaChangedHandler(apinfo_adv_t *ap_info, char *key, int key_len, mico_Context_t * const inContext)
 {
   system_log_trace();
   bool _needsUpdate = false;

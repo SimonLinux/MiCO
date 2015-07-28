@@ -1922,7 +1922,7 @@
   <group>
     <name>Application</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\json\json_op.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\power_measure\main.c</name>
     </file>
   </group>
   <group>

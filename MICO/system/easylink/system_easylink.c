@@ -253,7 +253,7 @@ restart:
 
   /* EasyLink Success */
   if( easylink_success == true ){
-    mico_system_delegate_config_recv_ssid( );
+    mico_system_delegate_config_recv_ssid(Context->flashContentInRam.micoSystemConfig.ssid, Context->flashContentInRam.micoSystemConfig.user_key);
     system_connect_wifi_normal( Context );
     err = mico_rtos_get_semaphore( &easylink_sem, EasyLink_ConnectWlan_Timeout );
     /*SSID or Password is not correct, module cannot connect to wlan, so restart EasyLink again*/

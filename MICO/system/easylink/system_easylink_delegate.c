@@ -46,8 +46,9 @@ WEAK void mico_system_delegate_config_will_start( void )
   return;
 }
 
-WEAK void ConfigSoftApWillStart( void )
+WEAK void mico_system_delegate_soft_ap_will_start( void )
 {
+  return;
 }
 
 WEAK void mico_system_delegate_config_will_stop( void )
@@ -58,8 +59,10 @@ WEAK void mico_system_delegate_config_will_stop( void )
   return;
 }
 
-WEAK void mico_system_delegate_config_recv_ssid ( void )
+WEAK void mico_system_delegate_config_recv_ssid ( char *ssid, char *key )
 {
+  UNUSED_PARAMETER(ssid);
+  UNUSED_PARAMETER(key);
   mico_stop_timer(&_Led_EL_timer);
   mico_deinit_timer( &_Led_EL_timer );
   mico_init_timer(&_Led_EL_timer, SYS_LED_TRIGGER_INTERVAL_AFTER_EASYLINK, _led_EL_Timeout_handler, NULL);

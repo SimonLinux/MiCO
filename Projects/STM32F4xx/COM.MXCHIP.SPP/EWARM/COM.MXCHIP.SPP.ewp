@@ -60,7 +60,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>3</version>
+          <version>2</version>
           <state>5</state>
         </option>
         <option>
@@ -627,7 +627,6 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
-        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1018,7 +1017,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>3</version>
+          <version>2</version>
           <state>5</state>
         </option>
         <option>
@@ -1045,7 +1044,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.3.8061</state>
+          <state>7.30.1.7765</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -1586,7 +1585,6 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
-        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1977,7 +1975,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>3</version>
+          <version>2</version>
           <state>5</state>
         </option>
         <option>
@@ -2542,7 +2540,6 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
-        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -2933,7 +2930,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>3</version>
+          <version>2</version>
           <state>5</state>
         </option>
         <option>
@@ -3499,7 +3496,6 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
-        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -3890,7 +3886,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>3</version>
+          <version>2</version>
           <state>5</state>
         </option>
         <option>
@@ -4455,7 +4451,6 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
-        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -4794,7 +4789,7 @@
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\LocalTcpServer.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MiCOAPPDefine.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppDefine.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppEntrance.c</name>
@@ -4941,37 +4936,37 @@
     <group>
       <name>MicoDriver</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverAdc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverAdc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverGpio.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverGpio.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverI2c.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverI2c.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverMFiAuth.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverMFiAuth.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverNanoSecond.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverPwm.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverPwm.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRng.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRng.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRtc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRtc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverSpi.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverSpi.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverUART.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverUart.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverWdg.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverWdg.h</name>
       </file>
     </group>
     <file>
@@ -4981,7 +4976,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\Debug.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\mico_platform.h</name>
@@ -5004,18 +4999,6 @@
   </group>
   <group>
     <name>libraries</name>
-    <group>
-      <name>protocols</name>
-      <excluded>
-        <configuration>MiCOKit-3288</configuration>
-      </excluded>
-      <group>
-        <name>sntp</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\sntp\sntp.c</name>
-        </file>
-      </group>
-    </group>
     <group>
       <name>utilities</name>
       <group>
@@ -5151,83 +5134,83 @@
     <group>
       <name>core</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mico_config.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\core\mico_config.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm4f_8801.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm4f_8801.a</name>
         <excluded>
           <configuration>MiCOKit-3165</configuration>
         </excluded>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm4f_sdio.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm4f_sdio.a</name>
         <excluded>
           <configuration>MiCOKit-3288</configuration>
         </excluded>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm4f_spi.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm4f_spi.a</name>
         <excluded>
           <configuration>MiCOKit-3165</configuration>
           <configuration>MiCOKit-3288</configuration>
         </excluded>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\core\RF driver\wlan_firmware.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\core\RF driver\wlan_firmware.c</name>
       </file>
     </group>
     <group>
       <name>security</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\security\MicoCrypto.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\security\MicoCrypto.a</name>
       </file>
     </group>
     <group>
       <name>system</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\config_server\config_server.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\config_server\config_server.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\config_server\config_server_menu.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\config_server\config_server_menu.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\command_console\mico_cli.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\command_console\mico_cli.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mdns\mico_mdns.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mdns\mico_mdns.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_init.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_init.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_monitor.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_monitor.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_notification.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_notification.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_para_storage.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_para_storage.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_power_daemon.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_power_daemon.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\easylink\system_easylink.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\easylink\system_easylink_delegate.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink_delegate.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_factory_test.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\system_factory_test.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_misc.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\system_misc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\tftp_ota\tftp_ota.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftp_ota.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\system\tftp_ota\tftpc.o</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftpc.o</name>
       </file>
     </group>
   </group>

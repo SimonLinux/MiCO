@@ -133,7 +133,9 @@ void mico_system_delegate_config_will_start( void );
 
 void mico_system_delegate_config_will_stop( void );
 
-void mico_system_delegate_config_recv_ssid ( void );
+void mico_system_delegate_soft_ap_will_start( void );
+
+void mico_system_delegate_config_recv_ssid ( char *ssid, char *key );
 
 void mico_system_delegate_config_success( mico_config_source_t source );
 

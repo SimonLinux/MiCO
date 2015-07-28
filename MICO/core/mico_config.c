@@ -30,6 +30,7 @@
 */
 
 #include "Common.h"
+#include "mico_config.h"
 #include "platform_config.h"
 
 #ifdef MICO_DEFAULT_APPLICATION_STACK_SIZE

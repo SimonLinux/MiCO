@@ -563,6 +563,8 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
       sleep(1);
 
       micoWlanSuspendSoftAP();
+      sleep(1);
+      mico_system_delegate_config_recv_ssid(inContext->flashContentInRam.micoSystemConfig.ssid, inContext->flashContentInRam.micoSystemConfig.user_key);
       system_connect_wifi_normal( inContext );
     }
     goto exit;

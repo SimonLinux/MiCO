@@ -33,6 +33,7 @@
 
 #include "platform_peripheral.h"
 #include "platform.h"
+#include "platform_config.h"
 #include "PlatformLogging.h"
 #include <string.h> // For memcmp
 #include "crt0.h"
@@ -73,6 +74,7 @@
 ******************************************************/
 
 /* Default RTC time. Set to 12:20:30 08/04/2013 Monday */
+#ifndef MICO_DISABLE_MCU_POWERSAVE
 static const platform_rtc_time_t default_rtc_time =
 {
    .sec     = 30,
@@ -83,6 +85,7 @@ static const platform_rtc_time_t default_rtc_time =
    .month   = 4,
    .year    = 13,
 };
+#endif
 
 #ifndef MICO_DISABLE_MCU_POWERSAVE
 static unsigned long  stop_mode_power_down_hook( unsigned long sleep_ms );

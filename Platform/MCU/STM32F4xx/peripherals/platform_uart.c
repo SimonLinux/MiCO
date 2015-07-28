@@ -546,13 +546,11 @@ static OSStatus receive_bytes( platform_uart_driver_t* driver, void* data, uint3
     int delay_start = mico_get_time_no_os();
     while( driver->rx_complete == false ){
       if(mico_get_time_no_os() >= delay_start + timeout && timeout != MICO_NEVER_TIMEOUT){
-        err = kTimeoutErr;
-        goto exit;
+        return kTimeoutErr;
       }
     }    
 #endif
   }
-exit:
   return err;
 }
 

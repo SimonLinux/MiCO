@@ -523,16 +523,16 @@
 			"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.h",
 			"settings":
 			{
-				"buffer_size": 4255,
-				"line_ending": "Windows"
+				"buffer_size": 0,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.c",
 			"settings":
 			{
-				"buffer_size": 28309,
-				"line_ending": "Windows"
+				"buffer_size": 0,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -930,7 +930,7 @@
 					"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.h",
 					"settings":
 					{
-						"buffer_size": 4255,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
@@ -958,7 +958,7 @@
 					"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.c",
 					"settings":
 					{
-						"buffer_size": 28309,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
@@ -1096,7 +1096,7 @@
 							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 615.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

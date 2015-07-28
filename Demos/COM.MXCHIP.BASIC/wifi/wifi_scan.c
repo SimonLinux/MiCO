@@ -4,7 +4,7 @@
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
-* @brief   First MiCO application to say hello world!
+* @brief   scan wifihot
 ******************************************************************************
 *
 *  The MIT License
@@ -36,24 +36,22 @@
 
 void micoNotify_ApListCallback(ScanResult *pApList)
 {
-  int i;
-  
-  printf("\r\ngot %d AP\r\n", pApList->ApNum);
-  for(i=0; i<pApList->ApNum; i++) {
-    printf("%d \t%-20s \t%-d\r\n", i, pApList->ApList[i].ssid, pApList->ApList[i].ApPower);
+  int i=0;
+  wifi_sacn_log("got %d AP", pApList->ApNum);
+  for(i=0; i<pApList->ApNum; i++)
+  {
+    wifi_sacn_log("ap%d: name = %s  | strenth=%d",  
+                  i,pApList->ApList[i].ssid, pApList->ApList[i].ApPower);
+
   }
 }
 
 int application_start( void )
 {
-  
   MicoInit( );
-  
   MICOAddNotification( mico_notify_WIFI_SCAN_COMPLETED, (void *)micoNotify_ApListCallback );
-  
   wifi_sacn_log("start scan mode, please wait...");
   micoWlanStartScan( );
-  
   return kNoErr; 
 }
 

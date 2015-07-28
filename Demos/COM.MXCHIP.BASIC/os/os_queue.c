@@ -34,78 +34,44 @@
 #define os_queue_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
 
 static mico_queue_t os_queue;
-
 typedef struct _msg
 {
-  int sourse;
   int value;
 } msg_t;
-
-static msg_t msgstruct[2] = {
-  {1, 100},
-  {2, 200}
-};
 
 void receiver_thread(void *inContext)
 {
   OSStatus err;
-  msg_t *Received;
+  msg_t received={0};
   
   while(1)
   {
-    
-    err = mico_rtos_pop_from_queue( &os_queue, &Received, 1000);
-    if ( err == kNoErr)
-    {
-      if ( Received->sourse == 1 )
-      {
-        os_queue_log("form sender1 thread, value = %d", Received->value);
-      }
-      else if ( Received->sourse == 2 )
-      {
-        os_queue_log("form sender2 thread, value = %d", Received->value);
-      }
-    }
-    else
-    {
-      os_queue_log("received timeout");
-    }
+    /*Wait until queue has data*/
+    err = mico_rtos_pop_from_queue( &os_queue, &received, MICO_WAIT_FOREVER);
+    os_queue_log("Received data from queue:value=%d",received.value);
   }
 }
 
 void sender_thread(void *inContext)
 {
-  int delay;
-  srand( 1000 );
+  msg_t my_message={0};
+  int value=0;
   while(1)
   {
-    delay = rand()%9 + 1;
-    os_queue_log("delay %ds", delay);
-    mico_thread_sleep(delay);
-    mico_rtos_push_to_queue(&os_queue, &inContext, 0);
+    memset(&my_message,0,sizeof(msg_t));
+    my_message.value=value++;
+    mico_thread_sleep(1);
+    mico_rtos_push_to_queue(&os_queue, &my_message, 0);
+    os_queue_log("send data to queue");
   }
 }
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  
   err = mico_rtos_init_queue(&os_queue, "queue", sizeof(msg_t), 3);
-  require_noerr( err, exit ); 
-  
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "receiver", receiver_thread, 0x800, NULL);
-  require_noerr_action( err, exit, os_queue_log("ERROR: Unable to start the receiver thread.") );
-  
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "sender1", sender_thread, 0x800, &(msgstruct[0]));
-  require_noerr_action( err, exit, os_queue_log("ERROR: Unable to start the sender1 thread.") );
-
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "sender2", sender_thread, 0x800, &(msgstruct[1]));
-  require_noerr_action( err, exit, os_queue_log("ERROR: Unable to start the sender2 thread.") );
-  
-  return err;
-
-exit:
-  os_queue_log("ERROR, err: %d", err);
+  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "receiver", receiver_thread, 500, NULL);
+  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "sender", sender_thread, 500, NULL);
   return err;
 }
 

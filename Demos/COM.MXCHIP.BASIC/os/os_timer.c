@@ -30,38 +30,39 @@
 */
 
 #include "MICO.h"
+#include "MICORTOS.h"
 
 #define os_timer_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
 
-static mico_timer_t os_timer;
 
-static void os_timer_timeout_handler( void* inContext )
+mico_timer_t timer_handle;
+/*prototype*/
+void destroy_timer( void );
+void alarm( void* arg );
+
+
+void destroy_timer( void )
 {
-  int time;
-  time = (int)inContext;
-  os_timer_log("%dms time is up", time);
+  mico_stop_timer(&timer_handle);
+  mico_deinit_timer( &timer_handle );
 }
 
-void stop_timer( void )
+void alarm( void* arg )
 {
-  mico_stop_timer(&os_timer);
-  mico_deinit_timer( &os_timer );
+  int *p=(int*)arg;
+  os_timer_log("time is coming,value=%d",*p);
+  //destroy_timer();
 }
-
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  int time_sencond = 3*1000;
-  
-  os_timer_log("start os timer, timeout time is %dms", time_sencond);
-  
-  err = mico_init_timer(&os_timer, time_sencond, os_timer_timeout_handler, (void *)time_sencond);
-  require_noerr( err, exit );
-  
-  mico_start_timer(&os_timer);
-  
-exit:
-    return err;
+  os_timer_log("timer demo");
+  int arg=100;
+  //err = mico_init_timer(&timer_handle, 3000, alarm, (void *)NULL);
+  err = mico_init_timer(&timer_handle, 3000, alarm, &arg);
+  mico_start_timer(&timer_handle);
+  while(1);
+  return err;
 }
 
 

@@ -32,74 +32,58 @@
 #include "MicoDefine.h"
 #include "platform_config.h"
 #include "MICONotificationCenter.h"
-
 #include "MDNSUtils.h"
 #include "StringUtils.h"
 
 #define udp_bonjour_log(M, ...) custom_log("UDP", M, ##__VA_ARGS__)
 
-static char *ap_ssid = "sqdmz";
-static char *ap_key  = "0987654321";
+static char *ap_ssid = "Xiaomi.Router";
+static char *ap_key  = "stm32f215";
+static mico_semaphore_t wait_sem;
 
-static network_InitTypeDef_adv_st wNetConfigAdv;
-static mico_semaphore_t udp_sem;
-
-void micoNotify_WifiStatusHandler(WiFiEvent event,  const int inContext)
+void micoNotify_ConnectFailedHandler(OSStatus err, void* const inContext)
 {
-  (void)inContext;
-  switch (event) {
-  case NOTIFY_STATION_UP:
-    udp_bonjour_log("Station up");
-    mico_rtos_set_semaphore(&udp_sem);
-    MicoRfLed(true);
-    break;
-  case NOTIFY_STATION_DOWN:
-    udp_bonjour_log("Station down");
-    MicoRfLed(false);
-    break;
-  default:
-    break;
-  }
-  return;
-}
-
-void micoNotify_ConnectFailedHandler(OSStatus err, const int inContext)
-{
-  (void)inContext;
   udp_bonjour_log("Wlan Connection Err %d", err);
+}
+void micoNotify_WifiStatusHandler(WiFiEvent status, void* const inContext)
+{
+  switch (status) {
+    case NOTIFY_STATION_UP:
+      udp_bonjour_log("Station up");
+      mico_rtos_set_semaphore(&wait_sem);
+      break;
+    case NOTIFY_STATION_DOWN:
+      udp_bonjour_log("Station down");
+      break;
+  }
 }
 
 static void connect_ap( void )
 {  
-  memset(&wNetConfigAdv, 0x0, sizeof(network_InitTypeDef_adv_st));
-  
-  strcpy((char*)wNetConfigAdv.ap_info.ssid, ap_ssid);
-  strcpy((char*)wNetConfigAdv.key, ap_key);
+  network_InitTypeDef_adv_st wNetConfigAdv={0};
+  strcpy((char*)wNetConfigAdv.ap_info.ssid, ap_ssid);/*ap ssid*/
+  strcpy((char*)wNetConfigAdv.key, ap_key);/*ap password*/
   wNetConfigAdv.key_len = strlen(ap_key);
   wNetConfigAdv.ap_info.security = SECURITY_TYPE_AUTO;
-  wNetConfigAdv.ap_info.channel = 0; //Auto
+  wNetConfigAdv.ap_info.channel = 0; /*Auto*/
   wNetConfigAdv.dhcpMode = DHCP_Client;
   wNetConfigAdv.wifi_retry_interval = 100;
   micoWlanStartAdv(&wNetConfigAdv);
-  
-  udp_bonjour_log("connect to %s...", wNetConfigAdv.ap_info.ssid);
 }
 
-void bonjour_server( WiFi_Interface interface )
+void my_bonjour_server( WiFi_Interface interface )
 {
-  char *temp_txt= NULL;
+  char *temp_txt= (char*)malloc(500);
   char *temp_txt2;
-  net_para_st para;
-  bonjour_init_t init;
-
-  temp_txt = malloc(500);
-
-  memset(&init, 0x0, sizeof(bonjour_init_t));
-
+  IPStatusTypedef para;
+  
+  bonjour_init_t init={0};
   micoWlanGetIPStatus(&para, Station);
 
-  init.service_name = BONJOUR_SERVICE;
+  udp_bonjour_log("mac is %s,ip=%s",para.mac,para.ip);
+  init.service_name = BONJOUR_SERVICE;/*"_easylink._tcp.local."*/
 
+  /*format*/
   /*   name#xxxxxx.local.  */
   snprintf( temp_txt, 100, "%s#%c%c%c%c%c%c.local.", BONJOURNANE, 
                                                      para.mac[6],   para.mac[7], \
@@ -117,7 +101,11 @@ void bonjour_server( WiFi_Interface interface )
   init.service_port = LOCAL_PORT;
   init.interface = interface;
 
-  temp_txt2 = __strdup_trans_dot(para.mac);
+  //take some data
+  /*for example,modify here*/
+  temp_txt2 = __strdup_trans_dot("MyTestMac");
+  //temp_txt2 = __strdup_trans_dot(para.mac);
+
   sprintf(temp_txt, "MAC=%s.", temp_txt2);
   free(temp_txt2);
 
@@ -145,25 +133,40 @@ void bonjour_server( WiFi_Interface interface )
   sprintf(temp_txt, "%sManufacturer=%s.", temp_txt, temp_txt2);
   free(temp_txt2);
   
+  /*printf*/
+  udp_bonjour_log("TXT RECORD=%s",temp_txt);
+  
+  /*
+  TXT RECORD=MAC=c89346918152.
+  Firmware Rev=MICO_BASE_1_0.
+  Hardware Rev=MK3288_1.
+  MICO OS Rev=10880002/.032.
+  Model=MiCOKit-3288.
+  Protocol=com/.mxchip/.basic.
+  Manufacturer=MXCHIP Inc/..
+  */
+  /*take some data in txt_record*/
   init.txt_record = (char*)__strdup(temp_txt);
 
   bonjour_service_init(init);
 
+  /*free memeoy*/
   free(init.host_name);
   free(init.instance_name);
   free(init.txt_record);
 
-  /*start bonjour server*/
+  /*mDNS+DNS-sd*/
   start_bonjour_service( );
  
-  if(temp_txt) free(temp_txt);
-  return;
+  if(temp_txt) 
+    free(temp_txt);
 }
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  
+  IPStatusTypedef para;
+  udp_bonjour_log("udp bonjour demo");
   MicoInit( );
   
    /*The notification message for the registered WiFi status change*/
@@ -173,16 +176,16 @@ int application_start( void )
   err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
   require_noerr( err, exit );
   
-  err = mico_rtos_init_semaphore(&udp_sem, 1);
+  err = mico_rtos_init_semaphore(&wait_sem, 1);
   require_noerr( err, exit ); 
   
   connect_ap( );
+  udp_bonjour_log("connecting to %s...", ap_ssid);
   
-  mico_rtos_get_semaphore(&udp_sem, MICO_WAIT_FOREVER);
-  
+  /*waiting for wifi connected successful*/
+  mico_rtos_get_semaphore(&wait_sem, MICO_WAIT_FOREVER);
   /*registered bonjour server*/
-  bonjour_server( Station );
- 
+  my_bonjour_server( Station );
   return err;
 
 exit:

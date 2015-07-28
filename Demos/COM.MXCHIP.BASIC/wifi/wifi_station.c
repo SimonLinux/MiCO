@@ -34,49 +34,44 @@
 
 #define wifi_station_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
-static char *ap_ssid = "Xiaomi.Router";
-static char *ap_key  = "stm32f215";
+char *ap_ssid = "Xiaomi.Router";
+char *ap_key  = "stm32f215";
 
-static network_InitTypeDef_adv_st wNetConfigAdv;
 
-void micoNotify_WifiStatusHandler(WiFiEvent event,  const int inContext)
+void micoNotify_ConnectFailedHandler(OSStatus err, void* inContext)
 {
-  (void)inContext;
-  switch (event) {
-  case NOTIFY_STATION_UP:
-    wifi_station_log("Station up");
-    MicoRfLed(true);
-    break;
-  case NOTIFY_STATION_DOWN:
-    wifi_station_log("Station down");
-    MicoRfLed(false);
-    break;
-  default:
-    break;
-  }
-  return;
+  wifi_station_log("join Wlan failed Err: %d", err);
 }
 
-void micoNotify_ConnectFailedHandler(OSStatus err, const int inContext)
+void micoNotify_WifiStatusHandler(WiFiEvent event,  void* inContext)
 {
-  (void)inContext;
-  wifi_station_log("Wlan Connection Err %d", err);
+    char *p=(char*)inContext;
+    wifi_station_log("*p = %d",*p);//get arg
+    switch (event) 
+    {
+      case NOTIFY_STATION_UP:
+          wifi_station_log("Station up");//connected successful
+          break;
+      case NOTIFY_STATION_DOWN:
+          wifi_station_log("Station down");
+          break;
+      default:
+          break;
+    }
 }
-
 int application_start( void )
 {
+  network_InitTypeDef_adv_st  wNetConfigAdv={0};
   OSStatus err = kNoErr;
-  
+  char c=100;
   MicoInit( );
-  
+  MICOInitNotificationCenter ( &c );//you may pass arg to notify callback
   /*The notification message for the registered WiFi status change*/
   err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
   require_noerr( err, exit ); 
   
   err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
   require_noerr( err, exit );
-  
-  memset(&wNetConfigAdv, 0x0, sizeof(network_InitTypeDef_adv_st));
   
   strcpy((char*)wNetConfigAdv.ap_info.ssid, ap_ssid);
   strcpy((char*)wNetConfigAdv.key, ap_key);
@@ -86,9 +81,7 @@ int application_start( void )
   wNetConfigAdv.dhcpMode = DHCP_Client;
   wNetConfigAdv.wifi_retry_interval = 100;
   micoWlanStartAdv(&wNetConfigAdv);
-  
-  wifi_station_log("connect to %s...", wNetConfigAdv.ap_info.ssid);
-
+  wifi_station_log("connecting to %s...", wNetConfigAdv.ap_info.ssid);
 exit:  
   return err;
 }

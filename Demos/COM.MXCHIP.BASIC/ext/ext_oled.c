@@ -31,35 +31,28 @@
 
 #include "MICO.h"
 #include "micokit_ext.h"
-
 #define ext_oled_log(M, ...) custom_log("EXT", M, ##__VA_ARGS__)
-
 int application_start( void )
 {
-  char time[16];
-  
+  char time[16]={0};
   ext_oled_log("OLED control demo!");
-  
   /*Init Organic Light-Emitting Diode*/
   OLED_Init();
-
   /*Starting position display string at the first row*/
   OLED_ShowString(0, 0, "MXCHIP Inc.");
-  
-  /*Starting position display string at the third row*/
-  OLED_ShowString(0, 3, "MiCO run time:");
-  
+  /*Starting position display string at the second row*/
+  OLED_ShowString(0, 2, "MiCO run time:");
   while(1)
   {
-    memset(time, '\0', sizeof(time));
-    
+    memset(time, 0, sizeof(time));
     /*Gets time in miiliseconds since MiCO RTOS start*/
     sprintf(time, "%d ms", mico_get_time());
-    
-    /*Starting position display time at the sex row*/
-    OLED_ShowString(0, 6, (uint8_t *)time);
+    /*Starting position display time at the third row*/
+    OLED_ShowString(0, 4, (uint8_t *)time);
     mico_thread_sleep(1);
   }
+  //OLED_Clear();
+  return 1;
 }
 
 

@@ -230,7 +230,6 @@ OSStatus system_network_daemen_start( mico_Context_t * const inContext )
 {
   IPStatusTypedef para;
 
-  wifimgr_debug_enable(true);
   MicoInit();
   MicoSysLed(true);
   system_log("Free memory %d bytes", MicoGetMemoryInfo()->free_memory); 

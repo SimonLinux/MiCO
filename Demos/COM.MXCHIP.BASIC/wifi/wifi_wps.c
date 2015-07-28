@@ -38,7 +38,7 @@
 static int is_wps_success;
 static char ap_ssid[64], ap_key[32];
 static mico_semaphore_t wps_sem;
-static network_InitTypeDef_adv_st wNetConfigAdv;
+
 
 void micoNotify_WifiStatusHandler(WiFiEvent event,  const int inContext)
 {
@@ -91,8 +91,8 @@ void clean_wps_sesource( )
 
 static void connect_ap( void )
 {  
+  network_InitTypeDef_adv_st wNetConfigAdv;
   memset(&wNetConfigAdv, 0x0, sizeof(network_InitTypeDef_adv_st));
-  
   strcpy((char*)wNetConfigAdv.ap_info.ssid, ap_ssid);
   strcpy((char*)wNetConfigAdv.key, ap_key);
   wNetConfigAdv.key_len = strlen(ap_key);
@@ -101,8 +101,7 @@ static void connect_ap( void )
   wNetConfigAdv.dhcpMode = DHCP_Client;
   wNetConfigAdv.wifi_retry_interval = 100;
   micoWlanStartAdv(&wNetConfigAdv);
-  
-  wifi_wps_log("connect to %s...", wNetConfigAdv.ap_info.ssid);
+  wifi_wps_log("connecting to %s...", wNetConfigAdv.ap_info.ssid);
 }
 
 void wps_thread(void *inContext)

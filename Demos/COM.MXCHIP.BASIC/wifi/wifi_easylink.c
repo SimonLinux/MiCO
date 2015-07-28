@@ -4,7 +4,7 @@
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
-* @brief   First MiCO application to say hello world!
+* @brief   easylink demo£¨get ssid and key from app£©
 ******************************************************************************
 *
 *  The MIT License
@@ -35,43 +35,42 @@
 
 #define wifi_easylink_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
+/*need to get ssid and key from app*/
 static char ap_ssid[64], ap_key[32];
-static int is_easylink_success;
+char ipstr[16]={0};
+char *domain="www.baidu.com";
 static mico_semaphore_t      easylink_sem;
-static network_InitTypeDef_adv_st wNetConfigAdv;
+static mico_semaphore_t      wifi_sem;
+bool isEasyLinkSuccess = false;
 
-void micoNotify_WifiStatusHandler(WiFiEvent event,  const int inContext)
-{
-  (void)inContext;
-  switch (event) {
-  case NOTIFY_STATION_UP:
-    wifi_easylink_log("Station up");
-    MicoRfLed(true);
-    break;
-  case NOTIFY_STATION_DOWN:
-    wifi_easylink_log("Station down");
-    MicoRfLed(false);
-    break;
-  default:
-    break;
-  }
-  return;
-}
 
-void micoNotify_ConnectFailedHandler(OSStatus err, const int inContext)
+void micoNotify_ConnectFailedHandler(OSStatus err, void* const inContext)
 {
-  (void)inContext;
   wifi_easylink_log("Wlan Connection Err %d", err);
 }
+void micoNotify_WifiStatusHandler(WiFiEvent status, void* const inContext)
+{
+  switch (status) {
+    case NOTIFY_STATION_UP:
+      wifi_easylink_log("Station up,wifi is connected now");
+      mico_rtos_set_semaphore(&wifi_sem);
+      break;
+    case NOTIFY_STATION_DOWN:
+      wifi_easylink_log("Station down,wifi is not connected");
+      break;
+  }
+}
+
 
 void EasyLinkNotify_EasyLinkCompleteHandler(network_InitTypeDef_st *nwkpara, const int inContext)
 {
   OSStatus err;
   wifi_easylink_log("EasyLink return");
-  require_action(nwkpara, exit, err = kTimeoutErr);
-  strcpy(ap_ssid, nwkpara->wifi_ssid);
+  require_action(nwkpara, exit, err = kTimeoutErr);/*error*/
+  strcpy(ap_ssid, nwkpara->wifi_ssid);/*get ssid and key*/
   strcpy(ap_key, nwkpara->wifi_key);
   wifi_easylink_log("Get SSID: %s, Key: %s", nwkpara->wifi_ssid, nwkpara->wifi_key);
+  isEasyLinkSuccess=true;/*successfully get ssid and key*/
   return;
   
 exit:
@@ -79,86 +78,49 @@ exit:
   mico_rtos_set_semaphore(&easylink_sem);
 }
 
-void EasyLinkNotify_EasyLinkGetExtraDataHandler(int datalen, char* data, const int inContext)
+void EasyLinkNotify_EasyLinkGetExtraDataHandler(int datalen, char* data, void* inContext)
 {
-  OSStatus err;
-  int index ;
-  char address[16];
-  char *debugString;
-  uint32_t *ipInfo, ipInfoCount;
-  debugString = DataToHexStringWithSpaces( (const uint8_t *)data, datalen );
-  wifi_easylink_log("Get user info: %s", debugString);
-  free(debugString);
-  
-  for(index = datalen - 1; index>=0; index-- ){
-    if(data[index] == '#' &&( (datalen - index) == 5 || (datalen - index) == 25 ) )
-      break;
-  }
-  require_action(index >= 0, exit, err = kParamErr);
-  
-  data[index++] = 0x0;
-  ipInfo = (uint32_t *)&data[index];
-  ipInfoCount = (datalen - index)/sizeof(uint32_t);
-  require_action(ipInfoCount >= 1, exit, err = kParamErr);
-  
-  inet_ntoa( address, *(uint32_t *)(ipInfo) );
-  wifi_easylink_log("Get auth info: %s, EasyLink server ip address: %s", data, address);
-  is_easylink_success = 1;
-  mico_rtos_set_semaphore(&easylink_sem);
-  return;
-  
-exit:
-  wifi_easylink_log("ERROR, err: %d", err); 
-}
-
-void clean_easylink_resource( )
-{
-  MICORemoveNotification( mico_notify_EASYLINK_WPS_COMPLETED, (void *)EasyLinkNotify_EasyLinkCompleteHandler );
-  MICORemoveNotification( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)EasyLinkNotify_EasyLinkGetExtraDataHandler );
-  
-  mico_rtos_deinit_semaphore(&easylink_sem);
-  easylink_sem = NULL;
+     wifi_easylink_log("get extra data=%s",data);
+     mico_rtos_set_semaphore(&easylink_sem);
 }
 
 static void connect_ap( void )
 {  
-  memset(&wNetConfigAdv, 0x0, sizeof(network_InitTypeDef_adv_st));
-  
+  network_InitTypeDef_adv_st wNetConfigAdv={0};
   strcpy((char*)wNetConfigAdv.ap_info.ssid, ap_ssid);
   strcpy((char*)wNetConfigAdv.key, ap_key);
   wNetConfigAdv.key_len = strlen(ap_key);
   wNetConfigAdv.ap_info.security = SECURITY_TYPE_AUTO;
-  wNetConfigAdv.ap_info.channel = 0; //Auto
+  wNetConfigAdv.ap_info.channel = 0; /*Auto*/
   wNetConfigAdv.dhcpMode = DHCP_Client;
   wNetConfigAdv.wifi_retry_interval = 100;
   micoWlanStartAdv(&wNetConfigAdv);
-  
-  wifi_easylink_log("connect to %s...", wNetConfigAdv.ap_info.ssid);
+  wifi_easylink_log("connecting to %s...", wNetConfigAdv.ap_info.ssid);
 }
 
 void easylink_thread(void *inContext)
 {
-  micoWlanStartEasyLink( 60 );
-  wifi_easylink_log("Start Easylink configuration");
-  mico_rtos_get_semaphore(&easylink_sem, MICO_WAIT_FOREVER);
-  
-  if ( is_easylink_success == 1 )
+  micoWlanStartEasyLinkPlus(20);/*ready for app to send data to config ssid and key*/
+  wifi_easylink_log("Start Easylink configuration,app start to configure now");
+  mico_rtos_get_semaphore(&easylink_sem,MICO_WAIT_FOREVER);
+  if(isEasyLinkSuccess==true)
   {
-    mico_thread_msleep(10);
-    connect_ap( );
-  } else {
-    wifi_easylink_log("Easylink configuration fail");
+      wifi_easylink_log("easylink sucess");
+      connect_ap();
+      mico_rtos_get_semaphore(&wifi_sem,MICO_WAIT_FOREVER);
+      gethostbyname(domain, (uint8_t *)ipstr, 16);
+      wifi_easylink_log("www.baidu.com, ip=%s",ipstr);
   }
-  
-  clean_easylink_resource();
-  mico_rtos_delete_thread(NULL);
+  else
+  {
+      wifi_easylink_log("easylink failed,let app start easylink mode");
+  }
+   mico_rtos_delete_thread(NULL);
 }
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  is_easylink_success = 0;
-  
   MicoInit( );
   
   /*The notification message for the registered WiFi status change*/
@@ -174,8 +136,10 @@ int application_start( void )
   err = MICOAddNotification( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)EasyLinkNotify_EasyLinkGetExtraDataHandler );
   require_noerr(err, exit);
   
-  // Start the EasyLink thread
-  mico_rtos_init_semaphore(&easylink_sem, 1);
+  /*Start the EasyLink thread*/
+  mico_rtos_init_semaphore(&easylink_sem, 1);/*wait easylink*/
+  mico_rtos_init_semaphore(&wifi_sem,1);/*wait wifi to be connect*/
+  
   err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "EASYLINK", easylink_thread, 0x800, NULL );
   require_noerr_action( err, exit, wifi_easylink_log("ERROR: Unable to start the EasyLink thread.") );
   

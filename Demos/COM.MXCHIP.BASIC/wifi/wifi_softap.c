@@ -4,7 +4,7 @@
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
-* @brief   First MiCO application to say hello world!
+* @brief   let kit be a access point
 ******************************************************************************
 *
 *  The MIT License
@@ -34,14 +34,13 @@
 
 #define wifi_softap_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
-static char *ap_ssid = "mxchip_test";
+static char *ap_ssid = "mxchip_zfw";
 static char *ap_key = "12345678";
 
-static network_InitTypeDef_st wNetConfig;
+
 
 void micoNotify_WifiStatusHandler(WiFiEvent event,  const int inContext)
 {
-  (void)inContext;
   switch (event) {
   case NOTIFY_AP_UP:
     wifi_softap_log("AP established");
@@ -60,7 +59,7 @@ void micoNotify_WifiStatusHandler(WiFiEvent event,  const int inContext)
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  
+  network_InitTypeDef_st wNetConfig;
   MicoInit( );
   
   /*The notification message for the registered WiFi status change*/
@@ -73,7 +72,7 @@ int application_start( void )
   strcpy((char*)wNetConfig.wifi_key, ap_key);
   
   wNetConfig.wifi_mode = Soft_AP;
-  wNetConfig.dhcpMode = DHCP_Server;
+  wNetConfig.dhcpMode = DHCP_Server;//be a ap mode
   wNetConfig.wifi_retry_interval = 100;
   strcpy((char*)wNetConfig.local_ip_addr, "192.168.0.1");
   strcpy((char*)wNetConfig.net_mask, "255.255.255.0");

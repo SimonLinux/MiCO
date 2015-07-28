@@ -35,47 +35,37 @@
 
 #define wifi_airkiss_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
-#define Airkiss_ConnectWlan_Timeout    20000
-static int is_airkiss_success;
-static uint8_t airkiss_data;
 static char ap_ssid[64], ap_key[32];
-static mico_semaphore_t      airkiss_sem;
-static network_InitTypeDef_adv_st wNetConfigAdv;
+static mico_semaphore_t      airkiss_sem;/*wait airkiss return*/
+static mico_semaphore_t      wifi_sem;/*wait wifi connected*/
+static int is_airkiss_success=false;
+static uint8_t airkiss_data;/*get wechat extra data*/
+
 
 void micoNotify_ConnectFailedHandler(OSStatus err, const int inContext)
 {
-  (void)inContext;
   wifi_airkiss_log("Wlan Connection Err %d", err);
 }
 
 void AirkissNotify_WifiStatusHandler(WiFiEvent event, const int inContext)
 {
   switch (event) {
-  case NOTIFY_STATION_UP:
-    wifi_airkiss_log("Access point connected");
-    mico_rtos_set_semaphore(&airkiss_sem);
-    MicoRfLed(true);
-    break;
-  case NOTIFY_STATION_DOWN:
-    MicoRfLed(false);
-    break;
-  case NOTIFY_AP_UP:
-    MicoRfLed(true);
-    break;
-  case NOTIFY_AP_DOWN:
-    MicoRfLed(false);
-    break;
-  default:
-    break;
+      case NOTIFY_STATION_UP:
+        wifi_airkiss_log("Access point connected");
+        mico_rtos_set_semaphore(&wifi_sem);
+        break;
+      case NOTIFY_STATION_DOWN:
+        break;
   }
-
 }
 
 void AirkissNotify_AirkissCompleteHandler(network_InitTypeDef_st *nwkpara, const int inContext)
 {
   OSStatus err;
   wifi_airkiss_log("airkiss return");
-  require_action(nwkpara, exit, err = kTimeoutErr);
+  require_action(nwkpara, exit, err = kTimeoutErr);/*error*/
+  memset(ap_ssid,0,sizeof(ap_ssid));
+  memset(ap_key,0,sizeof(ap_key));
   strcpy(ap_ssid, nwkpara->wifi_ssid);
   strcpy(ap_key, nwkpara->wifi_key);
   wifi_airkiss_log("Get SSID: %s, Key: %s", nwkpara->wifi_ssid, nwkpara->wifi_key);
@@ -88,40 +78,25 @@ exit:
 
 void AirkissNotify_AirkissGetExtraDataHandler(int datalen, char* data, const int inContext)
 {
-  char *debugString;
-
-  debugString = DataToHexStringWithSpaces( (const uint8_t *)data, datalen );
-  wifi_airkiss_log("Get user info: %s", debugString);
-  free(debugString);
   airkiss_data = data[0];
-  is_airkiss_success = 1;
+  wifi_airkiss_log("Get user info: %x", airkiss_data);
+  is_airkiss_success = true;
   mico_rtos_set_semaphore(&airkiss_sem);
-}
-
-void clean_airkiss_resource( void )
-{
-  MICORemoveNotification( mico_notify_EASYLINK_WPS_COMPLETED, (void *)AirkissNotify_AirkissCompleteHandler );
-  MICORemoveNotification( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)AirkissNotify_AirkissGetExtraDataHandler );
-  MICORemoveNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)AirkissNotify_WifiStatusHandler );
-    
-  mico_rtos_deinit_semaphore(&airkiss_sem);
-  airkiss_sem = NULL;
 }
 
 static void connect_ap( void )
 {  
-  memset(&wNetConfigAdv, 0x0, sizeof(network_InitTypeDef_adv_st));
-  
+  network_InitTypeDef_adv_st wNetConfigAdv={0};
   strcpy((char*)wNetConfigAdv.ap_info.ssid, ap_ssid);
   strcpy((char*)wNetConfigAdv.key, ap_key);
   wNetConfigAdv.key_len = strlen(ap_key);
   wNetConfigAdv.ap_info.security = SECURITY_TYPE_AUTO;
-  wNetConfigAdv.ap_info.channel = 0; //Auto
+  wNetConfigAdv.ap_info.channel = 0; 
   wNetConfigAdv.dhcpMode = DHCP_Client;
   wNetConfigAdv.wifi_retry_interval = 100;
   micoWlanStartAdv(&wNetConfigAdv);
   
-  wifi_airkiss_log("connect to %s...", wNetConfigAdv.ap_info.ssid);
+  wifi_airkiss_log("connecting to %s...", wNetConfigAdv.ap_info.ssid);
 }
 
 void airkiss_thread(void *inContext)
@@ -130,38 +105,31 @@ void airkiss_thread(void *inContext)
   struct sockaddr_t addr;
   int i = 0;
   
-  micoWlanStartAirkiss( 40 );
+  micoWlanStartAirkiss( 20 );
   wifi_airkiss_log("Start Airkiss configuration");
   mico_rtos_get_semaphore(&airkiss_sem, MICO_WAIT_FOREVER);
   
-  if ( is_airkiss_success == 1 )
+  if(is_airkiss_success==true)
   {
-    mico_thread_msleep(10);
-    connect_ap( );
-    
-    mico_rtos_get_semaphore(&airkiss_sem, Airkiss_ConnectWlan_Timeout);
-    fd = socket( AF_INET, SOCK_DGRM, IPPROTO_UDP );
-    if (fd < 0)
-      goto threadexit;
-    
-    addr.s_ip = INADDR_BROADCAST;
-    addr.s_port = 10000;
-    wifi_airkiss_log("Send UDP to WECHAT");
-    while(1){
-      sendto(fd, &airkiss_data, 1, 0, &addr, sizeof(addr));
-      
-      msleep(10);
-      i++;
-      if (i > 20)
-        break;
-    }  
-
-  } else {
-    wifi_airkiss_log("Airkiss configuration fail");
+       connect_ap( );
+       mico_rtos_get_semaphore(&wifi_sem, MICO_WAIT_FOREVER);
+       fd = socket( AF_INET, SOCK_DGRM, IPPROTO_UDP );
+       addr.s_ip = INADDR_BROADCAST;
+       addr.s_port = 10000;
+       wifi_airkiss_log("UDP Send airkiss_data=%x to WECHAT,port=%d",
+                     airkiss_data,addr.s_port);
+       while(1){
+           sendto(fd, &airkiss_data, 1, 0, &addr, sizeof(addr));
+           msleep(10);
+           i++;
+           if (i > 20)
+           break;
+        }  
   }
-  
-threadexit:  
-  clean_airkiss_resource( );
+  else
+  {
+    wifi_airkiss_log("easylink failed,let app start airkiss mode");
+  }
   mico_rtos_delete_thread(NULL);
 }
 
@@ -184,8 +152,9 @@ int application_start( void )
   err = MICOAddNotification( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)AirkissNotify_AirkissGetExtraDataHandler );
   require_noerr(err, exit);
   
-  // Start the Airkiss thread
-  mico_rtos_init_semaphore(&airkiss_sem, 1);
+  /*Start the Airkiss thread*/
+  mico_rtos_init_semaphore(&airkiss_sem, 1);/*wait easylink*/
+  mico_rtos_init_semaphore(&wifi_sem, 1);/*wait wifi to be connect*/
   err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "AIRKISS", airkiss_thread, 0x800, NULL );
   require_noerr_action( err, exit, wifi_airkiss_log("ERROR: Unable to start the Airkiss thread.") );
  

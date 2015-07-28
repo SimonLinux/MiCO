@@ -30,7 +30,7 @@
 */
 
 #include "MiCO.h" 
-#include "MiCONotificationCenter.h"
+//#include "MiCONotificationCenter.h"
 
 #define power_log(M, ...) custom_log("PM", M, ##__VA_ARGS__)
 

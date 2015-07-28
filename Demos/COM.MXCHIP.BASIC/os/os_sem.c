@@ -30,49 +30,28 @@
 */
 
 #include "MICO.h"
+#include "MICORTOS.h"
 
 #define os_sem_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
-
 static mico_semaphore_t os_sem;
 
-void get_thread(void *inContext)
+void release_thread(void *arg)
 {
-  int get_count = 1;
-  while(mico_rtos_get_semaphore(&os_sem, MICO_WAIT_FOREVER) == kNoErr)
-  {
-    os_sem_log("os semaphore is get, count %d", get_count++);
-  }
-}
-
-void set_thread(void *inContext)
-{
-  int set_count = 1;
-  while(1)
-  {
-    mico_thread_sleep(5);
+    sleep(3);
     mico_rtos_set_semaphore(&os_sem);
-    os_sem_log("os semaphore is set, count %d", set_count++);
-  }
+    os_sem_log("release semaphore");
+    mico_rtos_delete_thread(NULL);
 }
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-
-  err = mico_rtos_init_semaphore(&os_sem, 1);
-  require_noerr( err, exit ); 
-  
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "get sem", get_thread, 0x800, NULL);
-  require_noerr_action( err, exit, os_sem_log("ERROR: Unable to start the set sem thread.") );
-  
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "set sem", set_thread, 0x800, NULL);
-  require_noerr_action( err, exit, os_sem_log("ERROR: Unable to start the set sem thread.") );
-  
-  
-  return err;
-
-exit:
-  os_sem_log("ERROR, err: %d", err);
+  os_sem_log("test binary semaphore");
+  err = mico_rtos_init_semaphore(&os_sem, 1);//0/1 binary semaphore || 0/N semaphore
+  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY,"release sem",release_thread,500,NULL);
+  mico_rtos_get_semaphore(&os_sem, MICO_WAIT_FOREVER);//wait until get semaphore 
+  os_sem_log("get semaphore");
+  mico_rtos_deinit_semaphore( &os_sem );
   return err;
 }
 

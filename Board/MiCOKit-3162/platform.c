@@ -75,7 +75,7 @@ extern WEAK void bootloader_start(void);
 /* This table maps STM32 pins to GPIO definitions on the schematic
 * A full pin definition is provided in <WICED-SDK>/include/platforms/BCM943362WCD4/platform.h
 */
-
+//add some 
 static uint32_t _default_start_time = 0;
 static mico_timer_t _button_EL_timer;
 

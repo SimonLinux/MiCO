@@ -299,9 +299,9 @@ typedef enum
 #define STDIO_UART_BAUDRATE (115200) 
 #endif
 
-#define UART_FOR_APP     (MICO_UART_2)
+#define UART_FOR_APP     (MICO_UART_1)
 #define MFG_TEST         (MICO_UART_1)
-#define CLI_UART         (MICO_UART_1)
+#define CLI_UART         (MICO_UART_2)
 
 /* Components connected to external I/Os*/
 #define USE_MICO_SPI_FLASH

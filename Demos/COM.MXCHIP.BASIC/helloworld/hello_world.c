@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    main.c 
+* @file    hello_world.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
@@ -31,15 +31,20 @@
 
 #include "MiCO.h" 
 
+#define os_helloworld_log(format, ...)  custom_log("helloworld", format, ##__VA_ARGS__)
+
 int application_start( void )
 {
-  /* Output on serial debug port */
-  printf( "Hello World!\r\n" );
-  
+  /* Output on debug serial port */
+  os_helloworld_log( "Hello world Demo!" );
   /* Trigger MiCO system led available on most MiCOKit */
-  while(1){
-    MicoGpioOutputTrigger( MICO_SYS_LED );
-    mico_thread_sleep( 1 );
+  while(1)
+  {
+      MicoGpioOutputHigh(MICO_SYS_LED);
+      //MicoGpioOutputTrigger( MICO_SYS_LED );
+      mico_thread_sleep(1);
+      MicoGpioOutputLow(MICO_SYS_LED);
+      mico_thread_sleep(1);
   }
 }
 

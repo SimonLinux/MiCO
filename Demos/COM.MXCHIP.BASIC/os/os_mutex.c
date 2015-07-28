@@ -29,53 +29,52 @@
 ******************************************************************************
 */
 
-#include "MICO.h"
+#include "MiCO.h" 
 
-#define os_mutex_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
+#define os_thread_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
 
-static mico_mutex_t os_mutex;
-static const char *os_mutex1 = "mutex 1";
-static const char *os_mutex2 = "mutex 2";
-static const char *os_mutex3 = "mutex 3";
+int g_sold=0;//sold tickets
+int g_tickets=1000;//remain tickets
+mico_mutex_t  mutex;
 
-void mutex_thread(void *inContext)
+void run(void *arg)
 {
-  int delay;
-  char *thread_name = (char *)inContext;
-  srand( 1000 );
+  char *name=(char*)arg;
   while(1)
   {
-    delay = rand()%9 + 1;
-    mico_rtos_lock_mutex(&os_mutex);
-    os_mutex_log("%s thread is using resources, delay %ds", thread_name, delay);
-    mico_thread_sleep(delay);
-    os_mutex_log("%s thread will release resource", thread_name);
-    mico_rtos_unlock_mutex(&os_mutex);  
-    mico_thread_sleep(5);
-  }
+       mico_rtos_lock_mutex(&mutex);
+       if(g_tickets<=0)
+       {
+            os_thread_log("thread name=%s die now",name);
+            mico_rtos_unlock_mutex(&mutex);
+            mico_rtos_delete_thread(NULL);
+            break;
+       } 
+       
+       g_sold++;
+       g_tickets--;
+       os_thread_log("name=%s,g_sold=%d,g_tickets=%d",name,g_sold,g_tickets);
+       mico_rtos_unlock_mutex(&mutex);
+
+  } 
 }
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  
-  err = mico_rtos_init_mutex(&os_mutex);
-  require_noerr( err, exit ); 
-  
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "mutex1", mutex_thread, 0x800, (void *)os_mutex1);
-  require_noerr_action( err, exit, os_mutex_log("ERROR: Unable to start the mutex1 thread.") );
-
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "mutex2", mutex_thread, 0x800, (void *)os_mutex2);
-  require_noerr_action( err, exit, os_mutex_log("ERROR: Unable to start the mutex2 thread.") );
-  
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "mutex2", mutex_thread, 0x800, (void *)os_mutex3);
-  require_noerr_action( err, exit, os_mutex_log("ERROR: Unable to start the mutex2 thread.") );
-  
-  return err;
-
-exit:
-  os_mutex_log("ERROR, err: %d", err);
-  return err;
+  mico_thread_t handle1;
+  mico_thread_t handle2;
+  /* Create a new thread */
+  char *p_name1="t1";
+  char *p_name2="t2";
+  mico_rtos_init_mutex(&mutex);
+  err = mico_rtos_create_thread(&handle1, MICO_APPLICATION_PRIORITY, "t1", run, 0x800, (void*)p_name1);
+  err = mico_rtos_create_thread(&handle2, MICO_APPLICATION_PRIORITY, "t2", run, 0x800, (void*)p_name2);
+  mico_rtos_thread_join(&handle1);
+  mico_rtos_thread_join(&handle2);
+  mico_rtos_deinit_mutex(&mutex );
+  os_thread_log( "t1 t2 exit now" );
+  return kNoErr;  
 }
 
 

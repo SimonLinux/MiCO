@@ -39,55 +39,39 @@
 #define RGB_MODE 0
 #define HSB_MODE 1
 
-#if COLOR_MODE == RGB_MODE
+#if (COLOR_MODE == RGB_MODE)
 int application_start( void )
 {
-  ext_rgb_led_log("rgb led conrtol demo");
-  
+  ext_rgb_led_log("rgb led conrtol demo(RGB_MODE)");
   /*init RGB LED(P9813)*/
   rgb_led_init();
-  
-  /*close RGB LED*/
-  rgb_led_open(0, 0, 0);
-  
   while(1)
   {
-    /*open red led*/
+    /*open red led,#FF0000*/
     rgb_led_open(255, 0, 0);
     mico_thread_sleep(1);
-    
-    /*open green led*/
+    /*open green led #00FF00*/
     rgb_led_open(0, 255, 0);
-    mico_thread_sleep(1);
-    
-    /*open blue led*/
+    mico_thread_sleep(1); 
+    /*open blue led,#0000FF*/
     rgb_led_open(0, 0, 255);
     mico_thread_sleep(1);
   }
 }
-#endif
-
-#if COLOR_MODE == HSB_MODE
+#else
 int application_start( void )
 {
-  ext_rgb_led_log("rgb led conrtol demo");
-  
+  ext_rgb_led_log("rgb led conrtol demo(HBS_MODE)");
   /*init RGB LED(P9813)*/
   rgb_led_init();
-  
-  /*close RGB LED*/
-  rgb_led_open(0, 0, 0);
-  
   while(1)
   {
     /*open red led*/
     hsb2rgb_led_open(0, 100, 100);
     mico_thread_sleep(1);
-    
     /*open green led*/
     hsb2rgb_led_open(120, 100, 100);
     mico_thread_sleep(1);
-    
     /*open blue led*/
     hsb2rgb_led_open(240, 100, 100);
     mico_thread_sleep(1);

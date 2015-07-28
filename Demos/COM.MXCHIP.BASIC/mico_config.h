@@ -34,13 +34,12 @@
 #define __MICO_SYSTEM_CONFIG_H
 
 
-#define APP_INFO   "mxchipWNet SPP Demo based on MICO OS"
+#define APP_INFO   "mxchipWNet BASE Demo based on MICO OS"
 
-#define FIRMWARE_REVISION   "MICO_SPP_2_6"
+#define FIRMWARE_REVISION   "MICO_BASE_1_0"
 #define MANUFACTURER        "MXCHIP Inc."
 #define SERIAL_NUMBER       "20140606"
-#define PROTOCOL            "com.mxchip.spp"
-
+#define PROTOCOL            "com.mxchip.basic"
 
 #define CONFIG_MODE_EASYLINK                    (2)
 #define CONFIG_MODE_SOFT_AP                     (3)

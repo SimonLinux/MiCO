@@ -47,8 +47,8 @@ static OSStatus LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader
 static OSStatus onReceivedData(struct _HTTPHeader_t * httpHeader, uint32_t pos, uint8_t * data, size_t len, void * userContext);
 static void onClearHTTPHeader(struct _HTTPHeader_t * httpHeader, void * userContext );
 
-static char *ap_ssid = "sqdmz";
-static char *ap_key  = "0987654321";
+static char *ap_ssid = "Xiaomi.Router";
+static char *ap_key  = "stm32f215";
 
 static network_InitTypeDef_adv_st wNetConfigAdv;
 static mico_semaphore_t http_sem;
@@ -131,9 +131,8 @@ int application_start( void )
 {
   OSStatus err = kNoErr;
   IPStatusTypedef para;
-  
-  memset(inContext, 0x0, sizeof(mico_Context_t));
   inContext = ( mico_Context_t *)malloc(sizeof(mico_Context_t) );
+  memset(inContext, 0x0, sizeof(mico_Context_t));
   require_action( inContext, exit, err = kNoMemoryErr );  
   
   MicoInit( );

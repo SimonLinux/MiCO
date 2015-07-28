@@ -4,7 +4,7 @@
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
-* @brief   First MiCO application to say hello world!
+* @brief   Get the IP address from a host name.(DNS)
 ******************************************************************************
 *
 *  The MIT License
@@ -37,35 +37,28 @@
 static char *domain = "www.baidu.com";
 static char *ap_ssid = "Xiaomi.Router";
 static char *ap_key  = "stm32f215";
+static mico_semaphore_t wait_sem;
 
-static network_InitTypeDef_adv_st wNetConfigAdv;
-
-void micoNotify_WifiStatusHandler(WiFiEvent event,  const int inContext)
+void micoNotify_ConnectFailedHandler(OSStatus err, void* const inContext)
 {
-  (void)inContext;
-  switch (event) {
+  wifi_dns_log("Wlan Connection Err %d", err);
+}
+void micoNotify_WifiStatusHandler(WiFiEvent status, void* const inContext)
+{
+  switch (status) {
   case NOTIFY_STATION_UP:
     wifi_dns_log("Station up");
-    MicoRfLed(true);
+    mico_rtos_set_semaphore(&wait_sem);
     break;
   case NOTIFY_STATION_DOWN:
     wifi_dns_log("Station down");
-    MicoRfLed(false);
-    break;
-  default:
     break;
   }
-  return;
-}
-
-void micoNotify_ConnectFailedHandler(OSStatus err, const int inContext)
-{
-  (void)inContext;
-  wifi_dns_log("Wlan Connection Err %d", err);
 }
 
 static void connect_ap( void )
 {  
+  network_InitTypeDef_adv_st wNetConfigAdv;
   memset(&wNetConfigAdv, 0x0, sizeof(network_InitTypeDef_adv_st));
   
   strcpy((char*)wNetConfigAdv.ap_info.ssid, ap_ssid);
@@ -76,8 +69,6 @@ static void connect_ap( void )
   wNetConfigAdv.dhcpMode = DHCP_Client;
   wNetConfigAdv.wifi_retry_interval = 100;
   micoWlanStartAdv(&wNetConfigAdv);
-  
-  wifi_dns_log("connect to %s...", wNetConfigAdv.ap_info.ssid);
 }
 
 int application_start( void )
@@ -86,6 +77,7 @@ int application_start( void )
   char ipstr[16];
   
   MicoInit( );
+  mico_rtos_init_semaphore(&wait_sem,1);
   
   /*The notification message for the registered WiFi status change*/
   err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
@@ -95,18 +87,13 @@ int application_start( void )
   require_noerr( err, exit );
   
   connect_ap( );
-  
-  while(1) 
-  {
-     err = gethostbyname(domain, (uint8_t *)ipstr, 16);
-     require_noerr(err, ReConnWithDelay);
-     wifi_dns_log("%s ip address is %s",domain, ipstr);
-     break;
-
-   ReConnWithDelay:
-     wifi_dns_log("please wait 5s...");
-     mico_thread_sleep(5);
-  }
+  wifi_dns_log("connecting to %s...", ap_ssid);
+  mico_rtos_get_semaphore(&wait_sem, MICO_WAIT_FOREVER);
+  wifi_dns_log("wifi connected successful");
+  err = gethostbyname(domain, (uint8_t *)ipstr, 16);
+  require_noerr(err, exit);
+  wifi_dns_log("%s ip address is %s",domain, ipstr);
+  mico_rtos_deinit_semaphore(&wait_sem);
   
 exit:  
   return err;

@@ -22,8 +22,6 @@
 #include "MICO.h"
 #include "Platform_config.h"
 
-#include "MICOAppDefine.h"
-#include "SppProtocol.h"  
 #include "StringUtils.h"  
 #include "system.h"      
 

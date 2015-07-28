@@ -33,6 +33,7 @@
 
 #include "mico_system.h"
 #include "StringUtils.h"
+#include "mico.h"
 
 #define BUNDLE_SEED_ID          "C6P64J2MZX"  
 #define EA_PROTOCOL             "com.issc.datapath"

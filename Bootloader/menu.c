@@ -39,8 +39,8 @@
 #include "platform_config.h"
 #include "platformInternal.h"
 #include "StringUtils.h"
-#include "MicoRtos.h"
-#include "MicoPlatform.h"
+#include "mico_rtos.h"
+#include "mico_platform.h"
 #include "bootloader.h"
 #include <ctype.h>                    
 

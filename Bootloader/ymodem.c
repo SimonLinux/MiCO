@@ -36,7 +36,7 @@
 #include "string.h"
 #include "StringUtils.h"
 #include "CheckSumUtils.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 
 extern const platform_flash_t platform_flash_peripherals[];
 

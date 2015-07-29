@@ -29,7 +29,7 @@
 
 //#include "HTTPUtils.h"
 #include "URLUtils.h"
-#include "MicoPlatform.h"
+#include "MICO.h"
 
 
 // ============================= from HTTP utils ===============================

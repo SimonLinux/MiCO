@@ -508,62 +508,8 @@
   </group>
   <group>
     <name>include</name>
-    <group>
-      <name>MicoDriver</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverAdc.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverGpio.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverI2c.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverMFiAuth.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverPwm.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRng.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRtc.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverSpi.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverUart.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverWdg.h</name>
-      </file>
-    </group>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoSocket.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoSRPServer.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoWlan.h</name>
     </file>
   </group>
   <group>
@@ -884,13 +830,13 @@
   <group>
     <name>Support</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\CheckSumUtils.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\RingBufferUtils.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\StringUtils.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\StringUtils.c</name>
     </file>
   </group>
 </project>

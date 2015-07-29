@@ -30,7 +30,6 @@
 */
 
 #include "MICO.h"
-#include "MICONotificationCenter.h"
 
 #define wifi_sacn_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
@@ -49,7 +48,7 @@ void micoNotify_ApListCallback(ScanResult *pApList)
 int application_start( void )
 {
   MicoInit( );
-  MICOAddNotification( mico_notify_WIFI_SCAN_COMPLETED, (void *)micoNotify_ApListCallback );
+  mico_system_notify_register( mico_notify_WIFI_SCAN_COMPLETED, (void *)micoNotify_ApListCallback, NULL );
   wifi_sacn_log("start scan mode, please wait...");
   micoWlanStartScan( );
   return kNoErr; 

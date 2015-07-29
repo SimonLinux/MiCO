@@ -30,7 +30,6 @@
 */
 
 #include "MICO.h"
-#include "MICONotificationCenter.h"
 
 #define udp_broadcast_log(M, ...) custom_log("UDP", M, ##__VA_ARGS__)
 
@@ -115,9 +114,9 @@ int application_start( void )
   IPStatusTypedef para;
   MicoInit( );
    /*The notification message for the registered WiFi status change*/
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL );
   require_noerr( err, EXIT ); 
-  err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler, NULL );
   require_noerr( err, EXIT );
   err = mico_rtos_init_semaphore(&wait_sem, 1);
   require_noerr( err, EXIT ); 

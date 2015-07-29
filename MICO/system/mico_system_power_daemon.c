@@ -38,7 +38,7 @@ static bool                     needs_update          = false;
 extern void sendNotifySYSWillPowerOff(void);
 
 
-USED void PlatformEasyLinkButtonClickedCallback(void)
+static USED void PlatformEasyLinkButtonClickedCallback(void)
 {
   system_log_trace();
   mico_Context_t* context = NULL;
@@ -62,7 +62,7 @@ exit:
   return;
 }
 
-USED void PlatformEasyLinkButtonLongPressedCallback(void)
+static USED void PlatformEasyLinkButtonLongPressedCallback(void)
 {
   system_log_trace();
   mico_Context_t* context = NULL;
@@ -78,7 +78,7 @@ exit:
   return;
 }
 
-USED void PlatformStandbyButtonClickedCallback(void)
+static USED void PlatformStandbyButtonClickedCallback(void)
 {
   system_log_trace();
   mico_Context_t* context = NULL;

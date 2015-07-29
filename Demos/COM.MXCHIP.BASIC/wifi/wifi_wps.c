@@ -31,7 +31,6 @@
 
 #include "MICO.h"
 #include "StringUtils.h"
-#include "MICONotificationCenter.h"
 
 #define wifi_wps_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
@@ -83,7 +82,7 @@ exit:
 
 void clean_wps_sesource( )
 {
-  MICORemoveNotification( mico_notify_EASYLINK_WPS_COMPLETED, (void *)WPSNotify_WPSCompleteHandler );
+  mico_system_notify_remove( mico_notify_EASYLINK_WPS_COMPLETED, (void *)WPSNotify_WPSCompleteHandler );
   micoWlanStopWPS();
   mico_rtos_deinit_semaphore(&wps_sem);
   wps_sem = NULL;
@@ -129,13 +128,13 @@ int application_start( void )
 
   MicoInit( );
   
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit ); 
   
-  err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler, NULL );
   require_noerr( err, exit );
   
-  err = MICOAddNotification( mico_notify_EASYLINK_WPS_COMPLETED, (void *)WPSNotify_WPSCompleteHandler );
+  err = mico_system_notify_register( mico_notify_EASYLINK_WPS_COMPLETED, (void *)WPSNotify_WPSCompleteHandler, NULL );
   require_noerr(err, exit);
   
   // Start the WPS thread

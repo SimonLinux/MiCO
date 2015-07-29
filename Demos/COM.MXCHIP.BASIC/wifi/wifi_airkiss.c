@@ -31,7 +31,6 @@
 
 #include "MICO.h"
 #include "StringUtils.h"
-#include "MICONotificationCenter.h"
 
 #define wifi_airkiss_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
@@ -140,16 +139,16 @@ int application_start( void )
 
   MicoInit( );
   
-  err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler, NULL );
   require_noerr( err, exit );
    
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)AirkissNotify_WifiStatusHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)AirkissNotify_WifiStatusHandler, NULL );
   require_noerr(err, exit);
   
-  err = MICOAddNotification( mico_notify_EASYLINK_WPS_COMPLETED, (void *)AirkissNotify_AirkissCompleteHandler );  
+  err = mico_system_notify_register( mico_notify_EASYLINK_WPS_COMPLETED, (void *)AirkissNotify_AirkissCompleteHandler, NULL );  
   require_noerr(err, exit);
   
-  err = MICOAddNotification( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)AirkissNotify_AirkissGetExtraDataHandler );
+  err = mico_system_notify_register( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)AirkissNotify_AirkissGetExtraDataHandler, NULL );
   require_noerr(err, exit);
   
   /*Start the Airkiss thread*/

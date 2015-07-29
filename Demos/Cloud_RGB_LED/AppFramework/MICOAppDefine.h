@@ -23,9 +23,9 @@
 #ifndef __MICOAPPDEFINE_H
 #define __MICOAPPDEFINE_H
 
-#include "Common.h"
-#include "MicoFogCloudDef.h"
+#include "mico.h"
 #include "user_config.h"
+#include "MiCOFogCloudDef.h"
 
 
 /*******************************************************************************
@@ -121,5 +121,17 @@ typedef struct _current_app_status_t {
   volatile bool     isWifiConnected;      // wifi station connect status
   fogcloud_status_t fogcloudStatus;       // fogcloud status
 } current_app_status_t;
+
+typedef struct _app_context_t
+{
+  /*Flash content*/
+  application_config_t*     appConfig;
+
+  /*Running status*/
+  current_app_status_t      appStatus;
+  
+  /*MICO context*/
+   mico_Context_t*          mico_context;
+} app_context_t;
 
 #endif  // __MICOAPPDEFINE_H

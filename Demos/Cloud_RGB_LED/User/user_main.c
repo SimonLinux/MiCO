@@ -37,7 +37,7 @@
 /* user main function, called by AppFramework after system init done && wifi
  * station on in user_main thread.
  */
-OSStatus user_main( mico_Context_t * const mico_context )
+OSStatus user_main( app_context_t * const app_context )
 {
   user_log_trace();
   OSStatus err = kUnknownErr;
@@ -54,7 +54,7 @@ OSStatus user_main( mico_Context_t * const mico_context )
   int led_saturation = 0;
   int led_brightness = 0;
     
-  require(mico_context, exit);
+  require(app_context, exit);
   
   hsb2rgb_led_init();  // rgb led init
   
@@ -62,14 +62,14 @@ OSStatus user_main( mico_Context_t * const mico_context )
     mico_thread_msleep(200);
     
     // check fogcloud connect status
-    if(!mico_context->appStatus.fogcloudStatus.isCloudConnected){
+    if(!app_context->appStatus.fogcloudStatus.isCloudConnected){
       continue;
     }
     
     /* get a msg pointer, points to the memory of a msg: 
      * msg data format: recv_msg->data = <topic><data>
      */
-    err = MicoFogCloudMsgRecv(mico_context, &recv_msg, 100);
+    err = MiCOFogCloudMsgRecv(app_context, &recv_msg, 100);
     if(kNoErr == err){
       // debug log in MICO dubug uart
       user_log("Cloud => Module: topic[%d]=[%.*s]\tdata[%d]=[%.*s]", 

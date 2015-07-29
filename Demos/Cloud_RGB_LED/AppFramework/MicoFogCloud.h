@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    MicoFogCloud.h 
+* @file    MiCOFogCloud.h 
 * @author  Eshen Wang
 * @version V1.0.0
 * @date    17-Mar-2015
@@ -24,8 +24,9 @@
 #ifndef __MICO_FOGCLOUD_H_
 #define __MICO_FOGCLOUD_H_
 
-#include "MICODefine.h"
-#include "MicoFogCloudDef.h"
+#include "mico.h"
+#include "MiCOAppDefine.h"
+#include "MiCOFogCloudDef.h"
 #include "FogCloudUtils.h"
 
 
@@ -40,44 +41,44 @@
 
 /*----------------------------------- init -----------------------------------*/
 // init FogCloud
-OSStatus MicoStartFogCloudService(mico_Context_t* const inContext);
+OSStatus MiCOStartFogCloudService(app_context_t* const inContext);
 // restore default config for FogCloud
-void MicoFogCloudRestoreDefault(mico_Context_t* const context);
+void MiCOFogCloudRestoreDefault(fogcloud_config_t* const fog_config);
 
 
-/*-------------------------- get MicoFogCloud state --------------------------*/
+/*-------------------------- get MiCOFogCloud state --------------------------*/
 // device activate state
-bool MicoFogCloudIsActivated(mico_Context_t* const context);
+bool MiCOFogCloudIsActivated(app_context_t* const context);
 // cloud connect state
-bool MicoFogCloudIsConnect(mico_Context_t* const context);
+bool MiCOFogCloudIsConnect(app_context_t* const context);
 
 
 /*--------------------------- send && recv message ---------------------------*/
 // Module <=> Cloud
-OSStatus MicoFogCloudMsgSend(mico_Context_t* const context, const char* topic,
+OSStatus MiCOFogCloudMsgSend(app_context_t* const context, const char* topic,
                              unsigned char *inBuf, unsigned int inBufLen);
 
-OSStatus MicoFogCloudMsgRecv(mico_Context_t* const context, fogcloud_msg_t **msg, 
+OSStatus MiCOFogCloudMsgRecv(app_context_t* const context, fogcloud_msg_t **msg, 
                              uint32_t timeout_ms);
 
 /*------------------------------ device control ------------------------------*/
 //activate
-OSStatus MicoFogCloudActivate(mico_Context_t* const context, 
+OSStatus MiCOFogCloudActivate(app_context_t* const context, 
                               MVDActivateRequestData_t activateData);
 //authorize
-OSStatus MicoFogCloudAuthorize(mico_Context_t* const context,
+OSStatus MiCOFogCloudAuthorize(app_context_t* const context,
                                MVDAuthorizeRequestData_t authorizeData);
 //reset device info on cloud
-OSStatus MicoFogCloudResetCloudDevInfo(mico_Context_t* const context,
+OSStatus MiCOFogCloudResetCloudDevInfo(app_context_t* const context,
                                        MVDResetRequestData_t devResetData);
 // just set need cloud reset flag, device will reset itself from cloud.
-void MicoFogCloudNeedResetDevice(void);
+void MiCOFogCloudNeedResetDevice(void);
 
 //OTA
-OSStatus MicoFogCloudFirmwareUpdate(mico_Context_t* const context,
+OSStatus MiCOFogCloudFirmwareUpdate(app_context_t* const context,
                                     MVDOTARequestData_t OTAData);
 //get device state info(activate/connect)
-OSStatus MicoFogCloudGetState(mico_Context_t* const context,
+OSStatus MiCOFogCloudGetState(app_context_t* const context,
                               MVDGetStateRequestData_t getStateRequestData,
                               void* outDevState);
 

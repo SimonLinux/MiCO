@@ -199,6 +199,14 @@ OSStatus system_easylink_start( mico_Context_t * const inContext)
   OSStatus err = kUnknownErr;
   mico_thread_t easylink_thread_handler;
 
+  /* Start bonjour service for easylink mode */
+  err = mico_easylink_bonjour_start( Station, inContext );
+  require_noerr( err, exit );
+
+  /* Start config server */
+  err = config_server_start( inContext );
+  require_noerr(err, exit);
+
   /* Start easylink thread */
   err = mico_rtos_create_thread(&easylink_thread_handler, MICO_APPLICATION_PRIORITY, "EASYLINK", easylink_thread, 0x1000, (void*)inContext );
   require_noerr_string( err, exit, "ERROR: Unable to start the EasyLink thread." );
@@ -227,14 +235,6 @@ void easylink_thread(void *inContext)
   mico_system_notify_register( mico_notify_EASYLINK_GET_EXTRA_DATA, (void *)EasyLinkNotify_EasyLinkGetExtraDataHandler, inContext );
 
   mico_rtos_init_semaphore(&easylink_sem, 1);
-
-  /* Start bonjour service for easylink mode */
-  err = mico_easylink_bonjour_start( Station, Context );
-  require_noerr( err, exit );
-
-  /* Start config server */
-  err = config_server_start( inContext );
-  require_noerr(err, exit);
 
   /* Skip Easylink mode */    
   if(Context->flashContentInRam.micoSystemConfig.easyLinkByPass == EASYLINK_BYPASS){
@@ -272,7 +272,7 @@ restart:
 #if ( MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK_WITH_SOFTAP ) || (MICO_CONFIG_MODE == CONFIG_MODE_SOFT_AP) //start soft ap mode 
     mico_thread_msleep(20);
 
-    ConfigSoftApWillStart( Context );
+    mico_system_delegate_soft_ap_will_start( );
 
     memset(&wNetConfig, 0, sizeof(network_InitTypeDef_st));
     wNetConfig.wifi_mode = Soft_AP;
@@ -355,15 +355,21 @@ exit:
 }
 
 
-OSStatus ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * const inContext )
+OSStatus ConfigIncommingJsonMessageUAP( const uint8_t *input, size_t size )
 {
   OSStatus err = kNoErr;
   json_object *new_obj;
+  char *input_str = NULL;
   system_log_trace();
+  mico_Context_t *inContext = mico_system_context_get();
   inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_BYPASS_NO;
 
-  new_obj = json_tokener_parse(input);
-  system_log("Recv config object=%s", input);
+  input_str = calloc(size+1, sizeof(char));
+  require_action(input_str, exit, err = kNoMemoryErr);
+
+  memcpy(input_str, input, size);
+  system_log("Recv config object=%s", input_str);
+  new_obj = json_tokener_parse(input_str);
   require_action(new_obj, exit, err = kUnknownErr);
   
   json_object_object_foreach(new_obj, key, val) {
@@ -399,7 +405,7 @@ OSStatus ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * cons
   json_object_put(new_obj);
 
 exit:
-
+  if(input_str) free(input_str);
   return err; 
 }
 
@@ -468,16 +474,18 @@ static OSStatus mico_easylink_bonjour_start( WiFi_Interface interface, mico_Cont
   sprintf(temp_txt, "%sMF=%s.", temp_txt, temp_txt2);
   free(temp_txt2);
 
-#ifdef MICO_CONFIG_SERVER_ENABLE
-  sprintf(temp_txt, "%sFTC=T.", temp_txt);
-#else
-  sprintf(temp_txt, "%sFTC=F.", temp_txt);
-#endif
-  
-  if(interface == Soft_AP)
+  if(interface == Soft_AP){
     sprintf(temp_txt, "%swlan unconfigured=T.", temp_txt);
-  else
+    sprintf(temp_txt, "%sFTC=T.", temp_txt);
+  }
+  else{
     sprintf(temp_txt, "%swlan unconfigured=F.", temp_txt);
+#ifdef MICO_CONFIG_SERVER_ENABLE
+    sprintf(temp_txt, "%sFTC=T.", temp_txt);
+#else
+    sprintf(temp_txt, "%sFTC=F.", temp_txt);
+#endif
+  }
 
   sprintf(temp_txt, "%sID=%u.", temp_txt, easylinkIndentifier);
   init.txt_record = (char*)__strdup(temp_txt);
@@ -537,16 +545,18 @@ static OSStatus mico_easylink_bonjour_update( WiFi_Interface interface, mico_Con
   sprintf(temp_txt, "%sMF=%s.", temp_txt, temp_txt2);
   free(temp_txt2);
 
-#ifdef MICO_CONFIG_SERVER_ENABLE
-  sprintf(temp_txt, "%sFTC=T.", temp_txt);
-#else
-  sprintf(temp_txt, "%sFTC=F.", temp_txt);
-#endif
-  
-  if(interface == Soft_AP)
+  if(interface == Soft_AP){
     sprintf(temp_txt, "%swlan unconfigured=T.", temp_txt);
-  else
+    sprintf(temp_txt, "%sFTC=T.", temp_txt);
+  }
+  else{
     sprintf(temp_txt, "%swlan unconfigured=F.", temp_txt);
+#ifdef MICO_CONFIG_SERVER_ENABLE
+    sprintf(temp_txt, "%sFTC=T.", temp_txt);
+#else
+    sprintf(temp_txt, "%sFTC=F.", temp_txt);
+#endif
+  }
 
   sprintf(temp_txt, "%sID=%x.", temp_txt, easylinkIndentifier);
 

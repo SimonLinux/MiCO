@@ -67,7 +67,7 @@ static void onClearHTTPHeader(struct _HTTPHeader_t * httpHeader, void * userCont
 bool is_config_server_established = false;
 
 /* Defined in uAP config mode */
-extern OSStatus     ConfigIncommingJsonMessageUAP( const char *input, mico_Context_t * const inContext );
+extern OSStatus     ConfigIncommingJsonMessageUAP( const uint8_t *input, size_t size );
 
 static mico_semaphore_t close_listener_sem = NULL, close_client_sem[ MAX_TCP_CLIENT_PER_SERVER ] = { NULL };
 
@@ -97,6 +97,7 @@ OSStatus config_server_start ( mico_Context_t *in_context )
   if( is_config_server_established )
     return kNoErr;
 
+  is_config_server_established = true;
   config_log("Start config server");
 
   close_listener_sem = NULL;
@@ -104,7 +105,7 @@ OSStatus config_server_start ( mico_Context_t *in_context )
     close_client_sem[ i ] = NULL;
   err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "Config Server", localConfiglistener_thread, STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD, (void*)in_context );
   require_noerr(err, exit);
-  is_config_server_established = true;
+  
   mico_thread_msleep(200);
 
 exit:
@@ -198,6 +199,7 @@ exit:
     };
     config_log("Exit: Config listener exit with err = %d", err);
     SocketClose( &localConfiglistener_fd );
+    is_config_server_established = false;
     mico_rtos_delete_thread(NULL);
     return;
 }
@@ -550,7 +552,7 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, HTTPHeader_t* inHeader, mico
   else if(HTTPHeaderMatchURL( inHeader, kCONFIGURLWriteByUAP ) == kNoErr){
     if(inHeader->contentLength > 0){
       config_log( "Recv new configuration from uAP, apply and connect to AP" );
-      err = ConfigIncommingJsonMessageUAP( inHeader->extraDataPtr, inContext );
+      err = ConfigIncommingJsonMessageUAP( (uint8_t *)inHeader->extraDataPtr, inHeader->extraDataLen );
       require_noerr( err, exit );
       mico_system_context_update( inContext );
 

@@ -45,6 +45,7 @@
 			"-DDEBUG",
 			"-I/Users/william/Develop/MiCO/Demos/COM.MXCHIP.SPP/",
 			"-I/Users/william/Develop/MiCO/libraries/",
+			"-I/Users/william/Develop/MiCO/libraries/utilities/",
 			"-I/Users/william/Develop/MiCO/Platform/",
 			"-I/Users/william/Develop/MiCO/Platform/include/",
 			"-I/Users/William/Develop/MiCO/Platform/Cortex-M3/",

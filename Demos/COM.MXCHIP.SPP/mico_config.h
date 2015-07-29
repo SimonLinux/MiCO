@@ -47,8 +47,7 @@
 
 /************************************************************************
  * Wi-Fi configuration mode */
-#define MICO_CONFIG_MODE CONFIG_MODE_EASYLINK
-//#define MICO_CONFIG_MODE CONFIG_MODE_SOFT_AP
+#define MICO_CONFIG_MODE CONFIG_MODE_EASYLINK_WITH_SOFTAP
 
 #define EasyLink_TimeOut                60000 /**< EasyLink timeout 60 seconds. */
 

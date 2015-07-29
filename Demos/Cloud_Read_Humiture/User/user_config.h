@@ -40,10 +40,6 @@
 
 #endif
 
-#define DEFAULT_ROM_VERSION            FIRMWARE_REVISION
-#define DEFAULT_DEVICE_NAME            MODEL   // device name upload to cloud defined in platform_config.h
-
-
 /*******************************************************************************
  *                             FOGCLOUD
  ******************************************************************************/
@@ -68,7 +64,7 @@
  * If user configuration(params in flash) is changed, update this number to
  * indicate the bootloader to clean params in flash next time restart.
  */
-#define CONFIGURATION_VERSION          0x00000001
+#define CONFIGURATION_VERSION          0x00000002
 
 
 #endif  // __USER_CONFIG_H_

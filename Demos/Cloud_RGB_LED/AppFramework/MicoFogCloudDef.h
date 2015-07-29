@@ -25,7 +25,6 @@
 
 #include "FogCloudServiceDef.h"
 
-
 /*******************************************************************************
  *                                DEFINES
  ******************************************************************************/
@@ -38,7 +37,7 @@
 #define DEFAULT_DEVICE_ID                "null"
 #define DEFAULT_DEVICE_KEY               "null"
 
-#define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0x800
+#define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0xC00
 #define STACK_SIZE_FOGCLOUD_OTA_THREAD    0xC00
 #define FOGCLOUD_CONFIG_SERVER_PORT       8001    // fogcloud config server port
 
@@ -48,6 +47,9 @@
 
 // enalbe FogCloud auto activate function (user_token=MAC)
 #define ENABLE_FOGCLOUD_AUTO_ACTIVATE
+
+// disalbe FogCloud OTA check when system start
+//#define DISABLE_FOGCLOUD_OTA_CHECK
 
 
 /*******************************************************************************

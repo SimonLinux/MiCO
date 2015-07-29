@@ -19,11 +19,12 @@
   ******************************************************************************
   */ 
 
-#include "MICO.h"
+#include "mico.h"
 
 #include "platform_config.h"
 #include "StringUtils.h"
 #include "MiCOAPPDefine.h"
+
 
 OSStatus MICOStartBonjourService( WiFi_Interface interface, app_context_t * const inContext )
 {
@@ -34,7 +35,7 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, app_context_t * cons
   mdns_init_t init;
   mico_Context_t *mico_context = mico_system_context_get();
 
-  temp_txt = malloc(500);
+  temp_txt = malloc(550);
   require_action(temp_txt, exit, err = kNoMemoryErr);
 
   memset(&init, 0x0, sizeof(mdns_init_t));
@@ -57,10 +58,14 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, app_context_t * cons
                                                      mico_context->micoStatus.mac[15], mico_context->micoStatus.mac[16] );
   init.instance_name = (char*)__strdup(temp_txt);
 
-  init.service_port = inContext->appConfig->localServerPort;
+  init.service_port = inContext->appConfig->bonjourServicePort;
 
   temp_txt2 = __strdup_trans_dot(mico_context->micoStatus.mac);
   sprintf(temp_txt, "MAC=%s.", temp_txt2);
+  free(temp_txt2);
+  
+  temp_txt2 = __strdup_trans_dot((inContext->appConfig->fogcloudConfig.owner_binding) ? "true" : "false");
+  sprintf(temp_txt, "%sBinding=%s.", temp_txt, temp_txt2);
   free(temp_txt2);
 
   temp_txt2 = __strdup_trans_dot(FIRMWARE_REVISION);

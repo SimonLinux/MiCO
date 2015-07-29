@@ -1,3 +1,27 @@
+版本号：10880002.038
+日期：2015-07-24
+1. Smart config的回调函数RptConfigmodeRslt会返回是什么方式配置成功的。使用network_InitTypeDef_st结构体的wifi_retry_interval返回。
+	 返回配置类型定义如下：
+typedef enum{
+  CONFIG_BY_NONE,
+  CONFIG_BY_EASYLINK_V2,         
+  CONFIG_BY_EASYLINK_PLUS,        
+  CONFIG_BY_EASYLINK_MINUS,          
+  CONFIG_BY_AIRKISS,             
+  CONFIG_BY_SOFT_AP,  
+  CONFIG_BY_WAC,   
+  CONFIG_BY_ALINK,
+} mico_config_source_t;	
+
+2. 修正mico_rtos_suspend_thread工作不正确的问题，增加API: void mico_rtos_resume_thread(mico_thread_t* thread)
+
+
+版本号：10880002.037
+日期：2015-07-22
+1. 增加主动扫描API：int mxchip_active_scan(char*ssid, int is_adv)
+		 ssid: 需要主动扫描的SSID
+		 is_adv: =1：高级扫描，扫描结果通过ApListAdvCallback返回。=0：普通扫描，扫描结果通过ApListCallback返回。
+
 版本号：10880002.036
 日期：2015-07-13
 1. 修正了在低功耗模式下healthmonitor可能无法工作的问题。系统无法从错误的状态下恢复。

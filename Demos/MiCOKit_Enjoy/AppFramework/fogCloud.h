@@ -4,7 +4,7 @@
 * @author  Eshen Wang
 * @version V1.0.0
 * @date    17-Mar-2015
-* @brief   This header contains the low level interfaces for fogcloud. 
+* @brief   This header contains the fogcloud server low level interfaces. 
   operation
 ******************************************************************************
 * @attention
@@ -62,5 +62,11 @@ OSStatus fogCloudStop(mico_Context_t* const inContext);
 OSStatus fogCloudDeinit(mico_Context_t* const inContext);
 OSStatus fogCloudPrintVersion(void);
 
+/*******************************************************************************
+*                              INTERNAL FUNCTIONS
+*******************************************************************************/
+//WEAK OSStatus MicoFogCloudCloudMsgProcess(mico_Context_t* context, 
+//                                          const char* topic, const unsigned int topicLen,
+//                                          unsigned char *inBuf, unsigned int inBufLen);
 
 #endif  // __FOGCLOUD_INTERFACES_H_

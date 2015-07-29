@@ -1,3 +1,21 @@
+版本号：31620002.036
+日期：2015-07-23
+1. 增加主动扫描API：int mxchip_active_scan(char*ssid, int is_adv)
+		 ssid: 需要主动扫描的SSID
+		 is_adv: =1：高级扫描，扫描结果通过ApListAdvCallback返回。=0：普通扫描，扫描结果通过ApListCallback返回。
+2. Smart config的回调函数RptConfigmodeRslt会返回是什么方式配置成功的。使用network_InitTypeDef_st结构体的wifi_retry_interval返回。
+	 返回配置类型定义如下：
+typedef enum{
+  CONFIG_BY_NONE,
+  CONFIG_BY_EASYLINK_V2,         
+  CONFIG_BY_EASYLINK_PLUS,        
+  CONFIG_BY_EASYLINK_MINUS,          
+  CONFIG_BY_AIRKISS,             
+  CONFIG_BY_SOFT_AP,  
+  CONFIG_BY_WAC,   
+  CONFIG_BY_ALINK,
+} mico_config_source_t;	 
+
 版本号：31620002.035
 日期：2015-07-14
 1. 优化了DNS客户端，在首选DNS服务器不通的情况下之前会重试超过1分钟才使用备选DNS服务器，现在的做法是间隔1秒的周期性的使用首选DNS服务器和备选DNS服务器。

@@ -33,12 +33,15 @@
 #pragma once
 
 /*--------------------------------- info -------------------------------------*/
-#define MANUFACTURER                   "MXCHIP Inc."
-#define SERIAL_NUMBER                  "1507291330"
-#define FIRMWARE_REVISION              HARDWARE_REVISION"@"SERIAL_NUMBER
+#define MANUFACTURER                    "MXCHIP Inc."
+#define SERIAL_NUMBER                   "1507291330"
+#define FIRMWARE_REVISION               HARDWARE_REVISION"@"SERIAL_NUMBER
 
-#define APP_INFO                       MODEL" Wechat humiture Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
-#define PROTOCOL                       "com.fogcloud.wechat"
+#define APP_INFO                        MODEL" Wechat humiture Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
+#define PROTOCOL                        "com.mico.fogcloud"
+
+#define DEFAULT_ROM_VERSION             FIRMWARE_REVISION
+#define DEFAULT_DEVICE_NAME             MODEL   // device name upload to cloud defined in platform_config.h
 
 #define CONFIG_MODE_EASYLINK                    (2)
 #define CONFIG_MODE_SOFT_AP                     (3)
@@ -47,7 +50,7 @@
 
 /************************************************************************
  * Wi-Fi configuration mode */
-#define MICO_CONFIG_MODE CONFIG_MODE_EASYLINK
+#define MICO_CONFIG_MODE                CONFIG_MODE_EASYLINK
 
 #define EasyLink_TimeOut                60000 /**< EasyLink timeout 60 seconds. */
 

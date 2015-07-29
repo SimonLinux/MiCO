@@ -4,7 +4,7 @@
   * @author  William Xu
   * @version V1.0.0
   * @date    05-May-2014
-  * @brief   Mico application entrance, addd user application functons and threads.
+  * @brief   MiCO application entrance, addd user application functons and threads.
   ******************************************************************************
   * @attention
   *
@@ -19,42 +19,38 @@
   ******************************************************************************
   */ 
 
-#include "MICO.h"
+#include "mico.h"
 #include "MICOAppDefine.h"
-#include "MicoFogCloud.h"
+#include "MiCOFogCloud.h"
 
 #define app_log(M, ...) custom_log("APP", M, ##__VA_ARGS__)
 #define app_log_trace() custom_log_trace("APP")
 
+extern OSStatus MICOStartBonjourService( WiFi_Interface interface, app_context_t * const inContext );
 
 /* default user_main callback function, this must be override by user. */
-WEAK OSStatus user_main( app_context_t * const app_context )
+WEAK OSStatus user_main( app_context_t * const mico_context )
 {
   //app_log("ERROR: user_main undefined!");
   return kNotHandledErr;
-}
-
-/* default user_main callback function, this may be override by user. */
-WEAK void userRestoreDefault_callback(application_config_t* appConfig)
-{
-  //app_log("INFO: call default userRestoreDefault_callback, do nothing!");  // log in ISR may cause error
 }
 
 /* user main thread created by MICO APP thread */
 void user_main_thread(void* arg)
 {
   OSStatus err = kUnknownErr;
-  app_context_t* app_context = (app_context_t *)arg;
+  app_context_t *app_context = (app_context_t *)arg;
   
   // loop in user mian function && must not return
   err = user_main(app_context);
   
   // never get here only if user work error.
-  app_log("ERROR: user_main thread exit err = %d, system will reboot...", err);
+  app_log("ERROR: user_main thread exit err=%d, system will reboot...", err);
+  
   err = mico_system_power_perform(app_context->mico_context, eState_Software_Reset);
   UNUSED_PARAMETER(err);
   
-  mico_rtos_delete_thread(NULL);
+  mico_rtos_delete_thread(NULL);   
 }
 
 OSStatus startUserMainThread(app_context_t *app_context)
@@ -80,9 +76,7 @@ void appRestoreDefault_callback(void * const user_config_data, uint32_t size)
   appConfig->bonjourServicePort = BONJOUR_SERVICE_PORT;
   
   // restore fogcloud config
-  MicoFogCloudRestoreDefault(appConfig);
-  // restore user config
-  userRestoreDefault_callback(appConfig);
+  MiCOFogCloudRestoreDefault(&(appConfig->fogcloudConfig));
 }
 
 int application_start(void)
@@ -99,6 +93,7 @@ int application_start(void)
 
   /* Create mico system context and read application's config data from flash */
   mico_context = mico_system_context_init( sizeof( application_config_t) );
+  require_action(mico_context, exit, err = kNoResourcesErr);
   app_context->appConfig = mico_system_context_get_user_data( mico_context );
   app_context->mico_context = mico_context;
 
@@ -109,10 +104,9 @@ int application_start(void)
   /* Bonjour for service searching */
   MICOStartBonjourService( Station, app_context );
   
-  // close system led now, wiil be turned on after Wi-Fi connected.
-  MicoSysLed(false);
+  /* user test mode: MiCOKit-EXT */
   
-  // check wifi link status
+  /* check wifi link status */
   do{
     err = micoWlanGetLinkStatus(&wifi_link_status);
     if(kNoErr != err){
@@ -121,16 +115,18 @@ int application_start(void)
   }while(kNoErr != err);
   
   if(1 ==  wifi_link_status.is_connected){
-    mico_context->appStatus.isWifiConnected = true;
+    app_context->appStatus.isWifiConnected = true;
+    MicoSysLed(true);
   }
   else{
-    mico_context->appStatus.isWifiConnected = false;
+    app_context->appStatus.isWifiConnected = false;
+    MicoSysLed(false);
   }
   
   /* start cloud service */
 #if (MICO_CLOUD_TYPE == CLOUD_FOGCLOUD)
   app_log("MICO CloudService: FogCloud.");
-  err = MicoStartFogCloudService( app_context );
+  err = MiCOStartFogCloudService( app_context );
   require_noerr_action( err, exit, app_log("ERROR: Unable to start FogCloud service.") );
 #elif (MICO_CLOUD_TYPE == CLOUD_ALINK)
   app_log("MICO CloudService: Alink.");

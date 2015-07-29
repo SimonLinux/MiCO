@@ -4,8 +4,8 @@
 * @author  Eshen Wang
 * @version V1.0.0
 * @date    17-Mar-2015
-* @brief   This file contains the implementations of low level 
-*          interfaces for fogcloud.
+* @brief   This file contains the implementations of fogcloud service low level 
+*          interfaces.
   operation
 ******************************************************************************
 * @attention
@@ -25,6 +25,7 @@
 
 #include "fogcloud.h"   
 #include "FogCloudService.h"
+#include "CheckSumUtils.h"
 
 
 #define cloud_if_log(M, ...) custom_log("FOGCLOUD_IF", M, ##__VA_ARGS__)
@@ -286,7 +287,7 @@ exit:
   return err;
 }
 
-
+uint16_t ota_crc = 0;
 #define SizePerRW 1024   /* Bootloader need 2xSizePerRW RAM heap size to operate, 
                             but it can boost the setup. */
 
@@ -296,10 +297,8 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;
   ecs_ota_flash_params_t ota_flash_params = {
-    MICO_FLASH_FOR_UPDATE,
-    UPDATE_START_ADDRESS,
-    UPDATE_END_ADDRESS,
-    UPDATE_FLASH_SIZE
+    MICO_PARTITION_OTA_TEMP,
+    0x0,
   };
   
   md5_context md5;
@@ -311,7 +310,10 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   uint32_t readLength = 0;
   uint32_t i = 0, size = 0;
   
-  bool flash_initialized = false;
+  // crc16
+  CRC16_Context contex;
+
+  cloud_if_log("fogCloudDevFirmwareUpdate: start ...");
   
   //get latest rom version, file_path, md5
   cloud_if_log("fogCloudDevFirmwareUpdate: get latest rom version from server ...");
@@ -344,15 +346,13 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   require_noerr_action( err, exit_with_error, 
                        cloud_if_log("ERROR: FogCloudGetRomData failed! err=%d", err) );
   
-  //------------------------------ OTA DATA VERIFY -----------------------------
+//------------------------------ OTA DATA VERIFY -----------------------------
   // md5 init
   InitMd5(&md5);
+  CRC16_Init( &contex );
   memset(rom_file_md5, 0, 32);
   memset(data, 0xFF, SizePerRW);
-  err = MicoFlashInitialize( MICO_FLASH_FOR_UPDATE );
-  require_noerr(err, exit_with_error);
-  flash_initialized = true;
-  updateStartAddress = UPDATE_START_ADDRESS;
+  updateStartAddress = ota_flash_params.update_offset;
   size = (easyCloudContext.service_status.bin_file_size)/SizePerRW;
   
   // read flash, md5 update
@@ -368,17 +368,15 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
     else{
       readLength = SizePerRW;
     }
-    err = MicoFlashRead(MICO_FLASH_FOR_UPDATE, &updateStartAddress, data, readLength);
+    err = MicoFlashRead(ota_flash_params.update_partion, &updateStartAddress, data, readLength);
     require_noerr(err, exit_with_error);
     Md5Update(&md5, (uint8_t *)data, readLength);
+    CRC16_Update( &contex, data, readLength );
   } 
-  if(flash_initialized){
-    MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
-    flash_initialized = false;
-  }
   
  // read done, calc MD5
   Md5Final(&md5, md5_16);
+  CRC16_Final( &contex, &ota_crc );
   pmd5_32 = ECS_DataToHexStringLowercase(md5_16,  sizeof(md5_16));  //convert hex data to hex string
   cloud_if_log("ota_data_in_flash_md5[%d]=%s", strlen(pmd5_32), pmd5_32);
   
@@ -399,6 +397,9 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
     err = kChecksumErr;
     goto exit_with_error;
    }
+  else{
+    cloud_if_log("OTA data in flash md5 check success, crc16=%d.", ota_crc);
+  }
   //----------------------------------------------------------------------------
   
   //update rom version in flash
@@ -419,19 +420,11 @@ OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
   
 exit_with_no_error:
   cloud_if_log("fogCloudDevFirmwareUpdate exit with no error.");
-  if(flash_initialized){
-    MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
-    flash_initialized = false;
-  }
   inContext->appStatus.fogcloudStatus.isOTAInProgress = false;
   return err;
   
 exit_with_error:
   cloud_if_log("fogCloudDevFirmwareUpdate exit with err=%d.", err);
-  if(flash_initialized){
-    MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
-    flash_initialized = false;
-  }
   OTAFailed(inContext);
   inContext->appStatus.fogcloudStatus.isOTAInProgress = false;
   return err;

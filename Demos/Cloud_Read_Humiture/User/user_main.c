@@ -19,14 +19,15 @@
 ******************************************************************************
 */ 
 
-#include "mico_system.h"
+#include "mico.h"
+#include "user_config.h"
 #include "MicoFogCloud.h"
 
 #ifdef USE_MiCOKit_EXT
   #include "micokit_ext.h"
 #endif
-#include "json_c/json.h"
 
+#include "json_c/json.h"
 #include "temp_hum_sensor\DHT11\DHT11.h"
 #include "lcd\oled.h"
 
@@ -36,15 +37,6 @@
  */
 #define user_log(M, ...) custom_log("USER", M, ##__VA_ARGS__)
 #define user_log_trace() custom_log_trace("USER")
-
-
-/* MICO user callback: Restore default configuration provided by user
-* called when Easylink buttion long pressed
-*/
-void userRestoreDefault_callback(app_context_t *app_context)
-{
-  //user_log("INFO: restore user configuration.");
-}
 
 
 /* user main function, called by AppFramework after system init done && wifi
@@ -121,9 +113,9 @@ OSStatus user_main( app_context_t * const app_context )
         }
         else{
           // upload data string to fogcloud, the seconde param(NULL) means send to defalut topic: '<device_id>/out'
-          MicoFogCloudMsgSend(app_context, NULL, (unsigned char*)upload_data, strlen(upload_data));
+          MiCOFogCloudMsgSend(app_context, NULL, (unsigned char*)upload_data, strlen(upload_data));
           user_log("upload data success!\r\ntopic=%s/out\tdht11_temperature=%d, dht11_humidity=%d", 
-                   app_context->mico_context.flashContentInRam.appConfig.fogcloudConfig.deviceId,
+                   app_context->appConfig->fogcloudConfig.deviceId,
                    dht11_temperature, dht11_humidity);
           err = kNoErr;
         }

@@ -4,7 +4,7 @@
 * @author  Eshen Wang
 * @version V1.0.0
 * @date    17-Mar-2015
-* @brief   This header contains the low level interfaces for fogcloud. 
+* @brief   This header contains the fogcloud server low level interfaces. 
   operation
 ******************************************************************************
 * @attention
@@ -25,7 +25,8 @@
 #define __FOGCLOUD_INTERFACES_H_
 
 
-#include "MICO.h"
+#include "mico.h"
+#include "MiCOAppDefine.h"
 #include "FogCloudServiceDef.h"
 
 /*******************************************************************************
@@ -37,8 +38,8 @@
  *                               INTERFACES
  ******************************************************************************/
 //common interfaces
-OSStatus fogCloudInit(app_context_t* const app_context);
-OSStatus fogCloudStart(app_context_t* const app_context);
+OSStatus fogCloudInit(app_context_t* const inContext);
+OSStatus fogCloudStart(app_context_t* const inContext);
 easycloud_service_state_t fogCloudGetState(void);
 OSStatus fogCloudSend(unsigned char *inBuf, unsigned int inBufLen);
 OSStatus fogCloudSendto(const char* topic, 
@@ -48,18 +49,18 @@ OSStatus fogCloudSendtoChannel(const char* channel,
                                unsigned char *inBuf, unsigned int inBufLen);
 
 // cloud specifical interfaces
-OSStatus fogCloudDevActivate(app_context_t* const app_context,
+OSStatus fogCloudDevActivate(app_context_t* const inContext,
                              MVDActivateRequestData_t devActivateReqData);
-OSStatus fogCloudDevAuthorize(app_context_t* const app_context,
+OSStatus fogCloudDevAuthorize(app_context_t* const inContext,
                               MVDAuthorizeRequestData_t devAuthorizeReqData);
 
-OSStatus fogCloudDevFirmwareUpdate(app_context_t* const app_context,
+OSStatus fogCloudDevFirmwareUpdate(app_context_t* const inContext,
                                    MVDOTARequestData_t devOTARequestData);
-OSStatus fogCloudResetCloudDevInfo(app_context_t* const app_context,
+OSStatus fogCloudResetCloudDevInfo(app_context_t* const inContext,
                                    MVDResetRequestData_t devResetRequestData);
 
-OSStatus fogCloudStop(app_context_t* const app_context);
-OSStatus fogCloudDeinit(app_context_t* const app_context);
+OSStatus fogCloudStop(app_context_t* const inContext);
+OSStatus fogCloudDeinit(app_context_t* const inContext);
 OSStatus fogCloudPrintVersion(void);
 
 

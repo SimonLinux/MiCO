@@ -31,42 +31,40 @@
 /*******************************************************************************
  *                            DEFAULT SETTING
  ******************************************************************************/
- 
-/* if not defined in file 'user_config.h', defalut settings will be used.
- */
+    
 #ifndef APP_INFO
-  #define APP_INFO             "MiCOKit Demo based on MICO OS"
+  #define APP_INFO            "MiCOKit Demo based on MICO OS"
 #endif
 
 #ifndef FIRMWARE_REVISION
-  #define FIRMWARE_REVISION    "MiCOKit_1_0"
+  #define FIRMWARE_REVISION   "MiCOKit_1_0"
 #endif
 
 #ifndef MANUFACTURER
-  #define MANUFACTURER         "MXCHIP Inc."
+  #define MANUFACTURER        "MXCHIP Inc."
 #endif
 
 #ifndef SERIAL_NUMBER
-  #define SERIAL_NUMBER        "20150530"
+  #define SERIAL_NUMBER       "20150530"
 #endif
 
 #ifndef PROTOCOL
-  #define PROTOCOL             "com.mxchip.micokit"
+  #define PROTOCOL            "com.mxchip.micokit"
 #endif
 
 /* Wi-Fi configuration mode */
 #ifndef MICO_CONFIG_MODE
-  #define MICO_CONFIG_MODE     CONFIG_MODE_EASYLINK
+  #define MICO_CONFIG_MODE     CONFIG_MODE_EASYLINK_WITH_SOFTAP
 #endif
 
 /* Define MICO cloud type */
-#define CLOUD_DISABLED        (0)
-#define CLOUD_FOGCLOUD        (1)
-#define CLOUD_ALINK           (2)
+#define CLOUD_DISABLED       (0)
+#define CLOUD_FOGCLOUD       (1)
+#define CLOUD_ALINK          (2)
     
 /* MICO cloud service type */
 #ifndef MICO_CLOUD_TYPE
-  #define MICO_CLOUD_TYPE     CLOUD_FOGCLOUD
+  #define MICO_CLOUD_TYPE    CLOUD_FOGCLOUD
 #endif
 
 #ifndef STACK_SIZE_USER_MAIN_THREAD

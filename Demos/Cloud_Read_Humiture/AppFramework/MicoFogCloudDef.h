@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    MicoFogCloudDef.h 
+* @file    MiCOFogCloudDef.h 
 * @author  Eshen Wang
 * @version V1.0.0
 * @date    17-Mar-2015
@@ -25,7 +25,6 @@
 
 #include "FogCloudServiceDef.h"
 
-
 /*******************************************************************************
  *                                DEFINES
  ******************************************************************************/
@@ -33,12 +32,13 @@
 // default device settings
 #define DEFAULT_LOGIN_ID                 "admin"
 #define DEFAULT_DEV_PASSWD               "88888888"
+#define DEFAULT_USER_TOKEN               "88888888"
    
 // default device info
 #define DEFAULT_DEVICE_ID                "null"
 #define DEFAULT_DEVICE_KEY               "null"
 
-#define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0x800
+#define STACK_SIZE_FOGCLOUD_MAIN_THREAD   0xC00
 #define STACK_SIZE_FOGCLOUD_OTA_THREAD    0xC00
 #define FOGCLOUD_CONFIG_SERVER_PORT       8001    // fogcloud config server port
 
@@ -48,6 +48,9 @@
 
 // enalbe FogCloud auto activate function (user_token=MAC)
 #define ENABLE_FOGCLOUD_AUTO_ACTIVATE
+
+// disalbe FogCloud OTA check when system start
+//#define DISABLE_FOGCLOUD_OTA_CHECK
 
 
 /*******************************************************************************

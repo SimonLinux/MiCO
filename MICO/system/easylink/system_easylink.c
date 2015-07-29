@@ -98,6 +98,7 @@ void EasyLinkNotify_EasyLinkCompleteHandler(network_InitTypeDef_st *nwkpara, mic
   memset(inContext->flashContentInRam.micoSystemConfig.bssid, 0x0, 6);
   memcpy(inContext->flashContentInRam.micoSystemConfig.user_key, nwkpara->wifi_key, maxKeyLen);
   inContext->flashContentInRam.micoSystemConfig.user_keyLength = strlen(nwkpara->wifi_key);
+  inContext->flashContentInRam.micoSystemConfig.dhcpEnable = true;
   mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
   system_log("Get SSID: %s, Key: %s", inContext->flashContentInRam.micoSystemConfig.ssid, inContext->flashContentInRam.micoSystemConfig.user_key);
 

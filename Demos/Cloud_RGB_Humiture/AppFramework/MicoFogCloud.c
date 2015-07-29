@@ -35,6 +35,9 @@ operation
 /*******************************************************************************
  *                                  DEFINES
  ******************************************************************************/
+#ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
+  #define MAX_AUTO_ACTIVATE_RETRY_COUNTS    5
+#endif
 
 
 /*******************************************************************************
@@ -53,6 +56,8 @@ static mico_mutex_t msg_recv_queue_mutex = NULL;
 extern OSStatus MicoStartFogCloudConfigServer ( mico_Context_t * const inContext );
 extern void set_RF_LED_cloud_connected     ( mico_Context_t * const inContext );
 extern void set_RF_LED_cloud_disconnected  ( mico_Context_t * const inContext );
+extern void wait_for_wifi_info_delegate( mico_Context_t * const inContext );
+extern void fogcloud_working_info_delegate( mico_Context_t * const inContext );
 
 void MicoFogCloudNeedResetDevice(void)
 {
@@ -82,6 +87,7 @@ void fogNotify_WifiStatusHandler(WiFiEvent event, mico_Context_t * const inConte
 }
 
 #ifndef DISABLE_FOGCLOUD_OTA_CHECK
+extern uint16_t ota_crc;
 void fogcloud_ota_thread(void *arg)
 {
   OSStatus err = kUnknownErr;
@@ -107,12 +113,12 @@ void fogcloud_ota_thread(void *arg)
       mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
       memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
       inContext->flashContentInRam.bootTable.length = inContext->appStatus.fogcloudStatus.RecvRomFileSize;
-      inContext->flashContentInRam.bootTable.start_address = UPDATE_START_ADDRESS;
+      inContext->flashContentInRam.bootTable.start_address = MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP)->partition_start_addr;
       inContext->flashContentInRam.bootTable.type = 'A';
       inContext->flashContentInRam.bootTable.upgrade_type = 'U';
-      if(inContext->flashContentInRam.micoSystemConfig.configured != allConfigured)
-        inContext->flashContentInRam.micoSystemConfig.easyLinkByPass = EASYLINK_SOFT_AP_BYPASS;
+      inContext->flashContentInRam.bootTable.crc = ota_crc;
       MICOUpdateConfiguration(inContext);
+      
       mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
       inContext->micoStatus.sys_state = eState_Software_Reset;
       if(inContext->micoStatus.sys_state_change_sem != NULL ){
@@ -143,6 +149,7 @@ void fogcloud_main_thread(void *arg)
   
 #ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
   MVDActivateRequestData_t devDefaultActivateData;
+  uint32_t auto_activate_retry_cnt = MAX_AUTO_ACTIVATE_RETRY_COUNTS;
 #endif
   
   /* wait for station on */
@@ -175,6 +182,10 @@ void fogcloud_main_thread(void *arg)
  #ifdef ENABLE_FOGCLOUD_AUTO_ACTIVATE
   /* activate when wifi on */
   while(false == inContext->flashContentInRam.appConfig.fogcloudConfig.isActivated){
+    if(0 == auto_activate_retry_cnt){
+      fogcloud_log("device auto activate failed.");
+      break;
+    }
     // auto activate, using default login_id/dev_pass/user_token
     fogcloud_log("device activate start...");
     memset((void*)&devDefaultActivateData, 0, sizeof(devDefaultActivateData));
@@ -190,14 +201,14 @@ void fogcloud_main_thread(void *arg)
     err = fogCloudDevActivate(inContext, devDefaultActivateData);
     if(kNoErr == err){
       fogcloud_log("device activate success!");
-      break;
     }
     else{
+      auto_activate_retry_cnt--;
       fogcloud_log("device auto activate failed, err = %d, will retry in 3s ...", err);
     }
     mico_thread_sleep(3);
   }
-
+  fogcloud_log("device is already activated.");
 #endif  // ENABLE_FOGCLOUD_AUTO_ACTIVATE
   
 #ifndef DISABLE_FOGCLOUD_OTA_CHECK
@@ -490,7 +501,7 @@ OSStatus MicoFogCloudCloudMsgProcess(mico_Context_t* context,
   }
   total_recv_buf_len += real_msg_len;
   
-	memset(real_msg, '\0', sizeof(real_msg));
+  memset(real_msg, '\0', real_msg_len);
   real_msg->topic_len = topicLen;
   real_msg->data_len = inBufLen;
   memcpy(real_msg->data, topic, topicLen);
@@ -509,12 +520,12 @@ OSStatus MicoFogCloudCloudMsgProcess(mico_Context_t* context,
         }
       }
       else{
-        mico_rtos_unlock_mutex(&msg_recv_queue_mutex);
         fogcloud_log("WARNGING: FogCloud msg overrun, abandon current message!");
         if(NULL != real_msg){  // queue full, new msg abandoned
           free(real_msg);
           real_msg = NULL;
         }
+        mico_rtos_unlock_mutex(&msg_recv_queue_mutex);
         return kOverrunErr;
       }
     }

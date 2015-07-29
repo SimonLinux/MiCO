@@ -1954,17 +1954,20 @@
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MicoFogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MicoFogCloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MiCOFogCloud.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MicoFogCloudConfigServer.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MicoFogCloudDef.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MiCOFogCloudDef.h</name>
       </file>
     </group>
     <group>
       <name>User</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\User\mico_config.h</name>
+      </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\User\user_config.h</name>
       </file>
@@ -2062,10 +2065,16 @@
         <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\HTTPUtils.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\RingBufferUtils.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\SocketUtils.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\StringUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\URLUtils.c</name>
       </file>
     </group>
   </group>
@@ -2473,9 +2482,6 @@
         </group>
         <group>
           <name>Wi-Fi_Bus_Driver</name>
-          <file>
-            <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\read_wifi_firmware.c</name>
-          </file>
           <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\wlan_bus_sdio.c</name>
           </file>

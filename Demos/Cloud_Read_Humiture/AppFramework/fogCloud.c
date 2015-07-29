@@ -4,8 +4,8 @@
 * @author  Eshen Wang
 * @version V1.0.0
 * @date    17-Mar-2015
-* @brief   This file contains the implementations of low level 
-*          interfaces for fogcloud.
+* @brief   This file contains the implementations of fogcloud service low level 
+*          interfaces.
   operation
 ******************************************************************************
 * @attention
@@ -21,9 +21,11 @@
 ******************************************************************************
 */ 
 
-#include "MiCOAppDefine.h"
+#include "mico.h"
+
 #include "fogcloud.h"   
 #include "FogCloudService.h"
+#include "CheckSumUtils.h"
 
 
 #define cloud_if_log(M, ...) custom_log("FOGCLOUD_IF", M, ##__VA_ARGS__)
@@ -32,12 +34,12 @@
 
 static easycloud_service_context_t easyCloudContext;
 
-extern void OTAWillStart( app_context_t * const app_context );
-extern void OTASuccess( app_context_t * const app_context );
-extern void OTAFailed( app_context_t * const app_context );
+extern void OTAWillStart( app_context_t * const inContext );
+extern void OTASuccess( app_context_t * const inContext );
+extern void OTAFailed( app_context_t * const inContext );
 
-//extern void  set_RF_LED_cloud_connected     ( app_context_t * const app_context );
-//extern void  set_RF_LED_cloud_disconnected  ( app_context_t * const app_context );
+//extern void  set_RF_LED_cloud_connected     ( app_context_t * const inContext );
+//extern void  set_RF_LED_cloud_disconnected  ( app_context_t * const inContext );
 
 WEAK OSStatus MicoFogCloudCloudMsgProcess(app_context_t* context, 
                                      const char* topic, const unsigned int topicLen,
@@ -52,32 +54,32 @@ WEAK OSStatus MicoFogCloudCloudMsgProcess(app_context_t* context,
  ******************************************************************************/
 
 //cloud message recived handler
-void cloudMsgArrivedHandler(void* app_context, 
+void cloudMsgArrivedHandler(void* context, 
                             const char* topic, const unsigned int topicLen,
                             unsigned char *msg, unsigned int msgLen)
 {
-  app_context_t *appContext = (app_context_t*)app_context;
+  app_context_t *inContext = (app_context_t*)context;
   
   //note: get data just for length=len is valid, because Msg is just a buf pionter.
   cloud_if_log("Cloud[%.*s] => KIT: [%d]=%.*s", topicLen, topic, msgLen, msgLen, msg);
   
-  MicoFogCloudCloudMsgProcess(appContext, topic, topicLen, msg, msgLen);
+  MicoFogCloudCloudMsgProcess(inContext, topic, topicLen, msg, msgLen);
 }
 
 //cloud service status changed handler
-void cloudServiceStatusChangedHandler(void* app_context, easycloud_service_status_t serviceStateInfo)
+void cloudServiceStatusChangedHandler(void* context, easycloud_service_status_t serviceStateInfo)
 {
-  app_context_t *appContext = (app_context_t*)app_context;
+  app_context_t *inContext = (app_context_t*)context;
 
   if (FOGCLOUD_CONNECTED == serviceStateInfo.state){
     cloud_if_log("cloud service connected!");
-    appContext->appStatus.fogcloudStatus.isCloudConnected = true;
-    //set_RF_LED_cloud_connected(app_context);
+    inContext->appStatus.fogcloudStatus.isCloudConnected = true;
+    //set_RF_LED_cloud_connected(inContext);
   }
   else{
     cloud_if_log("cloud service disconnected!");
-    appContext->appStatus.fogcloudStatus.isCloudConnected = false;
-    //set_RF_LED_cloud_disconnected(app_context);
+    inContext->appStatus.fogcloudStatus.isCloudConnected = false;
+    //set_RF_LED_cloud_disconnected(inContext);
   }
 }
 
@@ -96,29 +98,29 @@ OSStatus fogCloudPrintVersion(void)
   return kNoErr;
 }
 
-OSStatus fogCloudInit(app_context_t* const app_context)
+OSStatus fogCloudInit(app_context_t* const inContext)
 {
   OSStatus err = kUnknownErr;
   int cloudServiceLibVersion = 0;
   
   // set cloud service config
   strncpy(easyCloudContext.service_config_info.bssid, 
-          app_context->mico_context->micoStatus.mac, MAX_SIZE_BSSID);
+          inContext->mico_context->micoStatus.mac, MAX_SIZE_BSSID);
   strncpy(easyCloudContext.service_config_info.productId, 
           (char*)PRODUCT_ID, strlen((char*)PRODUCT_ID));
   strncpy(easyCloudContext.service_config_info.productKey, 
           (char*)PRODUCT_KEY, strlen((char*)PRODUCT_KEY));
   easyCloudContext.service_config_info.msgRecvhandler = cloudMsgArrivedHandler;
   easyCloudContext.service_config_info.statusNotify = cloudServiceStatusChangedHandler;
-  easyCloudContext.service_config_info.context = (void*)app_context;
+  easyCloudContext.service_config_info.context = (void*)inContext;
   
   // set cloud status
   memset((void*)&(easyCloudContext.service_status), '\0', sizeof(easyCloudContext.service_status));
-  easyCloudContext.service_status.isActivated = app_context->appConfig->fogcloudConfig.isActivated;
+  easyCloudContext.service_status.isActivated = inContext->appConfig->fogcloudConfig.isActivated;
   strncpy(easyCloudContext.service_status.deviceId, 
-          app_context->appConfig->fogcloudConfig.deviceId, MAX_SIZE_DEVICE_ID);
+          inContext->appConfig->fogcloudConfig.deviceId, MAX_SIZE_DEVICE_ID);
   strncpy(easyCloudContext.service_status.masterDeviceKey, 
-          app_context->appConfig->fogcloudConfig.masterDeviceKey, MAX_SIZE_DEVICE_KEY);
+          inContext->appConfig->fogcloudConfig.masterDeviceKey, MAX_SIZE_DEVICE_KEY);
   strncpy(easyCloudContext.service_status.device_name, 
           DEFAULT_DEVICE_NAME, MAX_SIZE_DEVICE_NAME);
   
@@ -138,11 +140,11 @@ exit:
 }
 
 
-OSStatus fogCloudStart(app_context_t* const app_context)
+OSStatus fogCloudStart(app_context_t* const inContext)
 {
   OSStatus err = kUnknownErr;
   
-  if(NULL == app_context){
+  if(NULL == inContext){
     return kParamErr;
   }
   
@@ -206,7 +208,7 @@ exit:
   return err;
 }
 
-OSStatus fogCloudDevActivate(app_context_t* const app_context,
+OSStatus fogCloudDevActivate(app_context_t* const inContext,
                                       MVDActivateRequestData_t devActivateRequestData)
 {
   cloud_if_log_trace();
@@ -227,25 +229,25 @@ OSStatus fogCloudDevActivate(app_context_t* const app_context,
   require_noerr_action(err, exit, 
                        cloud_if_log("ERROR: fogCloudDevActivate failed! err=%d", err) );
   
-  app_context->appStatus.fogcloudStatus.isActivated = true;
+  inContext->appStatus.fogcloudStatus.isActivated = true;
   
   // write activate data back to flash
-  mico_rtos_lock_mutex(&app_context->mico_context->flashContentInRam_mutex);
-  app_context->appConfig->fogcloudConfig.isActivated = true;
-  strncpy(app_context->appConfig->fogcloudConfig.deviceId,
+  mico_rtos_lock_mutex(&inContext->mico_context->flashContentInRam_mutex);
+  inContext->appConfig->fogcloudConfig.isActivated = true;
+  strncpy(inContext->appConfig->fogcloudConfig.deviceId,
           easyCloudContext.service_status.deviceId, MAX_SIZE_DEVICE_ID);
-  strncpy(app_context->appConfig->fogcloudConfig.masterDeviceKey,
+  strncpy(inContext->appConfig->fogcloudConfig.masterDeviceKey,
           easyCloudContext.service_status.masterDeviceKey, MAX_SIZE_DEVICE_KEY);
   
-  strncpy(app_context->appConfig->fogcloudConfig.loginId,
+  strncpy(inContext->appConfig->fogcloudConfig.loginId,
           easyCloudContext.service_config_info.loginId, MAX_SIZE_LOGIN_ID);
-  strncpy(app_context->appConfig->fogcloudConfig.devPasswd,
+  strncpy(inContext->appConfig->fogcloudConfig.devPasswd,
           easyCloudContext.service_config_info.devPasswd, MAX_SIZE_DEV_PASSWD);
-  strncpy(app_context->appConfig->fogcloudConfig.userToken,
+  strncpy(inContext->appConfig->fogcloudConfig.userToken,
           easyCloudContext.service_config_info.userToken, MAX_SIZE_USER_TOKEN);
     
-  err = MICOUpdateConfiguration(app_context);
-  mico_rtos_unlock_mutex(&app_context->mico_context->flashContentInRam_mutex);
+  err = mico_system_context_update(inContext->mico_context);
+  mico_rtos_unlock_mutex(&inContext->mico_context->flashContentInRam_mutex);
   require_noerr_action(err, exit, 
                        cloud_if_log("ERROR: activate write flash failed! err=%d", err) );
   
@@ -255,7 +257,7 @@ exit:
   return err;
 }
 
-OSStatus fogCloudDevAuthorize(app_context_t* const app_context,
+OSStatus fogCloudDevAuthorize(app_context_t* const inContext,
                                        MVDAuthorizeRequestData_t devAuthorizeReqData)
 {
   cloud_if_log_trace();
@@ -285,20 +287,18 @@ exit:
   return err;
 }
 
-
+uint16_t ota_crc = 0;
 #define SizePerRW 1024   /* Bootloader need 2xSizePerRW RAM heap size to operate, 
                             but it can boost the setup. */
 
-OSStatus fogCloudDevFirmwareUpdate(app_context_t* const app_context,
+OSStatus fogCloudDevFirmwareUpdate(app_context_t* const inContext,
                                             MVDOTARequestData_t devOTARequestData)
 {
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;
   ecs_ota_flash_params_t ota_flash_params = {
-    MICO_FLASH_FOR_UPDATE,
-    UPDATE_START_ADDRESS,
-    UPDATE_END_ADDRESS,
-    UPDATE_FLASH_SIZE
+    MICO_PARTITION_OTA_TEMP,
+    0x0,
   };
   
   md5_context md5;
@@ -310,7 +310,10 @@ OSStatus fogCloudDevFirmwareUpdate(app_context_t* const app_context,
   uint32_t readLength = 0;
   uint32_t i = 0, size = 0;
   
-  bool flash_initialized = false;
+  // crc16
+  CRC16_Context contex;
+
+  cloud_if_log("fogCloudDevFirmwareUpdate: start ...");
   
   //get latest rom version, file_path, md5
   cloud_if_log("fogCloudDevFirmwareUpdate: get latest rom version from server ...");
@@ -318,40 +321,38 @@ OSStatus fogCloudDevFirmwareUpdate(app_context_t* const app_context,
   require_noerr_action( err, exit_with_error, cloud_if_log("ERROR: FogCloudGetLatestRomVersion failed! err=%d", err) );
   
   //FW version compare
-  cloud_if_log("currnt_version=%s", app_context->appConfig->fogcloudConfig.romVersion);
+  cloud_if_log("currnt_version=%s", inContext->appConfig->fogcloudConfig.romVersion);
   cloud_if_log("latestRomVersion=%s", easyCloudContext.service_status.latestRomVersion);
   cloud_if_log("bin_file=%s", easyCloudContext.service_status.bin_file);
   cloud_if_log("bin_md5=%s", easyCloudContext.service_status.bin_md5);
   
-  if(0 == strncmp(app_context->appConfig->fogcloudConfig.romVersion,
+  if(0 == strncmp(inContext->appConfig->fogcloudConfig.romVersion,
                   easyCloudContext.service_status.latestRomVersion, 
-                  strlen(app_context->appConfig->fogcloudConfig.romVersion))){
+                  strlen(inContext->appConfig->fogcloudConfig.romVersion))){
      cloud_if_log("the current firmware version[%s] is up-to-date!", 
-                  app_context->appConfig->fogcloudConfig.romVersion);
-     app_context->appStatus.fogcloudStatus.RecvRomFileSize = 0;
+                  inContext->appConfig->fogcloudConfig.romVersion);
+     inContext->appStatus.fogcloudStatus.RecvRomFileSize = 0;
      err = kNoErr;
      goto exit_with_no_error;
   }
   cloud_if_log("fogCloudDevFirmwareUpdate: new firmware[%s] found on server, downloading ...",
                easyCloudContext.service_status.latestRomVersion);
   
-  app_context->appStatus.fogcloudStatus.isOTAInProgress = true;
-  OTAWillStart(app_context);
+  inContext->appStatus.fogcloudStatus.isOTAInProgress = true;
+  OTAWillStart(inContext);
   
   //get rom data
   err = FogCloudGetRomData(&easyCloudContext, ota_flash_params);
   require_noerr_action( err, exit_with_error, 
                        cloud_if_log("ERROR: FogCloudGetRomData failed! err=%d", err) );
   
-  //------------------------------ OTA DATA VERIFY -----------------------------
+//------------------------------ OTA DATA VERIFY -----------------------------
   // md5 init
   InitMd5(&md5);
+  CRC16_Init( &contex );
   memset(rom_file_md5, 0, 32);
   memset(data, 0xFF, SizePerRW);
-  err = MicoFlashInitialize( MICO_FLASH_FOR_UPDATE );
-  require_noerr(err, exit_with_error);
-  flash_initialized = true;
-  updateStartAddress = UPDATE_START_ADDRESS;
+  updateStartAddress = ota_flash_params.update_offset;
   size = (easyCloudContext.service_status.bin_file_size)/SizePerRW;
   
   // read flash, md5 update
@@ -367,17 +368,15 @@ OSStatus fogCloudDevFirmwareUpdate(app_context_t* const app_context,
     else{
       readLength = SizePerRW;
     }
-    err = MicoFlashRead(MICO_FLASH_FOR_UPDATE, &updateStartAddress, data, readLength);
+    err = MicoFlashRead(ota_flash_params.update_partion, &updateStartAddress, data, readLength);
     require_noerr(err, exit_with_error);
     Md5Update(&md5, (uint8_t *)data, readLength);
+    CRC16_Update( &contex, data, readLength );
   } 
-  if(flash_initialized){
-    MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
-    flash_initialized = false;
-  }
   
  // read done, calc MD5
   Md5Final(&md5, md5_16);
+  CRC16_Final( &contex, &ota_crc );
   pmd5_32 = ECS_DataToHexStringLowercase(md5_16,  sizeof(md5_16));  //convert hex data to hex string
   cloud_if_log("ota_data_in_flash_md5[%d]=%s", strlen(pmd5_32), pmd5_32);
   
@@ -398,45 +397,40 @@ OSStatus fogCloudDevFirmwareUpdate(app_context_t* const app_context,
     err = kChecksumErr;
     goto exit_with_error;
    }
+  else{
+    cloud_if_log("OTA data in flash md5 check success, crc16=%d.", ota_crc);
+  }
   //----------------------------------------------------------------------------
   
   //update rom version in flash
   cloud_if_log("fogCloudDevFirmwareUpdate: return rom version && file size.");
-  mico_rtos_lock_mutex(&app_context->mico_context->flashContentInRam_mutex);
-  memset(app_context->appConfig->fogcloudConfig.romVersion,
+  mico_rtos_lock_mutex(&inContext->mico_context->flashContentInRam_mutex);
+  memset(inContext->appConfig->fogcloudConfig.romVersion,
          0, MAX_SIZE_FW_VERSION);
-  strncpy(app_context->appConfig->fogcloudConfig.romVersion,
+  strncpy(inContext->appConfig->fogcloudConfig.romVersion,
           easyCloudContext.service_status.latestRomVersion, 
           strlen(easyCloudContext.service_status.latestRomVersion));
-  app_context->appStatus.fogcloudStatus.RecvRomFileSize = easyCloudContext.service_status.bin_file_size;
-  MICOUpdateConfiguration(app_context);
-  mico_rtos_unlock_mutex(&app_context->mico_context->flashContentInRam_mutex);
+  inContext->appStatus.fogcloudStatus.RecvRomFileSize = easyCloudContext.service_status.bin_file_size;
+  err = mico_system_context_update(inContext->mico_context);
+  mico_rtos_unlock_mutex(&inContext->mico_context->flashContentInRam_mutex);
   
-  OTASuccess(app_context);
+  OTASuccess(inContext);
   err = kNoErr;
   goto exit_with_no_error;
   
 exit_with_no_error:
   cloud_if_log("fogCloudDevFirmwareUpdate exit with no error.");
-  if(flash_initialized){
-    MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
-    flash_initialized = false;
-  }
-  app_context->appStatus.fogcloudStatus.isOTAInProgress = false;
+  inContext->appStatus.fogcloudStatus.isOTAInProgress = false;
   return err;
   
 exit_with_error:
   cloud_if_log("fogCloudDevFirmwareUpdate exit with err=%d.", err);
-  if(flash_initialized){
-    MicoFlashFinalize(MICO_FLASH_FOR_UPDATE);
-    flash_initialized = false;
-  }
-  OTAFailed(app_context);
-  app_context->appStatus.fogcloudStatus.isOTAInProgress = false;
+  OTAFailed(inContext);
+  inContext->appStatus.fogcloudStatus.isOTAInProgress = false;
   return err;
 }
 
-OSStatus fogCloudResetCloudDevInfo(app_context_t* const app_context,
+OSStatus fogCloudResetCloudDevInfo(app_context_t* const inContext,
                                             MVDResetRequestData_t devResetRequestData)
 {
   OSStatus err = kUnknownErr;
@@ -446,24 +440,24 @@ OSStatus fogCloudResetCloudDevInfo(app_context_t* const app_context,
   err = FogCloudDeviceReset(&easyCloudContext);
   require_noerr_action( err, exit, cloud_if_log("ERROR: FogCloudDeviceReset failed! err=%d", err) );
   
-  app_context->appStatus.fogcloudStatus.isActivated = false;
+  inContext->appStatus.fogcloudStatus.isActivated = false;
   
-  mico_rtos_lock_mutex(&app_context->mico_context->flashContentInRam_mutex);
-  app_context->appConfig->fogcloudConfig.isActivated = false;  // need to reActivate
-  app_context->appConfig->fogcloudConfig.owner_binding = false;  // no owner binding
-  sprintf(app_context->appConfig->fogcloudConfig.deviceId, DEFAULT_DEVICE_ID);
-  sprintf(app_context->appConfig->fogcloudConfig.masterDeviceKey, DEFAULT_DEVICE_KEY);
-  sprintf(app_context->appConfig->fogcloudConfig.loginId, DEFAULT_LOGIN_ID);
-  sprintf(app_context->appConfig->fogcloudConfig.devPasswd, DEFAULT_DEV_PASSWD);
-  app_context->appStatus.fogcloudStatus.isCloudConnected = false;
-  MICOUpdateConfiguration(app_context);
-  mico_rtos_unlock_mutex(&app_context->mico_context->flashContentInRam_mutex);
+  mico_rtos_lock_mutex(&inContext->mico_context->flashContentInRam_mutex);
+  inContext->appConfig->fogcloudConfig.isActivated = false;  // need to reActivate
+  inContext->appConfig->fogcloudConfig.owner_binding = false;  // no owner binding
+  sprintf(inContext->appConfig->fogcloudConfig.deviceId, DEFAULT_DEVICE_ID);
+  sprintf(inContext->appConfig->fogcloudConfig.masterDeviceKey, DEFAULT_DEVICE_KEY);
+  sprintf(inContext->appConfig->fogcloudConfig.loginId, DEFAULT_LOGIN_ID);
+  sprintf(inContext->appConfig->fogcloudConfig.devPasswd, DEFAULT_DEV_PASSWD);
+  inContext->appStatus.fogcloudStatus.isCloudConnected = false;
+  err = mico_system_context_update(inContext->mico_context);
+  mico_rtos_unlock_mutex(&inContext->mico_context->flashContentInRam_mutex);
   
 exit:
   return err;
 }
 
-OSStatus fogCloudStop(app_context_t* const app_context)
+OSStatus fogCloudStop(app_context_t* const inContext)
 {  
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;
@@ -478,7 +472,7 @@ exit:
   return err;
 }
 
-OSStatus fogCloudDeinit(app_context_t* const app_context)
+OSStatus fogCloudDeinit(app_context_t* const inContext)
 {  
   cloud_if_log_trace();
   OSStatus err = kUnknownErr;

@@ -19,10 +19,9 @@
 ******************************************************************************
 */ 
 
-#include "MICODefine.h"
+#include "mico.h"
 #include "MicoFogCloud.h"
-#include "JSON-C/json.h"
-
+#include "json_c/json.h"
 #include "rgb_led/hsb2rgb_led.h"
 
 
@@ -52,27 +51,27 @@ void user_downstream_thread(void* arg)
 {
   user_log_trace();
   OSStatus err = kUnknownErr;
-  mico_Context_t *mico_context = (mico_Context_t *)arg;
+  app_context_t *app_context = (app_context_t *)arg;
   fogcloud_msg_t *recv_msg = NULL;
   json_object *recv_json_object = NULL;
   
   bool device_switch_tmp = true;
     
-  require(mico_context, exit);
+  require(app_context, exit);
   
   /* thread loop to handle cloud message */
   while(1){
     mico_thread_msleep(200);
         
     // check fogcloud connect status
-    if(!mico_context->appStatus.fogcloudStatus.isCloudConnected){
+    if(!app_context->appStatus.fogcloudStatus.isCloudConnected){
       continue;
     }
     
     /* get a msg pointer, points to the memory of a msg: 
      * msg data format: recv_msg->data = <topic><data>
      */
-    err = MicoFogCloudMsgRecv(mico_context, &recv_msg, 100);
+    err = MiCOFogCloudMsgRecv(app_context, &recv_msg, 100);
     if(kNoErr == err){
       // debug log in MICO dubug uart
       user_log("Cloud => Module: topic[%d]=[%.*s]\tdata[%d]=[%.*s]", 

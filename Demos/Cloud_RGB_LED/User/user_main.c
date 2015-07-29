@@ -19,11 +19,10 @@
 ******************************************************************************
 */ 
 
-#include "MICODefine.h"
+#include "mico.h"
 #include "MicoFogCloud.h"
 
-#include "JSON-C/json.h"
-
+#include "json_c/json.h"
 #include "rgb_led/hsb2rgb_led.h"
 #include "lcd/oled.h"
 
@@ -33,15 +32,6 @@
  */
 #define user_log(M, ...) custom_log("USER", M, ##__VA_ARGS__)
 #define user_log_trace() custom_log_trace("USER")
-
-
-/* MICO user callback: Restore default configuration provided by user
-* called when Easylink buttion long pressed
-*/
-void userRestoreDefault_callback(mico_Context_t *mico_context)
-{
-  //user_log("INFO: restore user configuration.");
-}
 
 
 /* user main function, called by AppFramework after system init done && wifi

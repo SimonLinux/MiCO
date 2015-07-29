@@ -22,6 +22,7 @@
 #ifndef __USER_CONFIG_H_
 #define __USER_CONFIG_H_
 
+#include "mico_config.h"
 
 /*******************************************************************************
  *                             APP INFO
@@ -39,23 +40,9 @@
 
 #endif
 
-/*------------------------------ version -------------------------------------*/
-#define SERIAL_NUMBER                  "1507231145"
-#define FIRMWARE_REVISION              HARDWARE_REVISION"@"SERIAL_NUMBER
-
-#define DEFAULT_ROM_VERSION            FIRMWARE_REVISION
-#define DEFAULT_DEVICE_NAME            MODEL   // device name upload to cloud defined in platform_config.h
-
-#define APP_INFO                       MODEL" Wechat humiture && RGB LED Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
-#define PROTOCOL                       "com.fogcloud.wechat"
-
-
 /*******************************************************************************
  *                             CONNECTING
  ******************************************************************************/
-
-/* Wi-Fi configuration mode */
-#define MICO_CONFIG_MODE              CONFIG_MODE_AIRKISS
 
 /* MICO cloud service */
 #define MICO_CLOUD_TYPE               CLOUD_FOGCLOUD

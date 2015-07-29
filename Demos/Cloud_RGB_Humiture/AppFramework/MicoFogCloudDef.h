@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    MicoFogCloudDef.h 
+* @file    MiCOFogCloudDef.h 
 * @author  Eshen Wang
 * @version V1.0.0
 * @date    17-Mar-2015
@@ -32,6 +32,7 @@
 // default device settings
 #define DEFAULT_LOGIN_ID                 "admin"
 #define DEFAULT_DEV_PASSWD               "88888888"
+#define DEFAULT_USER_TOKEN               "88888888"
    
 // default device info
 #define DEFAULT_DEVICE_ID                "null"

@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file MicoFogCloudConfigServer.c
+* @file MiCOFogCloudConfigServer.c
 * @author Eshen Wang
 * @version V1.0.0
 * @date 17-Mar-2015
@@ -29,15 +29,13 @@
 ******************************************************************************
 */
 
-#include "MICO.h"
-#include "MICODefine.h"
+#include "mico.h"
 #include "SocketUtils.h"
-#include "MDNSUtils.h"
 #include "StringUtils.h"
-#include "MicoFogCloud.h"
+#include "MiCOFogCloud.h"
 
-#define fogcloud_config_log(M, ...) custom_log("FogCloud_ConfigServer", M, ##__VA_ARGS__)
-#define fogcloud_config_log_trace() custom_log_trace("FogCloud_ConfigServer")
+#define fogcloud_config_log(M, ...) custom_log("Fog_ConfigServer", M, ##__VA_ARGS__)
+#define fogcloud_config_log_trace() custom_log_trace("Fog_ConfigServer")
 
 #define STACK_SIZE_FOGCLOUD_CONFIG_SERVER_THREAD   0x300
 #define STACK_SIZE_FOGCLOUD_CONFIG_CLIENT_THREAD   0xD00
@@ -48,7 +46,7 @@
 #define kCONFIGURLResetCloudDevInfo      "/dev-cloud_reset"
 #define kCONFIGURLDevFWUpdate            "/dev-fw_update"
 
-extern json_object* ConfigCreateReportJsonMessage( mico_Context_t * const inContext );
+extern json_object* ConfigCreateReportJsonMessage( app_context_t * const inContext );
 extern OSStatus getMVDActivateRequestData(const char *input, MVDActivateRequestData_t *activateData);
 extern OSStatus getMVDAuthorizeRequestData(const char *input, MVDAuthorizeRequestData_t *authorizeData);
 extern OSStatus getMVDResetRequestData(const char *input, MVDResetRequestData_t *devResetData);
@@ -59,12 +57,12 @@ extern uint16_t ota_crc;
 
 static void fogCloudConfigServer_listener_thread(void *inContext);
 static void fogCloudConfigClient_thread(void *inFd);
-static mico_Context_t *Context;
+static app_context_t *Context;
 static volatile bool fog_config_server_running = true;
 static OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
-                                                   mico_Context_t * const inContext);
+                                                   app_context_t * const inContext);
 
-OSStatus MicoStartFogCloudConfigServer ( mico_Context_t * const inContext )
+OSStatus MiCOStartFogCloudConfigServer ( app_context_t * const inContext )
 {
   return mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, 
                                  "fog_server", 
@@ -201,7 +199,7 @@ exit:
   return;
 }
 
-OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, mico_Context_t * const inContext)
+OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, app_context_t * const inContext)
 {
   OSStatus err = kUnknownErr;
   const char * json_str;
@@ -227,7 +225,7 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       err = getMVDGetStateRequestData(inHeader->extraDataPtr, &devGetStateRequestData);
       require_noerr( err, exit );
       report = json_object_new_object();
-      err = MicoFogCloudGetState(inContext, devGetStateRequestData, report);
+      err = MiCOFogCloudGetState(inContext, devGetStateRequestData, report);
       require_noerr( err, exit );
       fogcloud_config_log("get device state success!");
       json_str = (char*)json_object_to_json_string(report);
@@ -246,27 +244,26 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       memset((void*)&devActivateRequestData, '\0', sizeof(devActivateRequestData));
       err = getMVDActivateRequestData(inHeader->extraDataPtr, &devActivateRequestData);
       require_noerr( err, exit );
-      err = MicoFogCloudActivate(inContext, devActivateRequestData);
+      err = MiCOFogCloudActivate(inContext, devActivateRequestData);
       require_noerr( err, exit );
       fogcloud_config_log("Device activate success!");
       //------------------------------------------------------------------------
       fog_config_server_running = false;  // stop fog config server
       fogcloud_config_log("update bonjour txt record.");
       // update owner binding flag in txt record of bonjour
-      suspend_bonjour_service(true);
-      mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
-      inContext->flashContentInRam.appConfig.fogcloudConfig.owner_binding = true;
-      err = MICOUpdateConfiguration(inContext);
-      mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
+      mico_rtos_lock_mutex(&inContext->mico_context->flashContentInRam_mutex);
+      inContext->appConfig->fogcloudConfig.owner_binding = true;
+      err = mico_system_context_update(inContext->mico_context);
+      mico_rtos_unlock_mutex(&inContext->mico_context->flashContentInRam_mutex);
       
       bonjour_txt_record = malloc(550);
       require_action(bonjour_txt_record, exit, err = kNoMemoryErr);
       
-      bonjour_txt_field = __strdup_trans_dot(inContext->micoStatus.mac);
+      bonjour_txt_field = __strdup_trans_dot(inContext->mico_context->micoStatus.mac);
       sprintf(bonjour_txt_record, "MAC=%s.", bonjour_txt_field);
       free(bonjour_txt_field);
       
-      bonjour_txt_field = __strdup_trans_dot((inContext->flashContentInRam.appConfig.fogcloudConfig.owner_binding) ? "true" : "false");
+      bonjour_txt_field = __strdup_trans_dot((inContext->appConfig->fogcloudConfig.owner_binding) ? "true" : "false");
       sprintf(bonjour_txt_record, "%sBinding=%s.", bonjour_txt_record, bonjour_txt_field);
       free(bonjour_txt_field);
       
@@ -294,16 +291,15 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       sprintf(bonjour_txt_record, "%sManufacturer=%s.", bonjour_txt_record, bonjour_txt_field);
       free(bonjour_txt_field);
       
-      sprintf(bonjour_txt_record, "%sSeed=%u.", bonjour_txt_record, inContext->flashContentInRam.micoSystemConfig.seed);
+      sprintf(bonjour_txt_record, "%sSeed=%u.", bonjour_txt_record, inContext->mico_context->flashContentInRam.micoSystemConfig.seed);
       
-      bonjour_update_txt_record(bonjour_txt_record);
+      mdns_update_txt_record(BONJOUR_SERVICE, Station, bonjour_txt_record);
       if(NULL != bonjour_txt_record) free(bonjour_txt_record);
-      suspend_bonjour_service(false);
       //------------------------------------------------------------------------
       report = json_object_new_object();
       require_action(report, exit, err = kNoMemoryErr);
       json_object_object_add(report, "device_id",
-                             json_object_new_string(inContext->flashContentInRam.appConfig.fogcloudConfig.deviceId));
+                             json_object_new_string(inContext->appConfig->fogcloudConfig.deviceId));
       json_str = (char*)json_object_to_json_string(report);
       //config_log("json_str=%s", json_str);
       err = ECS_CreateSimpleHTTPMessage( ECS_kMIMEType_JSON, (uint8_t*)json_str, strlen(json_str),
@@ -321,13 +317,13 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       memset((void*)&devAuthorizeRequestData, '\0', sizeof(devAuthorizeRequestData));
       err = getMVDAuthorizeRequestData( inHeader->extraDataPtr, &devAuthorizeRequestData);
       require_noerr( err, exit );
-      err = MicoFogCloudAuthorize(inContext, devAuthorizeRequestData);
+      err = MiCOFogCloudAuthorize(inContext, devAuthorizeRequestData);
       require_noerr( err, exit );
       fogcloud_config_log("Device authorize success!");
       report = json_object_new_object();
       require_action(report, exit, err = kNoMemoryErr);
       json_object_object_add(report, "device_id",
-                             json_object_new_string(inContext->flashContentInRam.appConfig.fogcloudConfig.deviceId));
+                             json_object_new_string(inContext->appConfig->fogcloudConfig.deviceId));
       json_str = (char*)json_object_to_json_string(report);
       //config_log("json_str=%s", json_str);
       err = ECS_CreateSimpleHTTPMessage( ECS_kMIMEType_JSON, (uint8_t*)json_str, strlen(json_str),
@@ -344,7 +340,7 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       memset((void*)&devResetRequestData, '\0', sizeof(devResetRequestData));
       err = getMVDResetRequestData( inHeader->extraDataPtr, &devResetRequestData);
       require_noerr( err, exit );
-      err = MicoFogCloudResetCloudDevInfo(inContext, devResetRequestData);
+      err = MiCOFogCloudResetCloudDevInfo(inContext, devResetRequestData);
       require_noerr( err, exit );
       fogcloud_config_log("Device cloud reset success!");
       err = ECS_CreateSimpleHTTPOKMessage( &httpResponse, &httpResponseLen );
@@ -353,9 +349,9 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       err = SocketSend( fd, httpResponse, httpResponseLen );
       SocketClose(&fd);
      
-      inContext->micoStatus.sys_state = eState_Software_Reset;
-      require(inContext->micoStatus.sys_state_change_sem, exit);
-      mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
+      // system reboot
+      mico_system_power_perform(inContext->mico_context, eState_Software_Reset);
+      mico_thread_sleep(MICO_WAIT_FOREVER);
     }
     goto exit;
   }
@@ -365,7 +361,7 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       memset((void*)&devOTARequestData, '\0', sizeof(devOTARequestData));
       err = getMVDOTARequestData( inHeader->extraDataPtr, &devOTARequestData);
       require_noerr( err, exit );
-      err = MicoFogCloudFirmwareUpdate(inContext, devOTARequestData);
+      err = MiCOFogCloudFirmwareUpdate(inContext, devOTARequestData);
       require_noerr( err, exit );
       fogcloud_config_log("Device firmware update success!");
       err = ECS_CreateSimpleHTTPOKMessage( &httpResponse, &httpResponseLen );
@@ -375,26 +371,26 @@ OSStatus _LocalConfigRespondInComingMessage(int fd, ECS_HTTPHeader_t* inHeader, 
       SocketClose(&fd);
       fogcloud_config_log("OTA bin_size=%lld, bin_version=%s",
                           inContext->appStatus.fogcloudStatus.RecvRomFileSize,
-                          inContext->flashContentInRam.appConfig.fogcloudConfig.romVersion );
+                          inContext->appConfig->fogcloudConfig.romVersion );
       if(0 == inContext->appStatus.fogcloudStatus.RecvRomFileSize){
         //no need to update, return size = 0, no need to boot bootloader
         err = kNoErr;
         goto exit;
       }
       
-      mico_rtos_lock_mutex(&inContext->flashContentInRam_mutex);
-      memset(&inContext->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
-      inContext->flashContentInRam.bootTable.length = inContext->appStatus.fogcloudStatus.RecvRomFileSize;
-      inContext->flashContentInRam.bootTable.start_address = MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP)->partition_start_addr;;
-      inContext->flashContentInRam.bootTable.type = 'A';
-      inContext->flashContentInRam.bootTable.upgrade_type = 'U';
-      inContext->flashContentInRam.bootTable.crc = ota_crc;
-      MICOUpdateConfiguration(inContext);
-      
-      mico_rtos_unlock_mutex(&inContext->flashContentInRam_mutex);
-      inContext->micoStatus.sys_state = eState_Software_Reset;
-      require(inContext->micoStatus.sys_state_change_sem, exit);
-      mico_rtos_set_semaphore(&inContext->micoStatus.sys_state_change_sem);
+      // update config in flash
+      mico_rtos_lock_mutex(&inContext->mico_context->flashContentInRam_mutex);
+      memset(&inContext->mico_context->flashContentInRam.bootTable, 0, sizeof(boot_table_t));
+      inContext->mico_context->flashContentInRam.bootTable.length = inContext->appStatus.fogcloudStatus.RecvRomFileSize;
+      inContext->mico_context->flashContentInRam.bootTable.start_address = MicoFlashGetInfo(MICO_PARTITION_OTA_TEMP)->partition_start_addr;;
+      inContext->mico_context->flashContentInRam.bootTable.type = 'A';
+      inContext->mico_context->flashContentInRam.bootTable.upgrade_type = 'U';
+      inContext->mico_context->flashContentInRam.bootTable.crc = ota_crc;
+      mico_system_context_update(inContext->mico_context);
+      mico_rtos_unlock_mutex(&inContext->mico_context->flashContentInRam_mutex);
+      // system reboot
+      mico_system_power_perform(inContext->mico_context, eState_Software_Reset);
+      mico_thread_sleep(MICO_WAIT_FOREVER);
     }
     goto exit;
   }

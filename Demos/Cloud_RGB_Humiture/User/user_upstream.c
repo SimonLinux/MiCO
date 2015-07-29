@@ -19,10 +19,9 @@
 ******************************************************************************
 */ 
 
-#include "MICODefine.h"
+#include "mico.h"
 #include "MicoFogCloud.h"
-#include "JSON-C/json.h"
-
+#include "json_c/json.h"
 #include "lcd\oled.h"
 #include "temp_hum_sensor\DHT11\DHT11.h"
 
@@ -45,12 +44,12 @@ void user_upstream_thread(void* arg)
 {
   user_log_trace();
   OSStatus err = kUnknownErr;
-  mico_Context_t *mico_context = (mico_Context_t *)arg;
+  app_context_t *app_context = (app_context_t *)arg;
   json_object *send_json_object = NULL;
   const char *upload_data = NULL;
   uint8_t ret = 0;
     
-  require(mico_context, exit);
+  require(app_context, exit);
   
   /* init humiture sensor DHT11 */
   do{
@@ -93,11 +92,11 @@ void user_upstream_thread(void* arg)
         }
         else{
           // check fogcloud connect status
-          if(mico_context->appStatus.fogcloudStatus.isCloudConnected){
+          if(app_context->appStatus.fogcloudStatus.isCloudConnected){
             // upload data string to fogcloud, the seconde param(NULL) means send to defalut topic: '<device_id>/out'
-            MicoFogCloudMsgSend(mico_context, NULL, (unsigned char*)upload_data, strlen(upload_data));
+            MiCOFogCloudMsgSend(app_context, NULL, (unsigned char*)upload_data, strlen(upload_data));
             user_log("upload data success! \t topic=%s/out \t dht11_temperature=%d, dht11_humidity=%d", 
-                     mico_context->flashContentInRam.appConfig.fogcloudConfig.deviceId,
+                     app_context->appConfig->fogcloudConfig.deviceId,
                      dht11_temperature, dht11_humidity);
             err = kNoErr;
           }

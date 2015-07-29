@@ -47,7 +47,7 @@
 #define DEFAULT_DEVICE_NAME            MODEL   // device name upload to cloud defined in platform_config.h
 
 #define APP_INFO                       MODEL" Wechat RGB LED Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
-#define PROTOCOL                       "com.fogcloud.wechat"
+#define PROTOCOL                       "com.mico.fogcloud"
 
 
 /*******************************************************************************

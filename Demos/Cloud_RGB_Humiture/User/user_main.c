@@ -19,11 +19,11 @@
 ******************************************************************************
 */ 
 
-#include "MICODefine.h"
+#include "mico.h"
+#include "MICOAppDefine.h"
 #include "MicoFogCloud.h"
 
-#include "JSON-C/json.h"
-
+#include "json_c/json.h"
 #include "lcd/oled.h"
 #include "rgb_led/hsb2rgb_led.h"
 
@@ -60,26 +60,18 @@ static mico_thread_t user_upstream_thread_handle = NULL;
 extern void user_downstream_thread(void* arg);
 extern void user_upstream_thread(void* arg);
 
-/* MICO user callback: Restore default configuration provided by user
-* called when Easylink buttion long pressed
-*/
-void userRestoreDefault_callback(mico_Context_t *mico_context)
-{
-  //user_log("INFO: restore user configuration.");
-}
-
 
 /* user main function, called by AppFramework after system init done && wifi
  * station on in user_main thread.
  */
-OSStatus user_main( mico_Context_t * const mico_context )
+OSStatus user_main( app_context_t * const app_context )
 {
   user_log_trace();
   OSStatus err = kUnknownErr;
   // one line on OLED, 16 chars max, we just update line2~4 for the first line is not need to change
   char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
 
-  require(mico_context, exit);
+  require(app_context, exit);
   
   hsb2rgb_led_init();   // init rgb led
   hsb2rgb_led_close();  // close rgb led
@@ -87,13 +79,13 @@ OSStatus user_main( mico_Context_t * const mico_context )
   // start the downstream thread to handle user command
   err = mico_rtos_create_thread(&user_downstrem_thread_handle, MICO_APPLICATION_PRIORITY, "user_downstream", 
                                 user_downstream_thread, STACK_SIZE_USER_DOWNSTREAM_THREAD, 
-                                mico_context );
+                                app_context );
   require_noerr_action( err, exit, user_log("ERROR: create user_downstream thread failed!") );
     
   // start the upstream thread to upload temperature && humidity to user
   err = mico_rtos_create_thread(&user_upstream_thread_handle, MICO_APPLICATION_PRIORITY, "user_upstream", 
                                   user_upstream_thread, STACK_SIZE_USER_UPSTREAM_THREAD, 
-                                  mico_context );
+                                  app_context );
   require_noerr_action( err, exit, user_log("ERROR: create user_uptream thread failed!") );
   
   // user_main loop, update oled display every 1s

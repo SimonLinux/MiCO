@@ -87,7 +87,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.4.8186</state>
+          <state>7.30.1.7765</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -319,6 +319,8 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
+          <state>$PROJ_DIR$\..\..\..\..\mico\system</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1277,6 +1279,8 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
+          <state>$PROJ_DIR$\..\..\..\..\mico\system</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -4894,6 +4898,9 @@
       <name>$PROJ_DIR$\..\..\..\..\Bootloader\menu.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\Bootloader\mico_config.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\Bootloader\MicoDefaults.h</name>
     </file>
     <file>
@@ -4939,29 +4946,41 @@
       </file>
     </group>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_platform.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_rtos.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_security.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_socket.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoSocket.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_system.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoSRPServer.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_wlan.h</name>
     </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoWlan.h</name>
-    </file>
+  </group>
+  <group>
+    <name>libraries</name>
+    <group>
+      <name>utilities</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\CheckSumUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\RingBufferUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\StringUtils.c</name>
+      </file>
+    </group>
   </group>
   <group>
     <name>Platform</name>
@@ -5277,18 +5296,6 @@
         <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\wlan_platform_common.c</name>
       </file>
     </group>
-  </group>
-  <group>
-    <name>Support</name>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\StringUtils.c</name>
-    </file>
   </group>
 </project>
 

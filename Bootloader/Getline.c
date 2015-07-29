@@ -33,7 +33,6 @@
 #include "common.h"                     /* global project definition file   */
 #include "Mico.h"
 #include "platform_config.h"
-#include "MicoPlatform.h"
 
 #define CNTLQ      0x11
 #define CNTLS      0x13

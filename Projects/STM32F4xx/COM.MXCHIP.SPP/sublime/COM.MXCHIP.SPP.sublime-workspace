@@ -519,48 +519,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.h",
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.c",
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "COM.MXCHIP.SPP.sublime-project",
-			"settings":
-			{
-				"buffer_size": 1747,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "Searching 1901 files for \"120000000\" (whole word)\n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/common/services/clock/samg/pll.h:\n   71  #endif\n   72  #if (SAMG55)\n   73: #define PLL_OUTPUT_MAX_HZ   120000000\n   74  #endif\n   75  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/common/services/clock/uc3c/osc.h:\n  430  #define OSC_RC8M_NOMINAL_HZ     8000000\n  431  //! Nominal frequency of RC120M in Hz\n  432: #define OSC_RC120M_NOMINAL_HZ   120000000\n  433  //@}\n  434  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/common/services/clock/uc3d/osc.h:\n  320  #define OSC_RCSYS_MAX_HZ        120000\n  321  //! Nominal frequency of RC120M in Hz\n  322: #define OSC_RC120M_NOMINAL_HZ   120000000\n  323  //@}\n  324  \n\n/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/common/services/clock/uc3l/osc.h:\n  306  #define OSC_RC32K_MAX_HZ        44000\n  307  //! Nominal frequency of RC120M in Hz\n  308: #define OSC_RC120M_NOMINAL_HZ   120000000\n  309  //@}\n  310  \n\n/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/Libraries/system_stm32f2xx.c:\n   47    *        System Clock source                    | PLL (HSE)\n   48    *-----------------------------------------------------------------------------\n   49:   *        SYSCLK(Hz)                             | 120000000\n   50    *-----------------------------------------------------------------------------\n   51:   *        HCLK(Hz)                               | 120000000\n   52    *-----------------------------------------------------------------------------\n   53    *        AHB Prescaler                          | 1\n   ..\n  168    */\n  169  \n  170:   uint32_t SystemCoreClock = 120000000;\n  171  \n  172    __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};\n\n7 matches across 5 files\n",
-			"settings":
-			{
-				"buffer_size": 1927,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "/Users/william/Develop/MiCO/Board/MiCOKit-3288/platform_config.h",
-			"settings":
-			{
-				"buffer_size": 5924,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -622,13 +580,14 @@
 	},
 	"file_history":
 	[
-		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_i2c.c",
+		"/Users/William/Develop/MiCO/Projects/STM32F4xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
 		"/Users/William/Develop/MiCO/Support/MDNSUtils.c",
 		"/Users/William/Develop/MiCO/Support/MDNSUtils.h",
+		"/Users/william/Develop/MiCO/Board/MiCOKit-3288/platform_config.h",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_i2c.c",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/LocalTcpServer.c",
 		"/Users/William/Develop/MiCO/Platform/Drivers/MiCOKit_EXT/lcd/oled.c",
-		"/Users/William/Develop/MiCO/Projects/STM32F4xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
 		"/Users/William/Develop/MiCO/include/MICORTOS.h",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
@@ -748,8 +707,7 @@
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/IAR/stdio_IAR.c",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform.h",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/include/PlatformLogging.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_common_config.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/read_wifi_firmware.c"
+		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_common_config.h"
 	],
 	"find":
 	{
@@ -925,182 +883,6 @@
 		{
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.h",
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1887.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/Users/William/Develop/MiCO/Support/MDNSUtils.c",
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 8833.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "COM.MXCHIP.SPP.sublime-project",
-					"settings":
-					{
-						"buffer_size": 1747,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								677,
-								667
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"settings":
-					{
-						"buffer_size": 1927,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										237,
-										246
-									],
-									[
-										518,
-										527
-									],
-									[
-										796,
-										805
-									],
-									[
-										1073,
-										1082
-									],
-									[
-										1413,
-										1422
-									],
-									[
-										1570,
-										1579
-									],
-									[
-										1791,
-										1800
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								477,
-								477
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/Users/william/Develop/MiCO/Board/MiCOKit-3288/platform_config.h",
-					"settings":
-					{
-						"buffer_size": 5924,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4037,
-								4037
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

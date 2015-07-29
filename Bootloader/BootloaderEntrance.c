@@ -30,8 +30,7 @@
 */ 
 
 
-#include "Mico.h"
-#include "MicoPlatform.h"
+#include "mico.h"
 #include "platform.h"
 #include "platformInternal.h"
 #include "platform_config.h"
@@ -147,8 +146,10 @@ int main(void)
     }
   }
 
+#ifdef MICO_ENABLE_STDIO_TO_BOOT
 BOOT:
   printf ( menu, MODEL, Bootloader_REVISION, HARDWARE_REVISION );
+#endif
 
   while(1){                             
     Main_Menu ();

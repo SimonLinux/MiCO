@@ -33,15 +33,15 @@
 #pragma once
 
 /*--------------------------------- info -------------------------------------*/
-#define MANUFACTURER                    "MXCHIP Inc."
-#define SERIAL_NUMBER                   "1507291330"
-#define FIRMWARE_REVISION               HARDWARE_REVISION"@"SERIAL_NUMBER
+#define MANUFACTURER                      "MXCHIP Inc."
+#define SERIAL_NUMBER                      "1507241538"
+#define FIRMWARE_REVISION                  HARDWARE_REVISION"@"SERIAL_NUMBER
 
-#define APP_INFO                        MODEL" Wechat humiture Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
-#define PROTOCOL                        "com.mico.fogcloud"
+#define DEFAULT_ROM_VERSION                FIRMWARE_REVISION
+#define DEFAULT_DEVICE_NAME                MODEL   // device name upload to cloud defined in platform_config.h
 
-#define DEFAULT_ROM_VERSION             FIRMWARE_REVISION
-#define DEFAULT_DEVICE_NAME             MODEL   // device name upload to cloud defined in platform_config.h
+#define APP_INFO                           MODEL" Enjoy Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
+#define PROTOCOL                           "com.mxchip.micokit"
 
 #define CONFIG_MODE_EASYLINK                    (2)
 #define CONFIG_MODE_SOFT_AP                     (3)

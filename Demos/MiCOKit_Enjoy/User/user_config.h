@@ -22,7 +22,7 @@
 #ifndef __USER_CONFIG_H_
 #define __USER_CONFIG_H_
 
-#include "platform_config.h"
+#include "mico_config.h"
 
 
 /*******************************************************************************
@@ -41,22 +41,10 @@
 
 #endif
 
-/* Application info */
-#define SERIAL_NUMBER                      "1507241538"
-#define FIRMWARE_REVISION                  HARDWARE_REVISION"@"SERIAL_NUMBER
-
-#define DEFAULT_ROM_VERSION                FIRMWARE_REVISION
-#define DEFAULT_DEVICE_NAME                MODEL   // device name upload to cloud defined in platform_config.h
-
-#define APP_INFO                           MODEL" Enjoy Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
-#define PROTOCOL                           "com.mxchip.micokit"
-
 
 /*******************************************************************************
  *                             CONNECTING
  ******************************************************************************/
-/* Wi-Fi configuration mode */
-#define MICO_CONFIG_MODE                 CONFIG_MODE_EASYLINK  // now both airkiss && easylink are supportted with this macro
 
 /* MICO cloud service type */
 #define MICO_CLOUD_TYPE                  CLOUD_FOGCLOUD

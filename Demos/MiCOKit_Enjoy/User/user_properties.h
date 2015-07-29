@@ -22,7 +22,7 @@
 #ifndef __MICO_DEVICE_PROPERTIES_USER_H_
 #define __MICO_DEVICE_PROPERTIES_USER_H_
 
-#include "MICODefine.h"
+#include "mico.h"
 
 /*******************************************************************************
  *                                 DEFINES

@@ -25,7 +25,8 @@
 #define __FOGCLOUD_INTERFACES_H_
 
 
-#include "MICODefine.h"
+#include "mico.h"
+#include "MiCOAppDefine.h"
 #include "FogCloudServiceDef.h"
 
 /*******************************************************************************
@@ -37,8 +38,8 @@
  *                               INTERFACES
  ******************************************************************************/
 //common interfaces
-OSStatus fogCloudInit(mico_Context_t* const inContext);
-OSStatus fogCloudStart(mico_Context_t* const inContext);
+OSStatus fogCloudInit(app_context_t* const inContext);
+OSStatus fogCloudStart(app_context_t* const inContext);
 easycloud_service_state_t fogCloudGetState(void);
 OSStatus fogCloudSend(unsigned char *inBuf, unsigned int inBufLen);
 OSStatus fogCloudSendto(const char* topic, 
@@ -48,25 +49,19 @@ OSStatus fogCloudSendtoChannel(const char* channel,
                                unsigned char *inBuf, unsigned int inBufLen);
 
 // cloud specifical interfaces
-OSStatus fogCloudDevActivate(mico_Context_t* const inContext,
+OSStatus fogCloudDevActivate(app_context_t* const inContext,
                              MVDActivateRequestData_t devActivateReqData);
-OSStatus fogCloudDevAuthorize(mico_Context_t* const inContext,
+OSStatus fogCloudDevAuthorize(app_context_t* const inContext,
                               MVDAuthorizeRequestData_t devAuthorizeReqData);
 
-OSStatus fogCloudDevFirmwareUpdate(mico_Context_t* const inContext,
+OSStatus fogCloudDevFirmwareUpdate(app_context_t* const inContext,
                                    MVDOTARequestData_t devOTARequestData);
-OSStatus fogCloudResetCloudDevInfo(mico_Context_t* const inContext,
+OSStatus fogCloudResetCloudDevInfo(app_context_t* const inContext,
                                    MVDResetRequestData_t devResetRequestData);
 
-OSStatus fogCloudStop(mico_Context_t* const inContext);
-OSStatus fogCloudDeinit(mico_Context_t* const inContext);
+OSStatus fogCloudStop(app_context_t* const inContext);
+OSStatus fogCloudDeinit(app_context_t* const inContext);
 OSStatus fogCloudPrintVersion(void);
 
-/*******************************************************************************
-*                              INTERNAL FUNCTIONS
-*******************************************************************************/
-//WEAK OSStatus MicoFogCloudCloudMsgProcess(mico_Context_t* context, 
-//                                          const char* topic, const unsigned int topicLen,
-//                                          unsigned char *inBuf, unsigned int inBufLen);
 
 #endif  // __FOGCLOUD_INTERFACES_H_

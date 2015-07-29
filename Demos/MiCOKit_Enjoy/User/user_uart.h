@@ -23,7 +23,7 @@
 #ifndef __USER_UART_H_
 #define __USER_UART_H_
 
-#include "MICODefine.h"
+#include "mico.h"
 
 /*******************************************************************************
  * DEFINES

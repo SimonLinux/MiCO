@@ -19,7 +19,7 @@
 ******************************************************************************
 */ 
 
-#include "MICODefine.h"
+#include "mico.h"
 #include "properties.h"
 #include "user_properties.h"
 

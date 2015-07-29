@@ -22,7 +22,7 @@
 
 #include <stdio.h>
 
-#include "MicoPlatform.h"
+#include "mico.h"
 #include "user_uart.h"
 
 #define user_uart_log(M, ...) custom_log("USER_UART", M, ##__VA_ARGS__)

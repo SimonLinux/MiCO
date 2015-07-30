@@ -2004,6 +2004,9 @@
     <name>Board</name>
     <group>
       <name>MiCOKit-3165</name>
+      <excluded>
+        <configuration>MiCOKit-3288</configuration>
+      </excluded>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3165\platform.c</name>
       </file>
@@ -2012,6 +2015,21 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3165\platform_config.h</name>
+      </file>
+    </group>
+    <group>
+      <name>MiCOKit-3288</name>
+      <excluded>
+        <configuration>MiCOKit-3165</configuration>
+      </excluded>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform_config.h</name>
       </file>
     </group>
   </group>
@@ -2043,13 +2061,11 @@
           <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\fog_cloud\FogCloud_cm4_debug.a</name>
           <excluded>
             <configuration>MiCOKit-3165</configuration>
+            <configuration>MiCOKit-3288</configuration>
           </excluded>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\fog_cloud\FogCloud_cm4_release.a</name>
-          <excluded>
-            <configuration>MiCOKit-3288</configuration>
-          </excluded>
         </file>
       </group>
     </group>
@@ -2107,7 +2123,16 @@
         <name>$PROJ_DIR$\..\..\..\..\MICO\core\mico_config.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm4f_8801.a</name>
+        <excluded>
+          <configuration>MiCOKit-3165</configuration>
+        </excluded>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm4f_sdio.a</name>
+        <excluded>
+          <configuration>MiCOKit-3288</configuration>
+        </excluded>
       </file>
     </group>
     <group>

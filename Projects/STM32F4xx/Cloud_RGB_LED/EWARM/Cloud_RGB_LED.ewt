@@ -199,7 +199,7 @@
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_LED\AppFramework\MicoFogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_LED\AppFramework\MicoFogCloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_LED\AppFramework\MiCOFogCloud.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_LED\AppFramework\MicoFogCloudConfigServer.c</name>
@@ -233,6 +233,18 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3165\platform_config.h</name>
+      </file>
+    </group>
+    <group>
+      <name>MiCOKit-3288</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform_config.h</name>
       </file>
     </group>
   </group>
@@ -320,6 +332,9 @@
       <name>core</name>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\core\mico_config.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm4f_8801.a</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm4f_sdio.a</name>

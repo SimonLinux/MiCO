@@ -307,9 +307,9 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\..\..\Bootloader</state>
           <state>$PROJ_DIR$\..\..\..\..\include</state>
-          <state>$PROJ_DIR$\..\..\..\..\MICO</state>
-          <state>$PROJ_DIR$\..\..\..\..\Support</state>
-          <state>$PROJ_DIR$\..\..\..\..\External</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\security</state>
           <state>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3165</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\include</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Cortex-M4</state>

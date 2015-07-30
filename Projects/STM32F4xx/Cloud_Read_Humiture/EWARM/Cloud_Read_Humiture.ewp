@@ -306,9 +306,9 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture</state>
           <state>$PROJ_DIR$\..\..\..\..\include</state>
-          <state>$PROJ_DIR$\..\..\..\..\MICO</state>
-          <state>$PROJ_DIR$\..\..\..\..\Support</state>
-          <state>$PROJ_DIR$\..\..\..\..\External</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\security</state>
           <state>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3165</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\include</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Cortex-M4</state>
@@ -1954,7 +1954,7 @@
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MicoFogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MiCOFogCloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MicoFogCloud.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MicoFogCloudConfigServer.c</name>
@@ -1979,18 +1979,15 @@
   <group>
     <name>Board</name>
     <group>
-      <name>MiCOKit-3288</name>
-      <excluded>
-        <configuration>MiCOKit-3165</configuration>
-      </excluded>
+      <name>MiCOKit-3165</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3165\platform.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3165\platform.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288\platform_config.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3165\platform_config.h</name>
       </file>
     </group>
   </group>
@@ -2019,10 +2016,10 @@
       <group>
         <name>FogCloud</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\fog_cloud\ChangeLog.txt</name>
-        </file>
-        <file>
           <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\fog_cloud\FogCloud_cm4_debug.a</name>
+          <excluded>
+            <configuration>MiCOKit-3165</configuration>
+          </excluded>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\fog_cloud\FogCloud_cm4_release.a</name>
@@ -2086,7 +2083,7 @@
         <name>$PROJ_DIR$\..\..\..\..\MICO\core\mico_config.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm4f_8801.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm4f_sdio.a</name>
       </file>
     </group>
     <group>

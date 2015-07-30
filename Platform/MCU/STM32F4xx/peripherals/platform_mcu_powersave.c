@@ -399,6 +399,7 @@ static unsigned long stop_mode_power_down_hook( unsigned long sleep_ms )
     /* which triggered a wake up event */
     ENABLE_INTERRUPTS;
     wake_up_interrupt_triggered = false;
+    UNUSED_VARIABLE(wake_up_interrupt_triggered);
     return retval;
   }
   else

@@ -1,0 +1,100 @@
+#ifndef __HOMEKITPROFILES_h__
+#define __HOMEKITPROFILES_h__
+
+#include "Common.h"
+#include "HTTPUtils.h"
+
+#include "JSON-C/json.h"
+
+#define MAXCharacteristicPerService       20
+#define MAXServicePerAccessory            10
+#define NumberofAccessories                1
+
+#define lightbulb
+//#define thermostat
+
+// ==== HKtatus ====
+typedef int32_t         HkStatus;
+
+#define kHKNoErr                           0   //! This specifies a success for the request.
+#define kHKPrivilegeErr               -70401   //! Request denied due to insufficient privileges.
+#define kHKCommunicateErr             -70402   //! Unable to communicate with requested service.
+#define kHKBusyErr                    -70403   //! Resource is busy, try again.
+#define kHKWriteToROErr               -70404   //! Cannot write to read only characteristic.
+#define kHKReadFromWOErr              -70405   //! Cannot read from a write only characteristic.
+#define kHKNotifyUnsupportErr         -70406   //! Notification is not supported for characteristic.
+#define kHKResourceErr                -70407   //! Out of resource to process request.
+#define kHKTimeOutErr                 -70408   //! Operation timed out.
+#define kHKNotExistErr                -70409   //! Resource does not exist.
+#define kHKInvalidErr                 -70410   //! Accessory received an invalid value in a write request.
+
+// CATEGORY_IDENTIFIER value
+#define CI_ORHER                        1  
+#define CI_BRIDGE                       2   
+#define CI_FAN                          3   
+#define CI_GARAGE_DOOR_OPENER           4        
+#define CI_LIGHTBULB                    5   
+#define CI_DOOR_LOCK                    6  
+#define CI_OUTLET                       7   
+#define CI_SWITCH                       8   
+#define CI_THERMOSTAT                   9  
+#define CI_RESERVED                     10 
+
+
+
+
+
+struct _hapCharacteristic_t {
+  char   *type;
+
+  bool   hasStaticValue;
+  valueType valueType;
+  value_union value;
+
+  bool   secureRead;
+  bool   secureWrite;
+  bool   hasEvents;
+
+  bool   hasMinimumValue;
+  union {
+    int         intValue;
+    float       floatValue;
+  }      minimumValue;
+
+  bool   hasMaximumValue;
+  union {
+    int         intValue;
+    float       floatValue;
+  }      maximumValue;
+
+  bool   hasMinimumStep;
+  union {
+    int         intValue;
+    float       floatValue;
+  }      minimumStep;
+
+  bool   hasMaxLength;
+  int    maxLength;
+
+  bool   hasMaxDataLength;
+  int    maxDataLength;
+
+  char   *description;
+
+  char   *format;
+  
+  char   *unit;
+};
+
+struct _hapService_t {
+  char    *type;
+  struct  _hapCharacteristic_t characteristic[MAXCharacteristicPerService];
+};
+
+struct _hapAccessory_t {
+  struct _hapService_t  services[MAXServicePerAccessory];
+};
+
+
+#endif
+

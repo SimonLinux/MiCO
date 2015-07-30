@@ -22,8 +22,9 @@
 #ifndef __MICO_DEVICE_PROPERTIES_H_
 #define __MICO_DEVICE_PROPERTIES_H_
 
-#include "MICODefine.h"
-#include "JSON-C/json.h"
+#include "mico.h"
+#include "MiCOAppDefine.h"
+#include "json_c/json.h"
 
 
 /*******************************************************************************
@@ -138,7 +139,7 @@ json_object* mico_write_properties(struct mico_service_t *service_table,
                                    json_object *prop_write_list_obj);
 
 // properties update check
-OSStatus mico_properties_notify_check(mico_Context_t * const inContext, 
+OSStatus mico_properties_notify_check(app_context_t * const inContext, 
                                       struct mico_service_t *service_table,
                                       json_object* notify_obj);
 

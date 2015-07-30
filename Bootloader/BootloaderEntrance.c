@@ -146,8 +146,9 @@ int main(void)
       bootloader_start_app( partition->partition_start_addr );
     }
   }
-
+#ifdef MICO_ENABLE_STDIO_TO_BOOT
 BOOT:
+#endif
   printf ( menu, MODEL, Bootloader_REVISION, HARDWARE_REVISION );
 
   while(1){                             

@@ -19,8 +19,9 @@
 ******************************************************************************
 */ 
 
-#include "MICODefine.h"
-#include "JSON-C/json.h"
+#include "mico.h"
+#include "MiCOAppDefine.h"
+#include "json_c/json.h"
 #include "StringUtils.h"
 #include "properties.h"
 
@@ -273,7 +274,7 @@ exit:
 *         if no update or error, return NULL
 * return: kNoErr if succeed.
 */
-OSStatus mico_properties_notify_check(mico_Context_t * const inContext, struct mico_service_t *service_table,
+OSStatus mico_properties_notify_check(app_context_t * const inContext, struct mico_service_t *service_table,
                                       json_object* notify_obj)
 {
   OSStatus err = kNoErr;

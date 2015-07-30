@@ -96,6 +96,12 @@ int application_start(void)
   require_action(mico_context, exit, err = kNoResourcesErr);
   app_context->appConfig = mico_system_context_get_user_data( mico_context );
   app_context->mico_context = mico_context;
+  
+  /* user params restore check */
+  if(app_context->appConfig->configDataVer != CONFIGURATION_VERSION){
+    err = mico_system_context_restore(mico_context);
+    require_noerr( err, exit );
+  }
 
   /* mico system initialize */
   err = mico_system_init( mico_context );

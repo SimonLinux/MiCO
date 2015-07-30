@@ -20,7 +20,7 @@
   ******************************************************************************
   */ 
 
-#include "MICO.h"
+#include "mico.h"
 #include "MiCOAppDefine.h"
 #include "json_c/json.h"
 #include "StringUtils.h"
@@ -169,34 +169,31 @@ void mico_system_delegate_config_will_start( void )
 void mico_system_delegate_config_will_stop( void )
 {
   config_delegate_log_trace();
-#ifdef USE_MiCOKit_EXT
-  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
-#endif
-
+//#ifdef USE_MiCOKit_EXT
+//  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
+//#endif
+//
   mico_stop_timer(&_Led_EL_timer);
   mico_deinit_timer( &_Led_EL_timer );
-  MicoGpioOutputLow((mico_gpio_t)MICO_SYS_LED);
-  
-#ifdef USE_MiCOKit_EXT
-  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Config          ");
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "    Stop.       ");
-  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
-#endif
+  MicoGpioOutputHigh((mico_gpio_t)MICO_SYS_LED);
+//  
+//#ifdef USE_MiCOKit_EXT
+//  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+//  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Config          ");
+//  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
+//  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "    Stop.       ");
+//  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
+//#endif
   
   return;
 }
 
-void mico_system_delegate_config_success( mico_config_source_t source )
+void mico_system_delegate_config_recv_ssid ( char *ssid, char *key )
 {
   config_delegate_log_trace();
 #ifdef USE_MiCOKit_EXT
   char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
 #endif
-  mico_Context_t* inContext = mico_system_context_get();
-  
-  config_delegate_log( "Configed by %d", source );
 
   mico_stop_timer(&_Led_EL_timer);
   mico_deinit_timer( &_Led_EL_timer );
@@ -205,14 +202,45 @@ void mico_system_delegate_config_success( mico_config_source_t source )
   
 #ifdef USE_MiCOKit_EXT
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"EasyLink got    ");
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Got ssid/key    ");
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inContext->flashContentInRam.micoSystemConfig.ssid);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", ssid);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)oled_show_line);
   memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", inContext->flashContentInRam.micoSystemConfig.user_key);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%16s", key);
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)oled_show_line);
+#endif
+}
+
+void mico_system_delegate_config_success( mico_config_source_t source )
+{
+  config_delegate_log_trace();
+#ifdef USE_MiCOKit_EXT
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
+#endif
+  
+  config_delegate_log( "Wi-Fi configed by: %d", source );
+
+  MicoGpioOutputLow((mico_gpio_t)MICO_SYS_LED);  
+  
+#ifdef USE_MiCOKit_EXT
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  if(CONFIG_BY_AIRKISS == source){
+    snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Airkiss success ");
+  }else if(CONFIG_BY_SOFT_AP == source){
+    snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"SoftAP success  ");
+  }else if(CONFIG_BY_WAC == source){
+    snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"WAC success     ");
+  }else if( (CONFIG_BY_EASYLINK_V2 == source) || (CONFIG_BY_EASYLINK_PLUS == source) || 
+           (CONFIG_BY_EASYLINK_MINUS == source) ){
+    snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Easylink success");
+  }else{
+    snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Unknown         ");
+  }
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, (uint8_t*)"                ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (uint8_t*)"                ");
 #endif
   
   return;

@@ -465,7 +465,7 @@ exit:
 * MiCOFogCloud message exchange: push message into recv queue
 ******************************************************************************/
 // handle cloud msg here, for example: send to USART or echo to cloud
-OSStatus MiCOFogCloudCloudMsgProcess(app_context_t* context, 
+OSStatus MicoFogCloudCloudMsgProcess(app_context_t* context, 
                                      const char* topic, const unsigned int topicLen,
                                      unsigned char *inBuf, unsigned int inBufLen)
 {

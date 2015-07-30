@@ -22,7 +22,8 @@
 #ifndef __MICO_FOGCLOUD_MSG_DISPATCH_H_
 #define __MICO_FOGCLOUD_MSG_DISPATCH_H_
 
-#include "MICODefine.h"
+#include "mico.h"
+#include "MiCOAppDefine.h"
 #include "properties.h"
 
 
@@ -60,11 +61,11 @@ typedef struct _mico_fogcloud_msg_t{
  *                                FUNCTIONS
  ******************************************************************************/
 // handle cloud msg here, for example: send to USART or echo to cloud
-OSStatus mico_fogcloud_msg_dispatch(mico_Context_t* context, struct mico_service_t service_table[],
+OSStatus mico_fogcloud_msg_dispatch(app_context_t* context, struct mico_service_t service_table[],
                                     mico_fogcloud_msg_t *cloud_msg, int* ret_status);
 
 // property notify
-OSStatus mico_start_properties_notify(mico_Context_t * const inContext, struct mico_service_t service_table[],
+OSStatus mico_start_properties_notify(app_context_t * const inContext, struct mico_service_t service_table[],
                                       uint32_t period_ms, uint32_t statck_size);
 
 #endif // __MICO_FOGCLOUD_MSG_DISPATCH_H_

@@ -11,10 +11,10 @@
 
 #include <string.h>
 #include <stdio.h>
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 #include "platform.h"
 #include "Common.h"
-#include "MicoRTOS.h"
+#include "mico_rtos.h"
 
 #include <rt_misc.h>
 

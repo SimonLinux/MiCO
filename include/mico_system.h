@@ -192,11 +192,6 @@ OSStatus mico_system_notify_remove       ( mico_notify_types_t notify_type, void
 OSStatus mico_system_notify_remove_all    ( mico_notify_types_t notify_type);
 
 
-/* Read current system clock */
-OSStatus mico_system_current_time_get( struct tm* time );
-
-
-
 /** @} */
 /*****************************************************************************/
 /** @addtogroup config_server       System Config Server Daemon

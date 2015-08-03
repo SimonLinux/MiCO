@@ -194,8 +194,6 @@ OSStatus system_easylink_wac_start( system_context_t * const inContext );
 
 OSStatus system_easylink_start( system_context_t * const inContext );
 
-OSStatus system_current_time_get( struct tm* time );
-
 OSStatus MICORestoreMFG                 ( system_context_t * const inContext );
 
 OSStatus MICOReadConfiguration          ( system_context_t * const inContext );

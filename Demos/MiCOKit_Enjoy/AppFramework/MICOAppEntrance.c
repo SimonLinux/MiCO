@@ -23,6 +23,11 @@
 #include "MICOAppDefine.h"
 #include "MiCOFogCloud.h"
 
+#ifdef USE_MiCOKit_EXT
+#include "micokit_ext.h"
+extern bool MicoExtShouldEnterTestMode(void);
+#endif
+
 #define app_log(M, ...) custom_log("APP", M, ##__VA_ARGS__)
 #define app_log_trace() custom_log_trace("APP")
 
@@ -110,8 +115,13 @@ int application_start(void)
   /* Bonjour for service searching */
   MICOStartBonjourService( Station, app_context );
   
-  /* user test mode: MiCOKit-EXT */
-  
+#ifdef USE_MiCOKit_EXT
+  /* user test mode to test MiCOKit-EXT board */
+  if(MicoExtShouldEnterTestMode()){
+    micokit_ext_mfg_test(mico_context);
+  }
+#endif
+	
   /* check wifi link status */
   do{
     err = micoWlanGetLinkStatus(&wifi_link_status);

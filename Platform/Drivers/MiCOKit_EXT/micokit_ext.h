@@ -22,9 +22,10 @@
 #ifndef __MICOKIT_EXT_H_
 #define __MICOKIT_EXT_H_
 
-#include "Common.h"
+//#include "Common.h"
+#include "mico.h"
 
-//------------------------- MicoKit-EXT board modules drivers ------------------
+//------------------------- MiCOKit-EXT board modules drivers ------------------
 #include "rgb_led/rgb_led.h"
 #include "rgb_led/hsb2rgb_led.h"
 #include "lcd/oled.h"
@@ -36,13 +37,15 @@
 #include "ambient_light_sensor/apds9930.h"
 #include "motion_sensor/motion_sensor.h"
 
-//--------------------------- MicoKit-EXT board info ---------------------------
+//--------------------------- MiCOKit-EXT board info ---------------------------
 #define DEV_KIT_MANUFACTURER    "MXCHIP"
 #define DEV_KIT_NAME            "MiCOKit3288"
 
 #define MFG_TEST_MAX_MODULE_NUM      8
 
-OSStatus micokit_ext_init(void);    // MicoKit-EXT board init
+OSStatus micokit_ext_init(void);    // MiCOKit-EXT board init
 OSStatus user_modules_init(void);   // init modules on MicoKit-EXT board
+
+void micokit_ext_mfg_test(mico_Context_t *inContext);  // MiCOKit-ext test function
 
 #endif  // __MICOKIT_EXT_H_

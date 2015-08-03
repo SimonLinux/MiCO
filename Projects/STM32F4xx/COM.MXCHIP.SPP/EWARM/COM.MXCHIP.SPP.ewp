@@ -2232,6 +2232,8 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries\STM32F4xx_StdPeriph_Driver\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
+          <state>$PROJ_DIR$\..\..\..\..\mico\system</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -3177,8 +3179,6 @@
           <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP</state>
           <state>$PROJ_DIR$\..\..\..\..\include</state>
           <state>$PROJ_DIR$\..\..\..\..\MICO</state>
-          <state>$PROJ_DIR$\..\..\..\..\Support</state>
-          <state>$PROJ_DIR$\..\..\..\..\External</state>
           <state>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-F411A</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\include</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Cortex-M4</state>
@@ -3188,6 +3188,8 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\rgb_led</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
+          <state>$PROJ_DIR$\..\..\..\..\mico\system</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -5141,6 +5143,7 @@
         <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm4f_8801.a</name>
         <excluded>
           <configuration>MiCOKit-3165</configuration>
+          <configuration>MiCOKit-F411B</configuration>
         </excluded>
       </file>
       <file>
@@ -5154,6 +5157,7 @@
         <excluded>
           <configuration>MiCOKit-3165</configuration>
           <configuration>MiCOKit-3288</configuration>
+          <configuration>MiCOKit-F411B</configuration>
         </excluded>
       </file>
       <file>

@@ -30,7 +30,7 @@
 ******************************************************************************
 */ 
 
-#include "MICOPlatform.h"
+#include "mico_platform.h"
 #include "platform.h"
 #include "platform_config.h"
 #include "platform_peripheral.h"
@@ -420,9 +420,7 @@ void init_platform( void )
 }
 
 void init_platform_bootloader( void )
-{
-  OSStatus err = kNoErr;
-  
+{  
   MicoGpioInitialize( (mico_gpio_t)MICO_SYS_LED, OUTPUT_PUSH_PULL );
   MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
   MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );

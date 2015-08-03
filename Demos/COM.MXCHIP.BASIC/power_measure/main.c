@@ -30,7 +30,6 @@
 */
 
 #include "MiCO.h" 
-//#include "MiCONotificationCenter.h"
 
 #define power_log(M, ...) custom_log("PM", M, ##__VA_ARGS__)
 
@@ -67,7 +66,7 @@ void micoNotify_WifiStatusHandler(WiFiEvent event,  const int inContext)
   }
   return;
 }
-    
+
 #if POWER_MEASURE_PROGRAM == STANDBY_MODE
 int application_start( void )
 {

@@ -31,12 +31,11 @@
 */
 
 /* Includes ------------------------------------------------------------------*/
-#include "common.h"
+#include "mico.h"
 #include "ymodem.h"
 #include "string.h"
 #include "StringUtils.h"
 #include "CheckSumUtils.h"
-#include "mico_platform.h"
 
 extern const platform_flash_t platform_flash_peripherals[];
 

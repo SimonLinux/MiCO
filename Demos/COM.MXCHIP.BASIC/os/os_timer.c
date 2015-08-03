@@ -30,7 +30,6 @@
 */
 
 #include "MICO.h"
-#include "MICORTOS.h"
 
 #define os_timer_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
 

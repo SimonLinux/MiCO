@@ -497,6 +497,9 @@
       <name>$PROJ_DIR$\..\..\..\..\Bootloader\menu.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\Bootloader\mico_config.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\Bootloader\MicoDefaults.h</name>
     </file>
     <file>

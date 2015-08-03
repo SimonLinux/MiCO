@@ -549,8 +549,8 @@
 			"file": "/Users/William/Develop/MiCO/libraries/utilities/json_c/linkhash.c",
 			"settings":
 			{
-				"buffer_size": 5000,
-				"line_ending": "Unix"
+				"buffer_size": 4998,
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -773,7 +773,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"<open folders>",
@@ -10538,15 +10538,15 @@
 					"file": "/Users/William/Develop/MiCO/libraries/utilities/json_c/linkhash.c",
 					"settings":
 					{
-						"buffer_size": 5000,
+						"buffer_size": 4998,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								450,
-								431
+								0,
+								0
 							]
 						],
 						"settings":

@@ -30,9 +30,6 @@
 */
 
 #include "MICO.h"
-#include "MICODefine.h"
-#include "MICONotificationCenter.h"
-
 #include "HTTPUtils.h"
 #include "SocketUtils.h"
 #include "StringUtils.h"
@@ -138,10 +135,10 @@ int application_start( void )
   MicoInit( );
   
   /*The notification message for the registered WiFi status change*/
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit ); 
   
-  err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler, NULL );
   require_noerr( err, exit );
   
   err = mico_rtos_init_semaphore(&http_sem, 1);

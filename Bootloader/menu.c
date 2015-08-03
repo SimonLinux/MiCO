@@ -34,13 +34,11 @@
 */
 
 /* Includes ------------------------------------------------------------------*/
-#include "common.h"
+#include "mico.h"
 #include "ymodem.h"
 #include "platform_config.h"
 #include "platformInternal.h"
 #include "StringUtils.h"
-#include "mico_rtos.h"
-#include "mico_platform.h"
 #include "bootloader.h"
 #include <ctype.h>                    
 

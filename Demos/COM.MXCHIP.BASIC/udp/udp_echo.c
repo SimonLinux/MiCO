@@ -30,16 +30,14 @@
 */
 
 #include "MICO.h"
-#include "MICONotificationCenter.h"
 
 #define udp_echo_log(M, ...) custom_log("UDP", M, ##__VA_ARGS__)
 
 #define BUF_LEN (3*1024)
 
 static int udp_port = 8090;
-static char *ap_ssid = "sqdmz";
-static char *ap_key  = "0987654321";
-
+static char *ap_ssid = "Xiaomi.Router";
+static char *ap_key  = "stm32f215";
 static network_InitTypeDef_adv_st wNetConfigAdv;
 static mico_semaphore_t udp_sem;
 
@@ -138,10 +136,10 @@ int application_start( void )
   MicoInit( );
   
    /*The notification message for the registered WiFi status change*/
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit ); 
   
-  err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler, NULL );
   require_noerr( err, exit );
   
   err = mico_rtos_init_semaphore(&udp_sem, 1);

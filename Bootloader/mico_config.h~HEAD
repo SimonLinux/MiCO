@@ -1,10 +1,11 @@
 /**
 ******************************************************************************
-* @file    MicoDefaults.h 
+* @file    MICODefine.h 
 * @author  William Xu
 * @version V1.0.0
-* @date    16-Sep-2014
-* @brief   This file provides the default configuration for MICO.
+* @date    05-May-2014
+* @brief   This file provide constant definition and type declaration for MICO
+*          running.
 ******************************************************************************
 *
 *  The MIT License
@@ -27,24 +28,15 @@
 *  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR 
 *  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************
-*/ 
+*/
 
-#ifndef __MICODEFAULTS_H__
-#define __MICODEFAULTS_H__
+#pragma once
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+#define APP_INFO   "Bootloader for MICO OS"
 
-
- /* Application thread stack size */
-#define MICO_DEFAULT_APPLICATION_STACK_SIZE         (1500)
+#define FIRMWARE_REVISION   "MICO_BOOT_V2.1"
+#define MANUFACTURER        "MXCHIP Inc."
+#define SERIAL_NUMBER       "20150729"
+#define PROTOCOL            "com.mxchip.bootloader"
 
 
-
-#ifdef __cplusplus
-} /*extern "C" */
-#endif
-
-#endif //__MICODEFAULTS_H__

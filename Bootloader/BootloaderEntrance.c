@@ -30,8 +30,7 @@
 */ 
 
 
-#include "Mico.h"
-#include "mico_platform.h"
+#include "mico.h"
 #include "platform.h"
 #include "platformInternal.h"
 #include "platform_config.h"
@@ -146,10 +145,11 @@ int main(void)
       bootloader_start_app( partition->partition_start_addr );
     }
   }
+
 #ifdef MICO_ENABLE_STDIO_TO_BOOT
 BOOT:
-#endif
   printf ( menu, MODEL, Bootloader_REVISION, HARDWARE_REVISION );
+#endif
 
   while(1){                             
     Main_Menu ();

@@ -30,10 +30,9 @@
 ******************************************************************************
 */
 
+#include "mico.h"
 #include "platform.h"
-#include "mico_platform.h"
 #include "platform_config.h"
-#include "debug.h"
 #include "CheckSumUtils.h"
 
 typedef int Log_Status;					
@@ -52,18 +51,6 @@ typedef int Log_Status;
 static uint8_t data[SizePerRW];
 static uint8_t newData[SizePerRW];
 uint8_t paraSaveInRam[16*1024];
-
-
-/* Upgrade iamge should save this table to flash */
-typedef struct  _boot_table_t {
-  uint32_t start_address; // the address of the bin saved on flash.
-  uint32_t length; // file real length
-  uint8_t version[8];
-  uint8_t type; // B:bootloader, P:boot_table, A:application, D: 8782 driver
-  uint8_t upgrade_type; //u:upgrade, 
-  uint16_t crc;
-  uint8_t reserved[4];
-}boot_table_t;
 
 #define update_log(M, ...) custom_log("UPDATE", M, ##__VA_ARGS__)
 #define update_log_trace() custom_log_trace("UPDATE")

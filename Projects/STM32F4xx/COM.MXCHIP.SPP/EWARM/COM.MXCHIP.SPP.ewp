@@ -318,6 +318,7 @@
           <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
           <state>$PROJ_DIR$\..\..\..\..\libraries</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>

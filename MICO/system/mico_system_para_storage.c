@@ -45,8 +45,8 @@ static int32_t seedNum = 0;
 #define CRC_OFFSET    ( 0xE00 )
 #define CRC_SIZE      ( 2 )
 
-
 //#define para_log(M, ...) custom_log("MiCO Settting", M, ##__VA_ARGS__)
+
 #define para_log(M, ...)
 
 __weak void appRestoreDefault_callback(void *user_data, uint32_t size)

@@ -32,11 +32,7 @@
 
 #pragma once
 
-#define APP_INFO   "Bootloader for MICO OS"
+#define APP_INFO   "Bootloader"
 
-#define FIRMWARE_REVISION   "MICO_BOOT_V2.1"
-#define MANUFACTURER        "MXCHIP Inc."
-#define SERIAL_NUMBER       "20150729"
-#define PROTOCOL            "com.mxchip.bootloader"
 
 

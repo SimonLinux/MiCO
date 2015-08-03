@@ -9,19 +9,16 @@
 			"path": "../../../../Platform"
 		},
 		{
-			"path": "../../../../Support"
-		},
-		{
 			"path": "../../../../Board/MiCOKit-3288"
 		},
 		{
 			"path": "../../../../Demos/COM.MXCHIP.SPP"
 		},
 		{
-			"path": "../../../../External"
+			"path": "../../../../libraries"
 		},
 		{
-			"path": "../../../../MICO"
+			"path": "../../../../mico"
 		}
 	],
 	"settings":
@@ -41,7 +38,7 @@
 			"-DUSE_STDPERIPH_DRIVER",
 			"-DDEBUG",
 			"-I/Users/william/Develop/MiCO/Demos/COM.MXCHIP.SPP/",
-			"-I/Users/william/Develop/MiCO/External/",
+			"-I/Users/william/Develop/MiCO/libraries/utilities/",
 			"-I/Users/william/Develop/MiCO/Platform/",
 			"-I/Users/william/Develop/MiCO/Platform/include/",
 			"-I/Users/William/Develop/MiCO/Platform/Cortex-M4/",

@@ -30,7 +30,6 @@
 */
 
 #include "MICO.h"
-#include "MICONotificationCenter.h"
 
 #define wifi_softap_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
@@ -63,7 +62,7 @@ int application_start( void )
   MicoInit( );
   
   /*The notification message for the registered WiFi status change*/
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit ); 
   
   memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_st));

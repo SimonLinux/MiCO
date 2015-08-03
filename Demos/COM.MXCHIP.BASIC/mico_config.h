@@ -84,5 +84,9 @@
 #define MICO_CONFIG_SERVER_ENABLE 
 #define MICO_CONFIG_SERVER_PORT    8000
 
+/************************************************************************
+ * Application thread stack size */
+#define MICO_DEFAULT_APPLICATION_STACK_SIZE         (1500)
+
 
 #endif /* __MICO_SYSTEM_CONFIG_H */

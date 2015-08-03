@@ -31,11 +31,8 @@
 
 #include "MICO.h"
 #include "SocketUtils.h"
-#include "MICONotificationCenter.h"
-#include "MicoWlan.h"
 
 #define tcp_client_log(M, ...) custom_log("TCP", M, ##__VA_ARGS__)
-
 
 static char *ap_ssid = "Xiaomi.Router";
 static char *ap_key  = "stm32f215";
@@ -138,10 +135,10 @@ int application_start( void )
   MicoInit( );/*important,init tcpip,rf driver and so on...*/
   
    /*The notification message for the registered WiFi status change*/
-  err = MICOAddNotification( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL);
   require_noerr( err, EXIT ); 
   
-  err = MICOAddNotification( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler );
+  err = mico_system_notify_register( mico_notify_WIFI_CONNECT_FAILED, (void *)micoNotify_ConnectFailedHandler, NULL);
   require_noerr( err, EXIT );
   
   err = mico_rtos_init_semaphore(&wait_sem, 1);

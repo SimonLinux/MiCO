@@ -89,7 +89,7 @@
         <sRfunc>1</sRfunc>
         <sRbox>1</sRbox>
         <tLdApp>1</tLdApp>
-        <tGomain>0</tGomain>
+        <tGomain>1</tGomain>
         <tRbreak>1</tRbreak>
         <tRwatch>1</tRwatch>
         <tRmem>1</tRmem>
@@ -117,7 +117,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ST-LINKIII-KEIL_SWO</Key>
-          <Name>-U303030303030303030303031 -I0 -O8334 -S259 -C0 -A0 -N00("ARM CoreSight JTAG-DP (Cortex-M)") -D00(0BA00477) -L00(4) -N01("STM32 BSC (boundary scan) TAP") -D01(06411041) -L01(5) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F205RGTx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
+          <Name>-U303030303030303030303031 -I0 -O8398 -S1 -C0 -A0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC1000 -FN1 -FF0STM32F4xx_512.FLM -FS08000000 -FL080000 -FP0($$Device:STM32F411CEUx$CMSIS/Flash/STM32F4xx_512.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -137,7 +137,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>JL2CM3</Key>
-          <Name>-U308622867 -O78 -S0 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(4) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_512.FLM -FS08000000 -FL080000 -FP0($$Device:STM32F411CEUx$CMSIS/Flash/STM32F4xx_512.FLM)</Name>
+          <Name>-U308622867 -O78 -S8 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(4) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_512.FLM -FS08000000 -FL080000 -FP0($$Device:STM32F411CEUx$CMSIS/Flash/STM32F4xx_512.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -305,7 +305,7 @@
         <LExpSel>0</LExpSel>
       </OPTXL>
       <OPTFL>
-        <tvExp>1</tvExp>
+        <tvExp>0</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
         <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
@@ -321,7 +321,7 @@
         <sRfunc>1</sRfunc>
         <sRbox>1</sRbox>
         <tLdApp>1</tLdApp>
-        <tGomain>0</tGomain>
+        <tGomain>1</tGomain>
         <tRbreak>1</tRbreak>
         <tRwatch>1</tRwatch>
         <tRmem>1</tRmem>
@@ -349,7 +349,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ST-LINKIII-KEIL_SWO</Key>
-          <Name>-U303030303030303030303031 -I0 -O8334 -S259 -C0 -A0 -N00("ARM CoreSight JTAG-DP (Cortex-M)") -D00(0BA00477) -L00(4) -N01("STM32 BSC (boundary scan) TAP") -D01(06411041) -L01(5) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC1000 -FN1 -FF0STM32F2xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F205RGTx$CMSIS\Flash\STM32F2xx_1024.FLM)</Name>
+          <Name>-U303030303030303030303031 -I0 -O8398 -S1 -C0 -A0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC1000 -FN1 -FF0STM32F4xx_512.FLM -FS08000000 -FL080000 -FP0($$Device:STM32F411CEUx$CMSIS/Flash/STM32F4xx_512.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -369,7 +369,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>JL2CM3</Key>
-          <Name>-U308622867 -O78 -S0 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(4) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_512.FLM -FS08000000 -FL080000 -FP0($$Device:STM32F411CEUx$CMSIS/Flash/STM32F4xx_512.FLM)</Name>
+          <Name>-U308622867 -O78 -S8 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(4) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_512.FLM -FS08000000 -FL080000 -FP0($$Device:STM32F411CEUx$CMSIS/Flash/STM32F4xx_512.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -606,19 +606,6 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\fogcloud_msg_dispatch.c</PathWithFileName>
-      <FilenameWithoutPath>fogcloud_msg_dispatch.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>3</GroupNumber>
-      <FileNumber>9</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MICOAppEntrance.c</PathWithFileName>
       <FilenameWithoutPath>MICOAppEntrance.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
@@ -626,7 +613,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>10</FileNumber>
+      <FileNumber>9</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -639,7 +626,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>11</FileNumber>
+      <FileNumber>10</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -652,7 +639,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>12</FileNumber>
+      <FileNumber>11</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -665,7 +652,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>13</FileNumber>
+      <FileNumber>12</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -678,7 +665,85 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
+      <FileNumber>13</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\fogCloud.h</PathWithFileName>
+      <FilenameWithoutPath>fogCloud.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
       <FileNumber>14</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MICOAppDefine.h</PathWithFileName>
+      <FilenameWithoutPath>MICOAppDefine.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>15</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MicoDefaults.h</PathWithFileName>
+      <FilenameWithoutPath>MicoDefaults.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>16</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MicoFogCloud.h</PathWithFileName>
+      <FilenameWithoutPath>MicoFogCloud.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>17</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MicoFogCloudDef.h</PathWithFileName>
+      <FilenameWithoutPath>MicoFogCloudDef.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>18</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\fogcloud_msg_dispatch.c</PathWithFileName>
+      <FilenameWithoutPath>fogcloud_msg_dispatch.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>19</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -693,13 +758,13 @@
 
   <Group>
     <GroupName>Application/User</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>4</GroupNumber>
-      <FileNumber>15</FileNumber>
+      <FileNumber>20</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -712,20 +777,7 @@
     </File>
     <File>
       <GroupNumber>4</GroupNumber>
-      <FileNumber>16</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\User\user_properties.c</PathWithFileName>
-      <FilenameWithoutPath>user_properties.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>4</GroupNumber>
-      <FileNumber>17</FileNumber>
+      <FileNumber>21</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -738,7 +790,33 @@
     </File>
     <File>
       <GroupNumber>4</GroupNumber>
-      <FileNumber>18</FileNumber>
+      <FileNumber>22</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\User\mico_config.h</PathWithFileName>
+      <FilenameWithoutPath>mico_config.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>4</GroupNumber>
+      <FileNumber>23</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\Demos\MiCOKit_Enjoy\User\user_properties.c</PathWithFileName>
+      <FilenameWithoutPath>user_properties.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>4</GroupNumber>
+      <FileNumber>24</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -752,89 +830,11 @@
   </Group>
 
   <Group>
-    <GroupName>Include</GroupName>
+    <GroupName>include</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>19</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\MICO.h</PathWithFileName>
-      <FilenameWithoutPath>MICO.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>20</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\MicoAES.h</PathWithFileName>
-      <FilenameWithoutPath>MicoAES.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>21</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\MicoAlgorithm.h</PathWithFileName>
-      <FilenameWithoutPath>MicoAlgorithm.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>22</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\MicoPlatform.h</PathWithFileName>
-      <FilenameWithoutPath>MicoPlatform.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>23</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\MICORTOS.h</PathWithFileName>
-      <FilenameWithoutPath>MICORTOS.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>24</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\MicoSocket.h</PathWithFileName>
-      <FilenameWithoutPath>MicoSocket.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
     <File>
       <GroupNumber>5</GroupNumber>
       <FileNumber>25</FileNumber>
@@ -843,771 +843,8 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\MicoSRPServer.h</PathWithFileName>
-      <FilenameWithoutPath>MicoSRPServer.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>26</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\MicoWlan.h</PathWithFileName>
-      <FilenameWithoutPath>MicoWlan.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>27</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\FogCloud\FogCloudService.h</PathWithFileName>
-      <FilenameWithoutPath>FogCloudService.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>28</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\FogCloud\FogCloudServiceDef.h</PathWithFileName>
-      <FilenameWithoutPath>FogCloudServiceDef.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>5</GroupNumber>
-      <FileNumber>29</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\include\FogCloud\FogCloudUtils.h</PathWithFileName>
-      <FilenameWithoutPath>FogCloudUtils.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>MICO</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>30</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICOConfigMenu.c</PathWithFileName>
-      <FilenameWithoutPath>MICOConfigMenu.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>31</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICOConfigServer.c</PathWithFileName>
-      <FilenameWithoutPath>MICOConfigServer.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>32</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICOEntrance.c</PathWithFileName>
-      <FilenameWithoutPath>MICOEntrance.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>33</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICONotificationCenter.c</PathWithFileName>
-      <FilenameWithoutPath>MICONotificationCenter.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>34</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICONTPClient.c</PathWithFileName>
-      <FilenameWithoutPath>MICONTPClient.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>35</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICOSystemMonitor.c</PathWithFileName>
-      <FilenameWithoutPath>MICOSystemMonitor.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>36</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\EasyLink\EasyLink.c</PathWithFileName>
-      <FilenameWithoutPath>EasyLink.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>37</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\SoftAP\EasyLinkSoftAP.c</PathWithFileName>
-      <FilenameWithoutPath>EasyLinkSoftAP.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>38</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICOParaStorage.c</PathWithFileName>
-      <FilenameWithoutPath>MICOParaStorage.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>39</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\WPS\WPS.c</PathWithFileName>
-      <FilenameWithoutPath>WPS.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>40</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICOMfgtest.c</PathWithFileName>
-      <FilenameWithoutPath>MICOMfgtest.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>41</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICOCli.c</PathWithFileName>
-      <FilenameWithoutPath>MICOCli.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>42</FileNumber>
-      <FileType>4</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\WAC\MFi_WAC_CM3_Debug.a</PathWithFileName>
-      <FilenameWithoutPath>MFi_WAC_CM3_Debug.a</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>43</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICODefine.h</PathWithFileName>
-      <FilenameWithoutPath>MICODefine.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>44</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\Airkiss\Airkiss.c</PathWithFileName>
-      <FilenameWithoutPath>Airkiss.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>45</FileNumber>
-      <FileType>4</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\Airkiss\Airkiss_CM3_Debug.a</PathWithFileName>
-      <FilenameWithoutPath>Airkiss_CM3_Debug.a</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>46</FileNumber>
-      <FileType>4</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\Airkiss\Airkiss_CM3_Release.a</PathWithFileName>
-      <FilenameWithoutPath>Airkiss_CM3_Release.a</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>47</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\MICOForceOTA.c</PathWithFileName>
-      <FilenameWithoutPath>MICOForceOTA.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>48</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\wifi_config.c</PathWithFileName>
-      <FilenameWithoutPath>wifi_config.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>49</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\tftp\tftp.h</PathWithFileName>
-      <FilenameWithoutPath>tftp.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>50</FileNumber>
-      <FileType>3</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\tftp\tftpc.o</PathWithFileName>
-      <FilenameWithoutPath>tftpc.o</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>MICO/Library</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>7</GroupNumber>
-      <FileNumber>51</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\Library\MICOConfig.c</PathWithFileName>
-      <FilenameWithoutPath>MICOConfig.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>7</GroupNumber>
-      <FileNumber>52</FileNumber>
-      <FileType>4</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4_debug.a</PathWithFileName>
-      <FilenameWithoutPath>FogCloud_cm4_debug.a</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>7</GroupNumber>
-      <FileNumber>53</FileNumber>
-      <FileType>4</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\Library\FogCloud\FogCloud_cm4_release.a</PathWithFileName>
-      <FilenameWithoutPath>FogCloud_cm4_release.a</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>7</GroupNumber>
-      <FileNumber>54</FileNumber>
-      <FileType>4</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\Library\mxchipWNet_cm4f_8801.a</PathWithFileName>
-      <FilenameWithoutPath>mxchipWNet_cm4f_8801.a</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>7</GroupNumber>
-      <FileNumber>55</FileNumber>
-      <FileType>4</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\MICO\Library\mxchipWNet_cm4f_sdio.a</PathWithFileName>
-      <FilenameWithoutPath>mxchipWNet_cm4f_sdio.a</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>Support</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>56</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\AESUtils.c</PathWithFileName>
-      <FilenameWithoutPath>AESUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>57</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\HTTPUtils.c</PathWithFileName>
-      <FilenameWithoutPath>HTTPUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>58</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\MDNSUtils.c</PathWithFileName>
-      <FilenameWithoutPath>MDNSUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>59</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\RingBufferUtils.c</PathWithFileName>
-      <FilenameWithoutPath>RingBufferUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>60</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\SecurityUtils.c</PathWithFileName>
-      <FilenameWithoutPath>SecurityUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>61</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\SHAUtils.c</PathWithFileName>
-      <FilenameWithoutPath>SHAUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>62</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\SocketUtils.c</PathWithFileName>
-      <FilenameWithoutPath>SocketUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>63</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\StringUtils.c</PathWithFileName>
-      <FilenameWithoutPath>StringUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>64</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\TimeUtils.c</PathWithFileName>
-      <FilenameWithoutPath>TimeUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>65</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\TLVUtils.c</PathWithFileName>
-      <FilenameWithoutPath>TLVUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>66</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Support\URLUtils.c</PathWithFileName>
-      <FilenameWithoutPath>URLUtils.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>External/JSON-C</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>9</GroupNumber>
-      <FileNumber>67</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\JSON-C\arraylist.c</PathWithFileName>
-      <FilenameWithoutPath>arraylist.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>9</GroupNumber>
-      <FileNumber>68</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\JSON-C\debug.c</PathWithFileName>
-      <FilenameWithoutPath>debug.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>9</GroupNumber>
-      <FileNumber>69</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\JSON-C\json_object.c</PathWithFileName>
-      <FilenameWithoutPath>json_object.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>9</GroupNumber>
-      <FileNumber>70</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\JSON-C\json_tokener.c</PathWithFileName>
-      <FilenameWithoutPath>json_tokener.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>9</GroupNumber>
-      <FileNumber>71</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\JSON-C\json_util.c</PathWithFileName>
-      <FilenameWithoutPath>json_util.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>9</GroupNumber>
-      <FileNumber>72</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\JSON-C\linkhash.c</PathWithFileName>
-      <FilenameWithoutPath>linkhash.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>9</GroupNumber>
-      <FileNumber>73</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\JSON-C\printbuf.c</PathWithFileName>
-      <FilenameWithoutPath>printbuf.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>External/SHAUtils</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>74</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\SHAUtils\hkdf.c</PathWithFileName>
-      <FilenameWithoutPath>hkdf.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>75</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\SHAUtils\hmac.c</PathWithFileName>
-      <FilenameWithoutPath>hmac.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>76</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\SHAUtils\sha1.c</PathWithFileName>
-      <FilenameWithoutPath>sha1.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>77</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\SHAUtils\sha224-256.c</PathWithFileName>
-      <FilenameWithoutPath>sha224-256.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>78</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\SHAUtils\sha384-512.c</PathWithFileName>
-      <FilenameWithoutPath>sha384-512.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>79</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\SHAUtils\usha.c</PathWithFileName>
-      <FilenameWithoutPath>usha.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>External/curve25519_donna</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>80</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\External\Curve25519\curve25519-donna.c</PathWithFileName>
-      <FilenameWithoutPath>curve25519-donna.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\..\..\include\MICO.h</PathWithFileName>
+      <FilenameWithoutPath>MICO.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1620,8 +857,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>12</GroupNumber>
-      <FileNumber>81</FileNumber>
+      <GroupNumber>6</GroupNumber>
+      <FileNumber>26</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1633,8 +870,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>12</GroupNumber>
-      <FileNumber>82</FileNumber>
+      <GroupNumber>6</GroupNumber>
+      <FileNumber>27</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1654,8 +891,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>13</GroupNumber>
-      <FileNumber>83</FileNumber>
+      <GroupNumber>7</GroupNumber>
+      <FileNumber>28</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1667,8 +904,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>13</GroupNumber>
-      <FileNumber>84</FileNumber>
+      <GroupNumber>7</GroupNumber>
+      <FileNumber>29</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1680,8 +917,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>13</GroupNumber>
-      <FileNumber>85</FileNumber>
+      <GroupNumber>7</GroupNumber>
+      <FileNumber>30</FileNumber>
       <FileType>4</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1693,8 +930,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>13</GroupNumber>
-      <FileNumber>86</FileNumber>
+      <GroupNumber>7</GroupNumber>
+      <FileNumber>31</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1714,8 +951,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>14</GroupNumber>
-      <FileNumber>87</FileNumber>
+      <GroupNumber>8</GroupNumber>
+      <FileNumber>32</FileNumber>
       <FileType>4</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1735,8 +972,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>15</GroupNumber>
-      <FileNumber>88</FileNumber>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>33</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1748,8 +985,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>15</GroupNumber>
-      <FileNumber>89</FileNumber>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>34</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1757,32 +994,6 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext_mfg.c</PathWithFileName>
       <FilenameWithoutPath>micokit_ext_mfg.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>15</GroupNumber>
-      <FileNumber>90</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext.h</PathWithFileName>
-      <FilenameWithoutPath>micokit_ext.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>15</GroupNumber>
-      <FileNumber>91</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext_def.h</PathWithFileName>
-      <FilenameWithoutPath>micokit_ext_def.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1795,8 +1006,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>92</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>35</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1808,8 +1019,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>93</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>36</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1821,8 +1032,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>94</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>37</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1834,8 +1045,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>95</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>38</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1847,8 +1058,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>96</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>39</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1860,8 +1071,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>97</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>40</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1873,8 +1084,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>98</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>41</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1886,8 +1097,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>99</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>42</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1899,8 +1110,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>100</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>43</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1912,8 +1123,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>101</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>44</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1925,8 +1136,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>102</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>45</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1938,8 +1149,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>16</GroupNumber>
-      <FileNumber>103</FileNumber>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>46</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1959,8 +1170,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>17</GroupNumber>
-      <FileNumber>104</FileNumber>
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>47</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1972,8 +1183,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>17</GroupNumber>
-      <FileNumber>105</FileNumber>
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>48</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1993,8 +1204,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>18</GroupNumber>
-      <FileNumber>106</FileNumber>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>49</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2006,8 +1217,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>18</GroupNumber>
-      <FileNumber>107</FileNumber>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>50</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2027,8 +1238,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>19</GroupNumber>
-      <FileNumber>108</FileNumber>
+      <GroupNumber>13</GroupNumber>
+      <FileNumber>51</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2048,8 +1259,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>20</GroupNumber>
-      <FileNumber>109</FileNumber>
+      <GroupNumber>14</GroupNumber>
+      <FileNumber>52</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2069,21 +1280,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>110</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\Platform\MCU\STM32F4xx\wlan_bus_driver\read_wifi_firmware.c</PathWithFileName>
-      <FilenameWithoutPath>read_wifi_firmware.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>111</FileNumber>
+      <GroupNumber>15</GroupNumber>
+      <FileNumber>53</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2095,8 +1293,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>112</FileNumber>
+      <GroupNumber>15</GroupNumber>
+      <FileNumber>54</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2108,8 +1306,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>113</FileNumber>
+      <GroupNumber>15</GroupNumber>
+      <FileNumber>55</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2129,8 +1327,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>114</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>56</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2142,8 +1340,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>115</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>57</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2155,8 +1353,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>116</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>58</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2168,8 +1366,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>117</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>59</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2181,8 +1379,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>118</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>60</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2194,8 +1392,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>119</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>61</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2207,8 +1405,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>120</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>62</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2220,8 +1418,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>121</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>63</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2233,8 +1431,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>122</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>64</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2246,8 +1444,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>123</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>65</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2259,8 +1457,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>124</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>66</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2272,8 +1470,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>125</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>67</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2285,8 +1483,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>126</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>68</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2298,8 +1496,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>127</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>69</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2311,8 +1509,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>128</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>70</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2324,8 +1522,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>129</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>71</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2337,8 +1535,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>130</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>72</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2350,8 +1548,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>131</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>73</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2363,8 +1561,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>132</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>74</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2376,8 +1574,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>133</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>75</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2389,8 +1587,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>134</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>76</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2402,8 +1600,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>135</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>77</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2415,8 +1613,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>136</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>78</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2428,8 +1626,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>137</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>79</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2441,8 +1639,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>138</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>80</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2454,8 +1652,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>139</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>81</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2467,8 +1665,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>140</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>82</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2480,8 +1678,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>141</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>83</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2493,8 +1691,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>142</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>84</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2506,8 +1704,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>143</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>85</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2519,8 +1717,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>144</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>86</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2532,8 +1730,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>145</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>87</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2545,8 +1743,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>146</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>88</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2558,8 +1756,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>147</FileNumber>
+      <GroupNumber>16</GroupNumber>
+      <FileNumber>89</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2579,8 +1777,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>148</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>90</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2592,8 +1790,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>149</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>91</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2605,8 +1803,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>150</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>92</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2618,8 +1816,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>151</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>93</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2631,8 +1829,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>152</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>94</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2644,8 +1842,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>153</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>95</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2657,8 +1855,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>154</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>96</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2670,8 +1868,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>155</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>97</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2683,8 +1881,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>156</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>98</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2696,8 +1894,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>157</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>99</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2709,8 +1907,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>158</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>100</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2722,8 +1920,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>159</FileNumber>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>101</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2731,6 +1929,541 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\Platform\MCU\STM32F4xx\peripherals\platform_watchdog.c</PathWithFileName>
       <FilenameWithoutPath>platform_watchdog.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>Library/protocols/fog_cloud</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>18</GroupNumber>
+      <FileNumber>102</FileNumber>
+      <FileType>4</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\protocols\fog_cloud\FogCloud_cm4_debug.a</PathWithFileName>
+      <FilenameWithoutPath>FogCloud_cm4_debug.a</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>18</GroupNumber>
+      <FileNumber>103</FileNumber>
+      <FileType>4</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\protocols\fog_cloud\FogCloud_cm4_release.a</PathWithFileName>
+      <FilenameWithoutPath>FogCloud_cm4_release.a</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>Library/utilities</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>19</GroupNumber>
+      <FileNumber>104</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\CheckSumUtils.c</PathWithFileName>
+      <FilenameWithoutPath>CheckSumUtils.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>19</GroupNumber>
+      <FileNumber>105</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\HTTPUtils.c</PathWithFileName>
+      <FilenameWithoutPath>HTTPUtils.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>19</GroupNumber>
+      <FileNumber>106</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\RingBufferUtils.c</PathWithFileName>
+      <FilenameWithoutPath>RingBufferUtils.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>19</GroupNumber>
+      <FileNumber>107</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\SocketUtils.c</PathWithFileName>
+      <FilenameWithoutPath>SocketUtils.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>19</GroupNumber>
+      <FileNumber>108</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\StringUtils.c</PathWithFileName>
+      <FilenameWithoutPath>StringUtils.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>19</GroupNumber>
+      <FileNumber>109</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\URLUtils.c</PathWithFileName>
+      <FilenameWithoutPath>URLUtils.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>Library/utilities/json_c</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>20</GroupNumber>
+      <FileNumber>110</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\json_c\arraylist.c</PathWithFileName>
+      <FilenameWithoutPath>arraylist.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>20</GroupNumber>
+      <FileNumber>111</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\json_c\debug.c</PathWithFileName>
+      <FilenameWithoutPath>debug.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>20</GroupNumber>
+      <FileNumber>112</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\json_c\json_object.c</PathWithFileName>
+      <FilenameWithoutPath>json_object.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>20</GroupNumber>
+      <FileNumber>113</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\json_c\json_tokener.c</PathWithFileName>
+      <FilenameWithoutPath>json_tokener.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>20</GroupNumber>
+      <FileNumber>114</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\json_c\json_util.c</PathWithFileName>
+      <FilenameWithoutPath>json_util.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>20</GroupNumber>
+      <FileNumber>115</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\json_c\linkhash.c</PathWithFileName>
+      <FilenameWithoutPath>linkhash.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>20</GroupNumber>
+      <FileNumber>116</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\libraries\utilities\json_c\printbuf.c</PathWithFileName>
+      <FilenameWithoutPath>printbuf.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>MICO/system</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>117</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\mico_system_init.c</PathWithFileName>
+      <FilenameWithoutPath>mico_system_init.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>118</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\mico_system_monitor.c</PathWithFileName>
+      <FilenameWithoutPath>mico_system_monitor.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>119</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\mico_system_notification.c</PathWithFileName>
+      <FilenameWithoutPath>mico_system_notification.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>120</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\mico_system_para_storage.c</PathWithFileName>
+      <FilenameWithoutPath>mico_system_para_storage.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>121</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\mico_system_power_daemon.c</PathWithFileName>
+      <FilenameWithoutPath>mico_system_power_daemon.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>122</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\system_factory_test.c</PathWithFileName>
+      <FilenameWithoutPath>system_factory_test.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>123</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\system_misc.c</PathWithFileName>
+      <FilenameWithoutPath>system_misc.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>MICO/system/command_console</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>22</GroupNumber>
+      <FileNumber>124</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\command_console\mico_cli.c</PathWithFileName>
+      <FilenameWithoutPath>mico_cli.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>MICO/system/config_server</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>23</GroupNumber>
+      <FileNumber>125</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\config_server\config_server.c</PathWithFileName>
+      <FilenameWithoutPath>config_server.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>23</GroupNumber>
+      <FileNumber>126</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\config_server\config_server_menu.c</PathWithFileName>
+      <FilenameWithoutPath>config_server_menu.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>MICO/system/easylink</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>24</GroupNumber>
+      <FileNumber>127</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\easylink\system_easylink.c</PathWithFileName>
+      <FilenameWithoutPath>system_easylink.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>24</GroupNumber>
+      <FileNumber>128</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\easylink\system_easylink_delegate.c</PathWithFileName>
+      <FilenameWithoutPath>system_easylink_delegate.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>MICO/system/mdns</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>25</GroupNumber>
+      <FileNumber>129</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\mdns\mico_mdns.c</PathWithFileName>
+      <FilenameWithoutPath>mico_mdns.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>MICO/system/tftp_ota</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>26</GroupNumber>
+      <FileNumber>130</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\tftp_ota\tftp.h</PathWithFileName>
+      <FilenameWithoutPath>tftp.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>26</GroupNumber>
+      <FileNumber>131</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\tftp_ota\tftp_ota.c</PathWithFileName>
+      <FilenameWithoutPath>tftp_ota.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>26</GroupNumber>
+      <FileNumber>132</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\tftp_ota\tftp_ota.h</PathWithFileName>
+      <FilenameWithoutPath>tftp_ota.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>26</GroupNumber>
+      <FileNumber>133</FileNumber>
+      <FileType>3</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\system\tftp_ota\tftpc.o</PathWithFileName>
+      <FilenameWithoutPath>tftpc.o</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>MICO/core</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>27</GroupNumber>
+      <FileNumber>134</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\core\mico_config.c</PathWithFileName>
+      <FilenameWithoutPath>mico_config.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>27</GroupNumber>
+      <FileNumber>135</FileNumber>
+      <FileType>4</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\core\mxchipWNet_cm4f_8801.a</PathWithFileName>
+      <FilenameWithoutPath>mxchipWNet_cm4f_8801.a</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>27</GroupNumber>
+      <FileNumber>136</FileNumber>
+      <FileType>4</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\MICO\core\mxchipWNet_cm4f_sdio.a</PathWithFileName>
+      <FilenameWithoutPath>mxchipWNet_cm4f_sdio.a</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -4,7 +4,7 @@
 * @author  William Xu
 * @version V1.0.0
 * @date    16-Sep-2014
-* @brief   This file provides all the headers of BSD socket APis.
+* @brief   This file provides all the headers of BSD socket APIs.
 ******************************************************************************
 *
 *  The MIT License

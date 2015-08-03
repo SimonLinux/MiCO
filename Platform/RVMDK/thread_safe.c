@@ -6,7 +6,7 @@
  * Ver: 0.1
  * */
 #include "Common.h"
-#include "MicoRTOS.h"
+#include "mico_rtos.h"
 
 #ifndef  NO_MICO_RTOS
 USED int _mutex_initialize(void* mutex)

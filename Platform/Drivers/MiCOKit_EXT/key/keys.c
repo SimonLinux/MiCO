@@ -36,10 +36,33 @@ static mico_timer_t _user_key2_timer;
 /*------------------------------ USER INTERFACES -----------------------------*/
 
 // Key1 && key2 callbacks, set by user.
-extern void user_key1_clicked_callback(void);
-extern void user_key1_long_pressed_callback(void);
-extern void user_key2_clicked_callback(void);
-extern void user_key2_long_pressed_callback(void);
+//extern void user_key1_clicked_callback(void);
+//extern void user_key1_long_pressed_callback(void);
+//extern void user_key2_clicked_callback(void);
+//extern void user_key2_long_pressed_callback(void);
+
+WEAK void user_key1_clicked_callback(void)
+{
+  return;
+}
+
+// Key1 long pressed callback
+WEAK void user_key1_long_pressed_callback(void)
+{
+  return;
+}
+
+// Key2 clicked callback:  next test module in test mode
+WEAK void user_key2_clicked_callback(void)
+{
+  return;
+}
+
+// Key2 long pressed callback(use for enter MFG MODE when reset)
+WEAK void user_key2_long_pressed_callback(void)
+{
+  return;
+}
 
 static void _user_key1_irq_handler( void* arg )
 {

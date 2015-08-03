@@ -33,7 +33,7 @@ extern volatile int16_t      mfg_test_module_number;
 //---------------------------- user modules functions --------------------------
 
 // Key1 clicked callback:  previous test module in test mode
-WEAK void user_key1_clicked_callback(void)
+void user_key1_clicked_callback(void)
 {
   if(NULL != mfg_test_state_change_sem){
     if( 0 < mfg_test_module_number){
@@ -47,25 +47,13 @@ WEAK void user_key1_clicked_callback(void)
   return;
 }
 
-// Key1 long pressed callback
-WEAK void user_key1_long_pressed_callback(void)
-{
-  return;
-}
-
 // Key2 clicked callback:  next test module in test mode
-WEAK void user_key2_clicked_callback(void)
+void user_key2_clicked_callback(void)
 {
   if(NULL != mfg_test_state_change_sem){
     mfg_test_module_number = (mfg_test_module_number+1)%(MFG_TEST_MAX_MODULE_NUM+1);
     mico_rtos_set_semaphore(&mfg_test_state_change_sem);  // start next module
   }
-  return;
-}
-
-// Key2 long pressed callback(use for enter MFG MODE when reset)
-WEAK void user_key2_long_pressed_callback(void)
-{
   return;
 }
 
@@ -120,7 +108,7 @@ void micokit_ext_mfg_test(mico_Context_t *inContext)
   UNUSED_PARAMETER(inContext);
   
   mico_rtos_init_semaphore(&mfg_test_state_change_sem, 1); 
-  err = mico_system_notify_register( mico_notify_WIFI_SCAN_COMPLETED, (void *)mico_notify_WifiScanCompleteHandler, inContext );
+  err = MICOAddNotification( mico_notify_WIFI_SCAN_COMPLETED, (void *)mico_notify_WifiScanCompleteHandler );
   require_noerr( err, exit );
   
   while(1){
@@ -265,7 +253,6 @@ void micokit_ext_mfg_test(mico_Context_t *inContext)
       }
     default:
       goto exit;  // error
-      //break;
     }
   }
   

@@ -36,8 +36,8 @@
 
 static char *ap_ssid = "Xiaomi.Router";
 static char *ap_key  = "stm32f215";
-static char tcp_remote_ip[16] = "192.168.31.232";/*remote ip address*/
-static int tcp_remote_port = 20000;/*remote port*/
+static char tcp_remote_ip[16] = "192.168.31.111";/*remote ip address*/
+static int tcp_remote_port = 6000;/*remote port*/
 static mico_semaphore_t wait_sem;
 
 void micoNotify_ConnectFailedHandler(OSStatus err, void* const inContext)
@@ -104,8 +104,7 @@ void tcp_client_thread(void *inContext)
       nfound=select(maxfd, &rset, NULL, NULL, &timeout);
       if(nfound==0)/*nothing happened,printf dot...*/
       {
-        printf(".");
-        fflush(stdout);
+        MicoUartSend( STDIO_UART, ".", 1 ); 
         continue;
       }
       /*recv wlan data*/

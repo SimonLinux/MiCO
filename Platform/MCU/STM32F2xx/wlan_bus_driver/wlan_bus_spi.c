@@ -29,7 +29,7 @@
 ******************************************************************************
 */ 
 
-#include "MicoRtos.h"
+#include "mico_rtos.h"
 #include "misc.h"
 #include "string.h" /* For memcpy */
 #include "platform_config.h"

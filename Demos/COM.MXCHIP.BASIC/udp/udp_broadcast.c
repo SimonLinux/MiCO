@@ -34,7 +34,7 @@
 #define udp_broadcast_log(M, ...) custom_log("UDP", M, ##__VA_ARGS__)
 
 
-static int   udp_port = 20000;
+static int   udp_port = 6000;
 static char *ap_ssid = "Xiaomi.Router";
 static char *ap_key  = "stm32f215";
 static mico_semaphore_t wait_sem;
@@ -84,11 +84,11 @@ void udp_broadcast_thread(void *inContext)
   udp_fd = socket( AF_INET, SOCK_DGRM, IPPROTO_UDP );
   
   /*allow broadcast*/
-  //setsockopt(udp_fd,SOL_SOCKET,SO_BROADCAST,&opt,sizeof(opt));
+  setsockopt(udp_fd,SOL_SOCKET,SO_BROADCAST,&opt,sizeof(opt));
   
-  //my_addr.s_ip = INADDR_ANY;/*broadcast ip address*/
-  //my_addr.s_port = udp_port;/*20000*/
-  //err = bind(udp_fd, &my_addr, sizeof(my_addr));
+  my_addr.s_ip = INADDR_ANY;/*broadcast ip address*/
+  my_addr.s_port = udp_port;/*20000*/
+  err = bind(udp_fd, &my_addr, sizeof(my_addr));
   
 
   require_noerr( err, EXIT_THREAD );

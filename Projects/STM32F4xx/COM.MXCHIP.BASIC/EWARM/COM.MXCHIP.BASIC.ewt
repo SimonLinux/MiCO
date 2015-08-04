@@ -173,7 +173,7 @@
   <group>
     <name>Application</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\helloworld\hello_world.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\tcp\tcp_client.c</name>
     </file>
   </group>
   <group>
@@ -254,28 +254,31 @@
       </file>
     </group>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\include\Common.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\include\Debug.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_platform.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_rtos.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_security.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_socket.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoSocket.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_system.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoSRPServer.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoWlan.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_wlan.h</name>
     </file>
   </group>
   <group>

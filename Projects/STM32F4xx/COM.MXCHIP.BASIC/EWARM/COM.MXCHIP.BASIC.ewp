@@ -87,7 +87,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.3.8061</state>
+          <state>7.30.1.7765</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -1045,7 +1045,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.3.8061</state>
+          <state>7.30.1.7765</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -1172,7 +1172,7 @@
         </option>
         <option>
           <name>CCDiagSuppress</name>
-          <state></state>
+          <state>Pa050</state>
         </option>
         <option>
           <name>CCDiagRemark</name>
@@ -1263,7 +1263,6 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC</state>
           <state>$PROJ_DIR$\..\..\..\..\include</state>
-          <state>$PROJ_DIR$\..\..\..\..\External</state>
           <state>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\include</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Cortex-M4</state>
@@ -1274,11 +1273,9 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
           <state>$PROJ_DIR$\..\..\..\..\MICO</state>
-          <state>$PROJ_DIR$\..\..\..\..\libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\libraries\protocols</state>
           <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
-          <state>F:\MICO\mico\MICO\system</state>
-          <state>F:\MICO\mico\MICO\system\command_console</state>
+          <state>$PROJ_DIR$\..\..\..\..\mico\system</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1923,7 +1920,7 @@
   <group>
     <name>Application</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\helloworld\hello_world.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\tcp\tcp_client.c</name>
     </file>
   </group>
   <group>
@@ -2014,28 +2011,31 @@
       </file>
     </group>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\include\Common.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\include\Debug.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_platform.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoAlgorithm.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_rtos.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoPlatform.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_security.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICORTOS.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_socket.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoSocket.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_system.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoSRPServer.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MicoWlan.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico_wlan.h</name>
     </file>
   </group>
   <group>

@@ -71,6 +71,7 @@
 ******************************************************/
 
 /* Default RTC time. Set to 12:20:30 08/04/2013 Monday */
+#ifndef MICO_DISABLE_MCU_POWERSAVE
 static const platform_rtc_time_t default_rtc_time =
 {
    .sec     = 30,
@@ -81,6 +82,7 @@ static const platform_rtc_time_t default_rtc_time =
    .month   = 4,
    .year    = 13,
 };
+#endif
 
 #ifndef MICO_DISABLE_MCU_POWERSAVE
 static unsigned long  stop_mode_power_down_hook( unsigned long sleep_ms );
@@ -229,7 +231,8 @@ OSStatus platform_mcu_powersave_enable( void )
 void platform_mcu_powersave_exit_notify( void )
 {
 #ifndef MICO_DISABLE_MCU_POWERSAVE
-    wake_up_interrupt_triggered = true;
+  UNUSED_PARAMETER( wake_up_interrupt_triggered );
+  wake_up_interrupt_triggered = true;
 #endif
 }
 

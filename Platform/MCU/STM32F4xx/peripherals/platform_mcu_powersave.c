@@ -234,7 +234,8 @@ OSStatus platform_mcu_powersave_enable( void )
 void platform_mcu_powersave_exit_notify( void )
 {
 #ifndef MICO_DISABLE_MCU_POWERSAVE
-    wake_up_interrupt_triggered = true;
+  UNUSED_PARAMETER( wake_up_interrupt_triggered );
+  wake_up_interrupt_triggered = true;
 #endif
 }
 

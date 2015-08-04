@@ -523,7 +523,7 @@
 			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_flash.c",
 			"settings":
 			{
-				"buffer_size": 18727,
+				"buffer_size": 18850,
 				"line_ending": "Windows"
 			}
 		},
@@ -531,8 +531,8 @@
 			"file": "/Users/William/Develop/MiCO/MICO/Library/MICOConfig.c",
 			"settings":
 			{
-				"buffer_size": 2484,
-				"line_ending": "Windows"
+				"buffer_size": 0,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -557,7 +557,7 @@
 			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/platform_init.c",
 			"settings":
 			{
-				"buffer_size": 9780,
+				"buffer_size": 9693,
 				"line_ending": "Windows"
 			}
 		},
@@ -565,7 +565,7 @@
 			"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/platform_init.c",
 			"settings":
 			{
-				"buffer_size": 9716,
+				"buffer_size": 9672,
 				"line_ending": "Windows"
 			}
 		},
@@ -573,7 +573,7 @@
 			"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/platform_init.c",
 			"settings":
 			{
-				"buffer_size": 11102,
+				"buffer_size": 11097,
 				"line_ending": "Windows"
 			}
 		}
@@ -773,7 +773,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"",
@@ -951,15 +951,15 @@
 					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_flash.c",
 					"settings":
 					{
-						"buffer_size": 18727,
+						"buffer_size": 18850,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10224,
-								11074
+								0,
+								0
 							]
 						],
 						"settings":
@@ -979,15 +979,15 @@
 					"file": "/Users/William/Develop/MiCO/MICO/Library/MICOConfig.c",
 					"settings":
 					{
-						"buffer_size": 2484,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2267,
-								2267
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1316,15 +1316,15 @@
 					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/platform_init.c",
 					"settings":
 					{
-						"buffer_size": 9780,
+						"buffer_size": 9693,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3176,
-								3176
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1344,15 +1344,15 @@
 					"file": "/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/platform_init.c",
 					"settings":
 					{
-						"buffer_size": 9716,
+						"buffer_size": 9672,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3176,
-								3176
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1372,15 +1372,15 @@
 					"file": "/Users/William/Develop/MiCO/Platform/MCU/MX1101/platform_init.c",
 					"settings":
 					{
-						"buffer_size": 11102,
+						"buffer_size": 11097,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3286,
-								3286
+								0,
+								0
 							]
 						],
 						"settings":

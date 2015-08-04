@@ -69,8 +69,10 @@ typedef struct
     
 } WACPlatformParameters_t;
 
-extern OSStatus startMFiWAC( mico_Context_t * const inContext, WACPlatformParameters_t *inWACPara, mico_i2c_t i2c, int timeOut );
-
+OSStatus startMFiWAC( mico_Context_t * const inContext, WACPlatformParameters_t *inWACPara, mico_i2c_t i2c, int timeOut )
+{
+	return kNoErr;
+}
 
 OSStatus system_easylink_wac_start( mico_Context_t * const inContext )
 {

@@ -29,7 +29,7 @@
 ******************************************************************************
 */
 
-#include "MiCO.h" 
+#include "MICO.h" 
 
 #define os_helloworld_log(format, ...)  custom_log("helloworld", format, ##__VA_ARGS__)
 

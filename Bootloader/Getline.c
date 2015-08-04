@@ -31,9 +31,9 @@
 
 #include <stdio.h>
 #include "common.h"                     /* global project definition file   */
-#include "Mico.h"
+#include "MICO.h"
 #include "platform_config.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 
 #define CNTLQ      0x11
 #define CNTLS      0x13

@@ -33,8 +33,8 @@
 
 #define wifi_softap_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
-static char *ap_ssid = "mxchip_zfw";
-static char *ap_key = "12345678";
+static char *ap_ssid = "Xiaomi.Router";
+static char *ap_key = "stm32f215";
 
 
 
@@ -73,9 +73,9 @@ int application_start( void )
   wNetConfig.wifi_mode = Soft_AP;
   wNetConfig.dhcpMode = DHCP_Server;//be a ap mode
   wNetConfig.wifi_retry_interval = 100;
-  strcpy((char*)wNetConfig.local_ip_addr, "192.168.0.1");
+  strcpy((char*)wNetConfig.local_ip_addr, "192.168.31.1");
   strcpy((char*)wNetConfig.net_mask, "255.255.255.0");
-  strcpy((char*)wNetConfig.dnsServer_ip_addr, "192.168.0.1");
+  strcpy((char*)wNetConfig.dnsServer_ip_addr, "192.168.31.1");
   micoWlanStart(&wNetConfig);
   
   wifi_softap_log("ssid:%s  key:%s", wNetConfig.wifi_ssid, wNetConfig.wifi_key);

@@ -30,8 +30,8 @@
 */ 
 
 
-#include "Mico.h"
-#include "MicoPlatform.h"
+#include "MICO.h"
+#include "mico_platform.h"
 #include "platform.h"
 #include "platformInternal.h"
 #include "platform_config.h"

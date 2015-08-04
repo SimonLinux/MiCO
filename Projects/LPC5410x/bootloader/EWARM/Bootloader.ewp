@@ -666,7 +666,7 @@
         </option>
         <option>
           <name>IlinkOutputFile</name>
-          <state>COM.MXCHIP.SPP.out</state>
+          <state>Bootloader.out</state>
         </option>
         <option>
           <name>IlinkDebugInfoEnable</name>

@@ -41,6 +41,7 @@ int __low_level_init( void );
 /* This is the code that gets called on processor reset. To initialize the */
 /* device. */
 #pragma section=".intvec"
+#pragma section=".intvec_RAM"
 int __low_level_init( void )
 {
      extern void init_clocks(void);
@@ -49,10 +50,11 @@ int __low_level_init( void )
       * variables have been initialised, so the following init still needs to be done
       * When using GCC, this is done in crt0_GCC.c
       */
-     
-#ifdef BOOTLOADER  
-      /* Set the Vector Table base location at 0x20000000 */ 
-     *SCB_VTOR_ADDRESS = 0x20000000;
+
+#ifdef BOOTLOADER
+      /* Set the Vector Table base location at 0x20000000 */
+     //*SCB_VTOR_ADDRESS = 0x20000000;
+     *SCB_VTOR_ADDRESS = (unsigned long )__section_begin(".intvec_RAM");
 #else
      /* Setup the interrupt vectors address */
      *SCB_VTOR_ADDRESS = (unsigned long )__section_begin(".intvec");

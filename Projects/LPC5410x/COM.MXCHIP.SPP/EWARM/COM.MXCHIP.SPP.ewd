@@ -45,11 +45,11 @@
         </option>
         <option>
           <name>MemFile</name>
-          <state>$TOOLKIT_DIR$\CONFIG\debugger\ST\STM32F411CE.ddf</state>
+          <state>$TOOLKIT_DIR$\CONFIG\debugger\NXP\LPC54102J512_M4.ddf</state>
         </option>
         <option>
           <name>RunToEnable</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>RunToName</name>
@@ -117,7 +117,7 @@
         </option>
         <option>
           <name>FlashLoadersV3</name>
-          <state>$TOOLKIT_DIR$\config\flashloader\ST\FlashSTM32F411xE.board</state>
+          <state>$TOOLKIT_DIR$\config\flashloader\NXP\FlashNXPLPC54xxxM4F512K.board</state>
         </option>
         <option>
           <name>OCImagesSuppressCheck1</name>

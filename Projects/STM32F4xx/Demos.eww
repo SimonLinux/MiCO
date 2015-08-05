@@ -26,6 +26,11 @@
   <project>
     <path>$WS_DIR$\MiCOKit_Enjoy\EWARM\MiCOKit_Enjoy.ewp</path>
   </project>
+
+  <project>
+    <path>$WS_DIR$\SiteWhere_RGB_LED\EWARM\SiteWhere_RGB_LED.ewp</path>
+  </project>
+  
 <batchBuild/>
 </workspace>
 

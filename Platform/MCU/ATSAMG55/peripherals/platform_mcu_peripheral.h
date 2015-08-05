@@ -45,7 +45,7 @@
 #include "wdt.h"
 #include "adc2.h"
 
-#include "MicoRtos.h"
+#include "mico_rtos.h"
 #include "RingBufferUtils.h"
 
 #ifdef __cplusplus

@@ -39,7 +39,6 @@
 #include "platform.h" /* This file is unique for each platform */
 #include "platform_peripheral.h"
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif

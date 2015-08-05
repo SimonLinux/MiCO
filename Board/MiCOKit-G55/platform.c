@@ -37,7 +37,7 @@
 #include "platform_config.h"
 #include "platform_peripheral.h"
 #include "PlatformLogging.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 #include "wlan_platform_common.h"
 #include "spi_flash_platform_interface.h"
 

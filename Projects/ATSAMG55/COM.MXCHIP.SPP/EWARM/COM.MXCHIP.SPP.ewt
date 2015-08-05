@@ -132,111 +132,6 @@
     </group>
   </group>
   <group>
-    <name>External</name>
-    <group>
-      <name>Curve25519</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\Curve25519\curve25519-donna.c</name>
-      </file>
-    </group>
-    <group>
-      <name>FatFs</name>
-      <group>
-        <name>Core</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\diskio.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\ff.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\ff_gen_drv.c</name>
-        </file>
-      </group>
-      <group>
-        <name>Drivers</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\drivers\usbh_diskio.c</name>
-        </file>
-      </group>
-      <group>
-        <name>Options</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\option\syscall.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\option\unicode.c</name>
-        </file>
-      </group>
-    </group>
-    <group>
-      <name>GladmanAES</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\GladmanAES\aes_modes.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\GladmanAES\aescrypt.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\GladmanAES\aeskey.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\GladmanAES\aestab.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\GladmanAES\gf128mul.c</name>
-      </file>
-    </group>
-    <group>
-      <name>JSON-C</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\arraylist.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\debug.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\json.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\json_object.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\json_tokener.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\json_util.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\linkhash.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\printbuf.c</name>
-      </file>
-    </group>
-    <group>
-      <name>SHAUtils</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\hkdf.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\hmac.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\sha1.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\sha224-256.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\sha384-512.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\usha.c</name>
-      </file>
-    </group>
-  </group>
-  <group>
     <name>include</name>
     <group>
       <name>MicoDriver</name>
@@ -278,7 +173,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\Debug.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
@@ -303,94 +198,130 @@
     </file>
   </group>
   <group>
-    <name>MICO</name>
+    <name>libraries</name>
     <group>
-      <name>AirKiss</name>
+      <name>utilities</name>
+      <group>
+        <name>json_c</name>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\arraylist.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\debug.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_object.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_tokener.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_util.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\linkhash.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\printbuf.c</name>
+        </file>
+      </group>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\AESUtils.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss_CM3_Debug.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\CheckSumUtils.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Airkiss\Airkiss_CM3_Release.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\HTTPUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\RingBufferUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\SecurityUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\SHAUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\SocketUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\StringUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\TimeUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\TLVUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\URLUtils.c</name>
+      </file>
+    </group>
+  </group>
+  <group>
+    <name>mico</name>
+    <group>
+      <name>core</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\core\mico_config.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm4f_spi.a</name>
       </file>
     </group>
     <group>
-      <name>EasyLink</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\EasyLink\EasyLink.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\SoftAP\EasyLinkSoftAP.c</name>
-      </file>
+      <name>security</name>
     </group>
     <group>
-      <name>Library</name>
+      <name>system</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\MICOConfig.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\config_server\config_server.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\mxchipWNet_cm4f_spi.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\config_server\config_server_menu.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\RF driver\wlan_firmware.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\command_console\mico_cli.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mdns\mico_mdns.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_init.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_monitor.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_notification.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_para_storage.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_power_daemon.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink_delegate.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\system_factory_test.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\system_misc.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftp_ota.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftpc.o</name>
       </file>
     </group>
-    <group>
-      <name>TFTP</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\tftp\tftpc.o</name>
-      </file>
-    </group>
-    <group>
-      <name>WAC</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Debug.a</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\WAC\MFi_WAC_CM3_Release.a</name>
-      </file>
-    </group>
-    <group>
-      <name>WPS</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\WPS\WPS.c</name>
-      </file>
-    </group>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOCli.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigMenu.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOConfigServer.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICODefine.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOEntrance.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOForceOTA.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOMfgtest.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICONotificationCenter.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICONTPClient.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOParaStorage.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
-    </file>
   </group>
   <group>
     <name>Platform</name>
@@ -408,7 +339,7 @@
       <group>
         <name>MFiAuth</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCODriverMFiAuth\MicoDriverMFiAuth.a</name>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MicoDriverMFiAuth\MicoDriverMFiAuth.a</name>
         </file>
       </group>
       <group>
@@ -799,45 +730,6 @@
         <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\wlan_platform_common.c</name>
       </file>
     </group>
-  </group>
-  <group>
-    <name>Support</name>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\MDNSUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\SecurityUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\SHAUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\SocketUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\StringUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\TimeUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\TLVUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\URLUtils.c</name>
-    </file>
   </group>
 </project>
 

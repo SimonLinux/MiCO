@@ -158,7 +158,7 @@
       </file>
     </group>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
@@ -181,6 +181,21 @@
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MicoWlan.h</name>
     </file>
+  </group>
+  <group>
+    <name>libraries</name>
+    <group>
+      <name>utilities</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\CheckSumUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\RingBufferUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\StringUtils.c</name>
+      </file>
+    </group>
   </group>
   <group>
     <name>Platform</name>
@@ -514,18 +529,6 @@
         <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\wlan_platform_common.c</name>
       </file>
     </group>
-  </group>
-  <group>
-    <name>Support</name>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\StringUtils.c</name>
-    </file>
   </group>
 </project>
 

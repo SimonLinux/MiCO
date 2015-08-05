@@ -96,7 +96,7 @@ OSStatus APDS9930_Clear_intrtrupt( void )
 void apds9930_enable()
 {
   //Disable and Powerdown
-  APDS9930_Write_RegData(ENABLE_ADDR, DISABLE); 
+  APDS9930_Write_RegData(ENABLE_ADDR, APDS9930_DISABLE); 
   APDS9930_Write_RegData(ATIME_ADDR, ATIME_256C);
   APDS9930_Write_RegData(PTIME_ADDR, PTIME_10C);
   APDS9930_Write_RegData(WTIME_ADDR, WTIME_74C);

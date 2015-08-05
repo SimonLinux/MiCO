@@ -37,6 +37,12 @@ extern OSStatus stdio_hardfault( char* data, uint32_t size );
 
 #if   defined ( __CC_ARM )
 
+static __inline uint32_t __get_IPSR(void)
+{
+  register uint32_t __regIPSR          __asm("ipsr");
+  return(__regIPSR);
+}
+
 #elif defined ( __ICCARM__ ) /*------------------ ICC Compiler -------------------*/
 /* IAR iccarm specific functions */
 #define __ASM           __asm                                       /*!< asm keyword for IAR Compiler          */
@@ -108,7 +114,7 @@ void hard_fault_handler_c (unsigned int * hardfault_args)
   sprintf (logString, ",corrupt,dump registers]>>>>>>>>>>>>>>>>>>\n\r");
   stdio_hardfault( logString, strlen(logString)+1 );
   
-  sprintf (logString, "R0 = 0x08%x\r\n", stacked_r0);
+  sprintf (logString, "R0 = 0x%08X\r\n", stacked_r0);
   stdio_hardfault( logString, strlen(logString)+1 );
   sprintf (logString, "R1 = 0x%08x\r\n", stacked_r1);
   stdio_hardfault( logString, strlen(logString)+1 );
@@ -118,21 +124,21 @@ void hard_fault_handler_c (unsigned int * hardfault_args)
   stdio_hardfault( logString, strlen(logString)+1 );
   sprintf (logString, "R12 = 0x%08x\r\n", stacked_r12);
   stdio_hardfault( logString, strlen(logString)+1 );
-  sprintf (logString, "LR [R14] = 0x08%x  subroutine call return address\r\n", stacked_lr);
+  sprintf (logString, "LR [R14] = 0x%08X  subroutine call return address\r\n", stacked_lr);
   stdio_hardfault( logString, strlen(logString)+1 );
-  sprintf (logString, "PC [R15] = 0x08%x  program counter\r\n", stacked_pc);
+  sprintf (logString, "PC [R15] = 0x%08X  program counter\r\n", stacked_pc);
   stdio_hardfault( logString, strlen(logString)+1 );
-  sprintf (logString, "PSR = 0x08%x\r\n", stacked_psr);
+  sprintf (logString, "PSR = 0x%08X\r\n", stacked_psr);
   stdio_hardfault( logString, strlen(logString)+1 );
-  sprintf (logString, "BFAR = 0x08%x\r\n", (*((volatile unsigned long *)(0xE000ED38))));
+  sprintf (logString, "BFAR = 0x%08X\r\n", (*((volatile unsigned long *)(0xE000ED38))));
   stdio_hardfault( logString, strlen(logString)+1 );
-  sprintf (logString, "CFSR = 0x%08x\r\n", (*((volatile unsigned long *)(0xE000ED28))));
+  sprintf (logString, "CFSR = 0x%08X\r\n", (*((volatile unsigned long *)(0xE000ED28))));
   stdio_hardfault( logString, strlen(logString)+1 );
-  sprintf (logString, "HFSR = 0x08%x\r\n", (*((volatile unsigned long *)(0xE000ED2C))));
+  sprintf (logString, "HFSR = 0x%08X\r\n", (*((volatile unsigned long *)(0xE000ED2C))));
   stdio_hardfault( logString, strlen(logString)+1 );
-  sprintf (logString, "DFSR = 0x08%x\r\n", (*((volatile unsigned long *)(0xE000ED30))));
+  sprintf (logString, "DFSR = 0x%08X\r\n", (*((volatile unsigned long *)(0xE000ED30))));
   stdio_hardfault( logString, strlen(logString)+1 );
-  sprintf (logString, "AFSR = 0x08%x\r\n", (*((volatile unsigned long *)(0xE000ED3C))));
+  sprintf (logString, "AFSR = 0x%08X\r\n", (*((volatile unsigned long *)(0xE000ED3C))));
   stdio_hardfault( logString, strlen(logString)+1 );
   
   while (1);

@@ -309,8 +309,6 @@
           <state>$PROJ_DIR$\..\..\..\..\Bootloader</state>
           <state>$PROJ_DIR$\..\..\..\..\include</state>
           <state>$PROJ_DIR$\..\..\..\..\MICO</state>
-          <state>$PROJ_DIR$\..\..\..\..\Support</state>
-          <state>$PROJ_DIR$\..\..\..\..\External</state>
           <state>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-G55</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\include</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Cortex-M4</state>
@@ -342,6 +340,8 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\sam\drivers\twi</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\sam\drivers\adc</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
+          <state>$PROJ_DIR$\..\..\..\..\mico\system</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1055,7 +1055,7 @@
       </file>
     </group>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
@@ -1078,6 +1078,21 @@
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MicoWlan.h</name>
     </file>
+  </group>
+  <group>
+    <name>libraries</name>
+    <group>
+      <name>utilities</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\CheckSumUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\RingBufferUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\StringUtils.c</name>
+      </file>
+    </group>
   </group>
   <group>
     <name>Platform</name>
@@ -1414,18 +1429,6 @@
         <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\wlan_platform_common.c</name>
       </file>
     </group>
-  </group>
-  <group>
-    <name>Support</name>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\CheckSumUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\StringUtils.c</name>
-    </file>
   </group>
 </project>
 

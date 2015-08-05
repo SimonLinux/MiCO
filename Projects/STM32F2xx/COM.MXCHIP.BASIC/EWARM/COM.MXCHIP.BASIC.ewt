@@ -208,38 +208,38 @@
     <group>
       <name>MicoDriver</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverAdc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverAdc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverGpio.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverGpio.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverI2c.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverI2c.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverMFiAuth.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverMFiAuth.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverPwm.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverPwm.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRng.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRng.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRtc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRtc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverSpi.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverSpi.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverUart.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverUART.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverWdg.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverWdg.h</name>
       </file>
     </group>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
@@ -367,88 +367,88 @@
     <group>
       <name>core</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\core\mico_config.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mico_config.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm3_8801.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm3_8801.a</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm3_sdio.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm3_sdio.a</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm3_spi.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm3_spi.a</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\core\RF driver\wlan_firmware.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\core\RF driver\wlan_firmware.c</name>
       </file>
     </group>
     <group>
       <name>security</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\security\MicoCrypto.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\security\MicoCrypto.a</name>
       </file>
     </group>
     <group>
       <name>system</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\config_server\config_server.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\config_server\config_server.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\config_server\config_server_menu.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\config_server\config_server_menu.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\MFi_WAC_CM3_Debug.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\easylink\MFi_WAC_CM3_Debug.a</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\MFi_WAC_CM3_Release.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\easylink\MFi_WAC_CM3_Release.a</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\command_console\mico_cli.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\command_console\mico_cli.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\mdns\mico_mdns.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mdns\mico_mdns.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_init.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_init.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_monitor.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_monitor.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_notification.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_notification.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_para_storage.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_para_storage.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_power_daemon.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\mico_system_power_daemon.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\system.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\easylink\system_easylink.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink_delegate.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\easylink\system_easylink_delegate.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink_wac.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\easylink\system_easylink_wac.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\system_factory_test.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_factory_test.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\system_misc.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\system_misc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftp.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\tftp_ota\tftp.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftp_ota.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\tftp_ota\tftp_ota.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftpc.o</name>
+        <name>$PROJ_DIR$\..\..\..\..\MICO\system\tftp_ota\tftpc.o</name>
       </file>
     </group>
   </group>

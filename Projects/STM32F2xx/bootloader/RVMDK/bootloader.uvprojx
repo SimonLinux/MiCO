@@ -14,7 +14,7 @@
         <TargetCommonOption>
           <Device>STM32F205RGTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.1.0</PackID>
+          <PackID>Keil.STM32F2xx_DFP.2.3.0</PackID>
           <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IRAM(0x20000000,0x20000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -80,7 +80,7 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>C:\Keil\ARM\ARMCC\bin\fromelf.exe --bin  ..\..\..\..\Build\Bootloader\MiCOKit-3162\Obj_RVMDK\bootloader.axf --output ..\..\..\..\Build\Bootloader\Output\MiCOKit-3162\Bootloader.bin</UserProg1Name>
+            <UserProg1Name>D:\Applications\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin  ..\..\..\..\Build\Bootloader\MiCOKit-3162\Obj_RVMDK\bootloader.axf --output ..\..\..\..\Build\Bootloader\Output\MiCOKit-3162\Bootloader.bin</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -347,7 +347,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>0</Optim>
+            <Optim>4</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -365,7 +365,7 @@
               <MiscControls>--diag_suppress=1,1293</MiscControls>
               <Define>USE_STDPERIPH_DRIVER BOOTLOADER SIZE_OPTIMIZE NO_MICO_RTOS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Bootloader;..\..\..\..\include;..\..\..\..\MICO;..\..\..\..\Support;..\..\..\..\External;..\..\..\..\Board\MiCOKit-3162;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU\STM32F2xx\peripherals;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries\STM32F2xx_StdPeriph_Driver\inc;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries;..\..\..\..\Platform\Drivers\spi_flash</IncludePath>
+              <IncludePath>..\..\..\..\Bootloader;..\..\..\..\include;..\..\..\..\Board\MiCOKit-3162;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU\STM32F2xx\peripherals;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries\STM32F2xx_StdPeriph_Driver\inc;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries;..\..\..\..\Platform\Drivers\spi_flash;..\..\..\..\libraries\utilities;..\..\..\..\MICO\system;..\..\..\..\MICO\system\command_console;..\..\..\..\MICO\system\config_server;..\..\..\..\MICO\system\easylink;..\..\..\..\MICO\system\mdns;..\..\..\..\MICO\system\tftp_ota</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -449,49 +449,49 @@
               <FilePath>..\..\..\..\include\MicoAES.h</FilePath>
             </File>
             <File>
-              <FileName>MicoAlgorithm.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoAlgorithm.h</FilePath>
-            </File>
-            <File>
-              <FileName>MicoPlatform.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoPlatform.h</FilePath>
-            </File>
-            <File>
-              <FileName>MICORTOS.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MICORTOS.h</FilePath>
-            </File>
-            <File>
-              <FileName>MicoSocket.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoSocket.h</FilePath>
-            </File>
-            <File>
               <FileName>MicoSRPServer.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\include\MicoSRPServer.h</FilePath>
             </File>
             <File>
-              <FileName>MicoWlan.h</FileName>
+              <FileName>Common.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoWlan.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Support</GroupName>
-          <Files>
-            <File>
-              <FileName>StringUtils.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Support\StringUtils.c</FilePath>
+              <FilePath>..\..\..\..\include\Common.h</FilePath>
             </File>
             <File>
-              <FileName>RingBufferUtils.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Support\RingBufferUtils.c</FilePath>
+              <FileName>Debug.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\Debug.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_platform.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_platform.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_rtos.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_rtos.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_security.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_security.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_socket.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_socket.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_system.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_system.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_wlan.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_wlan.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -788,6 +788,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\STM32F2xx\peripherals\platform_watchdog.c</FilePath>
             </File>
+            <File>
+              <FileName>platform_nano_second.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Platform\MCU\STM32F2xx\peripherals\platform_nano_second.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -955,6 +960,94 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Libraries/utilities</GroupName>
+          <Files>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\CheckSumUtils.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\CheckSumUtils.h</FilePath>
+            </File>
+            <File>
+              <FileName>RingBufferUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\RingBufferUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>RingBufferUtils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\RingBufferUtils.h</FilePath>
+            </File>
+            <File>
+              <FileName>StringUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\StringUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>StringUtils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\StringUtils.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>MICO/system</GroupName>
+          <Files>
+            <File>
+              <FileName>system.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\MICO\system\system.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -965,7 +1058,7 @@
         <TargetCommonOption>
           <Device>STM32F205RGTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.1.0</PackID>
+          <PackID>Keil.STM32F2xx_DFP.2.3.0</PackID>
           <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IRAM(0x20000000,0x20000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -1031,12 +1124,12 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>C:\Keil\ARM\ARMCC\bin\fromelf.exe --bin  ..\..\..\..\Build\Bootloader\MiCOKit-F205\Obj_RVMDK\bootloader.axf --output ..\..\..\..\Build\Bootloader\Output\MiCOKit-F205\Bootloader.bin</UserProg1Name>
+            <UserProg1Name>D:\Applications\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin  ..\..\..\..\Build\Bootloader\MiCOKit-F205\Obj_RVMDK\bootloader.axf --output ..\..\..\..\Build\Bootloader\Output\MiCOKit-F205\Bootloader.bin</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
           </AfterMake>
-          <SelectedForBatchBuild>0</SelectedForBatchBuild>
+          <SelectedForBatchBuild>1</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
         </TargetCommonOption>
         <CommonProperty>
@@ -1316,7 +1409,7 @@
               <MiscControls>--diag_suppress=1,1293</MiscControls>
               <Define>USE_STDPERIPH_DRIVER BOOTLOADER NO_MICO_RTOS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Bootloader;..\..\..\..\include;..\..\..\..\MICO;..\..\..\..\Support;..\..\..\..\External;..\..\..\..\Board\MiCOKit-F205;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU\STM32F2xx\peripherals;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries\STM32F2xx_StdPeriph_Driver\inc;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries;..\..\..\..\Platform\Drivers\spi_flash</IncludePath>
+              <IncludePath>..\..\..\..\Bootloader;..\..\..\..\include;..\..\..\..\MICO\system;..\..\..\..\Board\MiCOKit-F205;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU\STM32F2xx\peripherals;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries\STM32F2xx_StdPeriph_Driver\inc;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries;..\..\..\..\Platform\Drivers\spi_flash;..\..\..\..\libraries\utilities</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1400,49 +1493,49 @@
               <FilePath>..\..\..\..\include\MicoAES.h</FilePath>
             </File>
             <File>
-              <FileName>MicoAlgorithm.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoAlgorithm.h</FilePath>
-            </File>
-            <File>
-              <FileName>MicoPlatform.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoPlatform.h</FilePath>
-            </File>
-            <File>
-              <FileName>MICORTOS.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MICORTOS.h</FilePath>
-            </File>
-            <File>
-              <FileName>MicoSocket.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoSocket.h</FilePath>
-            </File>
-            <File>
               <FileName>MicoSRPServer.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\include\MicoSRPServer.h</FilePath>
             </File>
             <File>
-              <FileName>MicoWlan.h</FileName>
+              <FileName>Common.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoWlan.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Support</GroupName>
-          <Files>
-            <File>
-              <FileName>StringUtils.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Support\StringUtils.c</FilePath>
+              <FilePath>..\..\..\..\include\Common.h</FilePath>
             </File>
             <File>
-              <FileName>RingBufferUtils.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Support\RingBufferUtils.c</FilePath>
+              <FileName>Debug.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\Debug.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_platform.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_platform.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_rtos.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_rtos.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_security.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_security.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_socket.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_socket.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_system.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_system.h</FilePath>
+            </File>
+            <File>
+              <FileName>mico_wlan.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\mico_wlan.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1679,6 +1772,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\STM32F2xx\peripherals\platform_watchdog.c</FilePath>
             </File>
+            <File>
+              <FileName>platform_nano_second.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Platform\MCU\STM32F2xx\peripherals\platform_nano_second.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1843,6 +1941,51 @@
               <FileName>stm32f2xx_wwdg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries\STM32F2xx_StdPeriph_Driver\src\stm32f2xx_wwdg.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Libraries/utilities</GroupName>
+          <Files>
+            <File>
+              <FileName>CheckSumUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\CheckSumUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>CheckSumUtils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\CheckSumUtils.h</FilePath>
+            </File>
+            <File>
+              <FileName>RingBufferUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\RingBufferUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>RingBufferUtils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\RingBufferUtils.h</FilePath>
+            </File>
+            <File>
+              <FileName>StringUtils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\StringUtils.c</FilePath>
+            </File>
+            <File>
+              <FileName>StringUtils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\StringUtils.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>MICO/system</GroupName>
+          <Files>
+            <File>
+              <FileName>system.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\MICO\system\system.h</FilePath>
             </File>
           </Files>
         </Group>

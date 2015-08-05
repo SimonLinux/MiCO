@@ -29,8 +29,7 @@
 ******************************************************************************
 */ 
 
-#include "MICORTOS.h"
-#include "MICOPlatform.h"
+#include "mico.h"
 
 #include "platform.h"
 #include "platformLogging.h"

@@ -30,7 +30,7 @@
 */ 
 
 #include "platform_peripheral.h"
-#include "MiCORtos.h"
+#include "mico.h"
 
 /******************************************************
 *                    Constants

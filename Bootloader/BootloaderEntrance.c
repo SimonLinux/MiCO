@@ -148,8 +148,9 @@ int main(void)
 
 #ifdef MICO_ENABLE_STDIO_TO_BOOT
 BOOT:
-  printf ( menu, MODEL, Bootloader_REVISION, HARDWARE_REVISION );
 #endif
+  
+  printf ( menu, MODEL, Bootloader_REVISION, HARDWARE_REVISION );
 
   while(1){                             
     Main_Menu ();

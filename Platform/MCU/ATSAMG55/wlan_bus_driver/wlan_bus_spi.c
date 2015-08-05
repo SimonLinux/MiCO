@@ -29,16 +29,12 @@
 ******************************************************************************
 */ 
 
-#include "MICORTOS.h"
 
 #include "string.h" /* for memcpy */
 #include "platform.h"
 #include "platform_peripheral.h"
 #include "platformLogging.h"
-
-#include "MicoRtos.h"
 #include "platform_config.h"
-#include "platform_peripheral.h"
 #include "wlan_platform_common.h"
 
 

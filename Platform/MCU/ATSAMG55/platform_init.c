@@ -33,11 +33,10 @@
 #include "platform_peripheral.h"
 #include "platform.h"
 #include "platform_config.h"
-#include "MicoPlatform.h"
 #include "PlatformLogging.h"
 #include <string.h> // For memcmp
 #include "crt0.h"
-#include "MicoRTOS.h"
+#include "mico_rtos.h"
 #include "platform_init.h"
 
 
@@ -78,7 +77,7 @@ extern platform_uart_t platform_uart_peripherals[];
 extern platform_uart_driver_t platform_uart_drivers[];
   
 #ifndef MICO_DISABLE_STDIO
-static const mico_uart_config_t stdio_uart_config =
+static const platform_uart_config_t stdio_uart_config =
 {
   .baud_rate    = STDIO_UART_BAUDRATE,
   .data_width   = DATA_WIDTH_8BIT,

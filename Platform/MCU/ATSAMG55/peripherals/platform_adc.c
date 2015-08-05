@@ -159,7 +159,7 @@ OSStatus platform_adc_take_sample( const platform_adc_t* adc, uint16_t* output )
   while (adc_get_interrupt_status(ADC) & (1 << adc->channel));
   
   *output = adc_channel_get_value(ADC, adc->channel);	
-  msleep(1);
+  mico_thread_msleep(1);
   adc_channel_disable(ADC, adc->channel);
   
 exit:

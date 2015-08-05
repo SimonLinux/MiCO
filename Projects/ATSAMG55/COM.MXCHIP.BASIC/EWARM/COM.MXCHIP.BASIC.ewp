@@ -60,7 +60,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>3</version>
+          <version>2</version>
           <state>5</state>
         </option>
         <option>
@@ -87,7 +87,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.4.8186</state>
+          <state>7.30.1.7765</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -343,6 +343,8 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\sam\drivers\twi</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCOKit_EXT</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\peripherals\Libraries\asf-3.22.0\sam\drivers\adc</state>
+          <state>$PROJ_DIR$\..\..\..\..\mico\system</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -652,7 +654,6 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
-        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1007,159 +1008,48 @@
     </group>
   </group>
   <group>
-    <name>External</name>
-    <group>
-      <name>Curve25519</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\Curve25519\curve25519-donna.c</name>
-      </file>
-    </group>
-    <group>
-      <name>FatFs</name>
-      <excluded>
-        <configuration>MiCOKit-G55</configuration>
-      </excluded>
-      <group>
-        <name>Core</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\diskio.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\ff.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\ff_gen_drv.c</name>
-        </file>
-      </group>
-      <group>
-        <name>Drivers</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\drivers\usbh_diskio.c</name>
-        </file>
-      </group>
-      <group>
-        <name>Options</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\option\syscall.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\External\FatFs\src\option\unicode.c</name>
-        </file>
-      </group>
-    </group>
-    <group>
-      <name>GladmanAES</name>
-      <excluded>
-        <configuration>MiCOKit-G55</configuration>
-      </excluded>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\GladmanAES\aes_modes.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\GladmanAES\aescrypt.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\GladmanAES\aeskey.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\GladmanAES\aestab.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\GladmanAES\gf128mul.c</name>
-      </file>
-    </group>
-    <group>
-      <name>JSON-C</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\arraylist.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\debug.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\json.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\json_object.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\json_tokener.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\json_util.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\linkhash.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\JSON-C\printbuf.c</name>
-      </file>
-    </group>
-    <group>
-      <name>SHAUtils</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\hkdf.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\hmac.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\sha1.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\sha224-256.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\sha384-512.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\External\SHAUtils\usha.c</name>
-      </file>
-    </group>
-  </group>
-  <group>
     <name>include</name>
     <group>
       <name>MicoDriver</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverAdc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverAdc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverGpio.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverGpio.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverI2c.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverI2c.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverMFiAuth.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverMFiAuth.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverNanoSecond.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverPwm.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverPwm.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRng.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRng.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRtc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRtc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverSpi.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverSpi.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverUART.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverUart.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverWdg.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverWdg.h</name>
       </file>
     </group>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\Debug.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\MicoAES.h</name>
@@ -1184,25 +1074,130 @@
     </file>
   </group>
   <group>
-    <name>MICO</name>
+    <name>libraries</name>
     <group>
-      <name>library</name>
+      <name>utilities</name>
+      <group>
+        <name>json_c</name>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\arraylist.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\debug.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_object.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_tokener.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\json_util.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\linkhash.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\json_c\printbuf.c</name>
+        </file>
+      </group>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\MICOConfig.c</name>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\AESUtils.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\MICO\Library\mxchipWNet_cm4f_8801.a</name>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\CheckSumUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\HTTPUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\RingBufferUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\SecurityUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\SHAUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\SocketUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\StringUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\TimeUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\TLVUtils.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\libraries\utilities\URLUtils.c</name>
       </file>
     </group>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICONotificationCenter.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOParaStorage.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\MICO\MICOSystemMonitor.c</name>
-    </file>
+  </group>
+  <group>
+    <name>mico</name>
+    <group>
+      <name>core</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\core\mico_config.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm4f_spi.a</name>
+      </file>
+    </group>
+    <group>
+      <name>security</name>
+    </group>
+    <group>
+      <name>system</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\config_server\config_server.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\config_server\config_server_menu.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\command_console\mico_cli.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mdns\mico_mdns.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_init.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_monitor.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_notification.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_para_storage.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\mico_system_power_daemon.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\system_easylink_delegate.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\system_factory_test.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\system_misc.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftp_ota.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\mico\system\tftp_ota\tftpc.o</name>
+      </file>
+    </group>
   </group>
   <group>
     <name>Platform</name>
@@ -1220,7 +1215,7 @@
       <group>
         <name>MFiAuth</name>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MiCODriverMFiAuth\MicoDriverMFiAuth.a</name>
+          <name>$PROJ_DIR$\..\..\..\..\Platform\Drivers\MicoDriverMFiAuth\MicoDriverMFiAuth.a</name>
         </file>
       </group>
       <group>
@@ -1600,9 +1595,6 @@
         <group>
           <name>wlan_bus_driver</name>
           <file>
-            <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\wlan_bus_driver\read_wifi_firmware.c</name>
-          </file>
-          <file>
             <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\ATSAMG55\wlan_bus_driver\wlan_bus_spi.c</name>
           </file>
           <file>
@@ -1620,42 +1612,6 @@
         <name>$PROJ_DIR$\..\..\..\..\Platform\MCU\wlan_platform_common.c</name>
       </file>
     </group>
-  </group>
-  <group>
-    <name>Support</name>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\AESUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\HTTPUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\MDNSUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\RingBufferUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\SecurityUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\SHAUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\SocketUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\StringUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\TimeUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\TLVUtils.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\Support\URLUtils.c</name>
-    </file>
   </group>
 </project>
 

@@ -31,9 +31,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "PlatformLogging.h"
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 #include "platform.h"
-//#include "platform_config.h"
+
 #include "stdio.h"
 #ifdef USE_MICO_SPI_FLASH
 #include "spi_flash.h"

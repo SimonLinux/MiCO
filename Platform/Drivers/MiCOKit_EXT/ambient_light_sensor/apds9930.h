@@ -68,7 +68,7 @@
 
 /*Command Value*/
 /*ENABLE reg value*/
-#define DISABLE       0x00    //Disable and Powerdown
+#define APDS9930_DISABLE       0x00    //Disable and Powerdown
 #define WEN           0x08    // Enable Wait
 #define PEN           0x04    //Enable Prox
 #define AEN           0x02    //Enable ALS

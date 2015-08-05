@@ -35,7 +35,6 @@
 
 #include "platform_config.h"
 #include "platform_init.h"
-#include "MiCORTOS.h"
 
 /******************************************************
 *                      Macros

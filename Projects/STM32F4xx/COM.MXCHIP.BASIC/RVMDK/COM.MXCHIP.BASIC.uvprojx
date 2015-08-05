@@ -407,6 +407,13 @@
       <Groups>
         <Group>
           <GroupName>Application</GroupName>
+          <Files>
+            <File>
+              <FileName>hello_world.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.BASIC\helloworld\hello_world.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Board/MiCOKit-3288</GroupName>
@@ -489,7 +496,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>include/MicoDriver</GroupName>
+          <GroupName>Include/MicoDriver</GroupName>
           <Files>
             <File>
               <FileName>MicoDriverAdc.h</FileName>
@@ -554,7 +561,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>libraries/utilities</GroupName>
+          <GroupName>Libraries/utilities</GroupName>
           <Files>
             <File>
               <FileName>AESUtils.c</FileName>
@@ -669,7 +676,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>libraries/utilities/jscon_c</GroupName>
+          <GroupName>Libraries/utilities/jscon_c</GroupName>
           <Files>
             <File>
               <FileName>arraylist.c</FileName>

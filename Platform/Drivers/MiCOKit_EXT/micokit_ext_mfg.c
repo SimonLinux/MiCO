@@ -187,7 +187,7 @@ void micokit_ext_mfg_test(mico_Context_t *inContext)
             sprintf(str, "%s BME280\r\nMoule not found!", OLED_MFG_TEST_PREFIX);
             mf_printf(str);
             // goto next mdoule
-            mico_thread_msleep(500);
+            mico_thread_sleep(1);
             mfg_test_module_number = (mfg_test_module_number+1)%(MFG_TEST_MAX_MODULE_NUM+1);
             break;
           }

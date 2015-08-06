@@ -342,7 +342,7 @@ typedef enum
 #define USE_MiCOKit_EXT
 #define USE_RGB_LED_DRIVER_P9813
 
-#ifdef USE_MiCOKit_EXT
+#ifdef USE_MiCOKit_EX
 #define MICO_I2C_CP         (Arduino_I2C)
 #else
 #define MICO_I2C_CP         (MICO_I2C_NONE)

@@ -103,8 +103,6 @@ int application_start(void)
   /* mico system initialize */
   err = mico_system_init( mico_context );
   require_noerr( err, exit );
-  
-  MicoSysLed(true);
 
   /* Bonjour for service searching */
   MICOStartBonjourService( Station, app_context );

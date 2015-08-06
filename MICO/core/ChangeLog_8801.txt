@@ -1,3 +1,7 @@
+版本号：10880002.039
+日期：2015-08-05
+1. Easylink配置超时的回调函数会在配网线程结束以后延后10ms再产生。避免了用户重复启动EasyLink导致线程控制异常的问题。
+
 版本号：10880002.038
 日期：2015-07-24
 1. Smart config的回调函数RptConfigmodeRslt会返回是什么方式配置成功的。使用network_InitTypeDef_st结构体的wifi_retry_interval返回。

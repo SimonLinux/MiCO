@@ -49,11 +49,11 @@ void fogNotify_WifiStatusHandler(WiFiEvent event, app_context_t * const inContex
   switch (event) {
   case NOTIFY_STATION_UP:
     inContext->appStatus.isWifiConnected = true;
-    MicoSysLed(true);
+    MicoRfLed(true);
     break;
   case NOTIFY_STATION_DOWN:
     inContext->appStatus.isWifiConnected = false;
-    MicoSysLed(false);
+    MicoRfLed(false);
     break;
   case NOTIFY_AP_UP:
     break;

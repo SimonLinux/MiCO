@@ -103,6 +103,8 @@ int application_start(void)
   /* mico system initialize */
   err = mico_system_init( mico_context );
   require_noerr( err, exit );
+  
+  MicoSysLed(true);
 
   /* Bonjour for service searching */
   MICOStartBonjourService( Station, app_context );
@@ -119,11 +121,11 @@ int application_start(void)
   
   if(1 ==  wifi_link_status.is_connected){
     app_context->appStatus.isWifiConnected = true;
-    MicoSysLed(true);
+    MicoRfLed(true);
   }
   else{
     app_context->appStatus.isWifiConnected = false;
-    MicoSysLed(false);
+    MicoRfLed(false);
   }
   
   /* start cloud service */

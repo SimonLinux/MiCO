@@ -573,9 +573,9 @@ exit:
 void MicoSysLed(bool onoff)
 {
   if (onoff) {
-    MicoGpioOutputHigh( (mico_gpio_t)MICO_SYS_LED );
-  } else {
     MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
+  } else {
+    MicoGpioOutputHigh( (mico_gpio_t)MICO_SYS_LED );
   }
 }
 

@@ -14,7 +14,7 @@
         <TargetCommonOption>
           <Device>STM32F205RGTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.3.0</PackID>
+          <PackID>Keil.STM32F2xx_DFP.2.1.0</PackID>
           <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IRAM(0x20000000,0x20000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -46,7 +46,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>..\..\..\..\Build\</OutputDirectory>
+          <OutputDirectory>..\..\..\..\Build\COM.MXCHIP.SPP\MiCOKit-3162\obj_RVMDK\</OutputDirectory>
           <OutputName>COM.MXCHIP.SPP.axf</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -80,7 +80,7 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>D:\Applications\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin  ..\..\..\..\Build\COM.MXCHIP.SPP\MiCOKit-3162\Obj_RVMDK\COM.MXCHIP.SPP.axf --output ..\..\..\..\Build\COM.MXCHIP.SPP\Output\MiCOKit-3162\COM.MXCHIP.SPP.bin</UserProg1Name>
+            <UserProg1Name>fromelf.exe --bin  ..\..\..\..\Build\COM.MXCHIP.SPP\MiCOKit-3162\Obj_RVMDK\COM.MXCHIP.SPP.axf --output ..\..\..\..\Build\COM.MXCHIP.SPP\Output\MiCOKit-3162\COM.MXCHIP.SPP.bin</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -147,7 +147,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>7</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -1510,7 +1510,7 @@
         <TargetCommonOption>
           <Device>STM32F205RGTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.3.0</PackID>
+          <PackID>Keil.STM32F2xx_DFP.2.1.0</PackID>
           <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IRAM(0x20000000,0x20000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -1576,7 +1576,7 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>D:\Applications\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin  ..\..\..\..\Build\COM.MXCHIP.SPP\MiCOKit-F205\Obj_RVMDK\COM.MXCHIP.SPP.axf --output ..\..\..\..\Build\COM.MXCHIP.SPP\Output\MiCOKit-F205\COM.MXCHIP.SPP.bin</UserProg1Name>
+            <UserProg1Name>fromelf.exe --bin  ..\..\..\..\Build\COM.MXCHIP.SPP\MiCOKit-F205\Obj_RVMDK\COM.MXCHIP.SPP.axf --output ..\..\..\..\Build\COM.MXCHIP.SPP\Output\MiCOKit-F205\COM.MXCHIP.SPP.bin</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -1643,7 +1643,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>7</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>

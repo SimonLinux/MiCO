@@ -46,14 +46,14 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>..\..\..\..\Build\</OutputDirectory>
-          <OutputName>COM.MXCHIP.SPP.axf</OutputName>
+          <OutputDirectory>..\..\..\..\Build\COM.MXCHIP.BASIC\MiCOKit-3162\obj_RVMDK\</OutputDirectory>
+          <OutputName>COM.MXCHIP.BASIC.axf</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
-          <ListingPath>..\..\..\..\Build\COM.MXCHIP.SPP\MiCOKit-3162\list_RVMDK\</ListingPath>
+          <ListingPath>..\..\..\..\Build\COM.MXCHIP.BASIC\MiCOKit-3162\list_RVMDK\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
           <CreateBatchFile>0</CreateBatchFile>
@@ -80,12 +80,12 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>D:\Applications\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin  ..\..\..\..\Build\COM.MXCHIP.SPP\MiCOKit-3162\Obj_RVMDK\COM.MXCHIP.SPP.axf --output ..\..\..\..\Build\COM.MXCHIP.SPP\Output\MiCOKit-3162\COM.MXCHIP.SPP.bin</UserProg1Name>
+            <UserProg1Name>D:\Applications\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin  ..\..\..\..\Build\COM.MXCHIP.BASIC\MiCOKit-3162\Obj_RVMDK\COM.MXCHIP.BASIC.axf --output ..\..\..\..\Build\COM.MXCHIP.BASIC\Output\MiCOKit-3162\COM.MXCHIP.BASIC.bin</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
           </AfterMake>
-          <SelectedForBatchBuild>1</SelectedForBatchBuild>
+          <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
         </TargetCommonOption>
         <CommonProperty>
@@ -365,7 +365,7 @@
               <MiscControls>--diag_suppress=1,1293</MiscControls>
               <Define>USE_STDPERIPH_DRIVER DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Demos\COM.MXCHIP.SPP;..\..\..\..\Board\MiCOKit-3162;..\..\..\..\include;..\..\..\..\include\MicoDrivers;..\..\..\..\libraries\utilities;..\..\..\..\libraries\utilities\json_c;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU\STM32F2xx\peripherals;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries\STM32F2xx_StdPeriph_Driver\inc;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries;..\..\..\..\Platform\Drivers\spi_flash;..\..\..\..\MICO\core;..\..\..\..\MICO\security;..\..\..\..\MICO\system</IncludePath>
+              <IncludePath>..\..\..\..\Demos\COM.MXCHIP.BASIC;..\..\..\..\Board\MiCOKit-3162;..\..\..\..\include;..\..\..\..\include\MicoDrivers;..\..\..\..\libraries\utilities;..\..\..\..\libraries\utilities\json_c;..\..\..\..\MICO\core;..\..\..\..\MICO\security;..\..\..\..\MICO\system;..\..\..\..\MICO\system\command_console;..\..\..\..\MICO\system\config_server;..\..\..\..\MICO\system\easylink;..\..\..\..\MICO\system\mdns;..\..\..\..\MICO\system\tftp_ota;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU;..\..\..\..\Platform\MCU\STM32F2xx\peripherals;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries\STM32F2xx_StdPeriph_Driver\inc;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries;..\..\..\..\Platform\Drivers\spi_flash</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -409,44 +409,9 @@
           <GroupName>Application</GroupName>
           <Files>
             <File>
-              <FileName>LocalTcpServer.c</FileName>
+              <FileName>hello_world.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\LocalTcpServer.c</FilePath>
-            </File>
-            <File>
-              <FileName>MICOAppEntrance.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppEntrance.c</FilePath>
-            </File>
-            <File>
-              <FileName>MICOBonjour.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\MICOBonjour.c</FilePath>
-            </File>
-            <File>
-              <FileName>MICOConfigDelegate.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\MICOConfigDelegate.c</FilePath>
-            </File>
-            <File>
-              <FileName>RemoteTcpClient.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\RemoteTcpClient.c</FilePath>
-            </File>
-            <File>
-              <FileName>SppProtocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\SppProtocol.c</FilePath>
-            </File>
-            <File>
-              <FileName>UartRecv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\UartRecv.c</FilePath>
-            </File>
-            <File>
-              <FileName>MICOAppDefine.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppDefine.h</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.BASIC\helloworld\hello_world.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -537,6 +502,49 @@
               <FileName>platform.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Board\MiCOKit-F205\platform.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>platform.h</FileName>
@@ -554,6 +562,21 @@
           <GroupName>Include</GroupName>
           <Files>
             <File>
+              <FileName>MICO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\MICO.h</FilePath>
+            </File>
+            <File>
+              <FileName>MicoAES.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\MicoAES.h</FilePath>
+            </File>
+            <File>
+              <FileName>MicoSRPServer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\MicoSRPServer.h</FilePath>
+            </File>
+            <File>
               <FileName>Common.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\include\Common.h</FilePath>
@@ -562,11 +585,6 @@
               <FileName>Debug.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\include\Debug.h</FilePath>
-            </File>
-            <File>
-              <FileName>MICO.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MICO.h</FilePath>
             </File>
             <File>
               <FileName>mico_platform.h</FileName>
@@ -597,16 +615,6 @@
               <FileName>mico_wlan.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\include\mico_wlan.h</FilePath>
-            </File>
-            <File>
-              <FileName>MicoAES.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoAES.h</FilePath>
-            </File>
-            <File>
-              <FileName>MicoSRPServer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoSRPServer.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -684,19 +692,9 @@
               <FilePath>..\..\..\..\libraries\utilities\AESUtils.c</FilePath>
             </File>
             <File>
-              <FileName>AESUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\AESUtils.h</FilePath>
-            </File>
-            <File>
               <FileName>CheckSumUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\CheckSumUtils.c</FilePath>
-            </File>
-            <File>
-              <FileName>CheckSumUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\CheckSumUtils.h</FilePath>
             </File>
             <File>
               <FileName>HTTPUtils.c</FileName>
@@ -704,19 +702,9 @@
               <FilePath>..\..\..\..\libraries\utilities\HTTPUtils.c</FilePath>
             </File>
             <File>
-              <FileName>HTTPUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\HTTPUtils.h</FilePath>
-            </File>
-            <File>
               <FileName>RingBufferUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\RingBufferUtils.c</FilePath>
-            </File>
-            <File>
-              <FileName>RingBufferUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\RingBufferUtils.h</FilePath>
             </File>
             <File>
               <FileName>SecurityUtils.c</FileName>
@@ -724,19 +712,9 @@
               <FilePath>..\..\..\..\libraries\utilities\SecurityUtils.c</FilePath>
             </File>
             <File>
-              <FileName>SecurityUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\SecurityUtils.h</FilePath>
-            </File>
-            <File>
               <FileName>SHAUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\SHAUtils.c</FilePath>
-            </File>
-            <File>
-              <FileName>SHAUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\SHAUtils.h</FilePath>
             </File>
             <File>
               <FileName>SocketUtils.c</FileName>
@@ -744,19 +722,9 @@
               <FilePath>..\..\..\..\libraries\utilities\SocketUtils.c</FilePath>
             </File>
             <File>
-              <FileName>SocketUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\SocketUtils.h</FilePath>
-            </File>
-            <File>
               <FileName>StringUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\StringUtils.c</FilePath>
-            </File>
-            <File>
-              <FileName>StringUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\StringUtils.h</FilePath>
             </File>
             <File>
               <FileName>TimeUtils.c</FileName>
@@ -764,40 +732,20 @@
               <FilePath>..\..\..\..\libraries\utilities\TimeUtils.c</FilePath>
             </File>
             <File>
-              <FileName>TimeUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\TimeUtils.h</FilePath>
-            </File>
-            <File>
               <FileName>TLVUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\TLVUtils.c</FilePath>
-            </File>
-            <File>
-              <FileName>TLVUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\TLVUtils.h</FilePath>
             </File>
             <File>
               <FileName>URLUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\URLUtils.c</FilePath>
             </File>
-            <File>
-              <FileName>URLUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\URLUtils.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Libraries/utilities/jscon_c</GroupName>
           <Files>
-            <File>
-              <FileName>arraylist.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\arraylist.c</FilePath>
-            </File>
             <File>
               <FileName>arraylist.h</FileName>
               <FileType>5</FileType>
@@ -812,11 +760,6 @@
               <FileName>config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\libraries\utilities\json_c\config.h</FilePath>
-            </File>
-            <File>
-              <FileName>debug.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\debug.c</FilePath>
             </File>
             <File>
               <FileName>debug.h</FileName>
@@ -834,11 +777,6 @@
               <FilePath>..\..\..\..\libraries\utilities\json_c\json_inttypes.h</FilePath>
             </File>
             <File>
-              <FileName>json_object.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\json_object.c</FilePath>
-            </File>
-            <File>
               <FileName>json_object.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\libraries\utilities\json_c\json_object.h</FilePath>
@@ -849,19 +787,9 @@
               <FilePath>..\..\..\..\libraries\utilities\json_c\json_object_private.h</FilePath>
             </File>
             <File>
-              <FileName>json_tokener.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\json_tokener.c</FilePath>
-            </File>
-            <File>
               <FileName>json_tokener.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\libraries\utilities\json_c\json_tokener.h</FilePath>
-            </File>
-            <File>
-              <FileName>json_util.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\json_util.c</FilePath>
             </File>
             <File>
               <FileName>json_util.h</FileName>
@@ -869,24 +797,49 @@
               <FilePath>..\..\..\..\libraries\utilities\json_c\json_util.h</FilePath>
             </File>
             <File>
-              <FileName>linkhash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\linkhash.c</FilePath>
-            </File>
-            <File>
               <FileName>linkhash.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\libraries\utilities\json_c\linkhash.h</FilePath>
             </File>
             <File>
-              <FileName>printbuf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\printbuf.c</FilePath>
-            </File>
-            <File>
               <FileName>printbuf.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\libraries\utilities\json_c\printbuf.h</FilePath>
+            </File>
+            <File>
+              <FileName>arraylist.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\arraylist.c</FilePath>
+            </File>
+            <File>
+              <FileName>debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>json_object.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\json_object.c</FilePath>
+            </File>
+            <File>
+              <FileName>json_tokener.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\json_tokener.c</FilePath>
+            </File>
+            <File>
+              <FileName>json_util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\json_util.c</FilePath>
+            </File>
+            <File>
+              <FileName>linkhash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\linkhash.c</FilePath>
+            </File>
+            <File>
+              <FileName>printbuf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\printbuf.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -897,6 +850,30 @@
               <FileName>mico_config.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\core\mico_config.c</FilePath>
+            </File>
+            <File>
+              <FileName>mxchipWNet_cm3_sdio.a</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\..\..\MICO\core\mxchipWNet_cm3_sdio.a</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds/>
+              </FileOption>
             </File>
             <File>
               <FileName>mxchipWNet_cm3_8801.a</FileName>
@@ -921,11 +898,6 @@
                 </CommonProperty>
                 <FileArmAds/>
               </FileOption>
-            </File>
-            <File>
-              <FileName>mxchipWNet_cm3_sdio.a</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\..\MICO\core\mxchipWNet_cm3_sdio.a</FilePath>
             </File>
             <File>
               <FileName>mxchipWNet_cm3_spi.a</FileName>
@@ -1059,6 +1031,25 @@
               <FileName>MFi_WAC_CM3_Release.a</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\..\MICO\system\easylink\MFi_WAC_CM3_Release.a</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds/>
+              </FileOption>
             </File>
             <File>
               <FileName>system_easylink.c</FileName>
@@ -1086,11 +1077,6 @@
               <FilePath>..\..\..\..\MICO\system\mdns\mico_mdns.h</FilePath>
             </File>
             <File>
-              <FileName>tftp.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\MICO\system\tftp_ota\tftp.h</FilePath>
-            </File>
-            <File>
               <FileName>tftp_ota.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\system\tftp_ota\tftp_ota.c</FilePath>
@@ -1104,6 +1090,11 @@
               <FileName>tftpc.o</FileName>
               <FileType>3</FileType>
               <FilePath>..\..\..\..\MICO\system\tftp_ota\tftpc.o</FilePath>
+            </File>
+            <File>
+              <FileName>tftp.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\MICO\system\tftp_ota\tftp.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1546,7 +1537,7 @@
           <OutputName>COM.MXCHIP.SPP.axf</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>..\..\..\..\Build\COM.MXCHIP.SPP\MiCOKit-F205\list_RVMDK\</ListingPath>
@@ -1581,7 +1572,7 @@
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
           </AfterMake>
-          <SelectedForBatchBuild>0</SelectedForBatchBuild>
+          <SelectedForBatchBuild>1</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
         </TargetCommonOption>
         <CommonProperty>
@@ -1861,7 +1852,7 @@
               <MiscControls>--diag_suppress=1,1293</MiscControls>
               <Define>USE_STDPERIPH_DRIVER DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Demos\COM.MXCHIP.SPP;..\..\..\..\include;..\..\..\..\include\MicoDrivers;..\..\..\..\libraries\utilities;..\..\..\..\libraries\utilities\json_c;..\..\..\..\Board\MiCOKit-F205;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\Drivers\spi_flash;..\..\..\..\Platform\MCU\STM32F2xx\peripherals;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries\STM32F2xx_StdPeriph_Driver\inc;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries;..\..\..\..\MICO\core;..\..\..\..\MICO\security;..\..\..\..\MICO\system</IncludePath>
+              <IncludePath>..\..\..\..\Demos\COM.MXCHIP.SPP;..\..\..\..\include;..\..\..\..\include\MicoDrivers;..\..\..\..\libraries\utilities;..\..\..\..\libraries\utilities\json_c;..\..\..\..\Board\MiCOKit-F205;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\Drivers\spi_flash;..\..\..\..\Platform\MCU\STM32F2xx\peripherals;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries\STM32F2xx_StdPeriph_Driver\inc;..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries;..\..\..\..\MICO\core;..\..\..\..\MICO\security;..\..\..\..\MICO\system;..\..\..\..\MICO\system\command_console;..\..\..\..\MICO\system\config_server;..\..\..\..\MICO\system\easylink;..\..\..\..\MICO\system\mdns;..\..\..\..\MICO\system\tftp_ota</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1905,44 +1896,9 @@
           <GroupName>Application</GroupName>
           <Files>
             <File>
-              <FileName>LocalTcpServer.c</FileName>
+              <FileName>hello_world.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\LocalTcpServer.c</FilePath>
-            </File>
-            <File>
-              <FileName>MICOAppEntrance.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppEntrance.c</FilePath>
-            </File>
-            <File>
-              <FileName>MICOBonjour.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\MICOBonjour.c</FilePath>
-            </File>
-            <File>
-              <FileName>MICOConfigDelegate.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\MICOConfigDelegate.c</FilePath>
-            </File>
-            <File>
-              <FileName>RemoteTcpClient.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\RemoteTcpClient.c</FilePath>
-            </File>
-            <File>
-              <FileName>SppProtocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\SppProtocol.c</FilePath>
-            </File>
-            <File>
-              <FileName>UartRecv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\UartRecv.c</FilePath>
-            </File>
-            <File>
-              <FileName>MICOAppDefine.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppDefine.h</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.BASIC\helloworld\hello_world.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2050,6 +2006,21 @@
           <GroupName>Include</GroupName>
           <Files>
             <File>
+              <FileName>MICO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\MICO.h</FilePath>
+            </File>
+            <File>
+              <FileName>MicoAES.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\MicoAES.h</FilePath>
+            </File>
+            <File>
+              <FileName>MicoSRPServer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\include\MicoSRPServer.h</FilePath>
+            </File>
+            <File>
               <FileName>Common.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\include\Common.h</FilePath>
@@ -2058,11 +2029,6 @@
               <FileName>Debug.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\include\Debug.h</FilePath>
-            </File>
-            <File>
-              <FileName>MICO.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MICO.h</FilePath>
             </File>
             <File>
               <FileName>mico_platform.h</FileName>
@@ -2093,16 +2059,6 @@
               <FileName>mico_wlan.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\include\mico_wlan.h</FilePath>
-            </File>
-            <File>
-              <FileName>MicoAES.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoAES.h</FilePath>
-            </File>
-            <File>
-              <FileName>MicoSRPServer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\include\MicoSRPServer.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2180,19 +2136,9 @@
               <FilePath>..\..\..\..\libraries\utilities\AESUtils.c</FilePath>
             </File>
             <File>
-              <FileName>AESUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\AESUtils.h</FilePath>
-            </File>
-            <File>
               <FileName>CheckSumUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\CheckSumUtils.c</FilePath>
-            </File>
-            <File>
-              <FileName>CheckSumUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\CheckSumUtils.h</FilePath>
             </File>
             <File>
               <FileName>HTTPUtils.c</FileName>
@@ -2200,19 +2146,9 @@
               <FilePath>..\..\..\..\libraries\utilities\HTTPUtils.c</FilePath>
             </File>
             <File>
-              <FileName>HTTPUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\HTTPUtils.h</FilePath>
-            </File>
-            <File>
               <FileName>RingBufferUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\RingBufferUtils.c</FilePath>
-            </File>
-            <File>
-              <FileName>RingBufferUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\RingBufferUtils.h</FilePath>
             </File>
             <File>
               <FileName>SecurityUtils.c</FileName>
@@ -2220,19 +2156,9 @@
               <FilePath>..\..\..\..\libraries\utilities\SecurityUtils.c</FilePath>
             </File>
             <File>
-              <FileName>SecurityUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\SecurityUtils.h</FilePath>
-            </File>
-            <File>
               <FileName>SHAUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\SHAUtils.c</FilePath>
-            </File>
-            <File>
-              <FileName>SHAUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\SHAUtils.h</FilePath>
             </File>
             <File>
               <FileName>SocketUtils.c</FileName>
@@ -2240,19 +2166,9 @@
               <FilePath>..\..\..\..\libraries\utilities\SocketUtils.c</FilePath>
             </File>
             <File>
-              <FileName>SocketUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\SocketUtils.h</FilePath>
-            </File>
-            <File>
               <FileName>StringUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\StringUtils.c</FilePath>
-            </File>
-            <File>
-              <FileName>StringUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\StringUtils.h</FilePath>
             </File>
             <File>
               <FileName>TimeUtils.c</FileName>
@@ -2260,40 +2176,20 @@
               <FilePath>..\..\..\..\libraries\utilities\TimeUtils.c</FilePath>
             </File>
             <File>
-              <FileName>TimeUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\TimeUtils.h</FilePath>
-            </File>
-            <File>
               <FileName>TLVUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\TLVUtils.c</FilePath>
-            </File>
-            <File>
-              <FileName>TLVUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\TLVUtils.h</FilePath>
             </File>
             <File>
               <FileName>URLUtils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libraries\utilities\URLUtils.c</FilePath>
             </File>
-            <File>
-              <FileName>URLUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\URLUtils.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Libraries/utilities/jscon_c</GroupName>
           <Files>
-            <File>
-              <FileName>arraylist.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\arraylist.c</FilePath>
-            </File>
             <File>
               <FileName>arraylist.h</FileName>
               <FileType>5</FileType>
@@ -2308,11 +2204,6 @@
               <FileName>config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\libraries\utilities\json_c\config.h</FilePath>
-            </File>
-            <File>
-              <FileName>debug.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\debug.c</FilePath>
             </File>
             <File>
               <FileName>debug.h</FileName>
@@ -2330,11 +2221,6 @@
               <FilePath>..\..\..\..\libraries\utilities\json_c\json_inttypes.h</FilePath>
             </File>
             <File>
-              <FileName>json_object.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\json_object.c</FilePath>
-            </File>
-            <File>
               <FileName>json_object.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\libraries\utilities\json_c\json_object.h</FilePath>
@@ -2345,19 +2231,9 @@
               <FilePath>..\..\..\..\libraries\utilities\json_c\json_object_private.h</FilePath>
             </File>
             <File>
-              <FileName>json_tokener.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\json_tokener.c</FilePath>
-            </File>
-            <File>
               <FileName>json_tokener.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\libraries\utilities\json_c\json_tokener.h</FilePath>
-            </File>
-            <File>
-              <FileName>json_util.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\json_util.c</FilePath>
             </File>
             <File>
               <FileName>json_util.h</FileName>
@@ -2365,24 +2241,49 @@
               <FilePath>..\..\..\..\libraries\utilities\json_c\json_util.h</FilePath>
             </File>
             <File>
-              <FileName>linkhash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\linkhash.c</FilePath>
-            </File>
-            <File>
               <FileName>linkhash.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\libraries\utilities\json_c\linkhash.h</FilePath>
             </File>
             <File>
-              <FileName>printbuf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\libraries\utilities\json_c\printbuf.c</FilePath>
-            </File>
-            <File>
               <FileName>printbuf.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\libraries\utilities\json_c\printbuf.h</FilePath>
+            </File>
+            <File>
+              <FileName>arraylist.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\arraylist.c</FilePath>
+            </File>
+            <File>
+              <FileName>debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>json_object.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\json_object.c</FilePath>
+            </File>
+            <File>
+              <FileName>json_tokener.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\json_tokener.c</FilePath>
+            </File>
+            <File>
+              <FileName>json_util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\json_util.c</FilePath>
+            </File>
+            <File>
+              <FileName>linkhash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\linkhash.c</FilePath>
+            </File>
+            <File>
+              <FileName>printbuf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libraries\utilities\json_c\printbuf.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2395,9 +2296,9 @@
               <FilePath>..\..\..\..\MICO\core\mico_config.c</FilePath>
             </File>
             <File>
-              <FileName>mxchipWNet_cm3_8801.a</FileName>
+              <FileName>mxchipWNet_cm3_sdio.a</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\MICO\core\mxchipWNet_cm3_8801.a</FilePath>
+              <FilePath>..\..\..\..\MICO\core\mxchipWNet_cm3_sdio.a</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -2419,9 +2320,9 @@
               </FileOption>
             </File>
             <File>
-              <FileName>mxchipWNet_cm3_sdio.a</FileName>
+              <FileName>mxchipWNet_cm3_8801.a</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\MICO\core\mxchipWNet_cm3_sdio.a</FilePath>
+              <FilePath>..\..\..\..\MICO\core\mxchipWNet_cm3_8801.a</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -2531,49 +2432,11 @@
               <FileName>MFi_WAC_CM3_Debug.a</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\..\MICO\system\easylink\MFi_WAC_CM3_Debug.a</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds/>
-              </FileOption>
             </File>
             <File>
               <FileName>MFi_WAC_CM3_Release.a</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\..\MICO\system\easylink\MFi_WAC_CM3_Release.a</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds/>
-              </FileOption>
             </File>
             <File>
               <FileName>system_easylink.c</FileName>
@@ -2601,11 +2464,6 @@
               <FilePath>..\..\..\..\MICO\system\mdns\mico_mdns.h</FilePath>
             </File>
             <File>
-              <FileName>tftp.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\MICO\system\tftp_ota\tftp.h</FilePath>
-            </File>
-            <File>
               <FileName>tftp_ota.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\MICO\system\tftp_ota\tftp_ota.c</FilePath>
@@ -2619,6 +2477,11 @@
               <FileName>tftpc.o</FileName>
               <FileType>3</FileType>
               <FilePath>..\..\..\..\MICO\system\tftp_ota\tftpc.o</FilePath>
+            </File>
+            <File>
+              <FileName>tftp.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\MICO\system\tftp_ota\tftp.h</FilePath>
             </File>
           </Files>
         </Group>

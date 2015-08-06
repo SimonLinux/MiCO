@@ -178,7 +178,7 @@
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_Humiture\AppFramework\fogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_Humiture\AppFramework\fogcloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_Humiture\AppFramework\fogCloud.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_Humiture\AppFramework\MiCOAppDefine.h</name>
@@ -191,9 +191,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_Humiture\AppFramework\MICOConfigDelegate.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_Humiture\AppFramework\MicoDefaults.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\Cloud_RGB_Humiture\AppFramework\MicoFogCloud.c</name>

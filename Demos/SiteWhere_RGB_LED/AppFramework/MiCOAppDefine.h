@@ -25,7 +25,6 @@
 
 #include "mico.h"
 #include "user_config.h"
-#include "MiCOFogCloudDef.h"
 
 
 /*******************************************************************************
@@ -113,14 +112,12 @@ typedef struct
   uint32_t          configDataVer;        // config param update number
   uint32_t          bonjourServicePort;   // for bonjour service port
 
-  fogcloud_config_t fogcloudConfig;       // fogcloud settings
 } application_config_t;
 
 /* Running status */
 typedef struct _current_app_status_t {
   volatile bool     noOTACheckOnSystemStart;  // indacate for not OTA check after configed
   volatile bool     isWifiConnected;      // wifi station connect status
-  fogcloud_status_t fogcloudStatus;       // fogcloud status
 } current_app_status_t;
 
 typedef struct _app_context_t

@@ -1943,9 +1943,6 @@
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MICOConfigDelegate.c</name>
       </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MicoDefaults.h</name>
-      </file>
     </group>
     <group>
       <name>SiteWhere</name>

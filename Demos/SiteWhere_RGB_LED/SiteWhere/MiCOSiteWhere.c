@@ -33,7 +33,7 @@ operation
 /*******************************************************************************
  *                                  DEFINES
  ******************************************************************************/
-
+#define STACK_SIZE_SITEWHERE_MAIN_THREAD    0x800
 
 /*******************************************************************************
  *                                  VARIABLES
@@ -165,7 +165,7 @@ OSStatus MiCOStartSiteWhereService(app_context_t* const inContext)
   //------------------------------------------------------------------------
   
   err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "sitewhere", 
-                                sitewhere_main_thread, STACK_SIZE_FOGCLOUD_MAIN_THREAD, 
+                                sitewhere_main_thread, STACK_SIZE_SITEWHERE_MAIN_THREAD, 
                                 inContext );
   require_noerr_action( err, exit, sitewhere_log("ERROR: Unable to start sitewhere thread.") );
   

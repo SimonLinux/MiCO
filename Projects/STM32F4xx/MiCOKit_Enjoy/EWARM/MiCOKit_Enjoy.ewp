@@ -1933,7 +1933,7 @@
         <name>$PROJ_DIR$\..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\fogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\fogcloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\fogCloud.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\fogcloud_msg_dispatch.c</name>
@@ -1954,13 +1954,10 @@
         <name>$PROJ_DIR$\..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MICOConfigDelegate.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MicoDefaults.h</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MicoFogCloud.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MiCOFogCloud.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MicoFogCloud.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MicoFogCloudConfigServer.c</name>

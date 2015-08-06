@@ -24,7 +24,6 @@
 #include "MiCOAppDefine.h"
 #include "json_c/json.h"
 #include "StringUtils.h"
-#include "MiCOFogCloud.h"
 
 #ifdef USE_MiCOKit_EXT
 #include "micokit_ext.h"   // extension board operation by user.
@@ -162,28 +161,27 @@ void mico_system_delegate_config_will_start( void )
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    ssid/key    ");
 #endif
   
-  //mico_context->appStatus.noOTACheckOnSystemStart = true;
   return;
 }
 
 void mico_system_delegate_config_will_stop( void )
 {
   config_delegate_log_trace();
-//#ifdef USE_MiCOKit_EXT
-//  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
-//#endif
-//
+#ifdef USE_MiCOKit_EXT
+  char oled_show_line[OLED_DISPLAY_MAX_CHAR_PER_ROW+1] = {'\0'};
+#endif
+
   mico_stop_timer(&_Led_EL_timer);
   mico_deinit_timer( &_Led_EL_timer );
   MicoGpioOutputHigh((mico_gpio_t)MICO_SYS_LED);
-//  
-//#ifdef USE_MiCOKit_EXT
-//  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
-//  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Config          ");
-//  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
-//  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "    Stop.       ");
-//  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
-//#endif
+  
+#ifdef USE_MiCOKit_EXT
+  memset(oled_show_line, '\0', OLED_DISPLAY_MAX_CHAR_PER_ROW+1);
+  snprintf(oled_show_line, OLED_DISPLAY_MAX_CHAR_PER_ROW+1, "%s", (uint8_t*)"Config          ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, (uint8_t*)oled_show_line);
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "    Stop.       ");
+  OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");
+#endif
   
   return;
 }
@@ -258,30 +256,6 @@ USED void config_server_delegate_report( json_object *app_menu, mico_Context_t *
   // bonjourt service port
   err = config_server_create_number_cell(app_menu, "BonjourPort", appConfig->bonjourServicePort, "RW", NULL);
   require_noerr(err, exit);
-  // activate status
-  err = config_server_create_bool_cell(app_menu, "Activated", appConfig->fogcloudConfig.isActivated, "RO");
-  require_noerr(err, exit);
-  // owner binding status
-  err = config_server_create_bool_cell(app_menu, "OwnerBinding", appConfig->fogcloudConfig.owner_binding, "RO");
-  require_noerr(err, exit);
-  // loginID
-  err = config_server_create_string_cell(app_menu, "loginID", appConfig->fogcloudConfig.loginId, "RW", NULL);
-  require_noerr(err, exit);
-  // login passwd
-  err = config_server_create_string_cell(app_menu, "loginPasswd", appConfig->fogcloudConfig.devPasswd, "RW", NULL);
-  require_noerr(err, exit);
-  // user_token
-  err = config_server_create_string_cell(app_menu, "userToken", appConfig->fogcloudConfig.userToken, "RW", NULL);
-  require_noerr(err, exit);
-  // rom version
-  err = config_server_create_string_cell(app_menu, "RomVersion", appConfig->fogcloudConfig.romVersion, "RW", NULL);
-  require_noerr(err, exit);
-  // device id
-  err = config_server_create_string_cell(app_menu, "deviceID", appConfig->fogcloudConfig.deviceId, "RW", NULL);
-  require_noerr(err, exit);
-  // device secret
-  err = config_server_create_string_cell(app_menu, "deviceSec", appConfig->fogcloudConfig.masterDeviceKey, "RW", NULL);
-  require_noerr(err, exit);
   
 exit:
   return;
@@ -298,142 +272,6 @@ USED void config_server_delegate_recv( const char *key, json_object *value, bool
   }else if(!strcmp(key, "BonjourPort")){
     appConfig->bonjourServicePort = json_object_get_int(value);
     *need_reboot = true;
-  }else if(!strcmp(key, "loginId")){
-    strncpy(appConfig->fogcloudConfig.loginId, json_object_get_string(value), MAX_SIZE_LOGIN_ID);
-    *need_reboot = true;
-  } else if(!strcmp(key, "loginPasswd")){
-    strncpy(appConfig->fogcloudConfig.devPasswd, json_object_get_string(value), MAX_SIZE_DEV_PASSWD);
-    *need_reboot = true;
-  } else if(!strcmp(key, "userToken")){
-    strncpy(appConfig->fogcloudConfig.userToken, json_object_get_string(value), MAX_SIZE_USER_TOKEN);
-    *need_reboot = true;
   }else{
   }
-}
-
-/*******************************************************************************
- * get json data of fogcloud local tcp request 
- * for device state/activate/authorize/reset/ota
- ******************************************************************************/
-OSStatus getMVDActivateRequestData(const char *input, MVDActivateRequestData_t *activateData)
-{
-  OSStatus err = kUnknownErr;
-  json_object *new_obj;
-  config_delegate_log_trace();
-  new_obj = json_tokener_parse(input);
-  require_action(new_obj, exit, err = kUnknownErr);
-  config_delegate_log("Recv activate object=%s", json_object_to_json_string(new_obj));
-  json_object_object_foreach(new_obj, key, val) {
-    if(!strcmp(key, "login_id")){
-      strncpy(activateData->loginId, json_object_get_string(val), MAX_SIZE_LOGIN_ID);
-    }
-    else if(!strcmp(key, "dev_passwd")){
-      strncpy(activateData->devPasswd, json_object_get_string(val), MAX_SIZE_DEV_PASSWD);
-    }
-    else if(!strcmp(key, "user_token")){
-      strncpy(activateData->user_token, json_object_get_string(val), MAX_SIZE_USER_TOKEN);
-    }
-  }
-  json_object_put(new_obj);
-  err = kNoErr;
-exit:
-  return err;
-}
-
-OSStatus getMVDAuthorizeRequestData(const char *input, MVDAuthorizeRequestData_t *authorizeData)
-{
-  OSStatus err = kUnknownErr;
-  json_object *new_obj;
-  config_delegate_log_trace();
-  new_obj = json_tokener_parse(input);
-  require_action(new_obj, exit, err = kUnknownErr);
-  config_delegate_log("Recv authorize object=%s", json_object_to_json_string(new_obj));
-  json_object_object_foreach(new_obj, key, val) {
-    if(!strcmp(key, "login_id")){
-      strncpy(authorizeData->loginId, json_object_get_string(val), MAX_SIZE_LOGIN_ID);
-    }
-    else if(!strcmp(key, "dev_passwd")){
-      strncpy(authorizeData->devPasswd, json_object_get_string(val), MAX_SIZE_DEV_PASSWD);
-    }
-    else if(!strcmp(key, "user_token")){
-      strncpy(authorizeData->user_token, json_object_get_string(val), MAX_SIZE_USER_TOKEN);
-    }
-  }
-  json_object_put(new_obj);
-  err = kNoErr;
-exit:
-  return err;
-}
-
-OSStatus getMVDResetRequestData(const char *input, MVDResetRequestData_t *devResetData)
-{
-  OSStatus err = kUnknownErr;
-  json_object *new_obj;
-  config_delegate_log_trace();
-  new_obj = json_tokener_parse(input);
-  require_action(new_obj, exit, err = kUnknownErr);
-  config_delegate_log("Recv devReset object=%s", json_object_to_json_string(new_obj));
-  json_object_object_foreach(new_obj, key, val) {
-    if(!strcmp(key, "login_id")){
-      strncpy(devResetData->loginId, json_object_get_string(val), MAX_SIZE_LOGIN_ID);
-    }
-    else if(!strcmp(key, "dev_passwd")){
-      strncpy(devResetData->devPasswd, json_object_get_string(val), MAX_SIZE_DEV_PASSWD);
-    }
-    else {
-    }
-  }
-  json_object_put(new_obj);
-  err = kNoErr;
-exit:
-  return err;
-}
-
-OSStatus getMVDOTARequestData(const char *input, MVDOTARequestData_t *OTAData)
-{
-  OSStatus err = kUnknownErr;
-  json_object *new_obj;
-  config_delegate_log_trace();
-  new_obj = json_tokener_parse(input);
-  require_action(new_obj, exit, err = kUnknownErr);
-  config_delegate_log("Recv OTA request object=%s", json_object_to_json_string(new_obj));
-  json_object_object_foreach(new_obj, key, val) {
-    if(!strcmp(key, "login_id")){
-      strncpy(OTAData->loginId, json_object_get_string(val), MAX_SIZE_LOGIN_ID);
-    }
-    else if(!strcmp(key, "dev_passwd")){
-      strncpy(OTAData->devPasswd, json_object_get_string(val), MAX_SIZE_DEV_PASSWD);
-    }
-    else {
-    }
-  }
-  json_object_put(new_obj);
-  err = kNoErr;
-exit:
-  return err;
-}
-
-OSStatus getMVDGetStateRequestData(const char *input, MVDGetStateRequestData_t *devGetStateData)
-{
-  OSStatus err = kUnknownErr;
-  json_object *new_obj;
-  config_delegate_log_trace();
-  new_obj = json_tokener_parse(input);
-  require_action(new_obj, exit, err = kUnknownErr);
-  config_delegate_log("Recv activate object=%s", json_object_to_json_string(new_obj));
-  json_object_object_foreach(new_obj, key, val) {
-    if(!strcmp(key, "login_id")){
-      strncpy(devGetStateData->loginId, json_object_get_string(val), MAX_SIZE_LOGIN_ID);
-    }
-    else if(!strcmp(key, "dev_passwd")){
-      strncpy(devGetStateData->devPasswd, json_object_get_string(val), MAX_SIZE_DEV_PASSWD);
-    }
-    else if(!strcmp(key, "user_token")){
-      strncpy(devGetStateData->user_token, json_object_get_string(val), MAX_SIZE_USER_TOKEN);
-    }
-  }
-  json_object_put(new_obj);
-  err = kNoErr;
-exit:
-  return err;
 }

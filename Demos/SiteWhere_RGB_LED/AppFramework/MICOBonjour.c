@@ -64,9 +64,9 @@ OSStatus MICOStartBonjourService( WiFi_Interface interface, app_context_t * cons
   sprintf(temp_txt, "MAC=%s.", temp_txt2);
   free(temp_txt2);
   
-  temp_txt2 = __strdup_trans_dot((inContext->appConfig->fogcloudConfig.owner_binding) ? "true" : "false");
-  sprintf(temp_txt, "%sBinding=%s.", temp_txt, temp_txt2);
-  free(temp_txt2);
+//  temp_txt2 = __strdup_trans_dot("MiCOKit_default_id");
+//  sprintf(temp_txt, "%sHardware ID=%s.", temp_txt, temp_txt2);
+//  free(temp_txt2);
 
   temp_txt2 = __strdup_trans_dot(FIRMWARE_REVISION);
   sprintf(temp_txt, "%sFirmware Rev=%s.", temp_txt, temp_txt2);

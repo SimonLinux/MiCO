@@ -24,6 +24,7 @@ operation
 #include "mico.h"
 #include "MiCOSiteWhere.h"
 #include "custom.h"
+#include "StringUtils.h"
 
 #define sitewhere_log(M, ...) custom_log("MiCO SiteWhere", M, ##__VA_ARGS__)
 #define sitewhere_log_trace() custom_log_trace("MiCO SiteWhere")
@@ -90,6 +91,9 @@ OSStatus MiCOStartSiteWhereService(app_context_t* const inContext)
 {
   OSStatus err = kUnknownErr;
   
+    char *bonjour_txt_record = NULL;
+  char *bonjour_txt_field = NULL;
+  
   err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)fogNotify_WifiStatusHandler, inContext);
   require_noerr_action(err, exit, 
                        sitewhere_log("ERROR: mico_system_notify_register (mico_notify_WIFI_STATUS_CHANGED) failed!") );
@@ -115,6 +119,50 @@ OSStatus MiCOStartSiteWhereService(app_context_t* const inContext)
   sitewhere_log("Command1=[%s]", Command1);
   // specificationToken
   sitewhere_log("specificationToken=[%s]", specificationToken);
+  
+  //------------------------------------------------------------------------
+  // update hardwareid in mdns text record
+  sitewhere_log("update bonjour txt record.");
+  bonjour_txt_record = malloc(550);
+  require_action(bonjour_txt_record, exit, err = kNoMemoryErr);
+  
+  bonjour_txt_field = __strdup_trans_dot(inContext->mico_context->micoStatus.mac);
+  sprintf(bonjour_txt_record, "MAC=%s.", bonjour_txt_field);
+  free(bonjour_txt_field);
+  
+  bonjour_txt_field = __strdup_trans_dot(hardwareId);
+  sprintf(bonjour_txt_record, "%sHardware ID=%s.", bonjour_txt_record, bonjour_txt_field);
+  free(bonjour_txt_field);
+  
+  bonjour_txt_field = __strdup_trans_dot(FIRMWARE_REVISION);
+  sprintf(bonjour_txt_record, "%sFirmware Rev=%s.", bonjour_txt_record, bonjour_txt_field);
+  free(bonjour_txt_field);
+  
+  bonjour_txt_field = __strdup_trans_dot(HARDWARE_REVISION);
+  sprintf(bonjour_txt_record, "%sHardware Rev=%s.", bonjour_txt_record, bonjour_txt_field);
+  free(bonjour_txt_field);
+  
+  bonjour_txt_field = __strdup_trans_dot(MicoGetVer());
+  sprintf(bonjour_txt_record, "%sMICO OS Rev=%s.", bonjour_txt_record, bonjour_txt_field);
+  free(bonjour_txt_field);
+  
+  bonjour_txt_field = __strdup_trans_dot(MODEL);
+  sprintf(bonjour_txt_record, "%sModel=%s.", bonjour_txt_record, bonjour_txt_field);
+  free(bonjour_txt_field);
+  
+  bonjour_txt_field = __strdup_trans_dot(PROTOCOL);
+  sprintf(bonjour_txt_record, "%sProtocol=%s.", bonjour_txt_record, bonjour_txt_field);
+  free(bonjour_txt_field);
+  
+  bonjour_txt_field = __strdup_trans_dot(MANUFACTURER);
+  sprintf(bonjour_txt_record, "%sManufacturer=%s.", bonjour_txt_record, bonjour_txt_field);
+  free(bonjour_txt_field);
+  
+  sprintf(bonjour_txt_record, "%sSeed=%u.", bonjour_txt_record, inContext->mico_context->flashContentInRam.micoSystemConfig.seed);
+  
+  mdns_update_txt_record(BONJOUR_SERVICE, Station, bonjour_txt_record);
+  if(NULL != bonjour_txt_record) free(bonjour_txt_record);
+  //------------------------------------------------------------------------
   
   err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "sitewhere", 
                                 sitewhere_main_thread, STACK_SIZE_FOGCLOUD_MAIN_THREAD, 

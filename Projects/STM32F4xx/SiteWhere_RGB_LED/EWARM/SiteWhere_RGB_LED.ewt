@@ -175,12 +175,6 @@
     <group>
       <name>AppFramework</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\fogCloud.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\fogCloud.h</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MiCOAppDefine.h</name>
       </file>
       <file>
@@ -194,18 +188,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MicoDefaults.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MicoFogCloud.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MiCOFogCloud.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MicoFogCloudConfigServer.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MiCOFogCloudDef.h</name>
       </file>
     </group>
     <group>
@@ -227,6 +209,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\SiteWhere\libemqtt.c</name>
+        <configuration>
+          <name>MiCOKit-3288</name>
+        </configuration>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\SiteWhere\libemqtt.h</name>

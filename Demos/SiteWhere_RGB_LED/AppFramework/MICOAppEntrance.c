@@ -21,7 +21,7 @@
 
 #include "mico.h"
 #include "MICOAppDefine.h"
-#include "MiCOFogCloud.h"
+#include "MiCOSiteWhere.h"
 
 #define app_log(M, ...) custom_log("APP", M, ##__VA_ARGS__)
 #define app_log_trace() custom_log_trace("APP")
@@ -74,9 +74,6 @@ void appRestoreDefault_callback(void * const user_config_data, uint32_t size)
   
   appConfig->configDataVer = CONFIGURATION_VERSION;
   appConfig->bonjourServicePort = BONJOUR_SERVICE_PORT;
-  
-  // restore fogcloud config
-  MiCOFogCloudRestoreDefault(&(appConfig->fogcloudConfig));
 }
 
 int application_start(void)

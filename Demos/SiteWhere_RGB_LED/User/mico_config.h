@@ -34,14 +34,14 @@
 
 /*--------------------------------- info -------------------------------------*/
 #define MANUFACTURER                   "MXCHIP Inc."
-#define SERIAL_NUMBER                  "1507201215"
+#define SERIAL_NUMBER                  "1508061104"
 #define FIRMWARE_REVISION              HARDWARE_REVISION"@"SERIAL_NUMBER
 
 #define DEFAULT_ROM_VERSION            FIRMWARE_REVISION
 #define DEFAULT_DEVICE_NAME            MODEL   // device name upload to cloud defined in platform_config.h
 
-#define APP_INFO                       MODEL" Wechat RGB LED Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
-#define PROTOCOL                       "com.mico.fogcloud"
+#define APP_INFO                       MODEL" SiteWhere LED Demo based on MICO OS, fw version: "FIRMWARE_REVISION","
+#define PROTOCOL                       "com.mico.sitewhere"
 
 #define CONFIG_MODE_EASYLINK                    (2)
 #define CONFIG_MODE_SOFT_AP                     (3)

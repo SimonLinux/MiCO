@@ -1931,12 +1931,6 @@
     <group>
       <name>AppFramework</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\fogCloud.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\fogCloud.h</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MiCOAppDefine.h</name>
       </file>
       <file>
@@ -1950,18 +1944,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MicoDefaults.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MicoFogCloud.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MicoFogCloud.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MicoFogCloudConfigServer.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\Demos\SiteWhere_RGB_LED\AppFramework\MiCOFogCloudDef.h</name>
       </file>
     </group>
     <group>
@@ -2346,6 +2328,9 @@
     <name>include</name>
     <group>
       <name>FogCloud</name>
+      <excluded>
+        <configuration>MiCOKit-3288</configuration>
+      </excluded>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\include\FogCloud\FogCloudService.h</name>
       </file>

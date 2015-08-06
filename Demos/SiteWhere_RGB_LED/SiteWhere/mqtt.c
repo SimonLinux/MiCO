@@ -40,7 +40,7 @@ uint32_t lastEvent = 0;
 extern char* clientName;
 
 /** Unique hardware id for this device */
-extern char* hardwareId;
+extern char hardwareId[HARDWARE_ID_SIZE];
 
 /** Device specification token for hardware configuration */
 extern char* specificationToken;
@@ -49,10 +49,10 @@ extern char* specificationToken;
 extern char* outbound;
 
 /** Inbound custom command topic */
-extern char* Command1;
+extern char Command1[COMMAND1_SIZE];
 
 /** Inbound system command topic */
-extern char* System1;
+extern char System1[SYSTEM1_SIZE];
 
 #define RCVBUFSIZE 1024
 uint8_t packet_buffer[RCVBUFSIZE];
@@ -64,19 +64,10 @@ int read_packet(int timeout,mqtt_broker_handle_t* broker)
   if(timeout > 0)
   {
     fd_set readfds;
-    struct timeval_t tmv;
 
     // Initialize the file descriptor set
     FD_ZERO (&readfds);
     FD_SET (socket_id, &readfds);
-
-    // Initialize the timeout data structure
-    tmv.tv_sec = timeout;
-    tmv.tv_usec = 0;
-
-    // select returns 0 if timeout, 1 if input available, -1 if error
-//    if(select(1, &readfds, NULL, NULL, &tmv))
-//      return -2;
   }
 
   int total_bytes = 0, bytes_rcvd, packet_length;
@@ -117,6 +108,7 @@ uint8_t MQTT_REGISTERED =0;
 void mqtt_client()
 {
     mqtt("Connected to ethernet.");
+    
     strcpy(broker_mqtt.clientid,hardwareId);
     mqtt_init(&broker_mqtt,hardwareId);
 
@@ -153,7 +145,7 @@ void mqtt_client()
 
         if (len = sw_register(hardwareId, specificationToken, buffer, sizeof(buffer), NULL))
         {
-            mqtt_publish(&broker_mqtt,outbound,buffer,len,0);
+            mqtt_publish(&broker_mqtt,outbound,(char*)buffer,len,0);
             MQTT_REGISTERED =1;
             mqtt("Sent registration.");
 
@@ -173,8 +165,6 @@ uint8_t MICO_report[15];
 /** Main MQTT processing loop */
 void mqtt_loop_thread(void *inContext)
 {
-    mico_rtc_time_t time;
-    struct tm currentTime;
   /** Only send events after registered and at most every five seconds */
     while(1)
     {
@@ -182,11 +172,18 @@ void mqtt_loop_thread(void *inContext)
                 memset(buffer,0,300);
                 unsigned int len = 0;
 
-                if (len = sw_alert(hardwareId, "MicoKit-3288", "is alive", NULL, buffer, sizeof(buffer), NULL)) {
-                    mqtt_publish(&broker_mqtt,outbound,buffer,len,0);
+                // alert
+                if (len = sw_alert(hardwareId, clientName, "is alive", NULL, buffer, sizeof(buffer), NULL)) {
+                    mqtt_publish(&broker_mqtt,outbound,(char*)buffer,len,0);
                     mqtt("Sent alert.");
                 }
-                sleep(10);
+                // location
+                if (len = sw_location(hardwareId, 31.05f, 121.76f, 0.0f, NULL, buffer, sizeof(buffer), NULL)) {
+                  mqtt_publish(&broker_mqtt,outbound,(char*)buffer,len,0);
+                  mqtt("Sent location.");
+                }
+                
+                sleep(15);
             }
     }
 }

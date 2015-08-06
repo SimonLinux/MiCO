@@ -9,6 +9,10 @@
 extern "C" {
 #endif
 
+#define HARDWARE_ID_SIZE   64
+#define COMMAND1_SIZE      256
+#define SYSTEM1_SIZE      256
+  
 /* Enum definitions */
 typedef enum _ArduinoCustom_Command {
     

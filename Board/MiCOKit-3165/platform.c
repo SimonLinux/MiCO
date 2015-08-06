@@ -119,6 +119,8 @@ const platform_gpio_t platform_gpio_pins[] =
   [MICO_GPIO_38]                      = { GPIOA,  4 },
 };
 
+const platform_pwm_t *platform_pwm_peripherals = NULL;
+
 const platform_i2c_t platform_i2c_peripherals[] =
 {
   [MICO_I2C_1] =

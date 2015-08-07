@@ -50,7 +50,7 @@
 #define MICO_CLOUD_TYPE                  CLOUD_FOGCLOUD
 
 // disalbe FogCloud OTA check when system start
-#define DISABLE_FOGCLOUD_OTA_CHECK
+//#define DISABLE_FOGCLOUD_OTA_CHECK
 
 
 /*******************************************************************************

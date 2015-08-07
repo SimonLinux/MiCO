@@ -33,6 +33,8 @@ extern bool MicoExtShouldEnterTestMode(void);
 
 extern OSStatus MICOStartBonjourService( WiFi_Interface interface, app_context_t * const inContext );
 
+app_context_t* app_context_global = NULL;
+
 /* default user_main callback function, this must be override by user. */
 WEAK OSStatus user_main( app_context_t * const mico_context )
 {
@@ -101,6 +103,7 @@ int application_start(void)
   require_action(mico_context, exit, err = kNoResourcesErr);
   app_context->appConfig = mico_system_context_get_user_data( mico_context );
   app_context->mico_context = mico_context;
+  app_context_global = app_context;
   
   /* user params restore check */
   if(app_context->appConfig->configDataVer != CONFIGURATION_VERSION){
@@ -118,6 +121,7 @@ int application_start(void)
 #ifdef USE_MiCOKit_EXT
   /* user test mode to test MiCOKit-EXT board */
   if(MicoExtShouldEnterTestMode()){
+    app_log("Enter ext-board test mode by key2.");
     micokit_ext_mfg_test(mico_context);
   }
 #endif

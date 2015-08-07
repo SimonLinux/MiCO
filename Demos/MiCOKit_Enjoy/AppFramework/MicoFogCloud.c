@@ -55,6 +55,7 @@ extern void set_RF_LED_cloud_disconnected  ( app_context_t * const inContext );
 
 void MiCOFogCloudNeedResetDevice(void)
 {
+  fogcloud_log("device will reset from cloud.");
   device_need_delete = true;
   return;
 }

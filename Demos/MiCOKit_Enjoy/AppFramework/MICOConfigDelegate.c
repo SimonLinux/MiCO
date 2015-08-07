@@ -41,6 +41,8 @@
 static mico_timer_t _Led_EL_timer;
 static void _led_EL_Timeout_handler( void* arg );
 
+extern app_context_t* app_context_global;
+
 
 void OTAWillStart( mico_Context_t * const inContext )
 {
@@ -162,7 +164,7 @@ void mico_system_delegate_config_will_start( void )
   OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "    ssid/key    ");
 #endif
   
-  //mico_context->appStatus.noOTACheckOnSystemStart = true;
+  app_context_global->appStatus.noOTACheckOnSystemStart = true;
   return;
 }
 

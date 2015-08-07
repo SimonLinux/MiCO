@@ -309,6 +309,7 @@ OSStatus fogCloudDevFirmwareUpdate(app_context_t* const inContext,
   uint32_t updateStartAddress = 0;
   uint32_t readLength = 0;
   uint32_t i = 0, size = 0;
+  uint32_t romStringLen = 0;
   
   // crc16
   CRC16_Context contex;
@@ -326,9 +327,11 @@ OSStatus fogCloudDevFirmwareUpdate(app_context_t* const inContext,
   cloud_if_log("bin_file=%s", easyCloudContext.service_status.bin_file);
   cloud_if_log("bin_md5=%s", easyCloudContext.service_status.bin_md5);
   
+  romStringLen = strlen(easyCloudContext.service_status.latestRomVersion) > strlen(inContext->appConfig->fogcloudConfig.romVersion) ?
+    strlen(easyCloudContext.service_status.latestRomVersion):strlen(inContext->appConfig->fogcloudConfig.romVersion);
   if(0 == strncmp(inContext->appConfig->fogcloudConfig.romVersion,
                   easyCloudContext.service_status.latestRomVersion, 
-                  strlen(inContext->appConfig->fogcloudConfig.romVersion))){
+                  romStringLen)){
      cloud_if_log("the current firmware version[%s] is up-to-date!", 
                   inContext->appConfig->fogcloudConfig.romVersion);
      inContext->appStatus.fogcloudStatus.RecvRomFileSize = 0;

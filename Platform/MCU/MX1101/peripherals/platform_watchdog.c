@@ -29,15 +29,9 @@
 ******************************************************************************
 */ 
 
-
-#include "MICOPlatform.h"
-#include "MICORTOS.h"
-#include "common.h"
-#include "Debug.h"
-#include "watchdog.h"
-
 #include "platform.h"
 #include "platform_config.h"
+#include "platform_peripheral.h"
 
 /******************************************************
  *                    Constants

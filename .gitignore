@@ -19,3 +19,4 @@ si/*
 *.uvguix.*
 *.crun
 JLinkLog.txt
+JLinkSettings.ini

@@ -34,6 +34,11 @@
 
 #include "mico.h"
 
+#ifdef USE_MiCOKit_EXT
+#include "micokit_ext.h"
+extern bool MicoExtShouldEnterTestMode(void);
+#endif
+
 static  mico_Context_t* context = NULL;
 
 mico_Context_t* mico_system_context_init( uint32_t user_config_data_size )
@@ -102,6 +107,14 @@ OSStatus mico_system_init( mico_Context_t* in_context )
   /* Network PHY driver and tcp/ip static init */
   err = system_network_daemen_start( in_context );
   require_noerr( err, exit ); 
+  
+#ifdef USE_MiCOKit_EXT
+  /* user test mode to test MiCOKit-EXT board */
+  if(MicoExtShouldEnterTestMode()){
+    system_log("Enter ext-board test mode by key2.");
+    micokit_ext_mfg_test(in_context);
+  }
+#endif
 
   if( in_context->flashContentInRam.micoSystemConfig.configured == wLanUnConfigured ||
       in_context->flashContentInRam.micoSystemConfig.configured == unConfigured){

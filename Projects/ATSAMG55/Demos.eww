@@ -10,6 +10,10 @@
   <project>
     <path>$WS_DIR$\COM.MXCHIP.SPP\EWARM\COM.MXCHIP.SPP.ewp</path>
   </project>
+    <project>
+    <path>$WS_DIR$\MiCOKit_Enjoy\EWARM\MiCOKit_Enjoy.ewp</path>
+  </project>
+
   <batchBuild>
     <batchDefinition>
       <name>all</name>

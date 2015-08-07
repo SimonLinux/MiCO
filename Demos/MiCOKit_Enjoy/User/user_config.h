@@ -37,8 +37,9 @@
 #elif MICOKIT_3165
   #define PRODUCT_ID                      "f4680913"
   #define PRODUCT_KEY                     "c0558531-fd8b-4d96-a78f-28d3bc5ebda0"
-#else
-
+#elif MICOKIT_G55
+  #define PRODUCT_ID                      "b95b6242"
+  #define PRODUCT_KEY                     "52731f33-edba-4483-9e4a-dc3859976c41"
 #endif
 
 
@@ -50,7 +51,7 @@
 #define MICO_CLOUD_TYPE                  CLOUD_FOGCLOUD
 
 // disalbe FogCloud OTA check when system start
-//#define DISABLE_FOGCLOUD_OTA_CHECK
+#define DISABLE_FOGCLOUD_OTA_CHECK
 
 
 /*******************************************************************************

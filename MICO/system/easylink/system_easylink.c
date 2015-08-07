@@ -210,7 +210,7 @@ OSStatus system_easylink_start( mico_Context_t * const inContext)
   /* Start easylink thread */
   err = mico_rtos_create_thread(&easylink_thread_handler, MICO_APPLICATION_PRIORITY, "EASYLINK", easylink_thread, 0x1000, (void*)inContext );
   require_noerr_string( err, exit, "ERROR: Unable to start the EasyLink thread." );
-  mico_rtos_thread_join(&easylink_thread_handler);
+  //mico_rtos_thread_join(&easylink_thread_handler);
 
 exit:
   return err;

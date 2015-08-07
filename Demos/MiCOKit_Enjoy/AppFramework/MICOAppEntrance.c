@@ -114,9 +114,6 @@ int application_start(void)
   /* mico system initialize */
   err = mico_system_init( mico_context );
   require_noerr( err, exit );
-
-  /* Bonjour for service searching */
-  MICOStartBonjourService( Station, app_context );
   
 #ifdef USE_MiCOKit_EXT
   /* user test mode to test MiCOKit-EXT board */
@@ -125,6 +122,20 @@ int application_start(void)
     micokit_ext_mfg_test(mico_context);
   }
 #endif
+  
+  // block here if no wifi configuration.
+  while(1){
+    if( mico_context->flashContentInRam.micoSystemConfig.configured == wLanUnConfigured ||
+       mico_context->flashContentInRam.micoSystemConfig.configured == unConfigured){
+         mico_thread_msleep(100);
+       }
+    else{
+      break;
+    }
+  }
+
+  /* Bonjour for service searching */
+  MICOStartBonjourService( Station, app_context );
 	
   /* check wifi link status */
   do{

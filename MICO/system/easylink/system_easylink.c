@@ -303,7 +303,7 @@ restart:
       system_connect_wifi_normal( Context );
     }else{
       /*module should power down in default setting*/
-      mico_thread_sleep(1);
+      //mico_thread_sleep(1);
       micoWlanPowerOff();
     }
 #endif

@@ -72,14 +72,14 @@ static void _user_key1_irq_handler( void* arg )
   if ( MicoGpioInputGet( (mico_gpio_t)USER_KEY1 ) == 0 ) {
     _default_key1_start_time = mico_get_time()+1;
     mico_start_timer(&_user_key1_timer);
-    //MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY1, IRQ_TRIGGER_RISING_EDGE, _user_key1_irq_handler, NULL );
+    MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY1, IRQ_TRIGGER_RISING_EDGE, _user_key1_irq_handler, NULL );
   } else {
     interval = mico_get_time() + 1 - _default_key1_start_time;
     if ( (_default_key1_start_time != 0) && interval > 50 && interval < user_key1_long_press_timeout){
       /* button clicked once */
       user_key1_clicked_callback();
     }
-    //MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY1, IRQ_TRIGGER_FALLING_EDGE, _user_key1_irq_handler, NULL );
+    MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY1, IRQ_TRIGGER_FALLING_EDGE, _user_key1_irq_handler, NULL );
     mico_stop_timer(&_user_key1_timer);
     _default_key1_start_time = 0;
   }
@@ -100,14 +100,14 @@ static void _user_key2_irq_handler( void* arg )
   if ( MicoGpioInputGet( (mico_gpio_t)USER_KEY2 ) == 0 ) {
     _default_key2_start_time = mico_get_time()+1;
     mico_start_timer(&_user_key2_timer);
-    //MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY2, IRQ_TRIGGER_RISING_EDGE, _user_key2_irq_handler, NULL );
+    MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY2, IRQ_TRIGGER_RISING_EDGE, _user_key2_irq_handler, NULL );
   } else {
     interval = mico_get_time() + 1 - _default_key2_start_time;
     if ( (_default_key2_start_time != 0) && interval > 50 && interval < user_key2_long_press_timeout){
       /* button clicked once */
       user_key2_clicked_callback();
     }
-    //MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY2, IRQ_TRIGGER_FALLING_EDGE, _user_key2_irq_handler, NULL );
+    MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY2, IRQ_TRIGGER_FALLING_EDGE, _user_key2_irq_handler, NULL );
     mico_stop_timer(&_user_key2_timer);
     _default_key2_start_time = 0;
   }
@@ -124,12 +124,12 @@ void user_key1_init(void)
 {
    MicoGpioInitialize( (mico_gpio_t)USER_KEY1, INPUT_PULL_UP );
    mico_init_timer(&_user_key1_timer, user_key1_long_press_timeout, _user_key1_timeout_handler, NULL);
-   MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY1, IRQ_TRIGGER_BOTH_EDGES, _user_key1_irq_handler, NULL );
+   MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY1, IRQ_TRIGGER_FALLING_EDGE, _user_key1_irq_handler, NULL );
 }
 
 void user_key2_init(void)
 {
    MicoGpioInitialize( (mico_gpio_t)USER_KEY2, INPUT_PULL_UP );
    mico_init_timer(&_user_key2_timer, user_key2_long_press_timeout, _user_key2_timeout_handler, NULL);
-   MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY2, IRQ_TRIGGER_BOTH_EDGES, _user_key2_irq_handler, NULL );
+   MicoGpioEnableIRQ( (mico_gpio_t)USER_KEY2, IRQ_TRIGGER_FALLING_EDGE, _user_key2_irq_handler, NULL );
 }

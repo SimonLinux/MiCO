@@ -33,7 +33,6 @@
 #include "stdio.h"
 #include "string.h"
 
-#include "MICOPlatform.h"
 #include "platform.h"
 #include "platform_peripheral.h"
 #include "platform_config.h"
@@ -82,7 +81,6 @@ extern WEAK void PlatformEasyLinkButtonLongPressedCallback(void);
 
 static uint32_t _default_start_time = 0;
 static mico_timer_t _button_EL_timer;
-const uint32_t CFG_PRIO_BITS = 3;
 const uint32_t ExtClockIn = 0;
 const platform_gpio_t platform_gpio_pins[] =
 {
@@ -283,20 +281,20 @@ platform_spi_driver_t platform_spi_drivers[MICO_SPI_MAX] =
 	},
 };
 
-
+/* Flash memory devices */
 const platform_flash_t platform_flash_peripherals[] =
 {
-  [MICO_SPI_FLASH] =
+  [MICO_FLASH_EMBEDDED] =
+  {
+    .flash_type                   = FLASH_TYPE_EMBEDDED,
+    .flash_start_addr             = 0x00000000,
+    .flash_length                 = 0x80000,
+  },
+  [MICO_FLASH_SPI] =
   {
     .flash_type                   = FLASH_TYPE_SPI,
     .flash_start_addr             = 0x000000,
     .flash_length                 = 0x200000,
-  },
-  [MICO_INTERNAL_FLASH] =
-  {
-    .flash_type                   = FLASH_TYPE_INTERNAL,
-    .flash_start_addr             = 0x00000000,
-    .flash_length                 = 0x80000,
   },
 };
 
@@ -350,6 +348,59 @@ const platform_spi_t wifi_spi =
   .pin_mosi                     = &wifi_spi_pins[WIFI_PIN_SPI_MOSI],
   .pin_miso                     = &wifi_spi_pins[WIFI_PIN_SPI_MISO],
   .pin_clock                    = &wifi_spi_pins[WIFI_PIN_SPI_CLK],
+};
+
+/* Logic partition on flash devices */
+const mico_logic_partition_t mico_partitions[] =
+{
+  [MICO_PARTITION_BOOTLOADER] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "Bootloader",
+    .partition_start_addr      = 0x00000000,
+    .partition_length          =     0x8000,    //32k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_APPLICATION] =
+  {
+    .partition_owner           = MICO_FLASH_EMBEDDED,
+    .partition_description     = "Application",
+    .partition_start_addr      = 0x0000C000,
+    .partition_length          =    0x74000,   //480k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_RF_FIRMWARE] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "RF Firmware",
+    .partition_start_addr      = 0x2000,
+    .partition_length          = 0x4E000,  //312k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
+  },
+  [MICO_PARTITION_OTA_TEMP] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "OTA Storage",
+    .partition_start_addr      = 0x50000,
+    .partition_length          = 0x74000, //768k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_1] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "PARAMETER1",
+    .partition_start_addr      = 0x0,
+    .partition_length          = 0x1000, // 4k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  },
+  [MICO_PARTITION_PARAMETER_2] =
+  {
+    .partition_owner           = MICO_FLASH_SPI,
+    .partition_description     = "PARAMETER1",
+    .partition_start_addr      = 0x1000,
+    .partition_length          = 0x1000, //4k bytes
+    .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
+  }
 };
 
 
@@ -540,21 +591,16 @@ void init_platform( void )
    MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
    MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );
    MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
-  
+
    //  Initialise EasyLink buttons
    MicoGpioInitialize( (mico_gpio_t)EasyLink_BUTTON, INPUT_HIGH_IMPEDANCE );
    mico_init_timer(&_button_EL_timer, RestoreDefault_TimeOut, _button_EL_Timeout_handler, NULL);
    MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_BOTH_EDGES, _button_EL_irq_handler, NULL );
-   
+
 #ifdef USE_MiCOKit_EXT
-  MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );
-  MicoGpioOutputLow( Arduino_D9 );
-  
-  //hsb_led_open( 0, 0, 0 );
-
+  dc_motor_init( );
+  dc_motor_set( 0 );
 #endif
-
-   // MicoFlashInitialize( MICO_SPI_FLASH );
 }
 
 void init_platform_bootloader( void )
@@ -563,14 +609,14 @@ void init_platform_bootloader( void )
   MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
   MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );
   MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
-  
+
   MicoGpioInitialize((mico_gpio_t)BOOT_SEL, INPUT_PULL_UP);
   MicoGpioInitialize((mico_gpio_t)MFG_SEL, INPUT_HIGH_IMPEDANCE);
-  
+
 #ifdef USE_MiCOKit_EXT
-  MicoGpioInitialize( Arduino_D9, OUTPUT_PUSH_PULL );
-  MicoGpioOutputLow( Arduino_D9 );
-  
+  dc_motor_init( );
+  dc_motor_set( 0 );
+
   rgb_led_init();
   rgb_led_open(0, 0, 0);
 #endif
@@ -595,15 +641,23 @@ void MicoRfLed(bool onoff)
     }
 }
 
+#ifdef USE_MiCOKit_EXT
+// add test mode for MiCOKit-EXT board,check Arduino_D5 pin when system startup
+bool MicoExtShouldEnterTestMode(void)
+{
+  if( MicoGpioInputGet((mico_gpio_t)Arduino_D5)==false ){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+#endif
+
 // add long press key2 on ext-board when restart to enter MFG MODE
 bool MicoShouldEnterMFGMode(void)
 {
-#ifdef USE_MiCOKit_EXT
-  if( (MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false) ||
-     (MicoGpioInputGet((mico_gpio_t)Arduino_D5) == false) )
-#else
   if( MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false )
-#endif
   {
     return true;
   }
@@ -620,4 +674,3 @@ bool MicoShouldEnterBootloader(void)
   else
     return false;
 }
-

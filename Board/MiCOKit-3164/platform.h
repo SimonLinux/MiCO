@@ -141,12 +141,19 @@ typedef enum
     MICO_UART_NONE,
 } mico_uart_t;
 
+
 typedef enum
 {
-  MICO_SPI_FLASH,
-  MICO_INTERNAL_FLASH,
+  MICO_FLASH_EMBEDDED,
+  MICO_FLASH_SPI,
   MICO_FLASH_MAX,
+  MICO_FLASH_NONE,
 } mico_flash_t;
+
+typedef enum
+{
+  MICO_PARTITION_USER_MAX
+} mico_user_partition_t;
 
 #define USE_MICO_SPI_FLASH
 //#define SFLASH_SUPPORT_MACRONIX_PARTS
@@ -155,10 +162,10 @@ typedef enum
 
 #ifdef BOOTLOADER
 #define STDIO_UART       MICO_UART_0
-#define STDIO_UART_BAUDRATE (115200)//(921600)   
+#define STDIO_UART_BAUDRATE (921600)
 #else
 #define STDIO_UART       MICO_UART_0
-#define STDIO_UART_BAUDRATE (115200)   
+#define STDIO_UART_BAUDRATE (115200)
 #endif
    
 #define UART_FOR_APP     MICO_UART_1

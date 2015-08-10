@@ -526,6 +526,30 @@
 				"buffer_size": 10689,
 				"line_ending": "Windows"
 			}
+		},
+		{
+			"file": "COM.MXCHIP.SPP.sublime-project",
+			"settings":
+			{
+				"buffer_size": 1828,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_config.h",
+			"settings":
+			{
+				"buffer_size": 3294,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/mico/system/mico_system_init.c",
+			"settings":
+			{
+				"buffer_size": 4629,
+				"line_ending": "Windows"
+			}
 		}
 	],
 	"build_system": "",
@@ -945,7 +969,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -960,8 +984,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								5582,
+								5204
 							]
 						],
 						"settings":
@@ -971,7 +995,88 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3312.0,
+						"translation.y": 1918.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "COM.MXCHIP.SPP.sublime-project",
+					"settings":
+					{
+						"buffer_size": 1828,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								374,
+								374
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 353.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_config.h",
+					"settings":
+					{
+						"buffer_size": 3294,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1813,
+								1832
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 472.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/William/Develop/MiCO/mico/system/mico_system_init.c",
+					"settings":
+					{
+						"buffer_size": 4629,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3996,
+								3996
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1613.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -33,11 +33,9 @@
 
 #include "platform_peripheral.h"
 #include "platform.h"
-#include "MicoPlatform.h"
 #include "PlatformLogging.h"
 #include <string.h> // For memcmp
 #include "crt0.h"
-#include "MicoRTOS.h"
 #include "platform_init.h"
 
 /******************************************************
@@ -68,6 +66,9 @@ static unsigned long  stop_mode_power_down_hook( unsigned long sleep_ms );
 #else
 static unsigned long  idle_power_down_hook( unsigned long sleep_ms );
 #endif
+
+#define ENABLE_INTERRUPTS   __asm("CPSIE i")  /**< Enable interrupts to start task switching in MICO RTOS. */
+#define DISABLE_INTERRUPTS  __asm("CPSID i")  /**< Disable interrupts to stop task switching in MICO RTOS. */
 
 /******************************************************
 *               Variables Definitions

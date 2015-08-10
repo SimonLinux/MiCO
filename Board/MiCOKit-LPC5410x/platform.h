@@ -166,7 +166,7 @@ typedef enum
 
 #ifdef BOOTLOADER
 #define STDIO_UART       MICO_UART_0
-#define STDIO_UART_BAUDRATE (115200)
+#define STDIO_UART_BAUDRATE (921600)
 #else
 #define STDIO_UART       MICO_UART_0
 #define STDIO_UART_BAUDRATE (115200)

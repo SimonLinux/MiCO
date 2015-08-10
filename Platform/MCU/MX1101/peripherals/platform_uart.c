@@ -29,7 +29,6 @@
 ******************************************************************************
 */ 
 
-#include "MICORTOS.h"
 
 #include "platform.h"
 #include "platform_peripheral.h"

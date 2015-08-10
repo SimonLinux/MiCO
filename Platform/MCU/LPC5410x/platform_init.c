@@ -267,6 +267,7 @@ void init_clocks( void )
 
     PwrCtlStateReset();
 
+#ifdef BOOTLOADER
 	// enable clock to InMux, PinINT, IOCON, GPIO0 & 1
 	g_pSys->AHBCLKCTRLSET[0] = 1UL<<11 | 1UL<<18 | 1UL<<13 | 1UL<<14 | 1UL<<15;
 	// reset InMux, PinINT, IOCON, GPIO0 & 1
@@ -299,6 +300,8 @@ void init_clocks( void )
 	TaskProcNotify(MICO_TASK, 1);
 
 	AsyncClockCfg();
+
+#endif
 
 #ifdef NO_MICO_RTOS
   SysTick_Config( SystemCoreClock / 1000 );

@@ -35,6 +35,7 @@ operation
  ******************************************************************************/
 #define STACK_SIZE_SITEWHERE_MAIN_THREAD    0x800
 
+
 /*******************************************************************************
  *                                  VARIABLES
  ******************************************************************************/
@@ -44,7 +45,7 @@ operation
  *                                  FUNCTIONS
  ******************************************************************************/
 
-void fogNotify_WifiStatusHandler(WiFiEvent event, app_context_t * const inContext)
+void swNotify_WifiStatusHandler(WiFiEvent event, app_context_t * const inContext)
 {
   (void)inContext;
   switch (event) {
@@ -89,12 +90,13 @@ extern char System1[SYSTEM1_SIZE];
 
 OSStatus MiCOStartSiteWhereService(app_context_t* const inContext)
 {
+  sitewhere_log_trace();
   OSStatus err = kUnknownErr;
-  
-    char *bonjour_txt_record = NULL;
+  char *bonjour_txt_record = NULL;
   char *bonjour_txt_field = NULL;
   
-  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)fogNotify_WifiStatusHandler, inContext);
+  // update wifi status
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)swNotify_WifiStatusHandler, inContext);
   require_noerr_action(err, exit, 
                        sitewhere_log("ERROR: mico_system_notify_register (mico_notify_WIFI_STATUS_CHANGED) failed!") );
   

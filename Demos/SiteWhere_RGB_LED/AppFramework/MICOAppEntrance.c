@@ -38,6 +38,7 @@ WEAK OSStatus user_main( app_context_t * const mico_context )
 /* user main thread created by MICO APP thread */
 void user_main_thread(void* arg)
 {
+  app_log_trace();
   OSStatus err = kUnknownErr;
   app_context_t *app_context = (app_context_t *)arg;
   
@@ -69,6 +70,7 @@ exit:
 /* MICO system callback: Restore default configuration provided by application */
 void appRestoreDefault_callback(void * const user_config_data, uint32_t size)
 {
+  app_log_trace();
   UNUSED_PARAMETER(size);
   application_config_t* appConfig = user_config_data;
   

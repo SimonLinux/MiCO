@@ -4,7 +4,7 @@
 * @author  Eshen Wang
 * @version V1.0.0
 * @date    14-May-2015
-* @brief   user main functons in user_main thread.
+* @brief   user main tasks in user_main thread.
 ******************************************************************************
 * @attention
 *
@@ -41,7 +41,6 @@ OSStatus user_main( app_context_t * const app_context )
 {
   user_log_trace();
   OSStatus err = kUnknownErr;
-    
   require(app_context, exit);
   
   hsb2rgb_led_init();  // rgb led init
@@ -50,8 +49,8 @@ OSStatus user_main( app_context_t * const app_context )
     mico_thread_sleep(1);
     
     // update info on LCD
-    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "SiteWhere RGB   ");  // clean line2
-    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "LED control     ");  // show led cmd
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, "SiteWhere demo  ");  // clean line2
+    OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, "RGB LED control ");  // show led cmd
     OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, "                ");  // clean line4
   }
 

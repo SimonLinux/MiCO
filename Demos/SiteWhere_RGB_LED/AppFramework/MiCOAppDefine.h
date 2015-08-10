@@ -4,8 +4,7 @@
   * @author  William Xu
   * @version V1.0.0
   * @date    05-May-2014
-  * @brief   This file create a TCP listener thread, accept every TCP client
-  *          connection and create thread for them.
+  * @brief   MiCO application defines && structures for user.
   ******************************************************************************
   * @attention
   *
@@ -84,15 +83,6 @@
   #define BONJOUR_SERVICE                "_easylink._tcp.local."
 #endif
 
-/* product id/key check */
-#ifndef PRODUCT_ID
-  #error  "PRODUCT_ID must be set in 'user_config.h'."
-#endif
-
-#ifndef PRODUCT_KEY
-  #error "PRODUCT_KEY must be set in 'user_config.h'."
-#endif
-
 #ifndef DEFAULT_ROM_VERSION
   #error  "DEFAULT_ROM_VERSION must be set in 'user_config.h'."
 #endif
@@ -116,7 +106,6 @@ typedef struct
 
 /* Running status */
 typedef struct _current_app_status_t {
-  volatile bool     noOTACheckOnSystemStart;  // indacate for not OTA check after configed
   volatile bool     isWifiConnected;      // wifi station connect status
 } current_app_status_t;
 

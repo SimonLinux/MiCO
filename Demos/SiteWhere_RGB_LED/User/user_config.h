@@ -4,7 +4,7 @@
   * @author  Eshen Wang
   * @version V1.0.0
   * @date    14-May2015
-  * @brief   User configuration file.
+  * @brief   User configuration header file.
   ******************************************************************************
   * @attention
   *
@@ -28,28 +28,16 @@
  *                             APP INFO
  ******************************************************************************/
 
-/*------------------------------ product -------------------------------------*/
-#ifdef MICOKIT_3288
-// wes' product, replace it with your own product
-  #define PRODUCT_ID                   "d3dc7a21"
-  #define PRODUCT_KEY                  "5d26608d-4b79-460d-b8a7-3fc5b105be3b"
-#elif  MICOKIT_3165
-  #define PRODUCT_ID                   "57f737bd"
-  #define PRODUCT_KEY                  "e0b0939d-35c3-42f3-9b83-79deb4f5d8be"
-#else
-
-#endif
-
 
 /*******************************************************************************
- *                             CONNECTING
+ *                             CONNECTION
  ******************************************************************************/
 
 /* MICO cloud service */
 #define MICO_CLOUD_TYPE               CLOUD_SITEWHERE
 
 /* Firmware update check
- * If not need to check new firmware on server after wifi on, comment out this macro
+ * If need firmware update function, comment this out
  */
 #define DISABLE_FOGCLOUD_OTA_CHECK
 

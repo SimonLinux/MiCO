@@ -361,19 +361,22 @@ static void _button_EL_irq_handler( void* arg )
     if ( (_default_start_time != 0) && interval > 50 && interval < RestoreDefault_TimeOut){
       /* EasyLink button clicked once */
       PlatformEasyLinkButtonClickedCallback();
-    }
-    MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_FALLING_EDGE, _button_EL_irq_handler, NULL );
-    mico_stop_timer(&_button_EL_timer);
-    _default_start_time = 0;
+      MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_FALLING_EDGE, _button_EL_irq_handler, NULL );
+   }
+   mico_stop_timer(&_button_EL_timer);
+   _default_start_time = 0;
   }
 }
-
 
 static void _button_EL_Timeout_handler( void* arg )
 {
   (void)(arg);
   _default_start_time = 0;
-  PlatformEasyLinkButtonLongPressedCallback();
+  MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_FALLING_EDGE, _button_EL_irq_handler, NULL );
+  if( MicoGpioInputGet( (mico_gpio_t)EasyLink_BUTTON ) == 0){
+    PlatformEasyLinkButtonLongPressedCallback();
+  }
+  mico_stop_timer(&_button_EL_timer);
 }
 
 void platform_init_peripheral_irq_priorities( void )

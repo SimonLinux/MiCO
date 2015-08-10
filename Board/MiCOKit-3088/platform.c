@@ -284,8 +284,6 @@ static void _button_EL_irq_handler( void* arg )
 {
   (void)(arg);
   int interval = -1;
-
-  mico_start_timer(&_button_EL_timer);
   
   if ( MicoGpioInputGet( (mico_gpio_t)EasyLink_BUTTON ) == 0 ) {
     _default_start_time = mico_get_time()+1;
@@ -296,8 +294,6 @@ static void _button_EL_irq_handler( void* arg )
     if ( (_default_start_time != 0) && interval > 50 && interval < RestoreDefault_TimeOut){
       /* EasyLink button clicked once */
       PlatformEasyLinkButtonClickedCallback();
-      //platform_log("PlatformEasyLinkButtonClickedCallback!");
-      MicoGpioOutputLow( (mico_gpio_t)MICO_RF_LED );
       MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_FALLING_EDGE, _button_EL_irq_handler, NULL );
    }
    mico_stop_timer(&_button_EL_timer);
@@ -311,7 +307,6 @@ static void _button_EL_Timeout_handler( void* arg )
   _default_start_time = 0;
   MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_FALLING_EDGE, _button_EL_irq_handler, NULL );
   if( MicoGpioInputGet( (mico_gpio_t)EasyLink_BUTTON ) == 0){
-    //platform_log("PlatformEasyLinkButtonLongPressedCallback!");
     PlatformEasyLinkButtonLongPressedCallback();
   }
   mico_stop_timer(&_button_EL_timer);

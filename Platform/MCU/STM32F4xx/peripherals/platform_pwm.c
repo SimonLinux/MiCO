@@ -78,16 +78,22 @@ OSStatus platform_pwm_init( const platform_pwm_t* pwm, uint32_t frequency, float
   platform_mcu_powersave_disable();
 
   RCC_GetClocksFreq( &rcc_clock_frequencies );
-  
+
   if ( pwm->tim == TIM1 || pwm->tim == TIM8 || pwm->tim == TIM9 || pwm->tim == TIM10 || pwm->tim == TIM11 )
   {
     RCC_APB2PeriphClockCmd( pwm->tim_peripheral_clock, ENABLE );
-    period = (uint16_t)( rcc_clock_frequencies.PCLK2_Frequency / frequency - 1 ); /* Auto-reload value counts from 0; hence the minus 1 */
+    if( rcc_clock_frequencies.PCLK2_Frequency == rcc_clock_frequencies.HCLK_Frequency )
+      period = (uint16_t)( rcc_clock_frequencies.PCLK2_Frequency / 20 / frequency - 1 ); /* Auto-reload value counts from 0; hence the minus 1 */
+    else
+      period = (uint16_t)( rcc_clock_frequencies.PCLK2_Frequency * 2 / 20 / frequency - 1 ); /* Auto-reload value counts from 0; hence the minus 1 */
   }
   else
   {
     RCC_APB1PeriphClockCmd( pwm->tim_peripheral_clock, ENABLE );
-    period = (uint16_t)( rcc_clock_frequencies.PCLK1_Frequency / frequency - 1 ); /* Auto-reload value counts from 0; hence the minus 1 */
+    if( rcc_clock_frequencies.PCLK1_Frequency == rcc_clock_frequencies.HCLK_Frequency )
+      period = (uint16_t)( rcc_clock_frequencies.PCLK1_Frequency / 20 / frequency - 1 ); /* Auto-reload value counts from 0; hence the minus 1 */
+    else
+      period = (uint16_t)( rcc_clock_frequencies.PCLK1_Frequency * 2 / 20 / frequency - 1 ); /* Auto-reload value counts from 0; hence the minus 1 */
   }
     
   /* Set alternate function */
@@ -95,7 +101,7 @@ OSStatus platform_pwm_init( const platform_pwm_t* pwm, uint32_t frequency, float
   
   /* Time base configuration */
   tim_time_base_structure.TIM_Period            = (uint32_t) period;
-  tim_time_base_structure.TIM_Prescaler         = (uint16_t) 1;  /* Divide clock by 1+1 to enable a count of high cycle + low cycle = 1 PWM cycle */
+  tim_time_base_structure.TIM_Prescaler         = (uint16_t) 19;  /* Divide clock by 19 + 1 to enable a count of high cycle + low cycle = 1 PWM cycle */
   tim_time_base_structure.TIM_ClockDivision     = 0;
   tim_time_base_structure.TIM_CounterMode       = TIM_CounterMode_Up;
   tim_time_base_structure.TIM_RepetitionCounter = 0;

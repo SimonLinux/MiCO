@@ -60,7 +60,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>5</state>
         </option>
         <option>
@@ -87,7 +87,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.1.7765</state>
+          <state>7.30.3.8061</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -630,6 +630,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1020,7 +1021,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>5</state>
         </option>
         <option>
@@ -1590,6 +1591,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1980,7 +1982,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>5</state>
         </option>
         <option>
@@ -2007,7 +2009,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.1.7765</state>
+          <state>7.30.3.8061</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -2547,6 +2549,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -2937,7 +2940,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>5</state>
         </option>
         <option>
@@ -2964,7 +2967,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.1.7765</state>
+          <state>7.30.3.8061</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -3504,6 +3507,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -3894,7 +3898,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>5</state>
         </option>
         <option>
@@ -3921,7 +3925,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.30.1.7765</state>
+          <state>7.30.3.8061</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -4141,9 +4145,7 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\..\..\Bootloader</state>
           <state>$PROJ_DIR$\..\..\..\..\include</state>
-          <state>$PROJ_DIR$\..\..\..\..\MICO</state>
-          <state>$PROJ_DIR$\..\..\..\..\Support</state>
-          <state>$PROJ_DIR$\..\..\..\..\External</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\core</state>
           <state>$PROJ_DIR$\..\..\..\..\Board\EMW3265</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\include</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Cortex-M4</state>
@@ -4152,6 +4154,9 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries\STM32F4xx_StdPeriph_Driver\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F4xx\peripherals\Libraries</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\security</state>
+          <state>$PROJ_DIR$\..\..\..\..\MICO\system</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -4461,6 +4466,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -4915,38 +4921,38 @@
     <group>
       <name>MicoDriver</name>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverAdc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverAdc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverGpio.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverGpio.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverI2c.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverI2c.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverMFiAuth.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverMFiAuth.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverPwm.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverPwm.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRng.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRng.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverRtc.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverRtc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverSpi.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverSpi.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverUart.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverUART.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MicoDriverWdg.h</name>
+        <name>$PROJ_DIR$\..\..\..\..\include\MicoDrivers\MICODriverWdg.h</name>
       </file>
     </group>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\mico_platform.h</name>

@@ -363,6 +363,11 @@ OSStatus platform_spi_transfer( platform_spi_driver_t* driver, const platform_sp
 				err = kGeneralErr;
 				break;
 			}
+            // >>> update read and/or write pointers
+			pcTx += dmaXferLen;
+			if (pRx != 0)
+				pRx += dmaXferLen;
+            // <<<
 		} while (count);
 	}
 	platform_gpio_output_high( config->chip_select );

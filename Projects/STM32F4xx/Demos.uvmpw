@@ -9,7 +9,6 @@
 
   <project>
     <PathAndName>.\bootloader\RVMDK\Bootloader.uvprojx</PathAndName>
-    <NodeIsActive>1</NodeIsActive>
   </project>
 
   <project>
@@ -34,6 +33,11 @@
 
   <project>
     <PathAndName>.\MiCOKit_Enjoy\RVMDK\MiCOKit_Enjoy.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
+  </project>
+
+  <project>
+    <PathAndName>.\SiteWhere_RGB_LED\RVMDK\SiteWhere_RGB_LED.uvprojx</PathAndName>
   </project>
 
 </ProjectWorkspace>

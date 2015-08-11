@@ -16,10 +16,10 @@
 #define mqtt(M, ...) custom_log("MICO", M, ##__VA_ARGS__)
 #define mqtt_log_trace() custom_log_trace("MICO")
 
-mqtt_broker_handle_t broker_mqtt = NULL;
+mqtt_broker_handle_t broker_mqtt;
 mico_Context_t *context;
 /*****************************************************/
-void loop();
+void loop(void);
 
 /** Callback function header */
 void callback(char* topic, byte* payload, unsigned int length);

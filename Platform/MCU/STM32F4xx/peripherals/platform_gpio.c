@@ -214,7 +214,7 @@ exit:
 //   return gpio_irq_enable( gpio_mapping[gpio].bank, gpio_mapping[gpio].number, trigger, handler, arg );
 // }
 
-static bool skip = false;
+//static bool skip = false;
 OSStatus platform_gpio_irq_enable( const platform_gpio_t* gpio, platform_gpio_irq_trigger_t trigger, platform_gpio_irq_callback_t handler, void* arg )
 {
   uint32_t interrupt_line = (uint32_t) ( 1 << gpio->pin_number );
@@ -312,9 +312,9 @@ OSStatus platform_gpio_irq_enable( const platform_gpio_t* gpio, platform_gpio_ir
   gpio_irq_data[gpio->pin_number].handler    = handler;
   gpio_irq_data[gpio->pin_number].arg        = arg;
   
-  if(gpio->pin_number == 13){
-    skip = true;
-  }
+//  if(gpio->pin_number == 13){
+//    skip = true;
+//  }
 
 exit:
   platform_mcu_powersave_enable();

@@ -36,6 +36,9 @@
 #elif  MICOKIT_3165
   #define PRODUCT_ID                   "e70ae531"
   #define PRODUCT_KEY                  "292ce4ad-a3e4-41bb-9598-27aafd3d0fc4"
+#elif  MICOKIT_G55
+  #define PRODUCT_ID                   "5e0f6691"
+  #define PRODUCT_KEY                  "14cf3d82-cdf2-4954-8dc6-0009cc9365f2"
 #else
 
 #endif

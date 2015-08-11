@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    MICOConfigServer.c 
+* @file    config_server.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
@@ -339,7 +339,7 @@ static OSStatus onReceivedData(struct _HTTPHeader_t * inHeader, uint32_t inPos, 
      if(inPos == 0){
        context->offset = 0x0;
        CRC16_Init( &context->crc16_contex );
-       mico_rtos_lock_mutex(&Context->flashContentInRam_mutex); //We are write the Flash content, no other write is possiable
+       mico_rtos_lock_mutex(&Context->flashContentInRam_mutex); //We are write the Flash content, no other write is possible
        context->isFlashLocked = true;
        err = MicoFlashErase( MICO_PARTITION_OTA_TEMP, 0x0, ota_partition->partition_length);
        require_noerr(err, flashErrExit);

@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    MICOConfigMenu.c 
+* @file    config_server_menu.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014

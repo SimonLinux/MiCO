@@ -1,11 +1,10 @@
 /**
   ******************************************************************************
-  * @file    MICOConfigDelegate.c 
+  * @file    system_easylink_delegate.c 
   * @author  William Xu
   * @version V1.0.0
   * @date    05-May-2014
-  * @brief   This file provide delegate functons from Easylink function and FTC
-  *          server. 
+  * @brief   This file provide delegate functons from Easylink. 
   ******************************************************************************
   * @attention
   *

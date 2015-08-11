@@ -1,11 +1,11 @@
 /**
 ******************************************************************************
-* @file    mico_system_easylink.c 
+* @file    system_easylink.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    20-July-2015
-* @brief   This file provide the easylink function and FTC server for quick 
-*          provisioning and first time configuration.
+* @brief   This file provide the easylink function for quick provisioning and 
+*          first time configuration.
 ******************************************************************************
 *
 *  The MIT License
@@ -247,7 +247,7 @@ void easylink_thread(void *inContext)
 restart:
   mico_system_delegate_config_will_start( ); 
 #if ( MICO_CONFIG_MODE != CONFIG_MODE_SOFT_AP ) 
-  system_log("Start easylink commbo mode");
+  system_log("Start easylink combo mode");
   micoWlanStartEasyLinkPlus(EasyLink_TimeOut/1000);
   mico_rtos_get_semaphore(&easylink_sem, MICO_WAIT_FOREVER);
 #endif

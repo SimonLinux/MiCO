@@ -60,7 +60,7 @@
 /** Initialises a PWM pin
  *
  * Prepares a Pulse-Width Modulation pin for use.
- * Does not start the PWM output (use @ref wiced_pwm_start).
+ * Does not start the PWM output (use @ref MicoPwmStart).
  *
  * @param pwm        : the PWM interface which should be initialised
  * @param frequency  : Output signal frequency in Hertz

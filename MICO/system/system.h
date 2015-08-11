@@ -4,7 +4,7 @@
 * @author  William Xu
 * @version V1.0.0
 * @date    22-July-2015
-* @brief   This file provide function prototypes for for mico system.
+* @brief   This file provide internal function prototypes for for mico system.
 ******************************************************************************
 *
 *  The MIT License

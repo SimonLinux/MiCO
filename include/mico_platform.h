@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    MiCOPlatform.h 
+* @file    mico_platform.h 
 * @author  William Xu
 * @version V1.0.0
 * @date    16-Sep-2014
@@ -84,8 +84,8 @@ extern const mico_spi_device_t mico_spi_flash;
   */
 
 /** \defgroup platform_misc Task switching, reboot, and standby
-  @{
- */
+  * @{
+  */
 
 #define ENABLE_INTERRUPTS   __asm("CPSIE i")  /**< Enable interrupts to start task switching in MICO RTOS. */
 #define DISABLE_INTERRUPTS  __asm("CPSID i")  /**< Disable interrupts to stop task switching in MICO RTOS. */

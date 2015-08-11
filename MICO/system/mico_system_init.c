@@ -1,11 +1,10 @@
 /**
 ******************************************************************************
-* @file    EasyLink.c 
+* @file    mico_system_init.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
-* @brief   This file provide the easylink function and FTC server for quick 
-*          provisioning and first time configuration.
+* @brief   This file provide the mico system initialize function.
 ******************************************************************************
 *
 *  The MIT License

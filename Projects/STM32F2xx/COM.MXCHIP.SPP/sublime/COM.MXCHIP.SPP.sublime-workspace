@@ -519,38 +519,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/Users/William/Develop/MiCO/include/mico_system.h",
-			"settings":
-			{
-				"buffer_size": 10689,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "COM.MXCHIP.SPP.sublime-project",
-			"settings":
-			{
-				"buffer_size": 1828,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_config.h",
-			"settings":
-			{
-				"buffer_size": 3294,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/mico/system/mico_system_init.c",
-			"settings":
-			{
-				"buffer_size": 4629,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -612,15 +580,36 @@
 	},
 	"file_history":
 	[
+		"/Users/William/Develop/MiCO/mico/system/mico_system_init.c",
+		"/Users/William/Develop/MiCO/mico/system/mico_system_monitor.c",
+		"/Users/William/Develop/MiCO/mico/system/mico_system_notification.c",
+		"/Users/William/Develop/MiCO/mico/system/mico_system_para_storage.c",
+		"/Users/William/Develop/MiCO/mico/system/mico_system_power_daemon.c",
+		"/Users/William/Develop/MiCO/mico/system/system.h",
+		"/Users/William/Develop/MiCO/mico/system/system_factory_test.c",
+		"/Users/William/Develop/MiCO/mico/system/system_misc.c",
+		"/Users/William/Develop/MiCO/mico/system/config_server/config_server.c",
+		"/Users/William/Develop/MiCO/mico/system/config_server/config_server_menu.c",
+		"/Users/William/Develop/MiCO/mico/system/easylink/system_easylink.c",
+		"/Users/William/Develop/MiCO/mico/system/easylink/system_easylink_delegate.c",
+		"/Users/William/Develop/MiCO/mico/system/easylink/system_easylink_wac.c",
+		"/Users/William/Develop/MiCO/mico/system/mdns/mico_mdns.c",
+		"/Users/William/Develop/MiCO/mico/system/mdns/mico_mdns.h",
+		"/Users/William/Develop/MiCO/mico/system/tftp_ota/tftp_ota.h",
+		"/Users/William/Develop/MiCO/include/MICO.h",
+		"/Users/William/Develop/MiCO/include/mico_system.h",
+		"/Users/William/Develop/MiCO/libraries/utilities/StringUtils.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppEntrance.c",
+		"/Users/William/Develop/MiCO/Projects/STM32F2xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_config.h",
+		"/Users/William/Develop/MiCO/include/mico_platform.h",
+		"/Users/William/Develop/MiCO/include/mico_socket.h",
 		"/Users/William/Develop/MiCO/libraries/utilities/json_c/json_object.c",
 		"/Users/William/Develop/MiCO/include/Common.h",
-		"/Users/William/Develop/MiCO/Projects/STM32F2xx/COM.MXCHIP.SPP/sublime/COM.MXCHIP.SPP.sublime-project",
 		"/Users/William/Develop/MiCO/mico/security/Curve25519/curve25519-donna-c64.c",
 		"/Users/William/Develop/MiCO/libraries/utilities/json_c/linkhash.c",
 		"/Users/William/Library/Application Support/Sublime Text 2/Packages/SublimeClang/clang/include/stddef.h",
 		"/Users/William/Develop/MiCO/libraries/utilities/json_c/json_tokener.c",
-		"/Users/William/Develop/MiCO/mico/system/easylink/system_easylink.c",
-		"/Users/William/Develop/MiCO/mico/system/config_server/config_server.c",
 		"/Users/william/Develop/MiCO/libraries/utilities/HTTPUtils.h",
 		"/Users/william/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_peripheral.h",
 		"/Users/william/Develop/Clang_lib/ARMCC/include/string.h",
@@ -632,24 +621,19 @@
 		"/Users/William/Develop/MiCO/libraries/daemons/config_server/config_server.h",
 		"/Users/William/Develop/MiCO/Demos/COM.Apple.HomeKit/HomekitProfiles.h",
 		"/Users/William/Develop/MiCO/libraries/daemons/config_server/config_server_menu.c",
-		"/Users/William/Develop/MiCO/mico/system/mico_system_init.c",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOConfigDelegate.c",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOAppEntrance.c",
 		"/Users/William/Develop/MiCO/libraries/utilities/command_line_interface/mico_cli.c",
 		"/Users/William/Develop/MiCO/libraries/utilities/command_line_interface/mico_cli.h",
 		"/Users/William/Develop/MiCO/include/mico_service.h",
 		"/Users/William/Develop/MiCO/libraries/protocols/mdns/mdns.h",
 		"/Users/William/Develop/MiCO/libraries/protocols/tftp_ota/tftp_ota.h",
 		"/Users/William/Develop/MiCO/libraries/protocols/tftp_ota/tftp_ota.c",
-		"/Users/William/Develop/MiCO/mico/system/system_misc.c",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOBonjour.c",
 		"/Users/William/Develop/MiCO/libraries/protocols/mdns/mdns.c",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_config.h",
 		"/Users/William/Develop/MiCO/libraries/protocols/sntp/sntp.c",
 		"/Users/William/Develop/MiCO/libraries/protocols/sntp/sntp.h",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/legacy/RemoteTcpClient.c",
 		"/Users/William/Develop/MiCO/MICO/service/mico_service_config_server_menu.c",
-		"/Users/William/Develop/MiCO/include/mico_system.h",
 		"/Users/William/Develop/MiCO/Platform/Drivers/MiCOKit_EXT/micokit_ext_mfg.c",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/RemoteTcpClient.c",
 		"/Users/William/Develop/MiCO/MICO/service/mico_service_config_server.c",
@@ -669,13 +653,11 @@
 		"/Users/William/Develop/MiCO/MICO/system/mico_system_config_server_menu.c",
 		"/Users/william/Develop/MiCO/External/JSON-C/json_object.h",
 		"/Users/william/Develop/MiCO/Support/HTTPUtils.h",
-		"/Users/William/Develop/MiCO/include/mico_socket.h",
 		"/Users/William/Develop/MiCO/Platform/BoardConfig/FRDM_K64/device/MK64F12/MK64F12_ewm.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/services/network/lin/lin.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/ATSAMG55/peripherals/Libraries/asf-3.22.0/sam/services/network/lin/lin.h",
 		"/Users/William/Develop/MiCO/MICO/service/mico_service_cli.c",
 		"/Users/william/Develop/MiCO/include/Common.h",
-		"/Users/William/Develop/MiCO/include/MICO.h",
 		"/Users/William/Develop/MiCO/MICO/system/system_easylink/system_easylink_wac.c",
 		"/Users/William/Develop/MiCO/MICO/system/Find Results",
 		"/Users/William/Develop/MiCO/include/Debug.h",
@@ -725,21 +707,7 @@
 		"/Users/William/Develop/MiCO/MICO/mico_system/mico_system_power_daemon.c",
 		"/Users/William/Develop/MiCO/MICO/MICODefine.h",
 		"/Users/William/Develop/MiCO/MICO/MICOForceOTA.c",
-		"/Users/William/Develop/MiCO/MICO/MICOSystemMonitor.c",
-		"/Users/William/Develop/MiCO/Support/MDNSUtils.c",
-		"/Users/William/Develop/MiCO/MICO/MICOConfigServer.c",
-		"/Users/William/Develop/MiCO/MICO/mico_system/mico_system_platform.c",
-		"/Users/william/Develop/MiCO/include/MicoWlan.h",
-		"/Users/William/Develop/MiCO/Support/HTTPUtils.c",
-		"/Users/william/Develop/MiCO/MICO/MICONotificationCenter.h",
-		"/Users/William/Develop/MiCO/include/MICORTOS.h",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform.c",
-		"/Users/William/Develop/MiCO/Support/MDNSUtils.h",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.h",
-		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_flash.c",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-3162/platform_config.h",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-F205/platform_config.h",
-		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/os/os_timer.c"
+		"/Users/William/Develop/MiCO/MICO/MICOSystemMonitor.c"
 	],
 	"find":
 	{
@@ -747,7 +715,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
 			"<open folders>",
@@ -766,6 +734,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"MICOReadConfiguration",
+			"__strdup_trans_dot",
+			"CONFIG_BY_NONE",
+			"MiCO mDNS service functions",
+			"appRestoreDefault_callback",
 			"onReceivedData",
 			"MICO_CONFIG_SERVER_ENABLE",
 			"CONFIG_MODE_EASYLINK_WITH_SOFT_AP",
@@ -888,12 +861,7 @@
 			"MICOInitNotificationCenter",
 			"mico_system_update_config",
 			"mico_system_restore_config",
-			"mico_system_get_user_config_data",
-			"mico_system_get_context",
-			"system_network_daemen_start",
-			"system_notification_init",
-			"mico_system_notification_init",
-			"MICOInitNotificationCenter"
+			"mico_system_get_user_config_data"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -969,118 +937,8 @@
 	"groups":
 	[
 		{
-			"selected": 3,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/include/mico_system.h",
-					"settings":
-					{
-						"buffer_size": 10689,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5582,
-								5204
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1918.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "COM.MXCHIP.SPP.sublime-project",
-					"settings":
-					{
-						"buffer_size": 1828,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								374,
-								374
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 353.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/mico_config.h",
-					"settings":
-					{
-						"buffer_size": 3294,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1813,
-								1832
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 472.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/Users/William/Develop/MiCO/mico/system/mico_system_init.c",
-					"settings":
-					{
-						"buffer_size": 4629,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3996,
-								3996
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1613.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

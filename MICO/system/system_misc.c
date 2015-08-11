@@ -1,11 +1,10 @@
 /**
 ******************************************************************************
-* @file    EasyLink.c 
+* @file    system_misc.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
-* @brief   This file provide the easylink function and FTC server for quick 
-*          provisioning and first time configuration.
+* @brief   This file provide the system mics functions for internal usage
 ******************************************************************************
 *
 *  The MIT License

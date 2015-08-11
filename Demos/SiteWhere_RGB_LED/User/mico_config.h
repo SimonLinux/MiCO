@@ -33,7 +33,7 @@
 #pragma once
 
 /************************************************************************
-/* firmware version info */
+ * firmware version info */
 #define MANUFACTURER                   "MXCHIP Inc."
 #define SERIAL_NUMBER                  "1508061104"
 #define FIRMWARE_REVISION              HARDWARE_REVISION"@"SERIAL_NUMBER
@@ -45,7 +45,7 @@
 #define PROTOCOL                       "com.mico.sitewhere"
 
 /************************************************************************
-/* Wi-Fi configuration type */
+ * Wi-Fi configuration type */
 #define CONFIG_MODE_EASYLINK                    (2)
 #define CONFIG_MODE_SOFT_AP                     (3)
 #define CONFIG_MODE_EASYLINK_WITH_SOFTAP        (4)

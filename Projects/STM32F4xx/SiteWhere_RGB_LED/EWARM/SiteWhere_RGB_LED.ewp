@@ -2618,6 +2618,9 @@
       <name>protocols</name>
       <group>
         <name>FogCloud</name>
+        <excluded>
+          <configuration>MiCOKit-3165</configuration>
+        </excluded>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\fog_cloud\FogCloud_cm4_debug.a</name>
           <excluded>

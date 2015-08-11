@@ -33,7 +33,7 @@ operation
 /*******************************************************************************
  *                                  DEFINES
  ******************************************************************************/
-#define STACK_SIZE_SITEWHERE_MAIN_THREAD    0x800
+#define STACK_SIZE_SITEWHERE_MAIN_THREAD    0xC00
 
 
 /*******************************************************************************
@@ -172,7 +172,7 @@ OSStatus MiCOStartSiteWhereService(app_context_t* const inContext)
   require_noerr_action( err, exit, sitewhere_log("ERROR: Unable to start sitewhere thread.") );
   
   err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "MQTT Client", 
-                                mqtt_loop_thread, 0x800, (void*)inContext->mico_context );
+                                mqtt_loop_thread, 0xC00, (void*)inContext->mico_context );
   require_noerr_action( err, exit, sitewhere_log("ERROR: Unable to start the MQTT client thread.") );
   
 exit:

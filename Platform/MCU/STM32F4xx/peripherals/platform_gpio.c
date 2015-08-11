@@ -29,10 +29,6 @@
 ******************************************************************************
 */ 
 
-
-#include "MICOPlatform.h"
-#include "MICORTOS.h"
-
 #include "platform.h"
 #include "platform_peripheral.h"
 #include "platformLogging.h"
@@ -210,13 +206,6 @@ exit:
   return result;
 }
 
-// OSStatus MicoGpioEnableIRQ( mico_gpio_t gpio, mico_gpio_irq_trigger_t trigger, mico_gpio_irq_handler_t handler, void* arg )
-// {
-//   if(gpio == (mico_gpio_t)MICO_GPIO_UNUSED ) return kUnsupportedErr;
-
-//   return gpio_irq_enable( gpio_mapping[gpio].bank, gpio_mapping[gpio].number, trigger, handler, arg );
-// }
-
 OSStatus platform_gpio_irq_enable( const platform_gpio_t* gpio, platform_gpio_irq_trigger_t trigger, platform_gpio_irq_callback_t handler, void* arg )
 {
   uint32_t interrupt_line = (uint32_t) ( 1 << gpio->pin_number );
@@ -278,15 +267,8 @@ OSStatus platform_gpio_irq_enable( const platform_gpio_t* gpio, platform_gpio_ir
     else if (gpio->port == GPIOI)
       SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOI, EXTI_PinSource2);
   }
-  else{
-    SYSCFG_EXTILineConfig( platform_gpio_get_port_number( gpio->port ), gpio->pin_number );
-  }
-  
-  exti_init_structure.EXTI_Trigger = exti_trigger;
-  exti_init_structure.EXTI_Line    = interrupt_line;
-  exti_init_structure.EXTI_Mode    = EXTI_Mode_Interrupt;
-  exti_init_structure.EXTI_LineCmd = ENABLE;
-  EXTI_Init( &exti_init_structure );
+
+  SYSCFG_EXTILineConfig( platform_gpio_get_port_number( gpio->port ), gpio->pin_number );
   
   if ( ( interrupt_line & 0x001F ) != 0 )
   {
@@ -304,7 +286,16 @@ OSStatus platform_gpio_irq_enable( const platform_gpio_t* gpio, platform_gpio_ir
     interrupt_vector = EXTI15_10_IRQn;
   }
   
-  /* Must be lower priority than the value of configMAX_SYSCALL_INTERRUPT_PRIORITY otherwise FreeRTOS will not be able to mask the interrupt */
+  /* Clear interrupt flag */
+  EXTI->PR = interrupt_line;
+  NVIC_ClearPendingIRQ( interrupt_vector ); 
+  
+  exti_init_structure.EXTI_Trigger = exti_trigger;
+  exti_init_structure.EXTI_Line    = interrupt_line;
+  exti_init_structure.EXTI_Mode    = EXTI_Mode_Interrupt;
+  exti_init_structure.EXTI_LineCmd = ENABLE;
+  EXTI_Init( &exti_init_structure );
+
   NVIC_EnableIRQ( interrupt_vector );
   
   gpio_irq_data[gpio->pin_number].owner_port = gpio->port;
@@ -561,6 +552,7 @@ MICO_RTOS_DEFINE_ISR( EXTI15_10_IRQHandler )
 {
   gpio_irq();
 }
+
 
 
 

@@ -29,9 +29,9 @@
 ******************************************************************************
 */ 
 
-#include "MicoRtos.h"
+#include "mico_rtos.h"
 #include "string.h" /* For memcpy */
-#include "MicoPlatform.h"
+#include "mico_platform.h"
 #include "platform_config.h"
 #include "PlatformLogging.h"
 #include "gpio.h"

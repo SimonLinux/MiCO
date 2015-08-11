@@ -2,6 +2,7 @@ Document/html/*
 Projects/uvProjecs/*
 Build/*
 *.dep
+*.ewt
 *.jlink
 *.bat
 *.dni
@@ -17,3 +18,5 @@ si/*
 *.sublime-workspace
 *.uvguix.*
 *.crun
+JLinkLog.txt
+JLinkSettings.ini

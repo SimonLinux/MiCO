@@ -1280,8 +1280,6 @@
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU\STM32F2xx\peripherals\Libraries\STM32F2xx_HAL_Driver\Inc</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\STM32_USB_Host_Library\Core\Inc</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\STM32_USB_Host_Library\Class\MSC\Inc</state>
-          <state>$PROJ_DIR$\..\..\..\..\External\FatFs\src\drivers</state>
-          <state>$PROJ_DIR$\..\..\..\..\External\FatFs\src</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\Drivers\spi_flash</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\MCU</state>
           <state>$PROJ_DIR$\..\..\..\..\libraries\utilities</state>

@@ -43,7 +43,7 @@
 #include "cache.h"
 #include "delay.h"
 #include "RingBufferUtils.h"
-#include "MicoRtos.h"
+#include "mico_rtos.h"
 #include "platform_config.h"
 #include "debug.h"
 #include "Common.h"

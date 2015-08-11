@@ -2057,12 +2057,14 @@
         <file>
           <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\fog_cloud\FogCloud_cm4_debug.a</name>
           <excluded>
-            <configuration>MiCOKit-3165</configuration>
             <configuration>MiCOKit-3288</configuration>
           </excluded>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\libraries\protocols\fog_cloud\FogCloud_cm4_release.a</name>
+          <excluded>
+            <configuration>MiCOKit-3165</configuration>
+          </excluded>
         </file>
       </group>
     </group>

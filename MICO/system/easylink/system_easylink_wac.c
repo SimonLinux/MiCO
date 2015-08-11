@@ -31,7 +31,6 @@
 */
 
 
-#include "mico_system.h"
 #include "StringUtils.h"
 #include "mico.h"
 

@@ -9,15 +9,15 @@
 
   <project>
     <PathAndName>.\bootloader\RVMDK\bootloader.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
   </project>
 
   <project>
-    <PathAndName>.\COM.Apple.HomeKit\RVMDK\COM.Apple.HomeKit.uvprojx</PathAndName>
+    <PathAndName>.\COM.MXCHIP.BASIC\RVMDK\COM.MXCHIP.BASIC.uvprojx</PathAndName>
   </project>
 
   <project>
     <PathAndName>.\COM.MXCHIP.SPP\RVMDK\COM.MXCHIP.SPP.uvprojx</PathAndName>
-    <NodeIsActive>1</NodeIsActive>
   </project>
 
 </ProjectWorkspace>

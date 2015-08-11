@@ -27,6 +27,9 @@
 #include "temp_hum_sensor\BME280\bme280_user.h"
 #include "temp_hum_sensor\DHT11\DHT11.h"
 
+#define micokit_ext_mfg(M, ...) custom_log("MiCOKit-ext", M, ##__VA_ARGS__)
+#define micokit_ext_mfg_trace() custom_log_trace("MiCOKit-ext")
+
 extern mico_semaphore_t      mfg_test_state_change_sem;
 extern volatile int16_t      mfg_test_module_number;
 
@@ -35,6 +38,7 @@ extern volatile int16_t      mfg_test_module_number;
 // Key1 clicked callback:  previous test module in test mode
 void user_key1_clicked_callback(void)
 {
+  //micokit_ext_mfg("user_key1_clicked_callback");
   if(NULL != mfg_test_state_change_sem){
     if( 0 < mfg_test_module_number){
       mfg_test_module_number = (mfg_test_module_number - 1)%(MFG_TEST_MAX_MODULE_NUM+1);
@@ -50,6 +54,7 @@ void user_key1_clicked_callback(void)
 // Key2 clicked callback:  next test module in test mode
 void user_key2_clicked_callback(void)
 {
+  //micokit_ext_mfg("user_key2_clicked_callback");
   if(NULL != mfg_test_state_change_sem){
     mfg_test_module_number = (mfg_test_module_number+1)%(MFG_TEST_MAX_MODULE_NUM+1);
     mico_rtos_set_semaphore(&mfg_test_state_change_sem);  // start next module

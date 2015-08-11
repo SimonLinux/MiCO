@@ -66,14 +66,25 @@ extern "C"
 
 /************************************************************************
  * Uncomment to enable MCU real time clock */
-#define MICO_ENABLE_MCU_RTC
+//#define MICO_ENABLE_MCU_RTC
 
 /************************************************************************
  * Restore default and start easylink after press down EasyLink button for 3 seconds. */
 #define RestoreDefault_TimeOut                      (3000)
 
+/************************************************************************
+ * Restore default and start easylink after press down EasyLink button for 3 seconds. */
+#define MCU_CLOCK_HZ            (96000000)
 
-#define MCU_CLOCK_HZ            48000000
+/************************************************************************
+ * How many bits are used in NVIC priority configuration */
+#define CORTEX_NVIC_PRIO_BITS   (3)
+
+/************************************************************************
+ * Enable write protection to write-disabled embedded flash sectors */
+//#define MCU_EBANLE_FLASH_PROTECT
+
+
 
 /******************************************************
  *  EMW1062 Options
@@ -81,60 +92,19 @@ extern "C"
 /*  Wi-Fi chip module */
 #define EMW1062
 
-/*  Wi-Fi GPIO0 pin is used for out-of-band interrupt */
-//#define MICO_WIFI_OOB_IRQ_GPIO_PIN  ( 0 )
-
+/*  Wi-Fi power pin is present */
+//#define MICO_USE_WIFI_POWER_PIN
 
 /*  Wi-Fi reset pin is present */
 #define MICO_USE_WIFI_RESET_PIN
 
-/*  Wi-Fi 32K pin is present */
-#define MICO_USE_WIFI_32K_PIN
+/*  USE SDIO 1bit mode */
+//#define SDIO_1_BIT
 
-/*  WLAN Powersave Clock Source
- *  The WLAN sleep clock can be driven from one of two sources:
- *  1. MCO (MCU Clock Output) - default
- *     NOTE: Versions of BCM943362WCD4 up to and including P200 require a hardware patch to enable this mode
- *     - Connect STM32F205RGT6 pin 41 (PA8) to pin 44 (PA11)
- *  2. WLAN 32K internal oscillator (30% inaccuracy)
- *     - Comment the following directive : WICED_USE_WIFI_32K_CLOCK_MCO
- */
-#define MICO_USE_WIFI_32K_CLOCK_MCO
+/* Wi-Fi power pin is active high */
+//#define MICO_USE_WIFI_POWER_PIN_ACTIVE_HIGH
 
-
-/* Memory map */
-
-#define MICO_FLASH_FOR_APPLICATION  MICO_INTERNAL_FLASH
-#define APPLICATION_START_ADDRESS   (uint32_t)0x0000C000
-#define APPLICATION_END_ADDRESS     (uint32_t)0x0007FFFF
-#define APPLICATION_FLASH_SIZE      (APPLICATION_END_ADDRESS - APPLICATION_START_ADDRESS + 1) /* 480 bytes*/
-
-#define MICO_FLASH_FOR_UPDATE       MICO_SPI_FLASH  /* Optional */
-#define UPDATE_START_ADDRESS        (uint32_t)0x00050000 /* Optional */
-#define UPDATE_END_ADDRESS          (uint32_t)0x000C3FFF /* Optional */
-#define UPDATE_FLASH_SIZE           (UPDATE_END_ADDRESS - UPDATE_START_ADDRESS + 1) /* 320k bytes, optional*/
-
-#define MICO_FLASH_FOR_BOOT         MICO_INTERNAL_FLASH
-#define BOOT_START_ADDRESS          (uint32_t)0x00000000
-#define BOOT_END_ADDRESS            (uint32_t)0x00007FFF
-#define BOOT_VER_ADDRESS            (uint32_t)0x00007FE0
-#define BOOT_FLASH_SIZE             (BOOT_END_ADDRESS - BOOT_START_ADDRESS + 1) /* 16k bytes*/
-
-#define MICO_FLASH_FOR_DRIVER       MICO_SPI_FLASH
-#define DRIVER_START_ADDRESS        (uint32_t)0x00002000
-#define DRIVER_END_ADDRESS          (uint32_t)0x0004FFFF
-#define DRIVER_FLASH_SIZE           (DRIVER_END_ADDRESS - DRIVER_START_ADDRESS + 1) /* 312k bytes*/
-
-#define MICO_FLASH_FOR_PARA         MICO_SPI_FLASH
-#define PARA_START_ADDRESS          (uint32_t)0x00000000
-#define PARA_END_ADDRESS            (uint32_t)0x00000FFF
-#define PARA_FLASH_SIZE             (PARA_END_ADDRESS - PARA_START_ADDRESS + 1)   /* 4k bytes*/
-
-#define MICO_FLASH_FOR_EX_PARA      MICO_SPI_FLASH
-#define EX_PARA_START_ADDRESS       (uint32_t)0x00001000
-#define EX_PARA_END_ADDRESS         (uint32_t)0x00001FFF
-#define EX_PARA_FLASH_SIZE          (EX_PARA_END_ADDRESS - EX_PARA_START_ADDRESS + 1)   /* 4k bytes*/
-
+//#define MICO_USE_BUILTIN_RF_DRIVER
 /******************************************************
 *                   Enumerations
 ******************************************************/

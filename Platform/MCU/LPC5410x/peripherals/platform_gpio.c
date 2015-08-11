@@ -197,13 +197,16 @@ OSStatus platform_gpio_irq_enable( const platform_gpio_t* gpio, platform_gpio_ir
 				break;
 		}
 	}
-	require_action_quiet(i == PININT_SLOT_CNT, exit, err = kAlreadyInitializedErr);
+	//require_action_quiet(i == PININT_SLOT_CNT, exit, err = kAlreadyInitializedErr);
 
   disable_interrupts();
-  // find a free slot
-  for (i=0; i<PININT_SLOT_CNT; i++) {
-	  if (!s_irqAlc.inUses[i])
-		  break;
+  if(i == PININT_SLOT_CNT)
+  {
+      // find a free slot
+      for (i=0; i<PININT_SLOT_CNT; i++) {
+          if (!s_irqAlc.inUses[i])
+              break;
+      }
   }
 
 	require_action_quiet(i < PININT_SLOT_CNT, exit, err = kNoResourcesErr);
@@ -212,6 +215,7 @@ OSStatus platform_gpio_irq_enable( const platform_gpio_t* gpio, platform_gpio_ir
   // use this slot
   bv = 1UL << i;
   irqNdx = s_nvicIrqNdxTab[i];
+  NVIC_DisableIRQ(irqNdx);
 
   s_irqAlc.inUses[i] = 1;
   s_irqAlc.pfnCBs[i] = handler;

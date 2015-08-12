@@ -1261,7 +1261,7 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          <state>$PROJ_DIR$\..\..\..\..\Demos</state>
+          <state>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC</state>
           <state>$PROJ_DIR$\..\..\..\..\include</state>
           <state>$PROJ_DIR$\..\..\..\..\Board\MiCOKit-3288</state>
           <state>$PROJ_DIR$\..\..\..\..\Platform\include</state>

@@ -58,7 +58,7 @@
 #else // NO_MICO_RTOS  
     #define custom_log(N, M, ...) do {printf("[%s: %s:%4d] " M "\r\n",  N, SHORT_FILE, __LINE__, ##__VA_ARGS__);}while(0==1)
                                         
-    #define debug_print_assert(A,B,C,D,E,F) do {printf("[MICO:%s:%s:%4d] **ASSERT** %s""\r\n", (D!=NULL) ? D : "", F, E, (C!=NULL) ? C : "" );}while(0==1)
+    #define debug_print_assert(A,B,C,D,E,F) do {printf("[MICO:%s:%s:%4d] **ASSERT** %s""\r\n", D, F, E, (C!=NULL) ? C : "" );}while(0==1)
     #if TRACE
         #define custom_log_trace(N) do {printf("[%s: [TRACE] %s] %s()\r\n", N, SHORT_FILE, __PRETTY_FUNCTION__);}while(0==1)
     #else  // !TRACE

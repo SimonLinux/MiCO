@@ -18,7 +18,7 @@
   *
   * <h2><center>&copy; COPYRIGHT 2014 MXCHIP Inc.</center></h2>
   ******************************************************************************
-  */ 
+  */
 
 #include "MICO.h"
 #include "SppProtocol.h"

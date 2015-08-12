@@ -4792,6 +4792,9 @@
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\LocalTcpServer.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\mico_config.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.SPP\MICOAppDefine.h</name>
     </file>
     <file>
@@ -4979,7 +4982,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\Debug.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\mico_platform.h</name>

@@ -236,7 +236,7 @@ OSStatus system_network_daemen_start( mico_Context_t * const inContext )
   formatMACAddr(inContext->micoStatus.mac, (char *)&para.mac);
   MicoGetRfVer(inContext->micoStatus.rf_version, sizeof(inContext->micoStatus.rf_version));
   inContext->micoStatus.rf_version[49] = 0x0;
-  system_log("mxchipWNet library version: %s", MicoGetVer());
+  system_log("MiCO library version: %s", MicoGetVer());
   system_log("Wi-Fi driver version %s, mac %s", inContext->micoStatus.rf_version, inContext->micoStatus.mac);
 
   if(inContext->flashContentInRam.micoSystemConfig.rfPowerSaveEnable == true){

@@ -102,14 +102,14 @@ OSStatus mico_system_init( mico_Context_t* in_context )
   err = system_network_daemen_start( in_context );
   require_noerr( err, exit ); 
 
+#ifdef MICO_WLAN_CONNECTION_ENABLE
   if( in_context->flashContentInRam.micoSystemConfig.configured == wLanUnConfigured ||
       in_context->flashContentInRam.micoSystemConfig.configured == unConfigured){
     system_log("Empty configuration. Starting configuration mode...");
 
 #if (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK) || \
     (MICO_CONFIG_MODE == CONFIG_MODE_SOFT_AP) ||  \
-    (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK_WITH_SOFTAP) || \
-    (MICO_CONFIG_MODE == CONFIG_MODE_AIRKISS)
+    (MICO_CONFIG_MODE == CONFIG_MODE_EASYLINK_WITH_SOFTAP)
     err = system_easylink_start( in_context );
     require_noerr( err, exit );
 #elif ( MICO_CONFIG_MODE == CONFIG_MODE_WAC)
@@ -130,6 +130,7 @@ OSStatus mico_system_init( mico_Context_t* in_context )
     system_log("Available configuration. Starting Wi-Fi connection...");
     system_connect_wifi_fast( in_context );
   }
+#endif
 
   /*Local configuration server*/
 #ifdef MICO_CONFIG_SERVER_ENABLE

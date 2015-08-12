@@ -83,7 +83,6 @@ void remoteTcpClient_thread(void *inContext)
   if( wifi_link.is_connected == true )
     _wifiConnected = true;
   
-  
   while(1) {
     if(remoteTcpClient_fd == -1 ) {
       if(_wifiConnected == false){

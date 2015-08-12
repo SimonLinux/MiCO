@@ -128,7 +128,7 @@ int application_start( void )
   
   MicoInit( );//TCPIP ,RF driver init
   
-  /*The notification message for the registered WiFi status change*/
+  /*Register user function for MiCO nitification: WiFi status changed */
   err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL );
   require_noerr( err, exit ); 
   

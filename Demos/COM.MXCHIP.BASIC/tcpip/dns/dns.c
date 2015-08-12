@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
-* @file    os_timer.c 
+* @file    dns.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
-* @brief   MiCO RTOS timer demo.
+* @brief   Get the IP address from a host name.(DNS)
 ******************************************************************************
 *
 *  The MIT License
@@ -31,50 +31,50 @@
 
 #include "MICO.h"
 
-#define os_timer_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
+#define dns_log(M, ...) custom_log("DNS", M, ##__VA_ARGS__)
 
-mico_timer_t timer_handle;
+static mico_semaphore_t wait_sem = NULL;
+static char *domain = "www.baidu.com";
 
-void destroy_timer( void );
-void alarm( void* arg );
-
-void destroy_timer( void )
+static void micoNotify_WifiStatusHandler(WiFiEvent status, void* const inContext)
 {
-  mico_stop_timer( &timer_handle );
-  mico_deinit_timer( &timer_handle );
-}
-
-void alarm( void* arg )
-{
-  int* count = (int*)arg;
-  os_timer_log("time is coming,value = %d", (*count)++ );
-
-  if( *count == 10 )
-    destroy_timer();
+  switch (status) {
+  case NOTIFY_STATION_UP:
+    mico_rtos_set_semaphore(&wait_sem);
+    break;
+  case NOTIFY_STATION_DOWN:
+    break;
+  }
 }
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  os_timer_log("timer demo");
-  int arg = 0;
-
-  err = mico_init_timer(&timer_handle, 1000, alarm, &arg);
-  require_noerr(err, exit);
-
-  err = mico_start_timer(&timer_handle);
-  require_noerr(err, exit);
-
-  mico_thread_sleep( MICO_NEVER_TIMEOUT );
-
-exit:
-  if( err != kNoErr )
-    os_timer_log( "Thread exit with err: %d", err );
-
+  char ipstr[16];
+  
+  mico_rtos_init_semaphore( &wait_sem,1 );
+  
+  /*Register user function for MiCO nitification: WiFi status changed */
+  err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL );
+  require_noerr( err, exit ); 
+  
+  /* Start MiCO system functions according to mico_config.h*/
+  err = mico_system_init( mico_system_context_init( 0 ) );
+  require_noerr( err, exit ); 
+  
+  /* Wait for wlan connection*/
+  mico_rtos_get_semaphore( &wait_sem, MICO_WAIT_FOREVER );
+  dns_log( "wifi connected successful" );
+  
+  /* Resolve DNS address */
+  err = gethostbyname( domain, (uint8_t *)ipstr, 16 );
+  require_noerr( err, exit );
+  dns_log( "%s ip address is %s",domain, ipstr );
+  
+exit:  
+  if( wait_sem != NULL)
+    mico_rtos_deinit_semaphore( &wait_sem );
   mico_rtos_delete_thread( NULL );
   return err;
 }
-
-
-
 

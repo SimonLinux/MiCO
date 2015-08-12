@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
-* @file    os_timer.c 
+* @file    wifi_scan.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
-* @brief   MiCO RTOS timer demo.
+* @brief   scan wifihot
 ******************************************************************************
 *
 *  The MIT License
@@ -31,50 +31,34 @@
 
 #include "MICO.h"
 
-#define os_timer_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
+#define wifi_scan_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
-mico_timer_t timer_handle;
-
-void destroy_timer( void );
-void alarm( void* arg );
-
-void destroy_timer( void )
+static void micoNotify_ApListCallback(ScanResult *pApList)
 {
-  mico_stop_timer( &timer_handle );
-  mico_deinit_timer( &timer_handle );
-}
+  int i=0;
+  wifi_scan_log("got %d AP", pApList->ApNum);
+  for(i=0; i<pApList->ApNum; i++)
+  {
+    wifi_scan_log("ap%d: name = %s  | strenth=%d",  
+                  i,pApList->ApList[i].ssid, pApList->ApList[i].ApPower);
 
-void alarm( void* arg )
-{
-  int* count = (int*)arg;
-  os_timer_log("time is coming,value = %d", (*count)++ );
-
-  if( *count == 10 )
-    destroy_timer();
+  }
 }
 
 int application_start( void )
 {
-  OSStatus err = kNoErr;
-  os_timer_log("timer demo");
-  int arg = 0;
-
-  err = mico_init_timer(&timer_handle, 1000, alarm, &arg);
-  require_noerr(err, exit);
-
-  err = mico_start_timer(&timer_handle);
-  require_noerr(err, exit);
-
-  mico_thread_sleep( MICO_NEVER_TIMEOUT );
-
-exit:
-  if( err != kNoErr )
-    os_timer_log( "Thread exit with err: %d", err );
-
+  /* Start MiCO system functions according to mico_config.h*/
+  mico_system_init( mico_system_context_init( 0 ) );
+  
+  /* Register user function when wlan scan is completed */
+  mico_system_notify_register( mico_notify_WIFI_SCAN_COMPLETED, (void *)micoNotify_ApListCallback, NULL );
+  
+  wifi_scan_log("start scan mode, please wait...");
+  micoWlanStartScan( );
+  
   mico_rtos_delete_thread( NULL );
-  return err;
+  return kNoErr;
 }
-
 
 
 

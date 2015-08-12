@@ -35,15 +35,16 @@
 
 int application_start( void )
 {
+  /* Start MiCO system functions according to mico_config.h*/
+  mico_system_init( mico_system_context_init( 0 ) );
+  
   /* Output on debug serial port */
   os_helloworld_log( "Hello world Demo!" );
+  
   /* Trigger MiCO system led available on most MiCOKit */
   while(1)
   {
-      MicoGpioOutputHigh(MICO_SYS_LED);
-      //MicoGpioOutputTrigger( MICO_SYS_LED );
-      mico_thread_sleep(1);
-      MicoGpioOutputLow(MICO_SYS_LED);
+      MicoGpioOutputTrigger( MICO_SYS_LED );
       mico_thread_sleep(1);
   }
 }

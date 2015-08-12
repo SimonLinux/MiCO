@@ -45,7 +45,7 @@
                                         
     #define debug_print_assert(A,B,C,D,E,F) do {if (mico_debug_enabled==0)break;\
                                                      mico_rtos_lock_mutex( &stdio_tx_mutex );\
-                                                     printf("[%d][MICO:%s:%s:%4d] **ASSERT** %s""\r\n", mico_get_time(), (D!=NULL) ? D : "", F, E, (C!=NULL) ? C : "" );\
+                                                     printf("[%d][MICO:%s:%s:%4d] **ASSERT** %s""\r\n", mico_get_time(), D, F, E, (C!=NULL) ? C : "" );\
                                                      mico_rtos_unlock_mutex( &stdio_tx_mutex );}while(0==1)
     #if TRACE
         #define custom_log_trace(N) do {if (mico_debug_enabled==0)break;\
@@ -134,7 +134,7 @@
         {                                                                                               \
             if( unlikely( !(X) ) )                                                                      \
             {                                                                                           \
-                debug_print_assert( 0, #X, NULL, __FILE__, __LINE__, __PRETTY_FUNCTION__ );             \
+                debug_print_assert( 0, #X, NULL, SHORT_FILE, __LINE__, __PRETTY_FUNCTION__ );             \
             }                                                                                           \
                                                                                                         \
         }   while( 1==0 )
@@ -157,7 +157,7 @@
         {                                                                                               \
             if( unlikely( !(X) ) )                                                                      \
             {                                                                                           \
-                debug_print_assert( 0, #X, STR, __FILE__, __LINE__, __PRETTY_FUNCTION__ );              \
+                debug_print_assert( 0, #X, STR, SHORT_FILE, __LINE__, __PRETTY_FUNCTION__ );              \
                 MICO_ASSERTION_FAIL_ACTION();                                                           \
             }                                                                                           \
                                                                                                         \
@@ -179,7 +179,7 @@
         {                                                                                                   \
             if( unlikely( !(X) ) )                                                                          \
             {                                                                                               \
-                debug_print_assert( 0, #X, NULL, __FILE__, __LINE__, __PRETTY_FUNCTION__ );                 \
+                debug_print_assert( 0, #X, NULL, SHORT_FILE, __LINE__, __PRETTY_FUNCTION__ );                 \
                 goto LABEL;                                                                                 \
             }                                                                                               \
                                                                                                             \
@@ -201,7 +201,7 @@
         {                                                                                                   \
             if( unlikely( !(X) ) )                                                                          \
             {                                                                                               \
-                debug_print_assert( 0, #X, STR, __FILE__, __LINE__, __PRETTY_FUNCTION__ );                  \
+                debug_print_assert( 0, #X, STR, SHORT_FILE, __LINE__, __PRETTY_FUNCTION__ );                  \
                 goto LABEL;                                                                                 \
             }                                                                                               \
                                                                                                             \
@@ -246,7 +246,7 @@
             localErr = (OSStatus)(ERR);                                                                     \
             if( unlikely( localErr != 0 ) )                                                                 \
             {                                                                                               \
-                debug_print_assert( localErr, NULL, NULL, __FILE__, __LINE__, __PRETTY_FUNCTION__ );        \
+                debug_print_assert( localErr, NULL, NULL, SHORT_FILE, __LINE__, __PRETTY_FUNCTION__ );        \
                 goto LABEL;                                                                                 \
             }                                                                                               \
                                                                                                             \
@@ -272,7 +272,7 @@
             localErr = (OSStatus)(ERR);                                                                     \
             if( unlikely( localErr != 0 ) )                                                                 \
             {                                                                                               \
-                debug_print_assert( localErr, NULL, STR, __FILE__, __LINE__, __PRETTY_FUNCTION__ );         \
+                debug_print_assert( localErr, NULL, STR, SHORT_FILE, __LINE__, __PRETTY_FUNCTION__ );         \
                 goto LABEL;                                                                                 \
             }                                                                                               \
                                                                                                             \
@@ -298,7 +298,7 @@
             localErr = (OSStatus)(ERR);                                                                     \
             if( unlikely( localErr != 0 ) )                                                                 \
             {                                                                                               \
-                debug_print_assert( localErr, NULL, STR, __FILE__, __LINE__, __PRETTY_FUNCTION__ );         \
+                debug_print_assert( localErr, NULL, STR, SHORT_FILE, __LINE__, __PRETTY_FUNCTION__ );         \
                 { ACTION; }                                                                                 \
                 goto LABEL;                                                                                 \
             }                                                                                               \
@@ -344,7 +344,7 @@
             localErr = (OSStatus)(ERR);                                                                     \
             if( unlikely( localErr != 0 ) )                                                                 \
             {                                                                                               \
-                debug_print_assert( localErr, NULL, NULL, __FILE__, __LINE__, __PRETTY_FUNCTION__ );        \
+                debug_print_assert( localErr, NULL, NULL, SHORT_FILE, __LINE__, __PRETTY_FUNCTION__ );        \
                 { ACTION; }                                                                                 \
                 goto LABEL;                                                                                 \
             }                                                                                               \
@@ -388,7 +388,7 @@
         {                                                                                                   \
             if( unlikely( !(X) ) )                                                                          \
             {                                                                                               \
-                debug_print_assert( 0, #X, NULL, __FILE__, __LINE__, __PRETTY_FUNCTION__ );                 \
+                debug_print_assert( 0, #X, NULL, SHORT_FILE, __LINE__, __PRETTY_FUNCTION__ );                 \
                 { ACTION; }                                                                                 \
                 goto LABEL;                                                                                 \
             }                                                                                               \
@@ -412,7 +412,7 @@
         {                                                                                                   \
             if( unlikely( !(X) ) )                                                                          \
             {                                                                                               \
-                debug_print_assert( 0, #X, STR, __FILE__, __LINE__, __PRETTY_FUNCTION__ );                  \
+                debug_print_assert( 0, #X, STR, SHORT_FILE, __LINE__, __PRETTY_FUNCTION__ );                  \
                 { ACTION; }                                                                                 \
                 goto LABEL;                                                                                 \
             }                                                                                               \

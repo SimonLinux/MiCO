@@ -169,10 +169,10 @@ void mico_system_delegate_config_recv_ssid ( char *ssid, char *key );
   * @brief  Inform the application that auth data has received from 
   *         EasyLink client
   * @note   This a delegate function, can be completed by developer.
-  * @param  userInfo: The address of the authentication data.
+  * @param  userInfo: Authentication data string.
   * @retval kNoErr is returned on success, otherwise, kXXXErr is returned.
   */
-OSStatus mico_system_delegate_config_recv_auth_data( uint8_t * userInfo );
+OSStatus mico_system_delegate_config_recv_auth_data( char * userInfo );
 
 /**
   * @brief  Inform the application that Easylink configuration is success.

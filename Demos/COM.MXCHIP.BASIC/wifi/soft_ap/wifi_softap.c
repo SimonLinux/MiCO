@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
-* @file    os_timer.c 
+* @file    wifi_softap.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
-* @brief   MiCO RTOS timer demo.
+* @brief   let kit be a access point
 ******************************************************************************
 *
 *  The MIT License
@@ -31,50 +31,37 @@
 
 #include "MICO.h"
 
-#define os_timer_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
+#define wifi_softap_log(M, ...) custom_log("WIFI", M, ##__VA_ARGS__)
 
-mico_timer_t timer_handle;
-
-void destroy_timer( void );
-void alarm( void* arg );
-
-void destroy_timer( void )
-{
-  mico_stop_timer( &timer_handle );
-  mico_deinit_timer( &timer_handle );
-}
-
-void alarm( void* arg )
-{
-  int* count = (int*)arg;
-  os_timer_log("time is coming,value = %d", (*count)++ );
-
-  if( *count == 10 )
-    destroy_timer();
-}
+static char *ap_ssid = "mxchip_zfw";
+static char *ap_key = "12345678";
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  os_timer_log("timer demo");
-  int arg = 0;
+  network_InitTypeDef_st wNetConfig;
+ 
+  err = mico_system_init( mico_system_context_init( 0 ) );
+  require_noerr( err, exit ); 
+  
+  memset(&wNetConfig, 0x0, sizeof(network_InitTypeDef_st));
+  
+  strcpy((char*)wNetConfig.wifi_ssid, ap_ssid);
+  strcpy((char*)wNetConfig.wifi_key, ap_key);
+  
+  wNetConfig.wifi_mode = Soft_AP;
+  wNetConfig.dhcpMode = DHCP_Server;
+  wNetConfig.wifi_retry_interval = 100;
+  strcpy((char*)wNetConfig.local_ip_addr, "192.168.0.1");
+  strcpy((char*)wNetConfig.net_mask, "255.255.255.0");
+  strcpy((char*)wNetConfig.dnsServer_ip_addr, "192.168.0.1");
+  
+  wifi_softap_log("ssid:%s  key:%s", wNetConfig.wifi_ssid, wNetConfig.wifi_key);\
+  micoWlanStart(&wNetConfig);
 
-  err = mico_init_timer(&timer_handle, 1000, alarm, &arg);
-  require_noerr(err, exit);
-
-  err = mico_start_timer(&timer_handle);
-  require_noerr(err, exit);
-
-  mico_thread_sleep( MICO_NEVER_TIMEOUT );
-
-exit:
-  if( err != kNoErr )
-    os_timer_log( "Thread exit with err: %d", err );
-
-  mico_rtos_delete_thread( NULL );
+exit:  
+  mico_rtos_delete_thread(NULL);
   return err;
 }
-
-
 
 

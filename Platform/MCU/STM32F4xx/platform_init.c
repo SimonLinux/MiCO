@@ -121,6 +121,9 @@ __attribute__( ( always_inline ) ) static __INLINE void __jump_to( uint32_t addr
 #elif defined ( __CC_ARM )
 static void __asm __jump_to( uint32_t addr )
 {
+                   
+
+  
   MOV R1, #0x00000001
   ORR R0, R0, R1  /* Last bit of jump address indicates whether destination is Thumb or ARM code */
   BLX R0
@@ -141,7 +144,7 @@ void startApplication( uint32_t app_addr )
 
     /* Clear all interrupt enabled by bootloader */
     for (int i = 0; i < 8; i++ )
-        NVIC->ICER[i] = 0xFF;
+        NVIC->ICER[i] = 0xFFFFFFFF;
     
     stack_ptr = (uint32_t*) app_addr;  /* Initial stack pointer is first 4 bytes of vector table */
     start_ptr = ( stack_ptr + 1 );  /* Reset vector is second 4 bytes of vector table */

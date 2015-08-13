@@ -339,12 +339,12 @@
         <Book>
           <Number>0</Number>
           <Title>Schematics (MCBSTM32F200)</Title>
-          <Path>D:\Applications\Keil_v5\ARM\PACK\Keil\STM32F2xx_DFP\2.3.0\MDK/Boards/Keil/MCBSTM32F200/Documentation/mcbstm32f200-schematics.pdf</Path>
+          <Path>C:\Keil\ARM\PACK\Keil\STM32F2xx_DFP\2.1.0\MDK\Boards\Keil\MCBSTM32F200\Documentation\mcbstm32f200-schematics.pdf</Path>
         </Book>
         <Book>
           <Number>1</Number>
           <Title>User Manual (MCBSTM32F200)</Title>
-          <Path>D:\Applications\Keil_v5\ARM\PACK\Keil\STM32F2xx_DFP\2.3.0\MDK/Boards/Keil/MCBSTM32F200/Documentation/mcbstm32f200.chm</Path>
+          <Path>C:\Keil\ARM\PACK\Keil\STM32F2xx_DFP\2.1.0\MDK\Boards\Keil\MCBSTM32F200\Documentation\mcbstm32f200.chm</Path>
         </Book>
         <Book>
           <Number>2</Number>
@@ -374,7 +374,7 @@
         <tRSysVw>1</tRSysVw>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>6</nTsel>
+        <nTsel>1</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -385,7 +385,7 @@
         <tDlgDll></tDlgDll>
         <tDlgPa></tDlgPa>
         <tIfile></tIfile>
-        <pMon>Segger\JL2CM3.dll</pMon>
+        <pMon>BIN\UL2CM3.DLL</pMon>
       </DebugOpt>
       <TargetDriverDllRegistry>
         <SetRegEntry>

@@ -1682,7 +1682,7 @@
           <Target>
             <UseTarget>1</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>1</RunToMain>
+            <RunToMain>0</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
             <RestoreWatchpoints>1</RestoreWatchpoints>
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
@@ -1692,7 +1692,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>7</TargetSelection>
+          <TargetSelection>1</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -1706,7 +1706,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>Segger\JL2CM3.dll</Driver>
+            <Driver>BIN\UL2CM3.DLL</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -1721,7 +1721,7 @@
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3>"" ()</Flash3>
-          <Flash4>.\JLinkSettings.ini</Flash4>
+          <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp>Application</pFcarmGrp>
           <pFcArmRoot></pFcArmRoot>
@@ -1855,7 +1855,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x800c000</StartAddress>
-                <Size>0x80000</Size>
+                <Size>0x70000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>

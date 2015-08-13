@@ -8,17 +8,16 @@
   <WorkspaceName>WorkSpace</WorkspaceName>
 
   <project>
-    <PathAndName>.\COM.MXCHIP.BASIC\RVMDK\COM.MXCHIP.BASIC.uvprojx</PathAndName>
+    <PathAndName>.\bootloader\RVMDK\bootloader.uvprojx</PathAndName>
     <NodeIsActive>1</NodeIsActive>
-    <NodeIsExpanded>1</NodeIsExpanded>
+  </project>
+
+  <project>
+    <PathAndName>.\COM.MXCHIP.BASIC\RVMDK\COM.MXCHIP.BASIC.uvprojx</PathAndName>
   </project>
 
   <project>
     <PathAndName>.\COM.MXCHIP.SPP\RVMDK\COM.MXCHIP.SPP.uvprojx</PathAndName>
-  </project>
-
-  <project>
-    <PathAndName>.\bootloader\RVMDK\bootloader.uvprojx</PathAndName>
   </project>
 
 </ProjectWorkspace>

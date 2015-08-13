@@ -47,7 +47,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>..\..\..\..\Build\Bootloader\MiCOKit-3288\obj_RVMDK\</OutputDirectory>
-          <OutputName>COM.MXCHIP.Bootloader.axf</OutputName>
+          <OutputName>bootloader.axf</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -80,7 +80,7 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>fromelf.exe --bin  ..\..\..\..\Build\COM.MXCHIP.Bootloader\MiCOKit-3288\Obj_RVMDK\COM.MXCHIP.Bootloader.axf --output ..\..\..\..\Build\COM.MXCHIP.Bootloader\Output\MiCOKit-3288\COM.MXCHIP.Bootloader.bin</UserProg1Name>
+            <UserProg1Name>fromelf.exe --bin  ..\..\..\..\Build\bootloader\MiCOKit-3288\Obj_RVMDK\bootloader.axf --output ..\..\..\..\Build\bootloader\Output\MiCOKit-3288\bootloader.bin</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -347,7 +347,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>0</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -1763,7 +1763,7 @@
             </VariousControls>
           </Aads>
           <LDads>
-            <umfTarg>1</umfTarg>
+            <umfTarg>0</umfTarg>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
             <noStLib>0</noStLib>

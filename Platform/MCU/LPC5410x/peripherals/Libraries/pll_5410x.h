@@ -170,9 +170,9 @@ STATIC INLINE bool Chip_Clock_IsSystemPLLLocked(void)
 #define SYS_PLL_BANDSEL(d)  (d<<18)
 #define SYS_PLL_DIRECTI(d)  (d<<19)
 #define SYS_PLL_DIRECTO(d)  (d<<20)
-#define SYS_PLL_INSELR(d)   ((d&0xf)<<0)      
-#define SYS_PLL_INSELI(d)   ((d&0x3f)<<4) 
-#define SYS_PLL_INSELP(d)   ((d&0x1f)<<10) 
+#define SYS_PLL_INSELR(d)   ((d&0xf)<<0)
+#define SYS_PLL_INSELI(d)   ((d&0x3f)<<4)
+#define SYS_PLL_INSELP(d)   ((d&0x1f)<<10)
 
 
 /** @brief PLL Spread Spectrum (SS) Programmable modulation frequency

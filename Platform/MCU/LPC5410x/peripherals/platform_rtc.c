@@ -89,9 +89,9 @@ extern const platform_gpio_t       platform_gpio_pins[];
  *               Static Function Declarations
  ******************************************************/
 // static OSStatus stm32f2_rtc_change_clock                   ( rtc_clock_state_t* current, rtc_clock_state_t target );
-static uint32_t convert_rtc_calendar_values_to_units_passed( const platform_rtc_time_t* rtc_read_date_time );
-static void convert_units_passed_to_rtc_calendar_values( const uint32_t seconds , platform_rtc_time_t *rtc_get_date_time );
-static uint8_t CaculateWeekDay( const platform_rtc_time_t* rtc_calendar );
+//static uint32_t convert_rtc_calendar_values_to_units_passed( const platform_rtc_time_t* rtc_read_date_time );
+//static void convert_units_passed_to_rtc_calendar_values( const uint32_t seconds , platform_rtc_time_t *rtc_get_date_time );
+//static uint8_t CaculateWeekDay( const platform_rtc_time_t* rtc_calendar );
 
 /******************************************************
 *               Variables Definitions
@@ -107,19 +107,19 @@ mico_rtc_time_t default_rtc_time =
   .month = 6,
   .year  = 15
 };
-
-static const char not_leap_days[] =
-{
-    0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-};
-
-static const char leap_days[] =
-{
-    0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-};
+//
+//static const char not_leap_days[] =
+//{
+//    0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+//};
+//
+//static const char leap_days[] =
+//{
+//    0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+//};
 
 //static const platform_rtc_time_t* saved_rtc_time;
-static rtc_clock_state_t   current_clock_state  = CLOCKING_EVERY_SEC;
+//static rtc_clock_state_t   current_clock_state  = CLOCKING_EVERY_SEC;
 
 /******************************************************
 *               Function Declarations
@@ -243,135 +243,93 @@ OSStatus platform_rtc_set_time( const mico_rtc_time_t* time )
 
 	return kNoErr;
 #else /* #ifdef MICO_ENABLE_MCU_RTC */
+
 	UNUSED_PARAMETER(time);
 	return kUnsupportedErr;
 #endif /* #ifdef MICO_ENABLE_MCU_RTC */
 }
 
-static uint32_t convert_rtc_calendar_values_to_units_passed( const platform_rtc_time_t* rtc_read_date_time )
- {
-    long int        temp1=0;
-    long int        temp2=0;
-    int             temp=0;
-    long int        temp_days=0;
-    uint8_t         current_year;
-
-    /* Calculate number of days in the previous years */
-    if( rtc_read_date_time->year != 0 )
-    {
-      for( temp = (int)( rtc_read_date_time->year - 1 ); temp >= 0; temp-- )
-      {
-        temp_days += (LEAP_YEAR_OR_NOT(temp)) ? (LEAP_YEAR_DAY_COUNT): (NOT_LEAP_YEAR_DAY_COUNT);
-      }
-    }
-
-    current_year = rtc_read_date_time->year;
-    check_string( (rtc_read_date_time->month != 0), "Inappropriate month value in RTC");
-    if( rtc_read_date_time->month != 0 )
-    {
-      /* Calculate number of days passed in the current year and add them to previous days value */
-      for( temp = (int)( rtc_read_date_time->month - 1 ); temp > 0; temp-- )
-      {
-        temp_days += LEAP_YEAR_OR_NOT(current_year)?(leap_days[temp]):(not_leap_days[temp]);
-      }
-    }
-
-    /* Convert passed hours, seconds and minutes to seconds */
-    temp1 = rtc_read_date_time->sec + rtc_read_date_time->min*NUM_SECONDS_IN_MINUTE + rtc_read_date_time->hr*NUM_SECONDS_IN_HOUR;
-
-    check_string(( rtc_read_date_time->date != 0 ), "Inappropriate date value in RTC");
-
-    /* Convert passed days to seconds */
-    if( rtc_read_date_time->date != 0 )
-    {
-      temp2 = ( ( rtc_read_date_time->date - 1 ) + temp_days ) * NUM_SECONDS_IN_HOUR * 24;
-    }
-
-    /* Return total number of seconds passed  */
-    return (uint32_t)( temp1 + temp2 );
-
-}
-
-static void convert_units_passed_to_rtc_calendar_values( const uint32_t seconds , platform_rtc_time_t *rtc_get_date_time )
-{
-    long int        temp1=0;
-    int             temp=0;
-    long int        temp_days=0;
-    bool MonthFound = false;
-    bool YearFound = false;
-
-    rtc_log_trace();
-
-    /* Convert seconds passed to hours, seconds and minutes */
-    rtc_get_date_time->sec = seconds % NUM_SECONDS_IN_MINUTE;
-    rtc_get_date_time->min = ( seconds / NUM_SECONDS_IN_MINUTE )% NUM_SECONDS_IN_MINUTE;
-    rtc_get_date_time->hr  = ( seconds / NUM_SECONDS_IN_HOUR ) % 24;
-
-    /* years */
-    temp_days = ( seconds / NUM_SECONDS_IN_HOUR ) / 24;
-    rtc_get_date_time->year = 0;
-    while ( YearFound == false ) {
-      temp1 = (LEAP_YEAR_OR_NOT(temp)) ? (LEAP_YEAR_DAY_COUNT): (NOT_LEAP_YEAR_DAY_COUNT);
-      if ( temp_days >= temp1 ) {
-        temp_days -= temp1;
-        temp++;
-      }
-      else {
-        YearFound = true;
-      }
-    }
-    rtc_get_date_time->year = temp;
-
-    /* Month */
-    temp = 1;
-    rtc_get_date_time->month = 1;
-    /* Determine offset of months from days offset */
-    while ( MonthFound == false ) {
-      temp1 = LEAP_YEAR_OR_NOT(rtc_get_date_time->year )?(leap_days[temp]):(not_leap_days[temp]);
-      if(( temp_days + 1 ) > temp1) {
-        temp_days -= temp1;
-	temp++;
-      }
-      else {
-        MonthFound = true;
-      }
-    }
-    rtc_get_date_time->month = temp;
-
-    /* date */
-    rtc_get_date_time->date = temp_days + 1;
-
-    /* WeekDay */
-    rtc_get_date_time->weekday = CaculateWeekDay( rtc_get_date_time ) + 1;
-
-#if 0
-    rtc_log(" sec       = %d ", rtc_get_date_time->sec);
-    rtc_log(" min       = %d ", rtc_get_date_time->min);
-    rtc_log(" hr        = %d ", rtc_get_date_time->hr);
-    rtc_log(" weekday   = %d ", rtc_get_date_time->weekday);
-    rtc_log(" date      = %d ", rtc_get_date_time->date);
-    rtc_log(" month     = %d ", rtc_get_date_time->month);
-    rtc_log(" year      = %d ", rtc_get_date_time->year);
-    rtc_log(" rtc_get_date_time   = 0x%x ", rtc_get_date_time);
-#endif
-}
-
-static uint8_t CaculateWeekDay( const platform_rtc_time_t* rtc_calendar )
-{
-  uint16_t year;
-  uint8_t  month, date, weekday;
-
-  year  = rtc_calendar->year + BASE_YEAR;
-  month = rtc_calendar->month;
-  date  = rtc_calendar->date;
-  if ( month == 1 || month == 2 )
-     {
-         month+=12;
-         year--;
-     }
-     weekday = ( date + 2 * month + 3 * ( month + 1 ) / 5 + year + year / 4 - year / 100 + year / 400) % 7;
-     return weekday;
-}
+//
+//static void convert_units_passed_to_rtc_calendar_values( const uint32_t seconds , platform_rtc_time_t *rtc_get_date_time )
+//{
+//    long int        temp1=0;
+//    int             temp=0;
+//    long int        temp_days=0;
+//    bool MonthFound = false;
+//    bool YearFound = false;
+//
+//    rtc_log_trace();
+//
+//    /* Convert seconds passed to hours, seconds and minutes */
+//    rtc_get_date_time->sec = seconds % NUM_SECONDS_IN_MINUTE;
+//    rtc_get_date_time->min = ( seconds / NUM_SECONDS_IN_MINUTE )% NUM_SECONDS_IN_MINUTE;
+//    rtc_get_date_time->hr  = ( seconds / NUM_SECONDS_IN_HOUR ) % 24;
+//
+//    /* years */
+//    temp_days = ( seconds / NUM_SECONDS_IN_HOUR ) / 24;
+//    rtc_get_date_time->year = 0;
+//    while ( YearFound == false ) {
+//      temp1 = (LEAP_YEAR_OR_NOT(temp)) ? (LEAP_YEAR_DAY_COUNT): (NOT_LEAP_YEAR_DAY_COUNT);
+//      if ( temp_days >= temp1 ) {
+//        temp_days -= temp1;
+//        temp++;
+//      }
+//      else {
+//        YearFound = true;
+//      }
+//    }
+//    rtc_get_date_time->year = temp;
+//
+//    /* Month */
+//    temp = 1;
+//    rtc_get_date_time->month = 1;
+//    /* Determine offset of months from days offset */
+//    while ( MonthFound == false ) {
+//      temp1 = LEAP_YEAR_OR_NOT(rtc_get_date_time->year )?(leap_days[temp]):(not_leap_days[temp]);
+//      if(( temp_days + 1 ) > temp1) {
+//        temp_days -= temp1;
+//	temp++;
+//      }
+//      else {
+//        MonthFound = true;
+//      }
+//    }
+//    rtc_get_date_time->month = temp;
+//
+//    /* date */
+//    rtc_get_date_time->date = temp_days + 1;
+//
+//    /* WeekDay */
+//    rtc_get_date_time->weekday = CaculateWeekDay( rtc_get_date_time ) + 1;
+//
+//#if 0
+//    rtc_log(" sec       = %d ", rtc_get_date_time->sec);
+//    rtc_log(" min       = %d ", rtc_get_date_time->min);
+//    rtc_log(" hr        = %d ", rtc_get_date_time->hr);
+//    rtc_log(" weekday   = %d ", rtc_get_date_time->weekday);
+//    rtc_log(" date      = %d ", rtc_get_date_time->date);
+//    rtc_log(" month     = %d ", rtc_get_date_time->month);
+//    rtc_log(" year      = %d ", rtc_get_date_time->year);
+//    rtc_log(" rtc_get_date_time   = 0x%x ", rtc_get_date_time);
+//#endif
+//}
+//
+//static uint8_t CaculateWeekDay( const platform_rtc_time_t* rtc_calendar )
+//{
+//  uint16_t year;
+//  uint8_t  month, date, weekday;
+//
+//  year  = rtc_calendar->year + BASE_YEAR;
+//  month = rtc_calendar->month;
+//  date  = rtc_calendar->date;
+//  if ( month == 1 || month == 2 )
+//     {
+//         month+=12;
+//         year--;
+//     }
+//     weekday = ( date + 2 * month + 3 * ( month + 1 ) / 5 + year + year / 4 - year / 100 + year / 400) % 7;
+//     return weekday;
+//}
 
 
 

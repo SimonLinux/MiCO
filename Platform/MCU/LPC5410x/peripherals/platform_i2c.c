@@ -134,7 +134,9 @@ OSStatus platform_i2c_init(const platform_i2c_t* i2c, const platform_i2c_config_
 {
 	OSStatus err = kNoErr;
 	LPC_I2C_T *pI2C;
+	#ifndef BOOTLOADER
 	platform_i2c_cb_t *pCtx = i2c->pCtx;
+#endif
 	// platform_mcu_powersave_disable( );
 	require_action_quiet( (i2c != NULL && i2c->hwNdx < MICO_I2C_MAX && config != NULL && config->address_width == I2C_ADDRESS_WIDTH_7BIT), exit, err = kParamErr);
 
@@ -478,7 +480,9 @@ OSStatus platform_i2c_deinit(const platform_i2c_t* i2c, const platform_i2c_confi
 {
 	UNUSED_PARAMETER( config );
 	OSStatus err = kNoErr;
+#ifndef BOOTLOADER
 	platform_i2c_cb_t *pCtx = i2c->pCtx;
+#endif
 
 
 	require_action_quiet( i2c != NULL, exit, err = kParamErr);

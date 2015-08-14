@@ -419,8 +419,9 @@ void DmaAbort(DMA_CHID_T dmaCh)
 extern volatile uint8_t bDMASPITXDoneFlag;
 extern volatile uint8_t bDMASPIRXDoneFlag;
 extern volatile uint8_t g_isWlanRx;
-extern void OnSPIDmaXferDone(uint32_t spiNdx, uint32_t isRx, uint32_t isErr);
+extern void wlan_spi_xfer_done(uint32_t isRx);
 #endif
+extern void OnSPIDmaXferDone(uint32_t spiNdx, uint32_t isRx, uint32_t isErr);
 MICO_RTOS_DEFINE_ISR( DMA_IRQHandler )
 {
   uint32_t err = g_pDMA->DMACOMMON[0].ERRINT;

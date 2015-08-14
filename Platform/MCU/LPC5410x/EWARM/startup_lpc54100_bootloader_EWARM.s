@@ -42,7 +42,7 @@
         SECTION CSTACK:DATA:NOROOT(3)
 
         SECTION .intvec:CODE:NOROOT(2)
-        
+
         EXTERN  __iar_program_start
         EXTERN  hard_fault_handler_c
         PUBLIC  __vector_table
@@ -76,53 +76,53 @@ __vector_table
         DCD     PIN_INT1_IRQHandler         ; PIO INT1
         DCD     PIN_INT2_IRQHandler         ; PIO INT2
         DCD     PIN_INT3_IRQHandler         ; PIO INT3
-        DCD     UTICK_IRQHandler            ; UTICK timer  				
+        DCD     UTICK_IRQHandler            ; UTICK timer
         DCD     MRT_IRQHandler              ; Multi-Rate Timer
         DCD     CT32B0_IRQHandler           ; CT32B0
         DCD     CT32B1_IRQHandler           ; CT32B1
         DCD     CT32B2_IRQHandler           ; CT32B2
         DCD     CT32B3_IRQHandler           ; CT32B3
         DCD     CT32B4_IRQHandler           ; CT32B4
-        DCD     SCT0_IRQHandler             ; Smart Counter Timer 
-        DCD     UART0_IRQHandler            ; UART0             
-        DCD     UART1_IRQHandler            ; UART1            
+        DCD     SCT0_IRQHandler             ; Smart Counter Timer
+        DCD     UART0_IRQHandler            ; UART0
+        DCD     UART1_IRQHandler            ; UART1
         DCD     UART2_IRQHandler            ; UART2
         DCD     UART3_IRQHandler            ; UART3
-        DCD     I2C0_IRQHandler             ; I2C0 controller  
-        DCD     I2C1_IRQHandler             ; I2C1 controller  
-        DCD     I2C2_IRQHandler             ; I2C2 controller  
-        DCD     SPI0_IRQHandler             ; SPI0 controller				
+        DCD     I2C0_IRQHandler             ; I2C0 controller
+        DCD     I2C1_IRQHandler             ; I2C1 controller
+        DCD     I2C2_IRQHandler             ; I2C2 controller
+        DCD     SPI0_IRQHandler             ; SPI0 controller
         DCD     SPI1_IRQHandler             ; SPI1 controller
         DCD     ADC_SEQA_IRQHandler         ; ADC0 A sequence (A/D Converter) interrupt
         DCD     ADC_SEQB_IRQHandler         ; ADC0 B sequence (A/D Converter) interrupt
         DCD     ADC_THCMP_IRQHandler        ; ADC THCMP and OVERRUN ORed
         DCD     RTC_IRQHandler              ; RTC Timer
         DCD     Reserved_IRQHandler         ; Reserved
-        DCD     MAILBOX_IRQHandler          ; Mailbox 
+        DCD     MAILBOX_IRQHandler          ; Mailbox
         DCD     GINT1_IRQHandler            ; GPIO Group1 Interrupt
         DCD     PIN_INT4_IRQHandler         ; PIO INT4
         DCD     PIN_INT5_IRQHandler         ; PIO INT5
         DCD     PIN_INT6_IRQHandler         ; PIO INT6
         DCD     PIN_INT7_IRQHandler         ; PIO INT7
-        DCD     Reserved_IRQHandler         ; Reserved				
-        DCD     Reserved_IRQHandler         ; Reserved				
+        DCD     Reserved_IRQHandler         ; Reserved
+        DCD     Reserved_IRQHandler         ; Reserved
         DCD     Reserved_IRQHandler         ; Reserved
         DCD     RIT_IRQHandler              ; RITimer
-        DCD     Reserved41_IRQHandler       ; Reserved                         
-        DCD     Reserved42_IRQHandler       ; Reserved                         
-        DCD     Reserved43_IRQHandler       ; Reserved                         
-        DCD     Reserved44_IRQHandler       ; Reserved  
+        DCD     Reserved41_IRQHandler       ; Reserved
+        DCD     Reserved42_IRQHandler       ; Reserved
+        DCD     Reserved43_IRQHandler       ; Reserved
+        DCD     Reserved44_IRQHandler       ; Reserved
 
         SECTION .intvec_RAM:CODE:ROOT(2)
 
         EXTERN  __iar_program_start
-        PUBLIC  __vector_table_RAM  
+        PUBLIC  __vector_table_RAM
 
         DATA
 __vector_table_RAM
         DCD     sfe(CSTACK)
         DCD     Reset_Handler             ; Reset Handler
-        
+
         DCD     NMI_Handler
         DCD     HardFault_Handler
         DCD     MemManage_Handler
@@ -148,48 +148,48 @@ __vector_table_RAM
         DCD     PIN_INT1_IRQHandler         ; PIO INT1
         DCD     PIN_INT2_IRQHandler         ; PIO INT2
         DCD     PIN_INT3_IRQHandler         ; PIO INT3
-        DCD     UTICK_IRQHandler            ; UTICK timer  				
+        DCD     UTICK_IRQHandler            ; UTICK timer
         DCD     MRT_IRQHandler              ; Multi-Rate Timer
         DCD     CT32B0_IRQHandler           ; CT32B0
         DCD     CT32B1_IRQHandler           ; CT32B1
         DCD     CT32B2_IRQHandler           ; CT32B2
         DCD     CT32B3_IRQHandler           ; CT32B3
         DCD     CT32B4_IRQHandler           ; CT32B4
-        DCD     SCT0_IRQHandler             ; Smart Counter Timer 
-        DCD     UART0_IRQHandler            ; UART0             
-        DCD     UART1_IRQHandler            ; UART1            
+        DCD     SCT0_IRQHandler             ; Smart Counter Timer
+        DCD     UART0_IRQHandler            ; UART0
+        DCD     UART1_IRQHandler            ; UART1
         DCD     UART2_IRQHandler            ; UART2
         DCD     UART3_IRQHandler            ; UART3
-        DCD     I2C0_IRQHandler             ; I2C0 controller  
-        DCD     I2C1_IRQHandler             ; I2C1 controller  
-        DCD     I2C2_IRQHandler             ; I2C2 controller  
-        DCD     SPI0_IRQHandler             ; SPI0 controller				
+        DCD     I2C0_IRQHandler             ; I2C0 controller
+        DCD     I2C1_IRQHandler             ; I2C1 controller
+        DCD     I2C2_IRQHandler             ; I2C2 controller
+        DCD     SPI0_IRQHandler             ; SPI0 controller
         DCD     SPI1_IRQHandler             ; SPI1 controller
         DCD     ADC_SEQA_IRQHandler         ; ADC0 A sequence (A/D Converter) interrupt
         DCD     ADC_SEQB_IRQHandler         ; ADC0 B sequence (A/D Converter) interrupt
         DCD     ADC_THCMP_IRQHandler        ; ADC THCMP and OVERRUN ORed
         DCD     RTC_IRQHandler              ; RTC Timer
         DCD     Reserved_IRQHandler         ; Reserved
-        DCD     MAILBOX_IRQHandler          ; Mailbox 
+        DCD     MAILBOX_IRQHandler          ; Mailbox
         DCD     GINT1_IRQHandler            ; GPIO Group1 Interrupt
         DCD     PIN_INT4_IRQHandler         ; PIO INT4
         DCD     PIN_INT5_IRQHandler         ; PIO INT5
         DCD     PIN_INT6_IRQHandler         ; PIO INT6
         DCD     PIN_INT7_IRQHandler         ; PIO INT7
-        DCD     Reserved_IRQHandler         ; Reserved				
-        DCD     Reserved_IRQHandler         ; Reserved				
+        DCD     Reserved_IRQHandler         ; Reserved
+        DCD     Reserved_IRQHandler         ; Reserved
         DCD     Reserved_IRQHandler         ; Reserved
         DCD     RIT_IRQHandler              ; RITimer
-        DCD     Reserved41_IRQHandler       ; Reserved                         
-        DCD     Reserved42_IRQHandler       ; Reserved                         
-        DCD     Reserved43_IRQHandler       ; Reserved                         
-        DCD     Reserved44_IRQHandler       ; Reserved                         
+        DCD     Reserved41_IRQHandler       ; Reserved
+        DCD     Reserved42_IRQHandler       ; Reserved
+        DCD     Reserved43_IRQHandler       ; Reserved
+        DCD     Reserved44_IRQHandler       ; Reserved
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Default interrupt handlers.
 ;;
-    
+
         THUMB
 
         PUBWEAK Reset_Handler
@@ -202,7 +202,7 @@ Reset_Handler
         BX		r0
 
 ; For cores with SystemInit() or __iar_program_start(), the code will sleep the MCU
-        
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Default interrupt handlers.
@@ -275,38 +275,38 @@ Reserved_IRQHandler
 		PUBWEAK PIN_INT1_IRQHandler         ; PIO INT1
 		PUBWEAK PIN_INT2_IRQHandler         ; PIO INT2
 		PUBWEAK PIN_INT3_IRQHandler         ; PIO INT3
-		PUBWEAK UTICK_IRQHandler            ; UTICK timer  				
+		PUBWEAK UTICK_IRQHandler            ; UTICK timer
 		PUBWEAK MRT_IRQHandler              ; Multi-Rate Timer
 		PUBWEAK CT32B0_IRQHandler           ; CT32B0
 		PUBWEAK CT32B1_IRQHandler           ; CT32B1
 		PUBWEAK CT32B2_IRQHandler           ; CT32B2
 		PUBWEAK CT32B3_IRQHandler           ; CT32B3
 		PUBWEAK CT32B4_IRQHandler           ; CT32B4
-		PUBWEAK UART0_IRQHandler            ; UART0             
-		PUBWEAK SCT0_IRQHandler             ; Smart Counter Timer 
-		PUBWEAK UART1_IRQHandler            ; UART1            
+		PUBWEAK UART0_IRQHandler            ; UART0
+		PUBWEAK SCT0_IRQHandler             ; Smart Counter Timer
+		PUBWEAK UART1_IRQHandler            ; UART1
 		PUBWEAK UART2_IRQHandler            ; UART2
 		PUBWEAK UART3_IRQHandler            ; UART3
-		PUBWEAK I2C0_IRQHandler             ; I2C0 controller  
-		PUBWEAK I2C1_IRQHandler             ; I2C1 controller  
-		PUBWEAK I2C2_IRQHandler             ; I2C2 controller  
-		PUBWEAK SPI0_IRQHandler             ; SPI0 controller				
+		PUBWEAK I2C0_IRQHandler             ; I2C0 controller
+		PUBWEAK I2C1_IRQHandler             ; I2C1 controller
+		PUBWEAK I2C2_IRQHandler             ; I2C2 controller
+		PUBWEAK SPI0_IRQHandler             ; SPI0 controller
 		PUBWEAK SPI1_IRQHandler             ; SPI1 controller
 		PUBWEAK ADC_SEQA_IRQHandler         ; ADC0 A sequence (A/D Converter) interrupt
 		PUBWEAK ADC_SEQB_IRQHandler         ; ADC0 B sequence (A/D Converter) interrupt
 		PUBWEAK ADC_THCMP_IRQHandler        ; ADC THCMP and OVERRUN ORed
 		PUBWEAK RTC_IRQHandler              ; RTC Timer
-		PUBWEAK MAILBOX_IRQHandler          ; Mailbox 
+		PUBWEAK MAILBOX_IRQHandler          ; Mailbox
 		PUBWEAK GINT1_IRQHandler            ; GPIO Group1 Interrupt
 		PUBWEAK PIN_INT4_IRQHandler         ; PIO INT4
 		PUBWEAK PIN_INT5_IRQHandler         ; PIO INT5
 		PUBWEAK PIN_INT6_IRQHandler         ; PIO INT6
 		PUBWEAK PIN_INT7_IRQHandler         ; PIO INT7
 		PUBWEAK RIT_IRQHandler              ; RITimer
-		PUBWEAK Reserved41_IRQHandler       ; Reserved                         
-		PUBWEAK Reserved42_IRQHandler       ; Reserved       
-		PUBWEAK Reserved43_IRQHandler       ; Reserved                         
-		PUBWEAK Reserved44_IRQHandler       ; Reserved  
+		PUBWEAK Reserved41_IRQHandler       ; Reserved
+		PUBWEAK Reserved42_IRQHandler       ; Reserved
+		PUBWEAK Reserved43_IRQHandler       ; Reserved
+		PUBWEAK Reserved44_IRQHandler       ; Reserved
 
 WDT_IRQHandler              ; Watchdog
 BOD_IRQHandler              ; Brown Out Detect
@@ -316,38 +316,38 @@ PIN_INT0_IRQHandler         ; PIO INT0
 PIN_INT1_IRQHandler         ; PIO INT1
 PIN_INT2_IRQHandler         ; PIO INT2
 PIN_INT3_IRQHandler         ; PIO INT3
-UTICK_IRQHandler            ; UTICK timer  				
+UTICK_IRQHandler            ; UTICK timer
 MRT_IRQHandler              ; Multi-Rate Timer
 CT32B0_IRQHandler           ; CT32B0
 CT32B1_IRQHandler           ; CT32B1
 CT32B2_IRQHandler           ; CT32B2
 CT32B3_IRQHandler           ; CT32B3
 CT32B4_IRQHandler           ; CT32B4
-UART0_IRQHandler            ; UART0             
-SCT0_IRQHandler             ; Smart Counter Timer 
-UART1_IRQHandler            ; UART1            
+UART0_IRQHandler            ; UART0
+SCT0_IRQHandler             ; Smart Counter Timer
+UART1_IRQHandler            ; UART1
 UART2_IRQHandler            ; UART2
 UART3_IRQHandler            ; UART3
-I2C0_IRQHandler             ; I2C0 controller  
-I2C1_IRQHandler             ; I2C1 controller  
-I2C2_IRQHandler             ; I2C2 controller  
-SPI0_IRQHandler             ; SPI0 controller				
+I2C0_IRQHandler             ; I2C0 controller
+I2C1_IRQHandler             ; I2C1 controller
+I2C2_IRQHandler             ; I2C2 controller
+SPI0_IRQHandler             ; SPI0 controller
 SPI1_IRQHandler             ; SPI1 controller
 ADC_SEQA_IRQHandler         ; ADC0 A sequence (A/D Converter) interrupt
 ADC_SEQB_IRQHandler         ; ADC0 B sequence (A/D Converter) interrupt
 ADC_THCMP_IRQHandler        ; ADC THCMP and OVERRUN ORed
 RTC_IRQHandler              ; RTC Timer
-MAILBOX_IRQHandler          ; Mailbox 
+MAILBOX_IRQHandler          ; Mailbox
 GINT1_IRQHandler            ; GPIO Group1 Interrupt
 PIN_INT4_IRQHandler         ; PIO INT4
 PIN_INT5_IRQHandler         ; PIO INT5
 PIN_INT6_IRQHandler         ; PIO INT6
 PIN_INT7_IRQHandler         ; PIO INT7
 RIT_IRQHandler              ; RITimer
-Reserved41_IRQHandler       ; Reserved                         
-Reserved42_IRQHandler       ; Reserved       
-Reserved43_IRQHandler       ; Reserved                         
-Reserved44_IRQHandler       ; Reserved  
+Reserved41_IRQHandler       ; Reserved
+Reserved42_IRQHandler       ; Reserved
+Reserved43_IRQHandler       ; Reserved
+Reserved44_IRQHandler       ; Reserved
 
 Default_Handler:
         B .

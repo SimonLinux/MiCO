@@ -407,14 +407,14 @@ uint8_t SPI_SendData(uint8_t data)
   }
   return ret;
 }
-
-static uint16_t spi_transfer( const platform_spi_t* spi, uint16_t data )
-{
-  uint16_t ret = 0;
-  ret = SPI_SendData(data);
-//  printf("SPI RW %x %x\r\n", tmp, ret);
-  return ret;
-}
+//
+//static uint16_t spi_transfer( const platform_spi_t* spi, uint16_t data )
+//{
+//  uint16_t ret = 0;
+//  ret = SPI_SendData(data);
+////  printf("SPI RW %x %x\r\n", tmp, ret);
+//  return ret;
+//}
 
 platform_spi_message_segment_t s_segs[3];
 #if 0

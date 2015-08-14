@@ -272,7 +272,7 @@ OSStatus host_platform_bus_deinit( void )
 
     return kNoErr;
 }
-
+extern void DmaAbort(DMA_CHID_T dmaCh);
 volatile uint8_t g_isWlanRx;
 uint32_t g_xferCnt, g_xferDoneCnt;
 OSStatus _prvWlanSPIXfer( bus_transfer_direction_t dir, uint8_t* pTxBuf, uint8_t *pRxBuf, uint16_t buffer_length )

@@ -44,9 +44,9 @@ extern "C"
 *                    Constants
 ******************************************************/
 
-#define HARDWARE_REVISION   "MK3288_1"
-#define DEFAULT_NAME        "MiCOKit 3288"
-#define MODEL               "MiCOKit-3288"
+#define HARDWARE_REVISION   "MKF411B_1"
+#define DEFAULT_NAME        "MiCOKit F411B"
+#define MODEL               "MiCOKit-F411B"
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 
@@ -170,6 +170,7 @@ extern "C"
 //#define MICO_USE_WIFI_32K_CLOCK_MCO
 
 //#define MICO_USE_BUILTIN_RF_DRIVER
+
 #ifdef __cplusplus
 } /*extern "C" */
 #endif

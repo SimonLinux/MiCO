@@ -75,8 +75,6 @@ extern WEAK void bootloader_start(void);
 *               Variables Definitions
 ******************************************************/
 
-/* This table maps STM32 pins to GPIO definitions on the schematic*/
-
 static uint32_t _default_start_time = 0;
 static mico_timer_t _button_EL_timer;
 
@@ -578,9 +576,9 @@ exit:
 void MicoSysLed(bool onoff)
 {
   if (onoff) {
-    MicoGpioOutputHigh( (mico_gpio_t)MICO_SYS_LED );
-  } else {
     MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
+  } else {
+    MicoGpioOutputHigh( (mico_gpio_t)MICO_SYS_LED );
   }
 }
 
@@ -592,6 +590,19 @@ void MicoRfLed(bool onoff)
     MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
   }
 }
+
+#ifdef USE_MiCOKit_EXT
+// add test mode for MiCOKit-EXT board,check Arduino_D5 pin when system startup
+bool MicoExtShouldEnterTestMode(void)
+{
+  if( MicoGpioInputGet((mico_gpio_t)Arduino_D5)==false ){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+#endif
 
 bool MicoShouldEnterMFGMode(void)
 {

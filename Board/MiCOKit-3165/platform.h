@@ -198,11 +198,7 @@ EMW3165 on EMB-3165-A platform pin definitions ...
 |               | 40 | VDD  |             |              |                |
 +---------------+----+--------------------+--------------+----------------+  
 |               | 41 | ANT  |             |              |                |
-+---------------+----+--------------------+--------------+----------------+  
-Notes
-1. These mappings are defined in <MICO-SDK>/Platform/BCM943362WCD4/platform.c
-2. STM32F2xx Datasheet  -> http://www.st.com/web/en/resource/technical/document/datasheet/CD00237391.pdf
-3. STM32F2xx Ref Manual -> http://www.st.com/web/en/resource/technical/document/reference_manual/CD00225773.pdf
++---------------+----+--------------------+--------------+----------------+ 
 */
 
 typedef enum
@@ -293,7 +289,7 @@ typedef enum
 
 #ifdef BOOTLOADER
 #define STDIO_UART       (MICO_UART_1)
-#define STDIO_UART_BAUDRATE (115200) 
+#define STDIO_UART_BAUDRATE (921600) 
 #else
 #define STDIO_UART       (MICO_UART_1)
 #define STDIO_UART_BAUDRATE (115200) 
@@ -315,12 +311,12 @@ typedef enum
 #define Arduino_D2          (MICO_GPIO_NONE)
 #define Arduino_D3          (MICO_GPIO_NONE)
 #define Arduino_D4          (MICO_GPIO_19) 
-#define Arduino_D5          (MICO_GPIO_27)  
-#define Arduino_D6          (MICO_GPIO_35) 
+#define Arduino_D5          (MICO_GPIO_16)  
+#define Arduino_D6          (MICO_GPIO_14) 
 #define Arduino_D7          (MICO_GPIO_NONE)
 
-#define Arduino_D8          (MICO_GPIO_16)
-#define Arduino_D9          (MICO_GPIO_14)
+#define Arduino_D8          (MICO_GPIO_35)
+#define Arduino_D9          (MICO_GPIO_27)
 #define Arduino_CS          (MICO_GPIO_2)
 #define Arduino_SI          (FLASH_PIN_SPI_MOSI)
 #define Arduino_SO          (FLASH_PIN_SPI_MISO)
@@ -342,7 +338,7 @@ typedef enum
 #define USE_MiCOKit_EXT
 #define USE_RGB_LED_DRIVER_P9813
 
-#ifdef USE_MiCOKit_EX
+#ifdef USE_MiCOKit_EXT
 #define MICO_I2C_CP         (Arduino_I2C)
 #else
 #define MICO_I2C_CP         (MICO_I2C_NONE)

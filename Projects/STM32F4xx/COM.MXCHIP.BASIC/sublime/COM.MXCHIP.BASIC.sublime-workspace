@@ -523,7 +523,7 @@
 			"file": "/Users/William/Develop/MiCO/include/mico_system.h",
 			"settings":
 			{
-				"buffer_size": 23561,
+				"buffer_size": 23546,
 				"line_ending": "Windows"
 			}
 		},
@@ -532,6 +532,38 @@
 			"settings":
 			{
 				"buffer_size": 3464,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.h",
+			"settings":
+			{
+				"buffer_size": 16890,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
+			"settings":
+			{
+				"buffer_size": 22139,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "COM.MXCHIP.BASIC.sublime-project",
+			"settings":
+			{
+				"buffer_size": 1687,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
+			"settings":
+			{
+				"buffer_size": 17639,
 				"line_ending": "Windows"
 			}
 		}
@@ -750,6 +782,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"PlatformEasyLinkButtonClickedCallback",
 			"appRestoreDefault_callback",
 			"__strdup_trans_dot",
 			"possiable",
@@ -876,8 +909,7 @@
 			"ConfigWillStop",
 			"ConfigWillStop\nConfigWillStop",
 			"_FTCRespondInComingMessage",
-			"easylink_sem",
-			"easylink_thread"
+			"easylink_sem"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -898,7 +930,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -906,15 +938,15 @@
 					"file": "/Users/William/Develop/MiCO/include/mico_system.h",
 					"settings":
 					{
-						"buffer_size": 23561,
+						"buffer_size": 23546,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3494,
-								3494
+								0,
+								0
 							]
 						],
 						"settings":
@@ -924,7 +956,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1007.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -951,6 +983,117 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 738.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.h",
+					"settings":
+					{
+						"buffer_size": 16890,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13362,
+								13362
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5151.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
+					"settings":
+					{
+						"buffer_size": 22139,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15878,
+								15915
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 616.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "COM.MXCHIP.BASIC.sublime-project",
+					"settings":
+					{
+						"buffer_size": 1687,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								192,
+								192
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 120.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
+					"settings":
+					{
+						"buffer_size": 17639,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2583,
+								2583
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 788.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

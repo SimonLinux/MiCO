@@ -40,6 +40,11 @@
 #elif MICOKIT_G55
   #define PRODUCT_ID                      "b95b6242"
   #define PRODUCT_KEY                     "52731f33-edba-4483-9e4a-dc3859976c41"
+#elif MICOKIT_F411B  // STM32F411CE + EMW1062
+  #define PRODUCT_ID                      "e7a5de54"
+  #define PRODUCT_KEY                     "973f5726-3481-4674-8fda-81f4b1a19a4c"
+#else
+
 #endif
 
 

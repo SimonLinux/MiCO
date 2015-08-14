@@ -36,7 +36,6 @@ extern "C"
 {
 #endif
 
-
 /******************************************************
 *                      Macros
 ******************************************************/
@@ -45,9 +44,9 @@ extern "C"
 *                    Constants
 ******************************************************/
 
-#define HARDWARE_REVISION   "MKF411B_1"
-#define DEFAULT_NAME        "MiCOKit F411B"
-#define MODEL               "MiCOKit-F411B"
+#define HARDWARE_REVISION   "MK3288_1"
+#define DEFAULT_NAME        "MiCOKit 3288"
+#define MODEL               "MiCOKit-3288"
 
 /* MICO RTOS tick rate in Hz */
 #define MICO_DEFAULT_TICK_RATE_HZ                   (1000) 
@@ -62,11 +61,11 @@ extern "C"
 
 /************************************************************************
  * Uncomment to disable MCU powersave API functions */
-//#define MICO_DISABLE_MCU_POWERSAVE
+#define MICO_DISABLE_MCU_POWERSAVE
 
 /************************************************************************
  * Uncomment to enable MCU real time clock */
-#define MICO_ENABLE_MCU_RTC
+//#define MICO_ENABLE_MCU_RTC
 
 /************************************************************************
  * Restore default and start easylink after press down EasyLink button for 3 seconds. */
@@ -84,12 +83,12 @@ extern "C"
  * Enable write protection to write-disabled embedded flash sectors */
 //#define MCU_EBANLE_FLASH_PROTECT 
 
-#define HSE_SOURCE              RCC_HSE_ON               /* Use external crystal                 */
+#define HSE_SOURCE              RCC_HSE_OFF               /* Use external crystal                 */
 #define AHB_CLOCK_DIVIDER       RCC_SYSCLK_Div1          /* AHB clock = System clock             */
 #define APB1_CLOCK_DIVIDER      RCC_HCLK_Div2            /* APB1 clock = AHB clock / 2           */
 #define APB2_CLOCK_DIVIDER      RCC_HCLK_Div1            /* APB2 clock = AHB clock / 1           */
-#define PLL_SOURCE              RCC_PLLSource_HSE        /* PLL source = external crystal        */
-#define PLL_M_CONSTANT          16                       /* PLLM = 16                            */
+#define PLL_SOURCE              RCC_PLLSource_HSI        /* PLL source = external crystal        */
+#define PLL_M_CONSTANT          16                        /* PLLM = 16                            */
 #define PLL_N_CONSTANT          400                      /* PLLN = 400                           */
 #define PLL_P_CONSTANT          4                        /* PLLP = 4                             */
 #define PPL_Q_CONSTANT          7                        /* PLLQ = 7                             */
@@ -97,7 +96,46 @@ extern "C"
 #define SYSTICK_CLOCK_SOURCE    SysTick_CLKSource_HCLK   /* SysTick clock source = AHB clock     */
 #define INT_FLASH_WAIT_STATE    FLASH_Latency_3          /* Internal flash wait state = 3 cycles */
 
+///******************************************************
+// *  EMW1088 Options
+// ******************************************************/
+///*  Wi-Fi chip module */
+//#define EMW1088
+//  
+///*  Wi-Fi power pin is present */
+//#define MICO_USE_WIFI_POWER_PIN
+//
+///*  USE SDIO 1bit mode */
+//#define SDIO_1_BIT
+//
+///* Wi-Fi power pin is active high */
+//#define MICO_USE_WIFI_POWER_PIN_ACTIVE_HIGH
+//
+////#define MICO_USE_BUILTIN_RF_DRIVER
+  
+  
 /******************************************************
+*                   Enumerations
+******************************************************/
+
+/******************************************************
+*                 Type Definitions
+******************************************************/
+
+/******************************************************
+*                    Structures
+******************************************************/
+
+/******************************************************
+*                 Global Variables
+******************************************************/
+
+/******************************************************
+*               Function Declarations
+******************************************************/
+
+  
+  /******************************************************
  *  EMW1062 Options
  ******************************************************/
 /*  Wi-Fi chip module */
@@ -129,13 +167,11 @@ extern "C"
  *  1. MCO (MCU Clock Output) - default
  *  2. WLAN 32K internal oscillator (30% inaccuracy)
  */
-#define MICO_USE_WIFI_32K_CLOCK_MCO
+//#define MICO_USE_WIFI_32K_CLOCK_MCO
 
 //#define MICO_USE_BUILTIN_RF_DRIVER
-
-
 #ifdef __cplusplus
 } /*extern "C" */
 #endif
 
- 
+

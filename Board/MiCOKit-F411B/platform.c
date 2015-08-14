@@ -30,16 +30,19 @@
 ******************************************************************************
 */ 
 
-#include "mico_platform.h"
+#include "stdio.h"
+#include "string.h"
+
 #include "platform.h"
-#include "platform_config.h"
 #include "platform_peripheral.h"
 #include "platform_config.h"
 #include "PlatformLogging.h"
 #include "spi_flash_platform_interface.h"
 #include "wlan_platform_common.h"
 
-
+#ifdef USE_MiCOKit_EXT
+#include "micokit_ext.h"
+#endif
 
 /******************************************************
 *                      Macros
@@ -65,8 +68,8 @@
 *               Function Declarations
 ******************************************************/
 extern WEAK void PlatformEasyLinkButtonClickedCallback(void);
+extern WEAK void PlatformStandbyButtonClickedCallback(void);
 extern WEAK void PlatformEasyLinkButtonLongPressedCallback(void);
-extern WEAK void bootloader_start(void);
 
 /******************************************************
 *               Variables Definitions
@@ -81,49 +84,59 @@ static mico_timer_t _button_EL_timer;
 
 const platform_gpio_t platform_gpio_pins[] =
 {
-  /* Common GPIOs for internal use */
-  [MICO_SYS_LED]                      = { GPIOB, 12 }, 
-  [MICO_RF_LED]                       = { GPIOB, 13 }, 
-  [BOOT_SEL]                          = { GPIOB,  2 }, 
-  [MFG_SEL]                           = { GPIOB, 10 }, 
-  [EasyLink_BUTTON]                   = { GPIOB, 14 }, 
-  [STDIO_UART_RX]                     = { GPIOA,  3 },  
-  [STDIO_UART_TX]                     = { GPIOA,  2 },  
-  [FLASH_PIN_SPI_CS  ]                = { GPIOB,  1 },
-  [FLASH_PIN_SPI_CLK ]                = { GPIOB,  0 },
-  [FLASH_PIN_SPI_MOSI]                = { GPIOA, 10 },
-  [FLASH_PIN_SPI_MISO]                = { GPIOA, 12 },
-
   /* GPIOs for external use */
-  [MICO_GPIO_2]                       = { GPIOB,  2 },
-  [MICO_GPIO_8]                       = { GPIOA , 2 },
-  [MICO_GPIO_9]                       = { GPIOA,  1 },
-  [MICO_GPIO_12]                      = { GPIOA,  3 },
-  [MICO_GPIO_16]                      = { GPIOC, 13 },
-  [MICO_GPIO_17]                      = { GPIOB, 10 },
-  [MICO_GPIO_18]                      = { GPIOB,  9 },
-  [MICO_GPIO_19]                      = { GPIOB, 12 },
-  [MICO_GPIO_27]                      = { GPIOA, 12 },  
-  [MICO_GPIO_29]                      = { GPIOA, 10 },
-  [MICO_GPIO_30]                      = { GPIOB,  6 },
-  [MICO_GPIO_31]                      = { GPIOB,  8 },
-  [MICO_GPIO_33]                      = { GPIOB, 13 },
-  [MICO_GPIO_34]                      = { GPIOA,  5 },
-  [MICO_GPIO_35]                      = { GPIOA, 10 },
-  [MICO_GPIO_36]                      = { GPIOB,  1 },
-  [MICO_GPIO_37]                      = { GPIOB,  0 },
-  [MICO_GPIO_38]                      = { GPIOA,  4 },
+  [MICO_GPIO_4]                       = { GPIOA, 15 },   
+  [MICO_GPIO_5]                       = { GPIOB,  3 },   
+  [MICO_GPIO_6]                       = { GPIOA, 11 },
+  [MICO_GPIO_7]                       = { GPIOB,  4 },
+  [MICO_GPIO_9]                       = { GPIOA,  4 },
+  [MICO_GPIO_10]                      = { GPIOB,  8 },
+  [MICO_GPIO_11]                      = { GPIOB,  9 },
+  [MICO_GPIO_14]                      = { GPIOC, 13 },
+  [MICO_GPIO_21]                      = { GPIOA,  2 }, //UART1_TX_DEBUG
+  [MICO_GPIO_22]                      = { GPIOA,  3 }, //UART1_RX_DEBUG
+  [MICO_GPIO_23]                      = { GPIOA,  0 }, //EasyLink_BUTTON
+  [MICO_GPIO_24]                      = { GPIOA,  1 },
+  [MICO_GPIO_25]                      = { GPIOB,  0 }, //spi_flash_spi_pins
+  [MICO_GPIO_26]                      = { GPIOB,  1 }, //spi_flash_spi_pins
+  [MICO_GPIO_27]                      = { GPIOA, 12 }, //spi_flash_spi_pins
+  [MICO_GPIO_28]                      = { GPIOA, 10 }, //spi_flash_spi_pins
+  [MICO_GPIO_29]                      = { GPIOA,  5 }, 
+  [MICO_GPIO_30]                      = { GPIOB,  2 }, //BOOT
+  [MICO_GPIO_31]                      = { GPIOA,  7 },
+  [MICO_GPIO_32]                      = { GPIOB, 12 }, //MICO_SYS_LED
+  [MICO_GPIO_33]                      = { GPIOB, 13 }, //MFG
 };
 
-const platform_i2c_t *platform_i2c_peripherals = NULL;
+const platform_pwm_t *platform_pwm_peripherals = NULL;
+
+const platform_i2c_t platform_i2c_peripherals[] =
+{
+  [MICO_I2C_1] =
+  {
+    .port                         = I2C1,
+    .pin_scl                      = &platform_gpio_pins[MICO_GPIO_10],
+    .pin_sda                      = &platform_gpio_pins[MICO_GPIO_11],
+    .peripheral_clock_reg         = RCC_APB1Periph_I2C1,
+    .tx_dma                       = DMA1,
+    .tx_dma_peripheral_clock      = RCC_AHB1Periph_DMA1,
+    .tx_dma_stream                = DMA1_Stream7,
+    .rx_dma_stream                = DMA1_Stream5,
+    .tx_dma_stream_id             = 7,
+    .rx_dma_stream_id             = 5,
+    .tx_dma_channel               = DMA_Channel_1,
+    .rx_dma_channel               = DMA_Channel_1,
+    .gpio_af                      = GPIO_AF_I2C1
+  },
+};
 
 const platform_uart_t platform_uart_peripherals[] =
 {
   [MICO_UART_1] =
   {
     .port                         = USART2,
-    .pin_tx                       = &platform_gpio_pins[STDIO_UART_TX],
-    .pin_rx                       = &platform_gpio_pins[STDIO_UART_RX],
+    .pin_tx                       = &platform_gpio_pins[MICO_GPIO_21],
+    .pin_rx                       = &platform_gpio_pins[MICO_GPIO_22],
     .pin_cts                      = NULL,
     .pin_rts                      = NULL,
     .tx_dma_config =
@@ -148,8 +161,8 @@ const platform_uart_t platform_uart_peripherals[] =
   [MICO_UART_2] =
   {
     .port                         = USART1,
-    .pin_tx                       = &platform_gpio_pins[MICO_GPIO_30],
-    .pin_rx                       = &platform_gpio_pins[MICO_GPIO_29],
+    .pin_tx                       = &platform_gpio_pins[Arduino_TXD],
+    .pin_rx                       = &platform_gpio_pins[Arduino_RXD],
     .pin_cts                      = NULL,
     .pin_rts                      = NULL,
     .tx_dma_config =
@@ -172,19 +185,20 @@ const platform_uart_t platform_uart_peripherals[] =
     },
   },
 };
+
 platform_uart_driver_t platform_uart_drivers[MICO_UART_MAX];
 
 const platform_spi_t platform_spi_peripherals[] =
 {
   [MICO_SPI_1]  =
-   {
+  {
     .port                         = SPI5,
     .gpio_af                      = GPIO_AF6_SPI5,
     .peripheral_clock_reg         = RCC_APB2Periph_SPI5,
     .peripheral_clock_func        = RCC_APB2PeriphClockCmd,
-    .pin_mosi                     = &platform_gpio_pins[FLASH_PIN_SPI_MOSI],
-    .pin_miso                     = &platform_gpio_pins[FLASH_PIN_SPI_MISO],
-    .pin_clock                    = &platform_gpio_pins[FLASH_PIN_SPI_CLK],
+    .pin_mosi                     = &platform_gpio_pins[MICO_GPIO_28],
+    .pin_miso                     = &platform_gpio_pins[MICO_GPIO_27],
+    .pin_clock                    = &platform_gpio_pins[MICO_GPIO_25],
     .tx_dma = 
     {
       .controller                 = DMA2,
@@ -207,6 +221,53 @@ const platform_spi_t platform_spi_peripherals[] =
 };
 
 platform_spi_driver_t platform_spi_drivers[MICO_SPI_MAX];
+
+#if defined ( USE_MICO_SPI_FLASH )
+const mico_spi_device_t mico_spi_flash =
+{
+    .port        = MICO_SPI_1,
+    .chip_select = MICO_GPIO_26,
+    .speed       = 40000000,
+    .mode        = (SPI_CLOCK_RISING_EDGE | SPI_CLOCK_IDLE_HIGH | SPI_USE_DMA | SPI_MSB_FIRST),
+    .bits        = 8
+};
+#endif
+
+const platform_adc_t platform_adc_peripherals[] =
+{
+  [MICO_ADC_1] = { ADC1, ADC_Channel_4, RCC_APB2Periph_ADC1, 1, (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_9] },
+  [MICO_ADC_2] = { ADC1, ADC_Channel_1, RCC_APB2Periph_ADC1, 1, (platform_gpio_t*)&platform_gpio_pins[MICO_GPIO_24] },
+};
+
+/* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c
+*/
+const platform_gpio_t wifi_control_pins[] =
+{
+  [WIFI_PIN_POWER       ] = { GPIOB, 6 },
+};
+
+/* Wi-Fi SDIO bus pins. Used by platform/MCU/STM32F2xx/EMW1062_driver/wlan_SDIO.c */
+const platform_gpio_t wifi_sdio_pins[] =
+{
+//#ifdef SDIO_1_BIT
+//  [WIFI_PIN_SDIO_IRQ    ] = { GPIOA,  8 },
+//#endif
+//  [WIFI_PIN_SDIO_CLK    ] = { GPIOB, 15 },
+//  [WIFI_PIN_SDIO_CMD    ] = { GPIOA,  6 },
+//  [WIFI_PIN_SDIO_D0     ] = { GPIOB,  7 },
+//#ifndef SDIO_1_BIT
+//  [WIFI_PIN_SDIO_D1     ] = { GPIOA,  8 },
+//  [WIFI_PIN_SDIO_D2     ] = { GPIOA,  9 },
+//  [WIFI_PIN_SDIO_D3     ] = { GPIOB,  5 },
+  [WIFI_PIN_SDIO_OOB_IRQ] = { GPIOB, 14 },
+  [WIFI_PIN_SDIO_CLK    ] = { GPIOB, 15 },
+  [WIFI_PIN_SDIO_CMD    ] = { GPIOA,  6 },
+  [WIFI_PIN_SDIO_D0     ] = { GPIOB,  7 },
+  [WIFI_PIN_SDIO_D1     ] = { GPIOA,  8 },
+  [WIFI_PIN_SDIO_D2     ] = { GPIOA,  9 },
+  [WIFI_PIN_SDIO_D3     ] = { GPIOB,  5 },  
+//#endif
+};
 
 /* Flash memory devices */
 const platform_flash_t platform_flash_peripherals[] =
@@ -243,7 +304,7 @@ const mico_logic_partition_t mico_partitions[] =
     .partition_owner           = MICO_FLASH_EMBEDDED,
     .partition_description     = "Application",
     .partition_start_addr      = 0x0800C000,
-    .partition_length          =    0x74000,   //464k bytes
+    .partition_length          =    0x74000,   //480k bytes
     .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
   },
   [MICO_PARTITION_RF_FIRMWARE] =
@@ -251,15 +312,15 @@ const mico_logic_partition_t mico_partitions[] =
     .partition_owner           = MICO_FLASH_SPI,
     .partition_description     = "RF Firmware",
     .partition_start_addr      = 0x2000,
-    .partition_length          = 0x3E000,  //248k bytes
+    .partition_length          = 0x4E000,  //312k bytes
     .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_DIS,
   },
   [MICO_PARTITION_OTA_TEMP] =
   {
     .partition_owner           = MICO_FLASH_SPI,
     .partition_description     = "OTA Storage",
-    .partition_start_addr      = 0x40000,
-    .partition_length          = 0x70000, //448k bytes
+    .partition_start_addr      = 0x50000,
+    .partition_length          = 0x74000, //768k bytes
     .partition_options         = PAR_OPT_READ_EN | PAR_OPT_WRITE_EN,
   },
   [MICO_PARTITION_PARAMETER_1] =
@@ -280,48 +341,11 @@ const mico_logic_partition_t mico_partitions[] =
   }
 };
 
-#if defined ( USE_MICO_SPI_FLASH )
-const mico_spi_device_t mico_spi_flash =
-{
-  .port        = MICO_SPI_1,
-  .chip_select = FLASH_PIN_SPI_CS,
-  .speed       = 40000000,
-  .mode        = (SPI_CLOCK_RISING_EDGE | SPI_CLOCK_IDLE_HIGH | SPI_USE_DMA | SPI_MSB_FIRST ),
-  .bits        = 8
-};
-#endif
-
-/* Wi-Fi control pins. Used by platform/MCU/wlan_platform_common.c
-* SDIO: EMW1062_PIN_BOOTSTRAP[1:0] = b'00
-* gSPI: EMW1062_PIN_BOOTSTRAP[1:0] = b'01
-*/
-const platform_gpio_t wifi_control_pins[] =
-{
-  [WIFI_PIN_RESET]           = { GPIOA, 11 },
-};
-
-/* Wi-Fi SDIO bus pins. Used by platform/MCU/STM32F2xx/EMW1062_driver/wlan_SDIO.c */
-const platform_gpio_t wifi_sdio_pins[] =
-{
-  [WIFI_PIN_SDIO_OOB_IRQ] = { GPIOB,  6 },
-  [WIFI_PIN_SDIO_CLK    ] = { GPIOB, 15 },
-  [WIFI_PIN_SDIO_CMD    ] = { GPIOA,  6 },
-  [WIFI_PIN_SDIO_D0     ] = { GPIOB,  7 },
-  [WIFI_PIN_SDIO_D1     ] = { GPIOA,  8 },
-  [WIFI_PIN_SDIO_D2     ] = { GPIOA,  9 },
-  [WIFI_PIN_SDIO_D3     ] = { GPIOB,  5 },
-};
-
-
 /******************************************************
 *           Interrupt Handler Definitions
 ******************************************************/
 
-MICO_RTOS_DEFINE_ISR( USART1_IRQHandler )
-{
-  platform_uart_irq( &platform_uart_drivers[MICO_UART_2] );
-}
-
+/* USART2 -> MICO_UART_1 */
 MICO_RTOS_DEFINE_ISR( USART2_IRQHandler )
 {
   platform_uart_irq( &platform_uart_drivers[MICO_UART_1] );
@@ -332,14 +356,20 @@ MICO_RTOS_DEFINE_ISR( DMA1_Stream6_IRQHandler )
   platform_uart_tx_dma_irq( &platform_uart_drivers[MICO_UART_1] );
 }
 
-MICO_RTOS_DEFINE_ISR( DMA2_Stream7_IRQHandler )
-{
-  platform_uart_tx_dma_irq( &platform_uart_drivers[MICO_UART_2] );
-}
-
 MICO_RTOS_DEFINE_ISR( DMA1_Stream5_IRQHandler )
 {
   platform_uart_rx_dma_irq( &platform_uart_drivers[MICO_UART_1] );
+}
+
+/* USART1 -> MICO_UART_2 */
+MICO_RTOS_DEFINE_ISR( USART1_IRQHandler )
+{
+  platform_uart_irq( &platform_uart_drivers[MICO_UART_2] );
+}
+
+MICO_RTOS_DEFINE_ISR( DMA2_Stream7_IRQHandler )
+{
+  platform_uart_tx_dma_irq( &platform_uart_drivers[MICO_UART_2] );
 }
 
 MICO_RTOS_DEFINE_ISR( DMA2_Stream2_IRQHandler )
@@ -347,24 +377,18 @@ MICO_RTOS_DEFINE_ISR( DMA2_Stream2_IRQHandler )
   platform_uart_rx_dma_irq( &platform_uart_drivers[MICO_UART_2] );
 }
 
-
-/******************************************************
-*               Function Definitions
-******************************************************/
-
 void platform_init_peripheral_irq_priorities( void )
 {
   /* Interrupt priority setup. Called by WICED/platform/MCU/STM32F2xx/platform_init.c */
   NVIC_SetPriority( RTC_WKUP_IRQn    ,  1 ); /* RTC Wake-up event   */
   NVIC_SetPriority( SDIO_IRQn        ,  2 ); /* WLAN SDIO           */
   NVIC_SetPriority( DMA2_Stream3_IRQn,  3 ); /* WLAN SDIO DMA       */
-  //NVIC_SetPriority( DMA1_Stream3_IRQn,  3 ); /* WLAN SPI DMA        */
   NVIC_SetPriority( USART1_IRQn      ,  6 ); /* MICO_UART_1         */
-  NVIC_SetPriority( USART2_IRQn      ,  6 ); /* MICO_UART_2         */
+  // NVIC_SetPriority( USART2_IRQn      ,  6 ); /* MICO_UART_2         */
   NVIC_SetPriority( DMA1_Stream6_IRQn,  7 ); /* MICO_UART_1 TX DMA  */
   NVIC_SetPriority( DMA1_Stream5_IRQn,  7 ); /* MICO_UART_1 RX DMA  */
-  NVIC_SetPriority( DMA2_Stream7_IRQn,  7 ); /* MICO_UART_2 TX DMA  */
-  NVIC_SetPriority( DMA2_Stream2_IRQn,  7 ); /* MICO_UART_2 RX DMA  */
+  // NVIC_SetPriority( DMA2_Stream7_IRQn,  7 ); /* MICO_UART_2 TX DMA  */
+  // NVIC_SetPriority( DMA2_Stream2_IRQn,  7 ); /* MICO_UART_2 RX DMA  */
   NVIC_SetPriority( EXTI0_IRQn       , 14 ); /* GPIO                */
   NVIC_SetPriority( EXTI1_IRQn       , 14 ); /* GPIO                */
   NVIC_SetPriority( EXTI2_IRQn       , 14 ); /* GPIO                */
@@ -374,12 +398,17 @@ void platform_init_peripheral_irq_priorities( void )
   NVIC_SetPriority( EXTI15_10_IRQn   , 14 ); /* GPIO                */
 }
 
+
+/******************************************************
+*               Function Definitions
+******************************************************/
+
 static void _button_EL_irq_handler( void* arg )
 {
   (void)(arg);
   int interval = -1;
   
-  if ( MicoGpioInputGet( (mico_gpio_t)EasyLink_BUTTON ) == 0 ) {
+  if ( MicoGpioInputGet( (mico_gpio_t)EasyLink_BUTTON ) == 1 ) {
     _default_start_time = mico_get_time()+1;
     mico_start_timer(&_button_EL_timer);
   } else {
@@ -402,58 +431,86 @@ static void _button_EL_Timeout_handler( void* arg )
 
 void init_platform( void )
 {
-  MicoGpioInitialize( (mico_gpio_t)MICO_SYS_LED, OUTPUT_PUSH_PULL );
-  MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
-  MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );
-  MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
+   MicoGpioInitialize( (mico_gpio_t)MICO_SYS_LED, OUTPUT_PUSH_PULL );
+   MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
+   MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );
+   MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
   
-  MicoGpioInitialize((mico_gpio_t)BOOT_SEL, INPUT_PULL_UP);
-  MicoGpioInitialize((mico_gpio_t)MFG_SEL, INPUT_PULL_UP);
-  
-  //  Initialise EasyLink buttons
-  MicoGpioInitialize( (mico_gpio_t)EasyLink_BUTTON, INPUT_PULL_UP );
-  mico_init_timer(&_button_EL_timer, RestoreDefault_TimeOut, _button_EL_Timeout_handler, NULL);
-  MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_BOTH_EDGES, _button_EL_irq_handler, NULL );
+   //  Initialise EasyLink buttons
+   MicoGpioInitialize( (mico_gpio_t)EasyLink_BUTTON, INPUT_HIGH_IMPEDANCE );
+   mico_init_timer(&_button_EL_timer, RestoreDefault_TimeOut, _button_EL_Timeout_handler, NULL);
+   MicoGpioEnableIRQ( (mico_gpio_t)EasyLink_BUTTON, IRQ_TRIGGER_BOTH_EDGES, _button_EL_irq_handler, NULL );
+   
+#ifdef USE_MiCOKit_EXT
+  dc_motor_init( );
+  dc_motor_set( 0 );
+#endif
 }
 
 void init_platform_bootloader( void )
-{ 
+{
   MicoGpioInitialize( (mico_gpio_t)MICO_SYS_LED, OUTPUT_PUSH_PULL );
   MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
   MicoGpioInitialize( (mico_gpio_t)MICO_RF_LED, OUTPUT_OPEN_DRAIN_NO_PULL );
   MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
   
   MicoGpioInitialize((mico_gpio_t)BOOT_SEL, INPUT_PULL_UP);
-  MicoGpioInitialize((mico_gpio_t)MFG_SEL, INPUT_PULL_UP);
-}
+  MicoGpioInitialize((mico_gpio_t)MFG_SEL, INPUT_HIGH_IMPEDANCE);
 
+#ifdef USE_MiCOKit_EXT
+  dc_motor_init( );
+  dc_motor_set( 0 );
+  
+  rgb_led_init();
+  rgb_led_open(0, 0, 0);
+#endif
+}
 
 void MicoSysLed(bool onoff)
 {
-  if (onoff) {
-    MicoGpioOutputHigh( (mico_gpio_t)MICO_SYS_LED );
-  } else {
-    MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
-  }
+    if (onoff) {
+        MicoGpioOutputLow( (mico_gpio_t)MICO_SYS_LED );
+    } else {
+        MicoGpioOutputHigh( (mico_gpio_t)MICO_SYS_LED );
+    }
 }
 
+// Only one led on base board, so use system led as RF led.
 void MicoRfLed(bool onoff)
 {
-  if (onoff) {
-    MicoGpioOutputLow( (mico_gpio_t)MICO_RF_LED );
-  } else {
-    MicoGpioOutputHigh( (mico_gpio_t)MICO_RF_LED );
+    if (onoff) {
+        MicoSysLed(true);
+    } else {
+        MicoSysLed(false);
+    }
+}
+
+#ifdef USE_MiCOKit_EXT
+// add test mode for MiCOKit-EXT board,check Arduino_D5 pin when system startup
+bool MicoExtShouldEnterTestMode(void)
+{
+  if( MicoGpioInputGet((mico_gpio_t)Arduino_D5)==false ){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+#endif
+
+// add long press key2 on ext-board when restart to enter MFG MODE
+bool MicoShouldEnterMFGMode(void)
+{
+  if( MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false )
+  {
+    return true;
+  }
+  else{
+    return false;
   }
 }
 
-bool MicoShouldEnterMFGMode(void)
-{
-  if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false)
-    return true;
-  else
-    return false;
-}
-
+// bootloader mode: SW1=ON, SW2=OFF
 bool MicoShouldEnterBootloader(void)
 {
   if(MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==true)
@@ -461,4 +518,3 @@ bool MicoShouldEnterBootloader(void)
   else
     return false;
 }
-

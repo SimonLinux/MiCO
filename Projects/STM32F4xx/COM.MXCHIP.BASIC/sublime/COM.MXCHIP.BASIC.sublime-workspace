@@ -520,50 +520,18 @@
 	"buffers":
 	[
 		{
-			"file": "/Users/William/Develop/MiCO/include/mico_system.h",
+			"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/http/http_client.c",
 			"settings":
 			{
-				"buffer_size": 23546,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverPwm.h",
-			"settings":
-			{
-				"buffer_size": 3464,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.h",
-			"settings":
-			{
-				"buffer_size": 16890,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
-			"settings":
-			{
-				"buffer_size": 22139,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "COM.MXCHIP.BASIC.sublime-project",
-			"settings":
-			{
-				"buffer_size": 1687,
+				"buffer_size": 8076,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
+			"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/tcpip/tcp_client/tcp_client.c",
 			"settings":
 			{
-				"buffer_size": 17639,
+				"buffer_size": 4700,
 				"line_ending": "Windows"
 			}
 		}
@@ -628,10 +596,18 @@
 	},
 	"file_history":
 	[
+		"/Users/William/Develop/MiCO/Projects/STM32F4xx/COM.MXCHIP.BASIC/sublime/COM.MXCHIP.BASIC.sublime-project",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rtc.c",
 		"/Users/William/Develop/MiCO/include/mico_system.h",
+		"/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverPwm.h",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.h",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
+		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/paltform_rtc.c",
+		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/os/os_mutex.c",
+		"/Users/William/Develop/MiCO/MICO/system/mico_system_power_daemon.c",
+		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
 		"/Users/William/Develop/MiCO/MICO/system/mdns/mico_mdns.c",
 		"/Users/William/Develop/MiCO/MICO/system/easylink/system_easylink.c",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
 		"/Users/William/Develop/MiCO/include/mico_wlan.h",
 		"/Users/William/Develop/MiCO/MICO/system/config_server/config_server.c",
 		"/Users/William/Develop/MiCO/Demos/COM.MXCHIP.SPP/MICOConfigDelegate.c",
@@ -650,11 +626,9 @@
 		"/Users/william/Develop/MiCO/Board/MiCOKit-3165/platform_config.h",
 		"/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/Libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_rcc.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_pwm.c",
-		"/Users/William/Develop/MiCO/Projects/STM32F4xx/COM.MXCHIP.BASIC/sublime/COM.MXCHIP.BASIC.sublime-project",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3088/platform.c",
 		"/Users/William/Develop/MiCO/Support/MDNSUtils.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/mico_platform_common.c",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
 		"/Users/william/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_spi.c",
 		"/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.h",
@@ -685,7 +659,6 @@
 		"/Users/William/Develop/MiCO/Platform/MCU/MX1101/peripherals/platform_adc.c",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F2xx/peripherals/platform_mcu_peripheral.h",
 		"/Users/William/Develop/MiCO/Platform/Drivers/spi_flash/spi_flash.c",
-		"/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.h",
 		"/Users/william/Develop/MiCO/Platform/drivers/spi_flash/spi_flash.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h",
 		"/Users/William/Develop/MiCO/Platform/MCU/STM32F4xx/peripherals/platform_flash.c",
@@ -750,12 +723,7 @@
 		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/EMW3162/platform_common_config.h",
 		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.MXCHIP.HA/HaProtocol.c",
 		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoRTOS.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICONotificationCenter.c",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/Platform/Common/Cortex-M3/STM32F2XX/STM32F2XX_Drv/STM32F2xx_StdPeriph_Driver/inc/stm32f2xx_rcc.h",
-		"/Users/william/Develop/mxchipWNet Pro Demo@EMW316x/include/MicoWlan.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/External/FatFs/src/integer.h",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/HomeKitUserInterface.c",
-		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/Demos/COM.Apple.HomeKit/MICOAppDefine.h"
+		"/Users/William/Develop/mxchipWNet Pro Demo@EMW316x/MICO/MICONotificationCenter.c"
 	],
 	"find":
 	{
@@ -763,7 +731,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
 			"<open folders>",
@@ -782,6 +750,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"PlatformEasyLinkButtonClickedCallback",
+			"RTC_DeInit",
 			"PlatformEasyLinkButtonClickedCallback",
 			"appRestoreDefault_callback",
 			"__strdup_trans_dot",
@@ -907,9 +877,7 @@
 			"_cleanEasyLinkResource",
 			"_Led_EL_timer",
 			"ConfigWillStop",
-			"ConfigWillStop\nConfigWillStop",
-			"_FTCRespondInComingMessage",
-			"easylink_sem"
+			"ConfigWillStop\nConfigWillStop"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -930,15 +898,43 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/William/Develop/MiCO/include/mico_system.h",
+					"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/http/http_client.c",
 					"settings":
 					{
-						"buffer_size": 23546,
+						"buffer_size": 8076,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4755,
+								4755
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1909.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/William/Develop/MiCO/Demos/COM.MXCHIP.BASIC/tcpip/tcp_client/tcp_client.c",
+					"settings":
+					{
+						"buffer_size": 4700,
 						"regions":
 						{
 						},
@@ -951,149 +947,12 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/Users/William/Develop/MiCO/include/MicoDrivers/MicoDriverPwm.h",
-					"settings":
-					{
-						"buffer_size": 3464,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2378,
-								2378
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 738.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.h",
-					"settings":
-					{
-						"buffer_size": 16890,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								13362,
-								13362
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5151.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3165/platform.c",
-					"settings":
-					{
-						"buffer_size": 22139,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								15878,
-								15915
-							]
-						],
-						"settings":
-						{
 							"syntax": "Packages/C++/C.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 616.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "COM.MXCHIP.BASIC.sublime-project",
-					"settings":
-					{
-						"buffer_size": 1687,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								192,
-								192
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 120.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/Users/William/Develop/MiCO/Board/MiCOKit-3288/platform.c",
-					"settings":
-					{
-						"buffer_size": 17639,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2583,
-								2583
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 788.0,
+						"translation.y": 1744.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

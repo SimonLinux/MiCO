@@ -87,17 +87,6 @@ Content-Length:%s\r\n\r\n\
 %s\r\n"
 };
 
-/*user can do something,unused in this demo*/
-/*easylink clicked button*/
-USED void PlatformEasyLinkButtonClickedCallback(void)
-{
-    http_client_log("clicked event");
-}
-USED void PlatformEasyLinkButtonLongPressedCallback(void)
-{
-    http_client_log("longPress clicked event");
-}
-
 void micoNotify_ConnectFailedHandler(OSStatus err, void* const inContext)
 {
     http_client_log("Wlan Connection Err %d", err);

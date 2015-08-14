@@ -69,7 +69,6 @@ void run( void *arg )
     MicoUartSend(STDIO_UART, debug, strlen(debug) );
 
     MUTEX_UNLOCK();
-    mico_thread_msleep(1);
   } 
 
 exit:

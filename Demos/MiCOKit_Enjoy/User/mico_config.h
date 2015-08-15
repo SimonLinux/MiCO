@@ -49,6 +49,10 @@
 #define CONFIG_MODE_WAC                         (7)
 
 /************************************************************************
+* Enable wlan connection, start easylink configuration if no wlan settings are existed */
+#define MICO_WLAN_CONNECTION_ENABLE
+
+/************************************************************************
  * Wi-Fi configuration mode */
 #define MICO_CONFIG_MODE                CONFIG_MODE_EASYLINK
 

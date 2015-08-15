@@ -395,7 +395,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>&lt;1&gt;..\..\..\..\Platform\MCU\STM32F4xx\RVMDK\startup_stm32f4xx_RVMDK.s</Filename>
+          <Filename>&lt;2&gt;..\..\..\..\Platform\MCU\STM32F4xx\RVMDK\startup_stm32f4xx_RVMDK.s</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -411,7 +411,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>&lt;3&gt;..\..\..\..\Platform\Cortex-M4\hardfault.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Platform\Cortex-M4\hardfault.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>

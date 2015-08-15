@@ -2996,6 +2996,7 @@
     <group>
       <name>MiCOKit-F411B</name>
       <excluded>
+        <configuration>MiCOKit-3165</configuration>
         <configuration>MiCOKit-3288</configuration>
       </excluded>
       <file>
@@ -3117,6 +3118,7 @@
       <file>
         <name>$PROJ_DIR$\..\..\..\..\MICO\core\mxchipWNet_cm4f_spi.a</name>
         <excluded>
+          <configuration>MiCOKit-3165</configuration>
           <configuration>MiCOKit-F411B</configuration>
         </excluded>
       </file>

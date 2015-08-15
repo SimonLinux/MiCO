@@ -653,6 +653,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext.c</FilePath>
             </File>
+            <File>
+              <FileName>micokit_ext_mfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext_mfg.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1984,6 +1989,11 @@
               <FileName>micokit_ext.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext.c</FilePath>
+            </File>
+            <File>
+              <FileName>micokit_ext_mfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\Platform\Drivers\MiCOKit_EXT\micokit_ext_mfg.c</FilePath>
             </File>
           </Files>
         </Group>

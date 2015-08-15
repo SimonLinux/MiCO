@@ -198,11 +198,7 @@ EMW3165 on EMB-3165-A platform pin definitions ...
 |               | 40 | VDD  |             |              |                |
 +---------------+----+--------------------+--------------+----------------+  
 |               | 41 | ANT  |             |              |                |
-+---------------+----+--------------------+--------------+----------------+  
-Notes
-1. These mappings are defined in <MICO-SDK>/Platform/BCM943362WCD4/platform.c
-2. STM32F2xx Datasheet  -> http://www.st.com/web/en/resource/technical/document/datasheet/CD00237391.pdf
-3. STM32F2xx Ref Manual -> http://www.st.com/web/en/resource/technical/document/reference_manual/CD00225773.pdf
++---------------+----+--------------------+--------------+----------------+ 
 */
 
 typedef enum

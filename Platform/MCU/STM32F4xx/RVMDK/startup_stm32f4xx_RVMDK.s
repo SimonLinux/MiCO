@@ -15,7 +15,7 @@
 ;* <<< Use Configuration Wizard in Context Menu >>>   
 ;*******************************************************************************
 ; 
-;* Redistribution and use in source and binary forms, with or without modification,
+;*  Redistribution and use in source and binary forms, with or without modification,
 ;* are permitted provided that the following conditions are met:
 ;*   1. Redistributions of source code must retain the above copyright notice,
 ;*      this list of conditions and the following disclaimer.
@@ -191,12 +191,15 @@ Reset_Handler    PROC
                  EXPORT  Reset_Handler             [WEAK]
         IMPORT  __low_level_init
         IMPORT  __main
- ;               LDR     R1, =0x0800C000
- ;               LDR     R0, [R1]
- ;               MSR     MSP, R0
 
+                 LDR.W R0, =0xE000ED88             ; Read CPACR
+                 LDR R1, [R0]                      ; Set bits 20-23 to enable CP10 and CP11 coprocessors
+                 ORR R1, R1, #(0xF << 20)          ; Write back the modified value to the CPACR
+                 STR R1, [R0]
+                 
                  LDR     R0, =__low_level_init
                  BLX     R0
+                 
                  LDR     R0, =__main
                  BX      R0
                  ENDP

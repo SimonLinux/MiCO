@@ -1,11 +1,11 @@
 /**
 ******************************************************************************
-* @file    MICONotificationCenter.c 
+* @file    mico_system_notification.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
-* @brief   This file provide functions for operations on MICO's  notification 
-*          center
+* @brief   This file provide functions for add or remove custom functions to MiCO 
+*          notifucations
 ******************************************************************************
 *
 *  The MIT License

@@ -32,25 +32,46 @@
 #include "MICO.h"
 
 #define os_sem_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
-static mico_semaphore_t os_sem;
+
+static mico_semaphore_t os_sem = NULL;
 
 void release_thread(void *arg)
 {
-    sleep(3);
-    mico_rtos_set_semaphore(&os_sem);
-    os_sem_log("release semaphore");
-    mico_rtos_delete_thread(NULL);
+  UNUSED_PARAMETER( arg );
+
+  while(1){
+    os_sem_log( "release semaphore" );
+    mico_rtos_set_semaphore( &os_sem );
+    mico_thread_sleep( 3 );
+  }
+  
+  mico_rtos_delete_thread(NULL);
 }
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  os_sem_log("test binary semaphore");
-  err = mico_rtos_init_semaphore(&os_sem, 1);//0/1 binary semaphore || 0/N semaphore
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY,"release sem",release_thread,500,NULL);
-  mico_rtos_get_semaphore(&os_sem, MICO_WAIT_FOREVER);//wait until get semaphore 
-  os_sem_log("get semaphore");
-  mico_rtos_deinit_semaphore( &os_sem );
+  os_sem_log( "test binary semaphore" );
+
+  err = mico_rtos_init_semaphore( &os_sem, 1 );//0/1 binary semaphore || 0/N semaphore
+  require_noerr( err, exit );
+
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "release sem", release_thread, 500, NULL );
+  require_noerr( err, exit );
+
+  while(1){
+    mico_rtos_get_semaphore( &os_sem, MICO_WAIT_FOREVER );//wait until get semaphore 
+    os_sem_log( "get semaphore" );  
+  }
+
+exit:
+  if( err != kNoErr )
+    os_sem_log( "Thread exit with err: %d", err );
+
+  if( os_sem != NULL )
+    mico_rtos_deinit_semaphore( &os_sem );
+
+  mico_rtos_delete_thread( NULL );
   return err;
 }
 

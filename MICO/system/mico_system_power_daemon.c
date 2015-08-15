@@ -1,11 +1,11 @@
 /**
 ******************************************************************************
-* @file    EasyLink.c 
+* @file    mico_system_power_daemon.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
-* @brief   This file provide the easylink function and FTC server for quick 
-*          provisioning and first time configuration.
+* @brief   This file provide the power management daemon and provide a safety
+*          power operation to developer.
 ******************************************************************************
 *
 *  The MIT License

@@ -4,7 +4,7 @@
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
-* @brief   MiCO RTOS thread control demo.
+* @brief   MiCO RTOS mutex demo.
 ******************************************************************************
 *
 *  The MIT License
@@ -31,50 +31,78 @@
 
 #include "MiCO.h" 
 
-#define os_thread_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
+#define os_mutex_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
 
-int g_sold=0;//sold tickets
-int g_tickets=1000;//remain tickets
-mico_mutex_t  mutex;
+//#define USE_MUTEX   //Uncommon this macro to see the different result
 
-void run(void *arg)
+#ifdef USE_MUTEX
+#define MUTEX_LOCK()  mico_rtos_lock_mutex(&mutex)
+#define MUTEX_UNLOCK()  mico_rtos_unlock_mutex(&mutex)
+#else
+#define MUTEX_LOCK() 
+#define MUTEX_UNLOCK()
+#endif
+
+int g_tickets = 100;//remain tickets
+mico_mutex_t  mutex = NULL;
+
+char *p_name1 = "t1";
+char *p_name2 = "t2";
+char *p_name3 = "t3";
+char *p_name4 = "t4";
+
+void run( void *arg )
 {
-  char *name=(char*)arg;
+  char *name = (char *)arg;
+  char debug[20];
+
   while(1)
   {
-       mico_rtos_lock_mutex(&mutex);
-       if(g_tickets<=0)
-       {
-            os_thread_log("thread name=%s die now",name);
-            mico_rtos_unlock_mutex(&mutex);
-            mico_rtos_delete_thread(NULL);
-            break;
-       } 
-       
-       g_sold++;
-       g_tickets--;
-       os_thread_log("name=%s,g_sold=%d,g_tickets=%d",name,g_sold,g_tickets);
-       mico_rtos_unlock_mutex(&mutex);
+    MUTEX_LOCK();
+    if( g_tickets <= 0 ){
+      MUTEX_UNLOCK();
+      goto exit;
+    }
 
+    g_tickets--;
+    sprintf( debug, "Thread %s, %d\r\n", name, g_tickets );
+    MicoUartSend(STDIO_UART, debug, strlen(debug) );
+
+    MUTEX_UNLOCK();
   } 
+
+exit:
+  os_mutex_log( "thread: %s exit now", name );
+  mico_rtos_delete_thread(NULL);
 }
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  mico_thread_t handle1;
-  mico_thread_t handle2;
-  /* Create a new thread */
-  char *p_name1="t1";
-  char *p_name2="t2";
-  mico_rtos_init_mutex(&mutex);
-  err = mico_rtos_create_thread(&handle1, MICO_APPLICATION_PRIORITY, "t1", run, 0x800, (void*)p_name1);
-  err = mico_rtos_create_thread(&handle2, MICO_APPLICATION_PRIORITY, "t2", run, 0x800, (void*)p_name2);
-  mico_rtos_thread_join(&handle1);
-  mico_rtos_thread_join(&handle2);
-  mico_rtos_deinit_mutex(&mutex );
-  os_thread_log( "t1 t2 exit now" );
-  return kNoErr;  
+
+  /* Create a mutex*/
+  err = mico_rtos_init_mutex( &mutex);
+  require_noerr(err, exit);
+
+  /* Create threads */
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY+1, "t1", run, 0x800, p_name1 );
+  require_noerr(err, exit);
+
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY+1, "t2", run, 0x800, p_name2 );
+  require_noerr(err, exit);
+
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY+1, "t3", run, 0x800, p_name3 );
+  require_noerr(err, exit);
+
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY+1, "t4", run, 0x800, p_name4 );
+  require_noerr(err, exit);
+
+exit:
+  if( err != kNoErr )
+    os_mutex_log( "Thread exit with err: %d", err );
+
+  mico_rtos_delete_thread(NULL);
+  return err;  
 }
 
 

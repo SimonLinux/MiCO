@@ -4,7 +4,7 @@
 * @author  William Xu
 * @version V1.0.0
 * @date    22-July-2015
-* @brief   This file provide function prototypes for for mico system.
+* @brief   This file provide internal function prototypes for for mico system.
 ******************************************************************************
 *
 *  The MIT License
@@ -39,8 +39,8 @@
 extern "C" {
 #endif
 
-#define system_log(M, ...) custom_log("Sys", M, ##__VA_ARGS__)
-#define system_log_trace() custom_log_trace("Sys")
+#define system_log(M, ...) custom_log("SYSTEM", M, ##__VA_ARGS__)
+#define system_log_trace() custom_log_trace("SYSTEM")
 
 /* Define MICO service thread stack size */
 #define STACK_SIZE_LOCAL_CONFIG_SERVER_THREAD   0x300

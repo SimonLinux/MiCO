@@ -15,7 +15,7 @@
 			"path": "../../../../Board/MiCOKit-3288"
 		},
 		{
-			"path": "../../../../Demos/COM.APPLE.HOMEKIT"
+			"path": "../../../../Demos/COM.MXCHIP.BASIC"
 		},
 		{
 			"path": "../../../../External"
@@ -40,7 +40,7 @@
 			"-D__value_in_regs=__attribute__(())",
 			"-DUSE_STDPERIPH_DRIVER",
 			"-DDEBUG",
-			"-I/Users/william/Develop/MiCO/Demos/COM.APPLE.HOMEKIT/",
+			"-I/Users/william/Develop/MiCO/Demos/COM.MXCHIP.BASIC/",
 			"-I/Users/william/Develop/MiCO/External/",
 			"-I/Users/william/Develop/MiCO/Platform/",
 			"-I/Users/william/Develop/MiCO/Platform/include/",

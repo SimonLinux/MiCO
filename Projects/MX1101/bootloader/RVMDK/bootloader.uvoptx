@@ -163,7 +163,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\..\..\Board\MiCOKit-3088\platform.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Board\MiCOKit-3088\platform.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -179,7 +179,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\..\..\Platform\MCU\MX1101\peripherals\platform_flash.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Platform\MCU\MX1101\peripherals\platform_flash.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\bootloader\../../../../Platform/MCU/MX1101/peripherals/platform_flash.c\473</Expression>
         </Bp>
@@ -195,7 +195,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\..\..\Platform\MCU\MX1101\FileSystem\diskio.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Platform\MCU\MX1101\FileSystem\diskio.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\bootloader\../../../../Platform/MCU/MX1101/FileSystem/diskio.c\140</Expression>
         </Bp>
@@ -211,7 +211,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\bootloader\../../../../Platform/MCU/mico_platform_common.c\634</Expression>
         </Bp>
@@ -227,7 +227,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\..\..\..\Board\EMW5088\platform.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Board\EMW5088\platform.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -243,7 +243,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -259,7 +259,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -533,7 +533,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\..\..\Board\EMW5088\platform.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Board\EMW5088\platform.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\bootloader\../../../../Board/EMW5088/platform.c\555</Expression>
         </Bp>
@@ -549,7 +549,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -565,7 +565,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -581,7 +581,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Platform\MCU\mico_platform_common.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -597,7 +597,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\..\..\..\Board\MiCOKit-3088\platform.c</Filename>
+          <Filename>&lt;1&gt;..\..\..\..\Board\MiCOKit-3088\platform.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>

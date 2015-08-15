@@ -4,7 +4,7 @@
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
-* @brief   MiCO RTOS thread control demo.
+* @brief   MiCO RTOS queue demo.
 ******************************************************************************
 *
 *  The MIT License
@@ -33,45 +33,78 @@
 
 #define os_queue_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
 
-static mico_queue_t os_queue;
+static mico_queue_t os_queue = NULL;
 typedef struct _msg
 {
   int value;
 } msg_t;
 
-void receiver_thread(void *inContext)
+void receiver_thread(void *arg)
 {
+  UNUSED_PARAMETER( arg );
+
   OSStatus err;
-  msg_t received={0};
+  msg_t received ={ 0 };
   
   while(1)
   {
     /*Wait until queue has data*/
     err = mico_rtos_pop_from_queue( &os_queue, &received, MICO_WAIT_FOREVER);
-    os_queue_log("Received data from queue:value=%d",received.value);
+    require_noerr( err, exit );
+
+    os_queue_log( "Received data from queue:value = %d",received.value );
   }
+
+exit:
+  if( err != kNoErr )
+    os_queue_log( "Receiver exit with err: %d", err );
+
+  mico_rtos_delete_thread( NULL );
 }
 
-void sender_thread(void *inContext)
+void sender_thread(void *arg)
 {
-  msg_t my_message={0};
-  int value=0;
+  UNUSED_PARAMETER( arg );
+  OSStatus err = kNoErr;
+
+  msg_t my_message = { 0 };
+
   while(1)
   {
-    memset(&my_message,0,sizeof(msg_t));
-    my_message.value=value++;
-    mico_thread_sleep(1);
-    mico_rtos_push_to_queue(&os_queue, &my_message, 0);
-    os_queue_log("send data to queue");
+    my_message.value++;
+    mico_rtos_push_to_queue( &os_queue, &my_message, MICO_WAIT_FOREVER );
+    require_noerr( err, exit );
+
+    os_queue_log( "send data to queue" );
+    mico_thread_sleep( 1 );
   }
+
+exit:
+  if( err != kNoErr )
+    os_queue_log( "Sender exit with err: %d", err );
+
+  mico_rtos_delete_thread( NULL );
 }
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  err = mico_rtos_init_queue(&os_queue, "queue", sizeof(msg_t), 3);
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "receiver", receiver_thread, 500, NULL);
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "sender", sender_thread, 500, NULL);
+
+  err = mico_rtos_init_queue( &os_queue, "queue", sizeof(msg_t), 3 );
+  require_noerr( err, exit );
+
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "receiver", receiver_thread, 500, NULL );
+  require_noerr( err, exit );
+
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "sender", sender_thread, 500, NULL );
+  require_noerr( err, exit );
+  
+exit:
+  if( err != kNoErr )
+    os_queue_log( "Thread exit with err: %d", err );
+
+  mico_rtos_delete_thread( NULL );
+
   return err;
 }
 

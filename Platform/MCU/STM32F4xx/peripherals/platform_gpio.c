@@ -29,7 +29,6 @@
 ******************************************************************************
 */ 
 
-
 #include "platform.h"
 #include "platform_peripheral.h"
 #include "platformLogging.h"
@@ -207,14 +206,6 @@ exit:
   return result;
 }
 
-// OSStatus MicoGpioEnableIRQ( mico_gpio_t gpio, mico_gpio_irq_trigger_t trigger, mico_gpio_irq_handler_t handler, void* arg )
-// {
-//   if(gpio == (mico_gpio_t)MICO_GPIO_UNUSED ) return kUnsupportedErr;
-
-//   return gpio_irq_enable( gpio_mapping[gpio].bank, gpio_mapping[gpio].number, trigger, handler, arg );
-// }
-
-//static bool skip = false;
 OSStatus platform_gpio_irq_enable( const platform_gpio_t* gpio, platform_gpio_irq_trigger_t trigger, platform_gpio_irq_callback_t handler, void* arg )
 {
   uint32_t interrupt_line = (uint32_t) ( 1 << gpio->pin_number );
@@ -276,9 +267,8 @@ OSStatus platform_gpio_irq_enable( const platform_gpio_t* gpio, platform_gpio_ir
     else if (gpio->port == GPIOI)
       SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOI, EXTI_PinSource2);
   }
-  else{
-    SYSCFG_EXTILineConfig( platform_gpio_get_port_number( gpio->port ), gpio->pin_number );
-  }
+
+  SYSCFG_EXTILineConfig( platform_gpio_get_port_number( gpio->port ), gpio->pin_number );
   
   if ( ( interrupt_line & 0x001F ) != 0 )
   {
@@ -311,10 +301,6 @@ OSStatus platform_gpio_irq_enable( const platform_gpio_t* gpio, platform_gpio_ir
   gpio_irq_data[gpio->pin_number].owner_port = gpio->port;
   gpio_irq_data[gpio->pin_number].handler    = handler;
   gpio_irq_data[gpio->pin_number].arg        = arg;
-  
-//  if(gpio->pin_number == 13){
-//    skip = true;
-//  }
 
 exit:
   platform_mcu_powersave_enable();
@@ -566,6 +552,7 @@ MICO_RTOS_DEFINE_ISR( EXTI15_10_IRQHandler )
 {
   gpio_irq();
 }
+
 
 
 

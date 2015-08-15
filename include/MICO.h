@@ -37,7 +37,8 @@
      - MICO Hardware Abstract Layer   
      - MICO RTOS and Timer APIs       
      - MICO Wi-Fi Connectivith APIs   
-     - MICO BSD Socket APIs           
+     - MICO BSD Socket APIs         
+     - MICO System APIs        
  */
 
 #ifndef __MICO_H_
@@ -61,10 +62,8 @@
 #define MicoGetMemoryInfo           mico_memory_info
 
 /** \defgroup MICO_Core_APIs MICO Core APIs
-  This file defines all structures and symbols for MICO core:
-   - MICO Core exported symbols
-   - MICO Core exported functions
- */
+  * @brief MiCO RTOS, TCP/IP stack, and network management
+  */
 
 /** @addtogroup MICO_Core_APIs
   * @{

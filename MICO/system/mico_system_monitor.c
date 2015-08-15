@@ -1,11 +1,11 @@
 /**
 ******************************************************************************
-* @file    MICOSystemMonitor.c 
+* @file    mico_system_monitor.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
-* @brief   System monitor function, create a system monitor thread, and user 
-*          can add own monitor events.
+* @brief   System monitor functions, create a system monitor thread, and developer 
+*          can add own monitor items.
 ******************************************************************************
 *
 *  The MIT License

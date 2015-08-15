@@ -365,7 +365,7 @@
               <MiscControls>--diag_suppress=1,1293</MiscControls>
               <Define>DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Demos\COM.MXCHIP.SPP;..\..\..\..\include;..\..\..\..\mico;..\..\..\..\Board\MicoKit-3088;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU\MX1101\peripherals\Libraries\inc;..\..\..\..\Platform\MCU\MX1101\peripherals;..\..\..\..\mico\system;..\..\..\..\libraries\utilities</IncludePath>
+              <IncludePath>..\..\..\..\Demos\COM.MXCHIP.BASIC;..\..\..\..\include;..\..\..\..\mico;..\..\..\..\Board\MicoKit-3088;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU\MX1101\peripherals\Libraries\inc;..\..\..\..\Platform\MCU\MX1101\peripherals;..\..\..\..\mico\system;..\..\..\..\libraries\utilities</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -410,9 +410,9 @@
           <GroupName>Application</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>hello_world.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.BASIC\power_measure\main.c</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.BASIC\helloworld\hello_world.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1349,7 +1349,7 @@
               <MiscControls>--diag_suppress=1,1293</MiscControls>
               <Define>DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Demos\COM.MXCHIP.SPP;..\..\..\..\include;..\..\..\..\MICO;..\..\..\..\Board\EMW5088;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU\MX1101\peripherals\Libraries\inc;..\..\..\..\Platform\MCU\MX1101\peripherals;..\..\..\..\libraries\utilities;..\..\..\..\mico\system</IncludePath>
+              <IncludePath>..\..\..\..\Demos\COM.MXCHIP.BASIC;..\..\..\..\include;..\..\..\..\MICO;..\..\..\..\Board\EMW5088;..\..\..\..\Platform\include;..\..\..\..\Platform\Cortex-M3;..\..\..\..\Platform\Cortex-M3\CMSIS;..\..\..\..\Platform\MCU\MX1101\peripherals\Libraries\inc;..\..\..\..\Platform\MCU\MX1101\peripherals;..\..\..\..\libraries\utilities;..\..\..\..\mico\system</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1394,9 +1394,9 @@
           <GroupName>Application</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>hello_world.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\Demos\COM.MXCHIP.BASIC\power_measure\main.c</FilePath>
+              <FilePath>..\..\..\..\Demos\COM.MXCHIP.BASIC\helloworld\hello_world.c</FilePath>
             </File>
           </Files>
         </Group>

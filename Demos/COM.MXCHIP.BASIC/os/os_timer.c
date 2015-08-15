@@ -4,7 +4,7 @@
 * @author  William Xu
 * @version V1.0.0
 * @date    21-May-2015
-* @brief   MiCO RTOS thread control demo.
+* @brief   MiCO RTOS timer demo.
 ******************************************************************************
 *
 *  The MIT License
@@ -33,34 +33,45 @@
 
 #define os_timer_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
 
-
 mico_timer_t timer_handle;
-/*prototype*/
+
 void destroy_timer( void );
 void alarm( void* arg );
 
-
 void destroy_timer( void )
 {
-  mico_stop_timer(&timer_handle);
+  mico_stop_timer( &timer_handle );
   mico_deinit_timer( &timer_handle );
 }
 
 void alarm( void* arg )
 {
-  int *p=(int*)arg;
-  os_timer_log("time is coming,value=%d",*p);
-  //destroy_timer();
+  int* count = (int*)arg;
+  os_timer_log("time is coming,value = %d", (*count)++ );
+
+  if( *count == 10 )
+    destroy_timer();
 }
+
 int application_start( void )
 {
   OSStatus err = kNoErr;
   os_timer_log("timer demo");
-  int arg=100;
-  //err = mico_init_timer(&timer_handle, 3000, alarm, (void *)NULL);
-  err = mico_init_timer(&timer_handle, 3000, alarm, &arg);
-  mico_start_timer(&timer_handle);
-  while(1);
+  int arg = 0;
+
+  err = mico_init_timer(&timer_handle, 1000, alarm, &arg);
+  require_noerr(err, exit);
+
+  err = mico_start_timer(&timer_handle);
+  require_noerr(err, exit);
+
+  mico_thread_sleep( MICO_NEVER_TIMEOUT );
+
+exit:
+  if( err != kNoErr )
+    os_timer_log( "Thread exit with err: %d", err );
+
+  mico_rtos_delete_thread( NULL );
   return err;
 }
 

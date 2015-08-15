@@ -1920,7 +1920,7 @@
   <group>
     <name>Application</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\tcp\tcp_client.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\Demos\COM.MXCHIP.BASIC\helloworld\hello_world.c</name>
     </file>
   </group>
   <group>
@@ -2017,7 +2017,7 @@
       <name>$PROJ_DIR$\..\..\..\..\include\Debug.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\include\mico.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\include\MICO.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\include\mico_platform.h</name>
@@ -2146,6 +2146,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm4f_8801.a</name>
+        <excluded>
+          <configuration>MiCOKit-3165</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm4f_sdio.a</name>
@@ -2156,6 +2159,7 @@
       <file>
         <name>$PROJ_DIR$\..\..\..\..\mico\core\mxchipWNet_cm4f_spi.a</name>
         <excluded>
+          <configuration>MiCOKit-3165</configuration>
           <configuration>MiCOKit-3288</configuration>
         </excluded>
       </file>
@@ -2182,6 +2186,10 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\mico\system\easylink\MFi_WAC_CM3_Release.a</name>
+        <excluded>
+          <configuration>MiCOKit-3165</configuration>
+          <configuration>MiCOKit-3288</configuration>
+        </excluded>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\mico\system\command_console\mico_cli.c</name>

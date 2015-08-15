@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    MFi_WAC.c
+* @file    mico_easylink_wac.c
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014

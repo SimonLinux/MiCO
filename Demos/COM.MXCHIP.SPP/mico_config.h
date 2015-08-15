@@ -1,15 +1,15 @@
 /**
 ******************************************************************************
-* @file    MICODefine.h 
+* @file    mico_config.h 
 * @author  William Xu
 * @version V1.0.0
-* @date    05-May-2014
+* @date    12-Aug-2015
 * @brief   This file provide constant definition and type declaration for MICO
-*          running.
+*          system running.
 ******************************************************************************
 *
 *  The MIT License
-*  Copyright (c) 2014 MXCHIP Inc.
+*  Copyright (c) 2015 MXCHIP Inc.
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a copy 
 *  of this software and associated documentation files (the "Software"), to deal
@@ -32,21 +32,26 @@
 
 #pragma once
 
-#define APP_INFO   "mxchipWNet SPP Demo based on MICO OS"
+#define APP_INFO   "SPP(wlan<>uart) Demo based on MICO OS"
 
 #define FIRMWARE_REVISION   "MICO_SPP_2_6"
 #define MANUFACTURER        "MXCHIP Inc."
 #define SERIAL_NUMBER       "20140606"
 #define PROTOCOL            "com.mxchip.spp"
 
-
-#define CONFIG_MODE_EASYLINK                    (2)
-#define CONFIG_MODE_SOFT_AP                     (3)
-#define CONFIG_MODE_EASYLINK_WITH_SOFTAP        (4)
-#define CONFIG_MODE_WAC                         (7)
+#define CONFIG_MODE_EASYLINK                    (1)
+#define CONFIG_MODE_SOFT_AP                     (2)
+#define CONFIG_MODE_EASYLINK_WITH_SOFTAP        (3)
+#define CONFIG_MODE_WAC                         (4)
 
 /************************************************************************
- * Wi-Fi configuration mode */
+ * Application thread stack size */
+#define MICO_DEFAULT_APPLICATION_STACK_SIZE         (1500)
+
+/************************************************************************
+ * Enable wlan connection, start easylink configuration if no wlan settings are existed */
+#define MICO_WLAN_CONNECTION_ENABLE
+
 #define MICO_CONFIG_MODE CONFIG_MODE_EASYLINK_WITH_SOFTAP
 
 #define EasyLink_TimeOut                60000 /**< EasyLink timeout 60 seconds. */

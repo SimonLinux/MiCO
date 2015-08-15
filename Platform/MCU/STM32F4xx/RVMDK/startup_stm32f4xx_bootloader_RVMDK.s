@@ -15,7 +15,7 @@
 ;* <<< Use Configuration Wizard in Context Menu >>>   
 ;*******************************************************************************
 ; 
-;* Redistribution and use in source and binary forms, with or without modification,
+;*  Redistribution and use in source and binary forms, with or without modification,
 ;* are permitted provided that the following conditions are met:
 ;*   1. Redistributions of source code must retain the above copyright notice,
 ;*      this list of conditions and the following disclaimer.
@@ -45,7 +45,7 @@
 ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Stack_Size      EQU     0x2000;
+Stack_Size      EQU     0x1000;
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
 Stack_Mem       SPACE   Stack_Size
@@ -56,7 +56,7 @@ __initial_sp
 ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Heap_Size      EQU     0x14000;
+Heap_Size      EQU     0x2000;
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base
@@ -72,7 +72,7 @@ __heap_limit
                 EXPORT  __Vectors
                 EXPORT  __Vectors_End
                 EXPORT  __Vectors_Size
-				EXPORT  Heap_Mem
+                EXPORT  Heap_Mem
                 EXPORT  Stack_Mem
 
 __Vectors       DCD     __initial_sp               ; Top of Stack
@@ -189,11 +189,13 @@ __Vectors_Size  EQU  __Vectors_End - __Vectors
 ; Reset handler
 Reset_Handler    PROC
                  EXPORT  Reset_Handler             [WEAK]
-        IMPORT  SystemInit
         IMPORT  __main
-
-                 LDR     R0, =SystemInit
-                 BLX     R0
+                             
+                 LDR.W R0, =0xE000ED88             ; Read CPACR
+                 LDR R1, [R0]                      ; Set bits 20-23 to enable CP10 and CP11 coprocessors
+                 ORR R1, R1, #(0xF << 20)          ; Write back the modified value to the CPACR
+                 STR R1, [R0]
+                 
                  LDR     R0, =__main
                  BX      R0
                  ENDP
@@ -231,7 +233,7 @@ UsageFault_Handler\
                 ENDP
 SVC_Handler     PROC
                 EXPORT  SVC_Handler                [WEAK]
-;               B       .
+                B       .
                 ENDP
 DebugMon_Handler\
                 PROC
@@ -240,11 +242,11 @@ DebugMon_Handler\
                 ENDP
 PendSV_Handler  PROC
                 EXPORT  PendSV_Handler             [WEAK]
-;               B       .
+                B       .
                 ENDP
 SysTick_Handler PROC
                 EXPORT  SysTick_Handler            [WEAK]
-;               B       .
+                B       .
                 ENDP
 
 Default_Handler PROC

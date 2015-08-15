@@ -76,7 +76,6 @@ static OSStatus _GetAddress(uint32_t sector, uint32_t *startAddress, uint32_t *e
 static OSStatus internalFlashInitialize( void );
 static OSStatus internalFlashErase(uint32_t StartAddress, uint32_t EndAddress);
 static OSStatus internalFlashWrite(volatile uint32_t* FlashAddress, uint32_t* Data ,uint32_t DataLength);
-static OSStatus internalFlashByteWrite( volatile uint32_t* FlashAddress, uint8_t* Data ,uint32_t DataLength );
 #ifdef MCU_EBANLE_FLASH_PROTECT
 static uint32_t _GetWRPSector(uint32_t Address);
 static OSStatus internalFlashProtect(uint32_t StartAddress, uint32_t EndAddress, bool enable);
@@ -252,9 +251,13 @@ exit:
 }
 
 static uint32_t s_wpage_buff[64];
+
+#ifdef BOOTLOADER
 static uint32_t s_wlast_buff_datacount=0;
 static uint32_t s_wlast_buff_flashaddr=0;
 static uint32_t s_flashwritecount=0;
+#endif
+static uint32_t s_intflash_offset=0;
 OSStatus internalFlashInitialize( void )
 {
   platform_log_trace();
@@ -262,9 +265,13 @@ OSStatus internalFlashInitialize( void )
 //  /* Clear pending flags (if any) */
 //  FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR |
 //                  FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR|FLASH_FLAG_PGSERR);
+
+  s_intflash_offset=0;
+#ifdef BOOTLOADER
   s_wlast_buff_datacount=0;
   s_wlast_buff_flashaddr=0;
   s_flashwritecount=0;
+#endif
   return kNoErr;
 }
 
@@ -294,20 +301,17 @@ OSStatus internalFlashErase(uint32_t StartAddress, uint32_t EndAddress)
 	if (ret_code != IAP_CMD_SUCCESS) {
 		err = kWriteErr;
 		return err;
-		while(1); // Magicoe
 		//DEBUGOUT("Command failed to execute, return code is: %x\r\n", ret_code);
 	}
 	ret_code = Chip_IAP_EraseSector(i, i);
 	if (ret_code != IAP_CMD_SUCCESS) {
 		err = kWriteErr;
 		return err;
-		while(1); // Magicoe
 		//DEBUGOUT("Command failed to execute, return code is: %x\r\n", ret_code);
 	}
 //    require_action(FLASH_EraseSector(i, VoltageRange_3) == FLASH_COMPLETE, exit, err = kWriteErr);
   }
 
-exit:
   return err;
 }
 
@@ -385,50 +389,17 @@ OSStatus internalFlashWrite(volatile uint32_t* FlashAddress, uint32_t* Data ,uin
   uint8_t * ppage_buff=(uint8_t *)s_wpage_buff;
   uint8_t * pData = (uint8_t *) Data;
 
-   StartSector = _GetSector(*FlashAddress);
+  uint32_t wr_addr = (*FlashAddress) + s_intflash_offset;
 
-#ifdef 0//BOOTLOADER
+   StartSector = _GetSector(wr_addr);
 
-   uint32_t startAddrPage = (*FlashAddress/256)*256;
-   s_wlast_buff_flashaddr = startAddrPage;
-   if(s_wlast_buff_datacount<256)
-   {
-     while(DataLengthRemain>0)
-     {
-       if((DataLengthRemain+s_wlast_buff_datacount)>=256)
-       {
-         DataLengthWR = 256-s_wlast_buff_datacount;
-         for(i=0;i<DataLengthWR;i++)
-           ppage_buff[i+s_wlast_buff_datacount]=*(pData++);
-
-         StartSector = _GetSector(s_wlast_buff_flashaddr+s_flashwritecount);
-         Chip_IAP_PreSectorForReadWrite(StartSector, StartSector);
-         Chip_IAP_CopyRamToFlash(s_wlast_buff_flashaddr+s_flashwritecount, (uint32_t *)ppage_buff, 256);
-         s_flashwritecount +=256;
-
-         DataLengthRemain -=DataLengthWR;
-         s_wlast_buff_datacount=0;
-         startAddrPage +=256;
-       }else
-       {
-         for(i=0;i<DataLengthRemain;i++)
-           ppage_buff[i+s_wlast_buff_datacount]=*(pData++);
-         s_wlast_buff_datacount+=DataLengthRemain;
-
-         DataLengthRemain=0;
-       }
-
-     }
-
-   }
-#else
    {
        uint32_t dataPos=0;
-       uint32_t startAddrPage = (*FlashAddress/256)*256;
+       uint32_t startAddrPage = (wr_addr/256)*256;
 
-       if(*FlashAddress%256)//开始的部分
+       if(wr_addr%256)//开始的部分
        {
-          uint32_t startAddrInPage = *FlashAddress%256;
+          uint32_t startAddrInPage = wr_addr%256;
         // for(i=0;i<s_wlast_page;i++)
          for(i=0;i<256;i++)//读取flash page
          {
@@ -446,6 +417,7 @@ OSStatus internalFlashWrite(volatile uint32_t* FlashAddress, uint32_t* Data ,uin
 
          {
            StartSector = _GetSector(startAddrPage);
+
 	   Chip_IAP_PreSectorForReadWrite(StartSector, StartSector);
            Chip_IAP_ErasePage(startAddrPage/256,startAddrPage/256);
            Chip_IAP_PreSectorForReadWrite(StartSector, StartSector);
@@ -461,8 +433,10 @@ OSStatus internalFlashWrite(volatile uint32_t* FlashAddress, uint32_t* Data ,uin
          if(DataLengthRemain>=256)//够一个page
          {
            StartSector = _GetSector(startAddrPage);
+#ifndef BOOTLOADER
 	   Chip_IAP_PreSectorForReadWrite(StartSector, StartSector);
            Chip_IAP_ErasePage(startAddrPage/256,startAddrPage/256);
+#endif
            Chip_IAP_PreSectorForReadWrite(StartSector, StartSector);
            Chip_IAP_CopyRamToFlash(startAddrPage, (uint32_t *)(pData+dataPos), 256);
            startAddrPage +=256;
@@ -489,8 +463,8 @@ OSStatus internalFlashWrite(volatile uint32_t* FlashAddress, uint32_t* Data ,uin
          }
        }
    }
-#endif
 
+  s_intflash_offset +=DataLength;
   require_noerr(err, exit);
 
 exit:
@@ -504,7 +478,7 @@ OSStatus internalFlashFinalize( void )
    uint32_t StartSector = 0;
    uint32_t i=0;
    uint8_t * ppage_buff=(uint8_t *)s_wpage_buff;
-   if(s_wlast_buff_datacount>=0)
+   if(s_wlast_buff_datacount>0)
    {
      for(i=s_wlast_buff_datacount;i<256;i++)
        ppage_buff[i]=0xff;
@@ -529,7 +503,7 @@ static uint32_t _GetSector(uint32_t Address)
 {
   uint32_t sector = 0;
 
-  if((Address < ADDR_FLASH_SECTOR_1) && (Address >= ADDR_FLASH_SECTOR_0))
+  if(Address < ADDR_FLASH_SECTOR_1)/* && (Address >= ADDR_FLASH_SECTOR_0))*/
   {
     sector = 0;
   }

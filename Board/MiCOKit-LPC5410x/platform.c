@@ -75,10 +75,6 @@ extern WEAK void PlatformEasyLinkButtonLongPressedCallback(void);
 *               Variables Definitions
 ******************************************************/
 
-/* This table maps STM32 pins to GPIO definitions on the schematic
-* A full pin definition is provided in <WICED-SDK>/include/platforms/BCM943362WCD4/platform.h
-*/
-
 static uint32_t _default_start_time = 0;
 static mico_timer_t _button_EL_timer;
 const uint32_t ExtClockIn = 0;
@@ -423,8 +419,9 @@ void DmaAbort(DMA_CHID_T dmaCh)
 extern volatile uint8_t bDMASPITXDoneFlag;
 extern volatile uint8_t bDMASPIRXDoneFlag;
 extern volatile uint8_t g_isWlanRx;
-extern void OnSPIDmaXferDone(uint32_t spiNdx, uint32_t isRx, uint32_t isErr);
+extern void wlan_spi_xfer_done(uint32_t isRx);
 #endif
+extern void OnSPIDmaXferDone(uint32_t spiNdx, uint32_t isRx, uint32_t isErr);
 MICO_RTOS_DEFINE_ISR( DMA_IRQHandler )
 {
   uint32_t err = g_pDMA->DMACOMMON[0].ERRINT;

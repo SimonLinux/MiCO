@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    MICOWlan.h 
+* @file    mico_wlan.h 
 * @author  William Xu
 * @version V1.0.0
 * @date    16-Sep-2014
@@ -226,7 +226,7 @@ typedef struct
   char    bssid[6];    /**< BSSID of the wlan needs to be connected. Example: {0xC8 0x93 0x46 0x11 0x22 0x33}. */
   uint8_t channel;     /**< Wlan's RF frequency, channel 0-13. 1-13 means a fixed channel
                             that can speed up a connection procedure, 0 is not a fixed input
-                            means all channels are possiable*/
+                            means all channels are possible*/
   SECURITY_TYPE_E security;
 }   apinfo_adv_t;
 

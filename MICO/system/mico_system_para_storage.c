@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
-* @file    MICOParaStorage.c 
+* @file    mico_system_para_storage.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
-* @brief   This file provide functions to read and write MICO settings on 
+* @brief   This file provide functions to read and write configuration data on 
 *          nonvolatile memory.
 ******************************************************************************
 *

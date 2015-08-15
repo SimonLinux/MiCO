@@ -8,7 +8,8 @@
   <WorkspaceName>WorkSpace</WorkspaceName>
 
   <project>
-    <PathAndName>.\bootloader\RVMDK\Bootloader.uvprojx</PathAndName>
+    <PathAndName>.\bootloader\RVMDK\bootloader.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
   </project>
 
   <project>

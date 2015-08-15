@@ -161,7 +161,7 @@ void startApplication( uint32_t app_addr )
 
     /* Clear all interrupt enabled by bootloader */
     for (int i = 0; i < 8; i++ )
-        NVIC->ICER[i] = 0xFF;
+        NVIC->ICER[i] = 0xFFFFFFFF;
 
     stack_ptr = (uint32_t*) app_addr;  /* Initial stack pointer is first 4 bytes of vector table */
     start_ptr = ( stack_ptr + 1 );  /* Reset vector is second 4 bytes of vector table */
@@ -322,29 +322,10 @@ WEAK void init_memory( void )
 // extern uint32_t CFG_PRIO_BITS;
 void init_architecture( void )
 {
-    uint32_t i, j;
-
   	DMAInit();
     platform_init_peripheral_irq_priorities();
     g_pSys->FIFOCTRL =0;
-// Magicoe TODO delete
-//  RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
-//
-//   /*STM32 wakeup by watchdog in standby mode, re-enter standby mode in this situation*/
-//  if ( (PWR_GetFlagStatus(PWR_FLAG_SB) != RESET) && RCC_GetFlagStatus(RCC_FLAG_IWDGRST) != RESET){
-//     RCC_ClearFlag();
-//     PWR_EnterSTANDBYMode();
-//   }
-//  PWR_ClearFlag(PWR_FLAG_SB);
-//
-//  /* Initialise the interrupt priorities to a priority lower than 0 so that the BASEPRI register can mask them */
-//  for ( i = 0; i < 81; i++ )
-//  {
-//    NVIC ->IP[i] = 0xff;
-//  }
-//
-//  NVIC_PriorityGroupConfig( NVIC_PriorityGroup_4 );
-	/* Select the CLKOUT clocking source */
+
   /* Initialise GPIO IRQ manager */
   platform_gpio_irq_manager_init();
 
@@ -365,7 +346,7 @@ void init_architecture( void )
 
 #ifdef BOOTLOADER
   return;
-#endif
+#else
 
   /* Initialise RTC */
   platform_rtc_init( );
@@ -376,6 +357,7 @@ void init_architecture( void )
 #endif /* ifndef MICO_DISABLE_MCU_POWERSAVE */
 
   platform_mcu_powersave_disable( );
+#endif
 }
 
 OSStatus stdio_hardfault( char* data, uint32_t size )

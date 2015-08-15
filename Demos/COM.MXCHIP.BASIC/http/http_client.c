@@ -87,17 +87,6 @@ Content-Length:%s\r\n\r\n\
 %s\r\n"
 };
 
-/*user can do something,unused in this demo*/
-/*easylink clicked button*/
-USED void PlatformEasyLinkButtonClickedCallback(void)
-{
-    http_client_log("clicked event");
-}
-USED void PlatformEasyLinkButtonLongPressedCallback(void)
-{
-    http_client_log("longPress clicked event");
-}
-
 void micoNotify_ConnectFailedHandler(OSStatus err, void* const inContext)
 {
     http_client_log("Wlan Connection Err %d", err);
@@ -135,7 +124,7 @@ int application_start( void )
   http_client_log("this is http demo");
   MicoInit( );/*TCPIP,RF driver init */
   
-  /*The notification message for the registered WiFi status change*/
+  /*Register user function for MiCO nitification: WiFi status changed */
   err = mico_system_notify_register( mico_notify_WIFI_STATUS_CHANGED, (void *)micoNotify_WifiStatusHandler, NULL );
   require_noerr( err, EXIT ); 
   

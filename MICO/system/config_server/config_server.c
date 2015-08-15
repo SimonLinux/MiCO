@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    MICOConfigServer.c 
+* @file    config_server.c 
 * @author  William Xu
 * @version V1.0.0
 * @date    05-May-2014
@@ -98,7 +98,6 @@ OSStatus config_server_start ( mico_Context_t *in_context )
     return kNoErr;
 
   is_config_server_established = true;
-  config_log("Start config server");
 
   close_listener_sem = NULL;
   for (; i < MAX_TCP_CLIENT_PER_SERVER; i++)
@@ -129,7 +128,6 @@ OSStatus config_server_stop( void )
   if( close_listener_sem != NULL )
     mico_rtos_set_semaphore( &close_listener_sem );
 
-  config_log(" Wait for 2s!");
   mico_thread_msleep(500);
   is_config_server_established = false;
   
@@ -185,7 +183,7 @@ void localConfiglistener_thread(void *inContext)
       if ( IsValidSocket( j ) ) {
         inet_ntoa(ip_address, addr.s_ip );
         config_log("Config Client %s:%d connected, fd: %d", ip_address, addr.s_port, j);
-        if(kNoErr !=  mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Clients", localConfig_thread, STACK_SIZE_LOCAL_CONFIG_CLIENT_THREAD, &j) )
+        if(kNoErr !=  mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "Config Clients", localConfig_thread, STACK_SIZE_LOCAL_CONFIG_CLIENT_THREAD, (void *)j) )
           SocketClose(&j);
       }
     }
@@ -207,7 +205,7 @@ exit:
 void localConfig_thread(void *inFd)
 {
   OSStatus err;
-  int clientFd = *(int *)inFd;
+  int clientFd = (int)inFd;
   int clientFdIsSet;
   int close_sem_index;
   fd_set readfds;
@@ -339,7 +337,7 @@ static OSStatus onReceivedData(struct _HTTPHeader_t * inHeader, uint32_t inPos, 
      if(inPos == 0){
        context->offset = 0x0;
        CRC16_Init( &context->crc16_contex );
-       mico_rtos_lock_mutex(&Context->flashContentInRam_mutex); //We are write the Flash content, no other write is possiable
+       mico_rtos_lock_mutex(&Context->flashContentInRam_mutex); //We are write the Flash content, no other write is possible
        context->isFlashLocked = true;
        err = MicoFlashErase( MICO_PARTITION_OTA_TEMP, 0x0, ota_partition->partition_length);
        require_noerr(err, flashErrExit);

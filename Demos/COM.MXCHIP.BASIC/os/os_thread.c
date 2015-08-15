@@ -33,40 +33,44 @@
 
 #define os_thread_log(M, ...) custom_log("OS", M, ##__VA_ARGS__)
 
-void run1(void *arg)
+void thread_1(void *arg)
 {
-  int i=0;
-  while(1)
-  {
-       i++;
-       os_thread_log("thread1 running,i=%d",i);
-       mico_thread_sleep (1);
-  }
-}
-void run2(void *arg)
-{
-  int j=0;
-  while(1)
-  {
-       j++;
-       os_thread_log("thread2 running,j=%d",j);
-       mico_thread_sleep (1);
+  UNUSED_PARAMETER(arg);
+  while(1){
+    os_thread_log( "This is thread 1" );
+    mico_thread_sleep( 2 );
   }
 }
 
+void thread_2(void *arg)
+{
+  UNUSED_PARAMETER(arg);
+  os_thread_log( "This is thread 2" );
+  mico_thread_sleep( 4 );
+  /* Make with terminiate state and IDLE thread will clean resources */
+  mico_rtos_delete_thread(NULL);
+}
 
 int application_start( void )
 {
   OSStatus err = kNoErr;
-  mico_thread_t handle1;
-  mico_thread_t handle2;
-  /* Create new thread */
-  err = mico_rtos_create_thread(&handle1, MICO_APPLICATION_PRIORITY, "t1", run1, 500, NULL);
-  err = mico_rtos_create_thread(&handle2, MICO_APPLICATION_PRIORITY, "t2", run2, 500, NULL);
-  mico_rtos_thread_join(&handle1);
-  mico_rtos_thread_join(&handle2);
-  os_thread_log( "t1 t2 exit now" );
-  return kNoErr;  
+  mico_thread_t t_handler = NULL;
+  
+  /* Create a new thread */
+  err = mico_rtos_create_thread( NULL, MICO_APPLICATION_PRIORITY, "Thread 1", thread_1, 500, NULL );
+  require_noerr_string( err, exit, "ERROR: Unable to start the thread 1." );
+  
+  while(1){
+    /* Create a new thread, and this thread will delete its self and clean its resource */
+    err = mico_rtos_create_thread( &t_handler, MICO_APPLICATION_PRIORITY, "Thread 2", thread_2, 500, NULL );
+    require_noerr_string( err, exit, "ERROR: Unable to start the thread 2." );
+    mico_rtos_thread_join( &t_handler );
+  }
+  
+exit:
+  if( err != kNoErr )
+    os_thread_log( "Thread exit with err: %d", err );
+  
+  mico_rtos_delete_thread(NULL);
+  return err;  
 }
-
-

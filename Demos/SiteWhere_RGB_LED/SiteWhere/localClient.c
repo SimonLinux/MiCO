@@ -25,23 +25,41 @@
 #include "MiCOAppDefine.h"
 #include "libemqtt.h"
 #include "custom.h"
+#include "sitewhere.h"
+#include "micokit_ext.h"
 
 #define client_log(M, ...) custom_log("Local client", M, ##__VA_ARGS__)
 #define client_log_trace() custom_log_trace("Local client")
 
-#define CLOUD_RETRY  1
+#define CLOUD_RETRY  3
+
+/** MQTT client name */
+
+extern char* clientName;
+
+/** Unique hardware id for this device */
+extern char hardwareId[HARDWARE_ID_SIZE];
+
+/** Device specification token for hardware configuration */
+extern char* specificationToken;
+
+/** Outbound MQTT topic */
+extern char* outbound;
 
 extern  char Command1[COMMAND1_SIZE];
 /** Inbound system command topic */
 extern char System1[SYSTEM1_SIZE];
 
+/** Message buffer */
+extern uint8_t buffer[300];
+
 extern void mqtt_client(void);
 extern void handleSpecificationCommand(byte* payload, unsigned int length);
 extern void handleSystemCommand(byte* payload, unsigned int length);
 
-
 uint8_t connected_to_ethernet=0;
 extern uint8_t MQTT_REGISTERED;
+extern bool registered;
 
 extern mqtt_broker_handle_t broker_mqtt;
 
@@ -94,12 +112,12 @@ void sitewhere_main_thread(void *inContext)
   app_context_t *app_context = inContext;
   struct sockaddr_t addr;
   fd_set readfds;
-  fd_set writeSet;
   char ipstr[16];
   struct timeval_t t;
   int remoteTcpClient_fd = -1;
   uint8_t *inDataBuffer = NULL;
-  int eventFd = -1;
+  
+  memset(buffer,0,300);
   
   inDataBuffer = malloc(1024);
   require_action(inDataBuffer, exit, err = kNoMemoryErr);
@@ -133,14 +151,13 @@ void sitewhere_main_thread(void *inContext)
       connected_to_ethernet =1;
     }
     else{
+      MicoGpioOutputTrigger(MICO_SYS_LED);
+      
       FD_ZERO(&readfds);
       FD_SET(remoteTcpClient_fd, &readfds);
-      FD_SET(eventFd, &readfds);
-      FD_ZERO(&writeSet );
-      FD_SET(remoteTcpClient_fd, &writeSet );
-      t.tv_sec = 4;
+      t.tv_sec = 2;
       t.tv_usec = 0;
-      select(1, &readfds, &writeSet, NULL, &t);
+      select(1, &readfds, NULL, NULL, &t);
       
       /*recv wlan data using remote client fd*/
       if(MQTT_REGISTERED==1)
@@ -155,16 +172,26 @@ void sitewhere_main_thread(void *inContext)
           client_log("recv: %d", len);
           sppWlanCommandProcess(inDataBuffer, &len, remoteTcpClient_fd, app_context->mico_context);
         }
+        else{ // no message received, just upload test data every 2s.
+          if(registered){
+            // alert
+            if (len = sw_alert(hardwareId, clientName, "is alive", NULL, buffer, sizeof(buffer), NULL)) {
+              mqtt_publish(&broker_mqtt,outbound,(char*)buffer,len,0);
+              client_log("Sent alert.");
+            }
+            // location
+            if (len = sw_location(hardwareId, 31.00f, 121.00f, 0.0f, NULL, buffer, sizeof(buffer), NULL)) {
+              mqtt_publish(&broker_mqtt,outbound,(char*)buffer,len,0);
+              client_log("Sent location.");
+            }
+          }
+        }
       }
       
     Continue:
       continue;
       
     ReConnWithDelay:
-      if (eventFd >= 0) {
-        mico_delete_event_fd(eventFd);
-        eventFd = -1;
-      }
       if(remoteTcpClient_fd != -1){
         SocketClose(&remoteTcpClient_fd);
       }

@@ -102,7 +102,7 @@ OSStatus MiCOStartSiteWhereService(app_context_t* const inContext)
   
   // create uinque hardeareID like: MODEL-HARDWARE_REVISION-MAC
   memset(hardwareId, '\0', sizeof(hardwareId));
-  sprintf(hardwareId, "%s-%s-%c%c%c%c%c%c",MODEL, HARDWARE_REVISION , 
+  sprintf(hardwareId, "RGB_LED_%s-%s-%c%c%c%c%c%c",MODEL, HARDWARE_REVISION , 
           mico_system_context_get()->micoStatus.mac[9],
           mico_system_context_get()->micoStatus.mac[10],
           mico_system_context_get()->micoStatus.mac[12],
@@ -171,9 +171,9 @@ OSStatus MiCOStartSiteWhereService(app_context_t* const inContext)
                                 inContext );
   require_noerr_action( err, exit, sitewhere_log("ERROR: Unable to start sitewhere thread.") );
   
-  err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "MQTT Client", 
-                                mqtt_loop_thread, 0xC00, (void*)inContext->mico_context );
-  require_noerr_action( err, exit, sitewhere_log("ERROR: Unable to start the MQTT client thread.") );
+  //err = mico_rtos_create_thread(NULL, MICO_APPLICATION_PRIORITY, "MQTT Client", 
+  //                              mqtt_loop_thread, 0xC00, (void*)inContext->mico_context );
+  //require_noerr_action( err, exit, sitewhere_log("ERROR: Unable to start the MQTT client thread.") );
   
 exit:
   return err;

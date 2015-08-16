@@ -102,7 +102,7 @@ OSStatus MiCOStartSiteWhereService(app_context_t* const inContext)
   
   // create uinque hardeareID like: MODEL-HARDWARE_REVISION-MAC
   memset(hardwareId, '\0', sizeof(hardwareId));
-  sprintf(hardwareId, "%s-%c%c%c%c%c%c_test",MODEL, 
+  sprintf(hardwareId, "Enjoy_%s-%s-%c%c%c%c%c%c",MODEL, HARDWARE_REVISION, 
           mico_system_context_get()->micoStatus.mac[9],
           mico_system_context_get()->micoStatus.mac[10],
           mico_system_context_get()->micoStatus.mac[12],

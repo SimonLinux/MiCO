@@ -162,28 +162,28 @@ uint8_t MICO_report[15];
 
 
 
-/** Main MQTT processing loop */
-void mqtt_loop_thread(void *inContext)
-{
-  /** Only send events after registered and at most every five seconds */
-    while(1)
-    {
-            if (registered){
-                memset(buffer,0,300);
-                unsigned int len = 0;
-
-                // alert
-                if (len = sw_alert(hardwareId, clientName, "is alive", NULL, buffer, sizeof(buffer), NULL)) {
-                    mqtt_publish(&broker_mqtt,outbound,(char*)buffer,len,0);
-                    mqtt("Sent alert.");
-                }
-                // location
-                if (len = sw_location(hardwareId, 31.05f, 121.76f, 0.0f, NULL, buffer, sizeof(buffer), NULL)) {
-                  mqtt_publish(&broker_mqtt,outbound,(char*)buffer,len,0);
-                  mqtt("Sent location.");
-                }
-                
-                sleep(15);
-            }
-    }
-}
+///** Main MQTT processing loop */
+//void mqtt_loop_thread(void *inContext)
+//{
+//  /** Only send events after registered and at most every five seconds */
+//    while(1)
+//    {
+//            if (registered){
+//                memset(buffer,0,300);
+//                unsigned int len = 0;
+//
+//                // alert
+//                if (len = sw_alert(hardwareId, clientName, "is alive", NULL, buffer, sizeof(buffer), NULL)) {
+//                    mqtt_publish(&broker_mqtt,outbound,(char*)buffer,len,0);
+//                    mqtt("Sent alert.");
+//                }
+//                // location
+//                if (len = sw_location(hardwareId, 31.05f, 121.76f, 0.0f, NULL, buffer, sizeof(buffer), NULL)) {
+//                  mqtt_publish(&broker_mqtt,outbound,(char*)buffer,len,0);
+//                  mqtt("Sent location.");
+//                }
+//                
+//                sleep(15);
+//            }
+//    }
+//}

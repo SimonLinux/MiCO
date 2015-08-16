@@ -30,6 +30,9 @@
   <project>
     <path>$WS_DIR$\SiteWhere_RGB_LED\EWARM\SiteWhere_RGB_LED.ewp</path>
   </project>
+  <project>
+    <path>$WS_DIR$\SiteWhere_Enjoy\EWARM\SiteWhere_Enjoy.ewp</path>
+  </project>
   
 <batchBuild/>
 </workspace>

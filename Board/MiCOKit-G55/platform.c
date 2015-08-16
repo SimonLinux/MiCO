@@ -92,7 +92,7 @@ const platform_gpio_t platform_gpio_pins[] =
   [FLASH_PIN_SPI_MOSI]                  = { IOPORT_CREATE_PIN( PIOA, 28 ),  false, 0, 0 },
   [FLASH_PIN_SPI_MISO]                  = { IOPORT_CREATE_PIN( PIOA, 27 ),  false, 0, 0 },
 
-  [MICO_SYS_LED]                        = { IOPORT_CREATE_PIN( PIOA, 16 ),  false, 0, 0 },
+  [MICO_SYS_LED]                        = { IOPORT_CREATE_PIN( PIOB, 10 ),  false, 0, 0 },
   [MICO_RF_LED]                         = { IOPORT_CREATE_PIN( PIOA, 24 ),  false, 0, 0 },
   [EasyLink_BUTTON]                     = { IOPORT_CREATE_PIN( PIOA,  2 ),  false, 0, 0 },
   
@@ -217,7 +217,7 @@ const platform_gpio_t wifi_control_pins[] =
 /* Wi-Fi gSPI bus pins. Used by platform/MCU/STM32F2xx/EMW1062_driver/wlan_spi.c */
 const platform_gpio_t wifi_spi_pins[] =
 {
-  [WIFI_PIN_SPI_IRQ ] = { IOPORT_CREATE_PIN( PIOB, 10 ),  false, 0, 0 },
+  [WIFI_PIN_SPI_IRQ ] = { IOPORT_CREATE_PIN( PIOA, 16 ),  false, 0, 0 },
   [WIFI_PIN_SPI_CS  ] = { IOPORT_CREATE_PIN( PIOA, 11 ),  false, 0, 0 },
   [WIFI_PIN_SPI_CLK ] = { IOPORT_CREATE_PIN( PIOA, 14 ),  false, 0, 0 },
   [WIFI_PIN_SPI_MOSI] = { IOPORT_CREATE_PIN( PIOA, 13 ),  false, 0, 0 },

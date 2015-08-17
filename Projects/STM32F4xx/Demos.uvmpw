@@ -9,6 +9,7 @@
 
   <project>
     <PathAndName>.\bootloader\RVMDK\bootloader.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
   </project>
 
   <project>
@@ -37,7 +38,6 @@
 
   <project>
     <PathAndName>.\SiteWhere_RGB_LED\RVMDK\SiteWhere_RGB_LED.uvprojx</PathAndName>
-    <NodeIsActive>1</NodeIsActive>
   </project>
 
 </ProjectWorkspace>

@@ -1940,15 +1940,15 @@
         <debug>0</debug>
         <option>
           <name>ExePath</name>
-          <state>..\..\..\..\Build\MiCOKit_Enjoy\MiCOKit-F411B\Exe</state>
+          <state>..\..\..\..\Build\MiCOKit_Enjoy\output\MiCOKit-F411B</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>..\..\..\..\Build\MiCOKit_EnjoyMiCOKit-F411B\Obj</state>
+          <state>..\..\..\..\Build\MiCOKit_Enjoy\MiCOKit-F411B\Obj</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>..\..\..\..\Build\MiCOKit_EnjoyMiCOKit-F411B\List</state>
+          <state>..\..\..\..\Build\MiCOKit_Enjoy\MiCOKit-F411B\List</state>
         </option>
         <option>
           <name>Variant</name>

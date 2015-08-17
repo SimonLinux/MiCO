@@ -609,11 +609,6 @@
               <FilePath>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MICOAppDefine.h</FilePath>
             </File>
             <File>
-              <FileName>MicoDefaults.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MicoDefaults.h</FilePath>
-            </File>
-            <File>
               <FileName>MicoFogCloud.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MicoFogCloud.h</FilePath>
@@ -2024,11 +2019,6 @@
               <FileName>MICOAppDefine.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MICOAppDefine.h</FilePath>
-            </File>
-            <File>
-              <FileName>MicoDefaults.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\Demos\MiCOKit_Enjoy\AppFramework\MicoDefaults.h</FilePath>
             </File>
             <File>
               <FileName>MicoFogCloud.h</FileName>

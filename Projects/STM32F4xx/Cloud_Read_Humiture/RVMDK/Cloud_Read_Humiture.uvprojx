@@ -549,11 +549,6 @@
               <FilePath>..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MICOAppDefine.h</FilePath>
             </File>
             <File>
-              <FileName>MicoDefaults.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MicoDefaults.h</FilePath>
-            </File>
-            <File>
               <FileName>MicoFogCloud.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MicoFogCloud.h</FilePath>
@@ -1884,11 +1879,6 @@
               <FileName>MICOAppDefine.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MICOAppDefine.h</FilePath>
-            </File>
-            <File>
-              <FileName>MicoDefaults.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\..\Demos\Cloud_Read_Humiture\AppFramework\MicoDefaults.h</FilePath>
             </File>
             <File>
               <FileName>MicoFogCloud.h</FileName>

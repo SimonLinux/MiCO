@@ -245,16 +245,6 @@ const platform_gpio_t wifi_control_pins[] =
 /* Wi-Fi SDIO bus pins. Used by platform/MCU/STM32F2xx/EMW1062_driver/wlan_SDIO.c */
 const platform_gpio_t wifi_sdio_pins[] =
 {
-//#ifdef SDIO_1_BIT
-//  [WIFI_PIN_SDIO_IRQ    ] = { GPIOA,  8 },
-//#endif
-//  [WIFI_PIN_SDIO_CLK    ] = { GPIOB, 15 },
-//  [WIFI_PIN_SDIO_CMD    ] = { GPIOA,  6 },
-//  [WIFI_PIN_SDIO_D0     ] = { GPIOB,  7 },
-//#ifndef SDIO_1_BIT
-//  [WIFI_PIN_SDIO_D1     ] = { GPIOA,  8 },
-//  [WIFI_PIN_SDIO_D2     ] = { GPIOA,  9 },
-//  [WIFI_PIN_SDIO_D3     ] = { GPIOB,  5 },
   [WIFI_PIN_SDIO_OOB_IRQ] = { GPIOB, 14 },
   [WIFI_PIN_SDIO_CLK    ] = { GPIOB, 15 },
   [WIFI_PIN_SDIO_CMD    ] = { GPIOA,  6 },
@@ -262,7 +252,6 @@ const platform_gpio_t wifi_sdio_pins[] =
   [WIFI_PIN_SDIO_D1     ] = { GPIOA,  8 },
   [WIFI_PIN_SDIO_D2     ] = { GPIOA,  9 },
   [WIFI_PIN_SDIO_D3     ] = { GPIOB,  5 },  
-//#endif
 };
 
 /* Flash memory devices */
@@ -494,7 +483,6 @@ bool MicoExtShouldEnterTestMode(void)
 }
 #endif
 
-// add long press key2 on ext-board when restart to enter MFG MODE
 bool MicoShouldEnterMFGMode(void)
 {
   if( MicoGpioInputGet((mico_gpio_t)BOOT_SEL)==false && MicoGpioInputGet((mico_gpio_t)MFG_SEL)==false )

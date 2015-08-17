@@ -125,7 +125,7 @@ void sitewhere_main_thread(void *inContext)
   while(1) {
     if(remoteTcpClient_fd == -1 ) {
       client_log("wifi check...");
-      if((app_context->appStatus.isWifiConnected == false)){
+      if(false == app_context->appStatus.isWifiConnected){
         sleep(1);
         goto Continue;
       }
